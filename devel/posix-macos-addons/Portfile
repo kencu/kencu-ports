@@ -1,0 +1,30 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        stanislaw posix-macos-addons 8f50a927c81e3ce9f44686d6997ec3b0fbb97bb0
+version             20211005
+revision            0
+
+checksums           rmd160  7f3cf1499ae41fd06b9cc1080b250059b3876808 \
+                    sha256  1df068ab67288c0686d21ae7106e8d966640c10fd3501c2cb6147aecc43b3a8c \
+                    size    275892
+
+categories          devel
+platforms           darwin
+license             Apache-2
+maintainers         {@catap korins.ky:kirill} openmaintainer
+
+homepage            https://github.com/stanislaw/posix-macos-addons
+
+description         Some missing bits of POSIX for macOS.
+long_description    This is a collection of the POSIX functions which are not available on macOS.
+
+post-destroot {
+    xinstall -m 0755 -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 -W ${worksrcpath} LICENSE README.md ${destroot}${prefix}/share/doc/${name}
+}
+
+github.livecheck.branch main

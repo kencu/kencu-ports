@@ -1,0 +1,37 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Authen-Radius 0.32
+revision            0
+categories          perl
+license             {Artistic-1 GPL}
+maintainers         {mps @Schamschula} openmaintainer
+description         The Authen::Radius module provides a simple class that allows you \
+                    to send/receive Radius requests/responses to/from a Radius server.
+long_description    ${description}
+platforms           darwin
+
+checksums           rmd160  60ae88c0f3463fe1e74c9ade9829826b75b0f9cf \
+                    sha256  7b208f9837c83a184267254892536587eed0bdde49e7bedeba3d72a665231740 \
+                    size    51366
+
+if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-cpan-meta \
+                    port:p${perl5.major}-extutils-install \
+                    port:p${perl5.major}-pod-escapes \
+                    port:p${perl5.major}-pod-simple \
+                    port:p${perl5.major}-podlators \
+                    port:p${perl5.major}-test-nowarnings
+
+    depends_lib-append \
+                    port:p${perl5.major}-data-hexdump \
+                    port:p${perl5.major}-digest-md5 \
+                    port:p${perl5.major}-getopt-long \
+                    port:p${perl5.major}-io \
+                    port:p${perl5.major}-net-ip \
+                    port:p${perl5.major}-pathtools
+}

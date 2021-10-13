@@ -1,0 +1,44 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=portfile:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           conflicts_build 1.0
+PortGroup           github 1.0
+
+github.setup        radareorg radare2 5.4.2
+revision            0
+categories          devel
+platforms           darwin
+license             LGPL-3+
+maintainers         {g5pw @g5pw} {i0ntempest @i0ntempest} openmaintainer
+description         Opensource tools to disasm, debug, analyze and manipulate binary files.
+long_description    ${name} provides {*}${description}.
+homepage            https://www.radare.org/
+
+depends_build       port:pkgconfig
+
+depends_lib         port:capstone \
+                    port:zlib \
+                    port:libzip
+conflicts_build     ${name}
+
+checksums           rmd160  e9250dc830f4df11ac2eaaf560b0e64415cf9243 \
+                    sha256  1bf751ca193803979836ad8150476da01ba1132dbf0f04ce64221dca54217ca1 \
+                    size    9523933
+
+configure.args-append \
+                    --with-syscapstone \
+                    --with-syszip \
+                    --with-compiler=clang
+
+build.env-append    HOST_CC=${configure.cc}
+
+
+variant openssl description {Use OpenSSL library} {
+    depends_lib-append \
+                    path:lib/libssl.dylib:openssl
+
+    configure.args-append \
+                    --with-openssl
+}
+
+default_variants    +openssl

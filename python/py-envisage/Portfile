@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+github.setup        enthought envisage 6.0.1
+
+name                py-envisage
+categories-append   devel
+maintainers         {gmail.com:jjstickel @jjstickel} openmaintainer
+description         The Enthought envisage package
+long_description    Envisage is a Python-based framework for building\
+    extensible applications, that is, applications whose functionality can\
+    be extended by adding plug-ins. Envisage provides a standard mechanism\
+    for features to be added to an application, whether by the original\
+    developer or by someone else.
+license             BSD
+platforms           darwin
+supported_archs     noarch
+
+checksums           rmd160  36cfacee183d5fafcaf9d1187fba28e663c59df1 \
+                    sha256  fe6506e585d2f72046cbb231f05a8dfbe34d40921a837cb2022e5c441b83443c \
+                    size    460585
+
+python.versions     36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build   port:py${python.version}-setuptools
+    depends_lib     port:py${python.version}-apptools
+}

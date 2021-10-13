@@ -1,0 +1,49 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+# these are the bindings for OpenBabel 2.x
+name                py-openbabel
+version             2.4.1
+revision            1
+
+categories-append   science chemistry devel
+platforms           darwin freebsd
+license             GPL-2
+maintainers         {reneeotten @reneeotten} openmaintainer
+
+description         Python interface to the Open Babel chemistry library
+long_description    Open Babel is a chemical toolbox designed to speak the many \
+                    languages of chemical data. It’s an open, collaborative project \
+                    allowing anyone to search, convert, analyze, or store data from \
+                    molecular modeling, chemistry, solid-state materials, biochemistry, \
+                    or related areas.  computational chemistry. This port provides the \
+                    Python bindings.
+
+homepage            http://openbabel.org
+
+checksums           rmd160  898e24b4ca3e1a777d18aa3c7aa882d0e122a758 \
+                    sha256  bc536b292fece9763a65b04fe637af9d393ae17f656321305fe2569a0d8de43f \
+                    size    74434
+
+python.versions     27 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools \
+                    port:eigen3 \
+                    port:pkgconfig \
+                    port:swig-python
+
+    depends_lib-append \
+                    port:openbabel
+
+    post-destroot {
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath} README.rst ${destroot}${docdir}
+    }
+}
+
+livecheck.type      none

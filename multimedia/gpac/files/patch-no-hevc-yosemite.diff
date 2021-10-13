@@ -1,0 +1,20 @@
+diff --git src/filters/dec_vtb.c src/filters/dec_vtb.c
+index 9ad6e6d4a..1a012e8b8 100644
+--- src/filters/dec_vtb.c
++++ src/filters/dec_vtb.c
+@@ -468,6 +468,7 @@ static GF_Err vtbdec_init_decoder(GF_Filter *filter, GF_VTBDecCtx *ctx)
+ 		}
+         break;
+ 
++#ifdef AVAILABLE_MAC_OS_X_VERSION_10_11_AND_LATER
+     case GF_CODECID_HEVC:
+ 		if (gf_list_count(ctx->SPSs) && gf_list_count(ctx->PPSs) && gf_list_count(ctx->VPSs)) {
+ 			s32 idx;
+@@ -614,6 +615,7 @@ static GF_Err vtbdec_init_decoder(GF_Filter *filter, GF_VTBDecCtx *ctx)
+ 			gf_free(dsi_data);
+ 		}
+         break;
++#endif
+ 
+ 	case GF_CODECID_MPEG2_SIMPLE:
+ 	case GF_CODECID_MPEG2_MAIN:

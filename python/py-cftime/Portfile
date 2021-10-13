@@ -1,0 +1,54 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+github.setup        Unidata cftime 1.5.1 v rel
+github.tarball_from archive
+name                py-cftime
+revision            0
+
+categories-append   devel
+platforms           darwin
+license             MIT
+maintainers         {reneeotten @reneeotten} openmaintainer
+
+description         Time-handling functionality from netcdf4-python
+long_description    ${description}
+
+checksums           rmd160  2ff979154fd446ba6969e54e1754015d1f332e84 \
+                    sha256  b42acd1017242e2885377ed39be7c16100ddcde35dfab88d5db8bd79cb78aa0f \
+                    size    575570
+
+python.versions     27 35 36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-cython \
+                    port:py${python.version}-setuptools
+
+    depends_lib-append \
+                    port:py${python.version}-numpy
+
+    pre-test {
+        test.env    PYTHONPATH=[glob -nocomplain ${worksrcpath}/build/lib*]
+    }
+
+    depends_test-append \
+                    port:py${python.version}-pytest
+
+    test.run        yes
+    test.cmd        py.test-${python.branch}
+    test.args       -o addopts=''
+    test.target
+
+    post-destroot {
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath} README.md Changelog \
+            LICENSE ${destroot}${docdir}
+    }
+
+    livecheck.type  none
+}

@@ -1,0 +1,29 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-discordpy
+python.rootname     discord.py
+version             1.7.3
+license             MIT
+platforms           darwin
+maintainers         {toby @tobypeterson} openmaintainer
+description         API wrapper for Discord written in Python
+long_description    discord.py is an API wrapper for Discord written in Python. \
+                    This was written to allow easier writing of bots or chat logs.
+
+homepage            https://github.com/Rapptz/discord.py
+
+checksums           rmd160 a740af44c110672199ac8ded6e2cf30ff05b3135 \
+                    sha256 462cd0fe307aef8b29cbfa8dd613e548ae4b2cb581d46da9ac0d46fb6ea19408 \
+                    size 730988
+
+python.versions     37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build   port:py${python.version}-setuptools
+    depends_lib     port:py${python.version}-aiohttp
+
+    livecheck.type  none
+}

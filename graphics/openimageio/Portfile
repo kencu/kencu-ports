@@ -1,0 +1,158 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               github 1.0
+PortGroup               qt5 1.0
+PortGroup               cmake 1.1
+PortGroup               active_variants 1.1
+PortGroup               compiler_blacklist_versions 1.0
+PortGroup               boost 1.0
+
+github.setup            OpenImageIO oiio 2.1.17.0 v
+revision                6
+name                    openimageio
+categories              graphics
+license                 BSD
+maintainers             {mcalhoun @MarcusCalhoun-Lopez} openmaintainer
+description             a library for reading and writing images
+long_description        OpenImageIO is a library for reading and writing images, and a bunch of \
+                        related classes, utilities, and applications.
+platforms               darwin
+
+checksums               rmd160  0df79ff10e8151b8a11d23ac56a60d3b73057147 \
+                        sha256  6f20536226f1da4fbf0d522815de47eef60a443f9b67a15705b96c34cc8921a7 \
+                        size    29052379
+
+compiler.cxx_standard   2014
+# error: multiple overloads of 'address' instantiate to the same signature 'const_pointer (const_reference) const noexcept'
+# http://lists.llvm.org/pipermail/llvm-bugs/2013-November/031552.html
+# Seen on OSX 10.9 and older.
+compiler.blacklist-append {clang < 700}
+# OpenVDB header files use C++14 features
+configure.args-append   -DCMAKE_CXX_STANDARD=14
+
+compiler.thread_local_storage yes
+
+# When updating this port to a new version, please switch to standard
+# use of the github portgroup by removing the following three lines and
+# replacing them with "github.tarball_from archive".
+github.master_sites     ${github.homepage}/archive
+distname                Release-${version}
+worksrcdir              oiio-Release-${version}
+
+patchfiles-append       patch-FindOpenJpeg.cmake.diff \
+                        patch-pybind11.diff
+
+# avoid
+#    ccache: error: Failed to create directory ${prefix}/var/macports/build/.ccache/tmp: Operation not permitted
+configure.args-append   -DUSE_CCACHE=OFF
+
+# do not "Try to download and build any missing dependencies"
+configure.args-append   -DBUILD_MISSING_DEPS=OFF \
+                        -DBUILD_MISSING_FMT=OFF
+
+depends_lib-append      port:robin-map \
+                        port:zlib \
+                        port:bzip2 \
+                        port:libpng \
+                        port:tiff \
+                        port:ilmbase \
+                        port:openexr \
+                        port:squish \
+                        port:libfmt
+
+# optional components
+
+#configure.args-append   -DUSE_OPENGL=OFF \
+#                        -DUSE_QT=OFF
+qt5.min_version         5.6
+
+configure.args-append   -DUSE_PYTHON=OFF
+
+set pythons_suffixes    {27 36 37 38 39}
+
+set pythons_ports       {}
+foreach s ${pythons_suffixes} {
+    lappend pythons_ports python${s}
+}
+
+foreach s ${pythons_suffixes} {
+    set p python${s}
+    set v [string index ${s} 0].[string index ${s} 1]
+    set i [lsearch -exact ${pythons_ports} ${p}]
+    set c [lreplace ${pythons_ports} ${i} ${i}]
+    variant ${p} description "Build the Python ${v} bindings" conflicts {*}${c} "
+        depends_build-append    port:pybind11
+        depends_lib-append      port:${p} \
+                                port:py${s}-numpy
+
+        configure.args-delete   -DUSE_PYTHON=OFF
+
+        configure.args-append   -DPYTHON_VERSION=${v} \
+                                -DPYTHON_EXECUTABLE=${prefix}/bin/python${v} \
+                                -DPYTHON_SITE_DIR=${frameworks_dir}/Python.framework/Versions/${v}/lib/python${v}
+    "
+}
+
+set set_python_default  yes
+foreach s ${pythons_suffixes} {
+    if {[variant_isset python${s}]} {
+        set set_python_default  no
+    }
+}
+# this default version should stay synchronized with python_get_default_version
+#    in the python PortGroup
+if {${set_python_default}} {
+    default_variants        +python39
+}
+
+#configure.args-append       -DUSE_FIELD3D=OFF
+depends_lib-append          port:field3d
+
+#configure.args-append       -DUSE_FFMPEG=OFF
+depends_lib-append          port:ffmpeg
+
+#configure.args-append       -DUSE_JPEGTURBO=OFF
+depends_lib-append          path:include/turbojpeg.h:libjpeg-turbo \
+
+#configure.args-append       -DUSE_OPENJPEG=OFF
+depends_lib-append          port:openjpeg
+configure.args-append       -DOpenJpeg_ROOT=${prefix}
+
+#configure.args-append       -DUSE_OCIO=OFF
+depends_lib-append          port:opencolorio
+
+#configure.args-append       -DUSE_OPENCV=OFF
+set opencv_ver 4
+depends_lib-append          port:opencv${opencv_ver}
+configure.args-append       -DOpenCV_INCLUDE_DIR=${prefix}/include/opencv${opencv_ver} \
+                            -DOpenCV_ROOT=${prefix}/lib/opencv${opencv_ver}
+
+#configure.args-append       -DUSE_FREETYPE=OFF
+depends_lib-append          port:freetype
+
+#configure.args-append       -DUSE_GIF=OFF
+depends_lib-append          port:giflib
+
+#configure.args-append       -DUSE_HEIF=OFF
+depends_lib-append          port:libheif
+
+#configure.args-append       -DUSE_PTEX=OFF
+depends_lib-append          port:ptex
+
+#configure.args-append       -DUSE_LIBRAW=OFF
+depends_lib-append          port:libraw
+
+#configure.args-append       -DUSE_TBB=OFF \
+#                            -DUSE_OPENVDB=OFF
+depends_lib-append          port:tbb \
+                            port:openvdb
+
+# not in MacPorts
+configure.args-append       -DUSE_NUKE=OFF
+
+#configure.args-append       -DUSE_DICOM=OFF
+depends_lib-append          port:dcmtk
+
+#configure.args-append       -DUSE_WEBP=OFF
+depends_lib-append          port:webp

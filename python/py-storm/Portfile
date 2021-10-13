@@ -1,0 +1,38 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-storm
+version             0.22
+revision            0
+
+categories-append   databases
+platforms           darwin
+license             LGPL-2.1+
+maintainers         nomaintainer
+
+description         Storm is an object-relational mapper (ORM) for Python developed at Canonical
+long_description    Storm is a Python object-relational mapper between a SQL database and Python \
+                    objects. It has been developed at Canonical Ltd. and is used in the \
+                    application Launchpad. Storm supports a number of common database backends: \
+                    included in the actual distribution are MySQL, PostgreSQL and SQLite.
+
+homepage            https://storm.canonical.com/
+use_bzip2           yes
+
+checksums           rmd160  f499ac9b4702e1da2aaa406ae18d81337652a312 \
+                    sha256  73aceb4c3ab9fb4967b109af7a3f5fe3cde5be379776475a96113b0ee6187de6 \
+                    size    213386
+
+python.versions     27 37 38
+
+if {${subport} ne ${name}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    depends_build-append \
+                    port:py${python.version}-six
+
+    livecheck.type  none
+}

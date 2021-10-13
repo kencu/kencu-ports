@@ -1,0 +1,38 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Astro-App-Satpass2 0.045
+license             {Artistic-1 GPL}
+maintainers         {devans @dbevans} openmaintainer
+description         Astro::App::Satpass2 - Forecast satellite visibility.
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  8e0b8dfbb606d269133cefbe08e86eab1a0e2e66 \
+                    sha256  f855c4382d515a4502a68807aefed302a75390960377d6f62aad443065a60d84 \
+                    size    319189
+
+if {${perl5.major} != ""} {
+    depends_lib-append \
+                    port:p${perl5.major}-astro-coord-eci-tle-iridium \
+                    port:p${perl5.major}-astro-satpass \
+                    port:p${perl5.major}-astro-simbad-client \
+                    port:p${perl5.major}-astro-spacetrack \
+                    port:p${perl5.major}-clone \
+                    port:p${perl5.major}-date-manip \
+                    port:p${perl5.major}-datetime \
+                    port:p${perl5.major}-datetime-calendar-christian \
+                    port:p${perl5.major}-file-homedir \
+                    port:p${perl5.major}-geo-coder-osm \
+                    port:p${perl5.major}-geo-webservice-elevation-usgs \
+                    port:p${perl5.major}-ipc-system-simple \
+                    port:p${perl5.major}-template-toolkit \
+                    port:p${perl5.major}-text-parsewords
+
+    perl5.use_module_build
+    supported_archs noarch
+}

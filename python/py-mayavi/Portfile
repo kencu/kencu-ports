@@ -1,0 +1,46 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           active_variants 1.1
+PortGroup           github 1.0
+
+github.setup        enthought mayavi 4.7.3
+
+name                py-mayavi
+categories-append   devel graphics math
+maintainers         {gmail.com:jjstickel @jjstickel} openmaintainer
+description         The Enthought mayavi package
+long_description    3D Scientific Data Visualization and Plotting using VTK as the \
+    rendering backend and pyqt5/pyqt4/pyside2 for the (G)UI.
+
+license             BSD
+platforms           darwin
+
+checksums           rmd160  ef687370510534b296709e6b0eb22ca485f6ed8a \
+                    sha256  80bd36542337ba623e595e2a91ec157d68d49506d0523972c673ba18c516ad22 \
+                    size    9068935
+
+python.versions     36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append    port:py${python.version}-setuptools \
+                            port:py${python.version}-sphinx
+    depends_lib-append      port:py${python.version}-apptools \
+                            port:py${python.version}-envisage \
+                            port:py${python.version}-numpy \
+                            port:py${python.version}-traitsui \
+                            port:vtk
+
+    require_active_variants vtk python${python.version}
+    
+    post-patch {
+        # https://github.com/enthought/mayavi/issues/652
+        reinplace "/vtk/d" ${worksrcpath}/mayavi/__init__.py
+        
+        reinplace "s|sphinx-build|sphinx-build-${python.branch}|g" \
+            ${worksrcpath}/docs/Makefile \
+            ${worksrcpath}/docs/MakefileMayavi \
+            ${worksrcpath}/docs/MakefileTVTK
+    }
+}

@@ -1,0 +1,28 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         PPIx-QuoteLike 0.013 ../../authors/id/W/WY/WYANT
+license             {Artistic-1 GPL}
+maintainers         {devans @dbevans} openmaintainer
+description         PPIx::QuoteLike - Parse Perl string literals and string-literal-like things.
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  6cb4fc56d35e4165ab8720cd2ae20688bad3a962 \
+                    sha256  8d1e33838278d252ab6f586840fcee70e19bb7352035ba85fd322475262d1817 \
+                    size    66738
+
+if {${perl5.major} != ""} {
+    depends_lib-append \
+                    port:p${perl5.major}-ppi \
+                    port:p${perl5.major}-ppix-regexp \
+                    port:p${perl5.major}-readonly \
+                    port:p${perl5.major}-text-tabsxwrap
+
+    perl5.use_module_build
+    supported_archs noarch
+}

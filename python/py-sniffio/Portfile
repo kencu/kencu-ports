@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-sniffio
+version             1.2.0
+categories-append   devel
+platforms           darwin
+supported_archs     noarch
+license             {Apache-2 MIT}
+
+python.versions     36 37 38 39
+
+maintainers         {@jandemter demter.de:jan} openmaintainer
+
+description         Sniff out which async library your code is running under
+long_description    This is a tiny package whose only purpose is to let you \
+                    detect which async library your code is running under.
+
+homepage            https://github.com/python-trio/sniffio
+
+checksums           rmd160  9dceca9fc75a0cc0048e4d9faea1102dc7ff7170 \
+                    sha256  c4666eecec1d3f50960c6bdf61ab7bc350648da6c126e3cf6898d8cd4ddcd3de \
+                    size    17132
+
+if {${name} ne ${subport}} {
+    depends_build-append    port:py${python.version}-setuptools
+
+    livecheck.type          none
+}

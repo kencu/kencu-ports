@@ -1,0 +1,65 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem                  1.0
+PortGroup                   cmake 1.1
+PortGroup                   github 1.0
+
+github.setup                LibVNC libvncserver 0.9.13 LibVNCServer-
+revision                    1
+checksums                   rmd160  3fb7d82b4cbf77ee2eb5e1c55d7aeb535d17506b \
+                            sha256  0ae5bb9175dc0a602fe85c1cf591ac47ee5247b87f2bf164c16b05f87cbfa81a \
+                            size    567491
+
+name                        LibVNCServer
+categories                  devel
+platforms                   darwin
+maintainers                 {ryandesign @ryandesign} openmaintainer
+license                     GPL-2+
+
+description                 library for writing VNC servers and clients
+
+long_description            ${name} is a library to make it easier to write \
+                            programs that use the RFB (Remote Frame Buffer) \
+                            protocol to implement a VNC server or client.
+
+homepage                    https://libvnc.github.io
+github.tarball_from         archive
+
+depends_build-append        port:pkgconfig
+
+depends_lib-append          port:cyrus-sasl2 \
+                            port:gnutls \
+                            path:include/turbojpeg.h:libjpeg-turbo \
+                            port:libgcrypt \
+                            port:libpng \
+                            port:zlib
+
+patchfiles                  no-examples.patch
+
+compiler.thread_local_storage yes
+
+configure.args              -DWITH_FFMPEG=OFF \
+                            -DWITH_GCRYPT=ON \
+                            -DWITH_GNUTLS=ON \
+                            -DWITH_JPEG=ON \
+                            -DWITH_LZO=ON \
+                            -DWITH_OPENSSL=OFF \
+                            -DWITH_PNG=ON \
+                            -DWITH_SASL=ON \
+                            -DWITH_SDL=OFF \
+                            -DWITH_SYSTEMD=OFF \
+                            -DWITH_ZLIB=ON
+
+post-destroot {
+    set docdir ${prefix}/share/doc/${subport}
+    xinstall -d ${destroot}${docdir}
+    xinstall -m 0644 -W ${worksrcpath} \
+        AUTHORS \
+        COPYING \
+        ChangeLog \
+        HISTORY.md \
+        NEWS.md \
+        README.md \
+        TODO.md \
+        ${destroot}${docdir}
+}

@@ -1,0 +1,70 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-Pillow
+version             8.3.2
+revision            0
+categories-append   devel
+platforms           darwin
+license             BSD
+
+python.versions     27 35 36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         Python Imaging Library (fork)
+long_description    ${description}
+
+homepage            https://github.com/python-imaging/Pillow
+
+checksums           rmd160  cbf06c6dc59c8460999c20ead15597a9f6bc3d8b \
+                    sha256  dde3f3ed8d00c72631bc19cbfff8ad3b6215062a5eed402381ad365f82f0c18c \
+                    size    48790556
+
+if {${name} ne ${subport}} {
+    conflicts           py${python.version}-pil
+
+    if {${python.version} < 36} {
+        version             6.2.1
+        revision            1
+        distname            ${python.rootname}-${version}
+        checksums           rmd160  b6a0743f45072e5000f4d985dc1274d32bb7a40b \
+                            sha256  bf4e972a88f8841d8fdc6db1a75e0f8d763e66e3754b03006cbc3854d89f1cb1 \
+                            size    37673162
+
+        patchfiles-append   patch-setup.py_v6.2.1.diff
+    } else {
+        patchfiles-append   patch-setup.py.diff
+    }
+
+    build.target        build_ext
+
+    depends_build-append \
+                        port:py${python.version}-setuptools
+    depends_lib-append  port:py${python.version}-tkinter \
+                        port:py${python.version}-olefile \
+                        port:zlib \
+                        path:include/turbojpeg.h:libjpeg-turbo \
+                        port:tiff \
+                        port:lcms2 \
+                        port:webp \
+                        port:openjpeg \
+                        port:freetype
+
+    post-patch {
+        reinplace "s|@prefix@|${prefix}|g" ${worksrcpath}/setup.py
+    }
+
+    if {${python.version} >= 36} {
+        build.args-append   --disable-xcb
+
+        variant x11 {
+            build.args-delete      --disable-xcb
+            depends_lib-append     port:xorg-libxcb
+        }
+    }
+
+    livecheck.type      none
+}

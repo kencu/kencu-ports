@@ -1,0 +1,54 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               github 1.0
+PortGroup               cmake 1.1
+
+github.setup            neovim neovim 23d13aa4cce594b30fc353ee251dd5bab1b113c3
+name                    neovim-devel
+version                 20211003
+revision                0
+categories              editors
+platforms               darwin
+maintainers             {l2dy @l2dy} \
+                        openmaintainer
+license                 Apache-2 Vim GPL-2+
+
+description             Neovim is a aggressively refactored fork of Vim
+
+long_description \
+    Neovim is a project that seeks to aggressively refactor Vim. It already adds \
+    a new plugin architecture, job control, and a remote API.
+
+homepage                https://neovim.io
+
+checksums               rmd160  684e414acbd16aa551c7f54fdd7ea2ee6c17fa7b \
+                        sha256  8cd18c65ed7a84835b3d6ec5eb10b9d9878bb36e11595578dce3cf875b7e2c20 \
+                        size    10521894
+
+depends_build-append    port:pkgconfig
+
+depends_lib             port:gettext \
+                        port:libiconv \
+                        port:libuv \
+                        port:libvterm \
+                        port:libtermkey \
+                        port:tree-sitter \
+                        port:unibilium \
+                        port:msgpack \
+                        path:lib/libluajit-5.1.2.dylib:luajit \
+                        port:lua51-lpeg \
+                        port:lua51-mpack \
+                        port:luv-luajit
+
+cmake.build_type        Release
+
+configure.args-append   -DUSE_BUNDLED=OFF \
+                        -DLUA_PRG=${prefix}/bin/luajit
+
+notes {
+    If you want to share your existing Vim configuration with Neovim, you can add these symlinks:
+        ln -s ~/.vim ~/.config/nvim
+        ln -s ~/.vimrc ~/.config/nvim/init.vim
+    For possible incompatible changes and differences to Vim check ':help nvim-intro' in nvim.
+}

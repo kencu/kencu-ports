@@ -1,0 +1,47 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+PortGroup           golang 1.0
+
+go.setup            github.com/kubernetes/kops 1.21.1 v
+revision            0
+go.package          k8s.io/kops
+
+description         Kubernetes Operations (kops)
+long_description    Production Grade K8s Installation, Upgrades, and Management
+
+categories          devel
+platforms           darwin
+license             Apache-2
+installs_libs       no
+
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+
+checksums           rmd160  acbb914dd0da2a58caeadefbc19f0d17c5f461cd \
+                    sha256  4b1f5dcc5bc8909a7f68698c356144dc63264c4af723aecfa18a0e31ed521009 \
+                    size    27399968
+
+depends_run         port:kubectl-1.21
+
+build.cmd           make
+build.target        all
+
+# Do not build on macOS 10.11 and earlier
+if {${os.platform} eq "darwin" && ${os.major} < 16} {
+    known_fail yes
+
+    pre-fetch {
+        ui_error "${name} does not build on macOS 10.11 and earlier"
+        return -code error "unsupported platform version"
+    }
+}
+
+destroot {
+    xinstall -m 0755 \
+        {*}[glob ${worksrcpath}/.build/local/*] ${destroot}${prefix}/bin
+}
+
+github.livecheck.regex  {([0-9.]+)}
+github.tarball_from     archive

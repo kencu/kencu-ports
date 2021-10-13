@@ -1,0 +1,129 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem        1.0
+PortGroup         perl5 1.0
+PortGroup         cmake 1.1
+PortGroup         boost 1.0
+
+name              gnucash
+conflicts         gnucash gnucash-devel
+conflicts-delete  ${subport}
+version           4.8
+perl5.branches    5.28
+categories        gnome x11
+license           GPL-2+
+maintainers       {dports @drkp} openmaintainer
+platforms         darwin
+
+set branch        [join [lrange [split ${version} .] 0 1] .]
+
+description       a personal and small-business financial-accounting software
+long_description  GnuCash is a personal and small-business \
+                  financial-accounting software, freely licensed under the \
+                  GNU GPL.  Designed to be easy to use, yet powerful and \
+                  flexible, GnuCash allows you to track bank accounts, \
+                  stocks, income and expenses. As quick and intuitive to \
+                  use as a checkbook register, it is based on professional \
+                  accounting principles to ensure balanced books and \
+                  accurate reports.
+
+homepage          https://www.gnucash.org
+default master_sites {sourceforge:project/gnucash/gnucash%20%28stable%29/${version}}
+
+use_bzip2         yes
+
+distname          ${name}-${version}
+worksrcdir        ${name}-${version}
+
+checksums         rmd160  cb893bd14933c1ff130e4a3a3f747fd1a5ca17bd \
+                  sha256  15b8e4ff8336168eba88ef2faade377e5c5ff08e48b4660da1a33a8a407feb12 \
+                  size    14679619
+
+patchfiles-append patch-python-include-dirs-typo-fix.diff
+#patchfiles-append patch-gnucash-remove-test-failing-to-build.diff
+post-patch {
+    reinplace "s|set(HAVE_OSX_KEYCHAIN 1)||" ${worksrcpath}/CMakeLists.txt
+    reinplace "s|-Werror||" ${worksrcpath}/CMakeLists.txt
+    reinplace "s|if (WIN32 OR APPLE)|if (WIN32)|" ${worksrcpath}/CMakeLists.txt
+
+    # Drop in a patched version of glibconfig.h via
+    # https://git.gnome.org/browse/gtk-osx/plain/patches/glib-gint64-long-long.patch
+    # because gnucash incorrectly assumes int64_t and gint64 are
+    # the same size. See https://trac.macports.org/ticket/55446
+    xinstall -d ${workpath}/glib-2.0/include
+    file copy ${prefix}/lib/glib-2.0/include/glibconfig.h ${workpath}/glib-2.0/include
+    system -W ${workpath}/glib-2.0/include "patch -p1 <${filespath}/patch-glibconfig.h.diff"
+}
+
+configure.env-append PKG_CONFIG_GLIB_2_0_LIBDIR=${workpath}
+
+boost.version               1.71
+
+compiler.cxx_standard       2017
+
+set py_ver                  3.6
+set py_ver_nodot            [string map {. {}} ${py_ver}]
+
+configure.cppflags-delete   -I${prefix}/include
+configure.cppflags-append   -isystem${prefix}/include
+configure.cppflags-append -I${worksrcpath}
+
+depends_build-append     port:pkgconfig \
+                         port:intltool \
+                         port:autoconf \
+                         port:automake \
+                         port:libtool \
+                         port:gtest \
+                         port:swig-guile \
+                         port:swig-python \
+                         port:webkit2-gtk
+         
+depends_lib       port:guile \
+                  port:perl${perl5.major} \
+                  port:p${perl5.major}-date-manip \
+                  port:p${perl5.major}-finance-quote \
+                  port:gtk3 \
+                  port:libdbi \
+                  port:libdbi-drivers \
+                  port:aqbanking6-gtk3 \
+                  port:libofx \
+                  port:python${py_ver_nodot} \
+                  port:icu \
+                  port:libxml2
+
+depends_run       port:gnucash-docs
+
+# aqbanking is not universal
+universal_variant no
+
+configure.args    -DENABLE_BINRELOC=OFF \
+                  -DCMAKE_INSTALL_SYSCONFDIR=${prefix}/etc \
+                  -DWITH_PYTHON=ON \
+                  -DPERL_EXECUTABLE:FILEPATH=${perl5.bin} \
+                  -DPOD2MAN_EXECUTABLE:FILEPATH=${prefix}/bin/pod2man-${perl5.major}
+
+# force use of the requested python
+configure.args-append -DPYTHON_EXECUTABLE:FILEPATH=${prefix}/bin/python${py_ver}
+configure.args-append -DPYTHON_INCLUDE_DIR:PATH=${frameworks_dir}/Python.framework/Versions/${py_ver}/include/python${py_ver}m
+configure.args-append -DPYTHON_LIBRARY:FILEPATH=${frameworks_dir}/Python.framework/Versions/${py_ver}/lib/libpython${py_ver}.dylib
+
+post-destroot {
+    file delete ${destroot}${prefix}/lib/libgwengui-gtk3.dylib
+    file delete ${destroot}${prefix}/share/glib-2.0/schemas/gschemas.compiled
+}
+
+post-activate {
+    system "${prefix}/bin/gtk-update-icon-cache-3.0 -f -t ${prefix}/share/icons/hicolor"
+    system "${prefix}/bin/glib-compile-schemas ${prefix}/share/glib-2.0/schemas"
+}
+
+if {$subport eq $name} {
+    livecheck.regex "/${name} .*/(\[0-9\]+\\.\[0-9\]*\[0-9\])/"
+}
+
+# There currently isn't a separate beta release.
+subport gnucash-devel {
+    livecheck.regex "/${name} .*/(\[0-9\]+\\.\[0-9\]*\[0-9\])/"
+}
+
+notes "gnucash DBI backend support requires the libdbi-drivers port to be built with support for the desired databases. sqlite3 is available by default; for MySQL or PostgreSQL support, ensure that the corresponding variant is selected for libdbi-drivers."

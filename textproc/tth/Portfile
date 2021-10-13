@@ -1,0 +1,53 @@
+PortSystem 1.0
+
+name            tth
+version         4.15
+categories      textproc print
+maintainers     {toby @tobypeterson} openmaintainer
+description     a TeX to HTML transaltor
+long_description \
+    TTH translates TEX, the predominant mark-up language for 	\
+    expressing mathematics, into HTML, the language of 		\
+    world-wide-web browsers. It thereby enables mathematical 	\
+    documents to be made available on the web. Document structure, 	\
+    using either the Plain or LaTeX macro packages, is also 	\
+    translated and incorporated in the form of hyperlinks.
+platforms       darwin freebsd
+homepage        http://hutchinson.belmont.ma.us/tth/
+
+master_sites    ${homepage}tth-noncom/
+distname        ${name}_C
+extract.suffix  .tgz
+
+dist_subdir     ${name}/${version}
+
+checksums       rmd160  119bd88a565f8d311c43f3716daedddd4acf2201 \
+                sha256  83c1f39fbf3377fb43e3d01d042302fa91f8758aa9acc10e22fe8af140f0126c \
+                size    337841
+
+use_configure   no
+
+variant universal {}
+
+build.cmd       ${configure.cc}
+build.pre_args
+build.args      ${configure.cflags} [get_canonical_archflags cc] ${name}.c -o ${name}
+
+destroot {
+    xinstall -m 755 ${worksrcpath}/tth ${destroot}${prefix}/bin
+    xinstall -m 755 ${worksrcpath}/latex2gif ${destroot}${prefix}/bin
+    xinstall -m 755 ${worksrcpath}/ps2gif ${destroot}${prefix}/bin
+    xinstall -m 755 ${worksrcpath}/ps2png ${destroot}${prefix}/bin
+    xinstall -m 644 ${worksrcpath}/tth.1 ${destroot}${prefix}/share/man/man1
+
+    set docdir ${prefix}/share/doc/${name}
+    xinstall -d ${destroot}${docdir}
+    xinstall -m 644 -W ${worksrcpath} \
+        CHANGES \
+        license.txt \
+        tth_manual.html \
+        ${destroot}${docdir}
+}
+
+livecheck.url   ${homepage}Version
+livecheck.regex \"(.*)\"

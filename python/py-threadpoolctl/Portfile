@@ -1,0 +1,28 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-threadpoolctl
+version             3.0.0
+revision            0
+categories-append   science
+platforms           darwin
+license             BSD
+
+python.versions     36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         Helpers to limit the number of threads used in the common native libraries.
+long_description    ${description}
+
+homepage            https://github.com/joblib/threadpoolctl
+
+checksums           rmd160  420bc9e33c43acbeaa6ee728ce09bd66bd0c0746 \
+                    sha256  d03115321233d0be715f0d3a5ad1d6c065fe425ddc2d671ca8e45e9fd5d7a52a \
+                    size    32322
+
+if {${name} ne ${subport}} {
+    livecheck.type      none
+}

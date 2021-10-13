@@ -1,0 +1,13 @@
+Prevent configure script from assuming that if we don't want X11, then
+we don't want OpenGL either.
+--- configure.orig	2021-04-16 05:56:02.000000000 -0500
++++ configure	2021-04-27 08:52:06.000000000 -0500
+@@ -20857,7 +20857,7 @@
+ 
+ 
+ 
+-if test "$no_x" != "yes" -a "$no_gl" != "yes" \
++if test "$no_gl" != "yes" \
+ 	-a "$no_glu" != "yes" -a "$no_glut" != "yes" ; then
+   HAVE_OPENGL=yes
+ fi

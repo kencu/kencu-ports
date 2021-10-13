@@ -1,0 +1,36 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         GD 2.73
+revision            1
+license             {Artistic-2 GPL}
+maintainers         nomaintainer
+description         Module interface to libgd
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  40cd4c0a1250ee10e2f5d86654b615b976cdbae5 \
+                    sha256  491c9e73238522e2987e66725a20935f4268a3864202ecbaf4659a1691ba322b \
+                    size    261203
+
+if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-extutils-pkgconfig \
+                    port:p${perl5.major}-test-fork
+
+    depends_lib-append \
+                    port:p${perl5.major}-list-moreutils \
+                    port:p${perl5.major}-text-csv_xs \
+                    port:fontconfig \
+                    port:freetype \
+                    port:gd2 \
+                    path:include/turbojpeg.h:libjpeg-turbo \
+                    port:libiconv \
+                    port:libpng \
+                    port:tiff \
+                    port:webp
+}

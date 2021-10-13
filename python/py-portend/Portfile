@@ -1,0 +1,58 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-portend
+version             2.7.1
+revision            0
+
+categories-append   devel
+platforms           darwin
+supported_archs     noarch
+license             BSD
+
+maintainers         {khindenburg @kurthindenburg} openmaintainer
+
+description         TCP port monitoring utilities
+long_description    ${description}
+
+homepage            https://pypi.python.org/pypi/${python.rootname}
+
+distname            ${python.rootname}-${version}
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+
+checksums           rmd160  e95937f9230790b581d01db1335264d8ac3ae25c \
+                    sha256  986ed9a278e64a87b5b5f4c21e61c25bebdce9919a92238d9c14c37a7416482b \
+                    size    13538
+
+python.versions     27 35 36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append    port:py${python.version}-setuptools_scm
+    depends_lib-append      port:py${python.version}-tempora
+
+    depends_test-append port:py${python.version}-pytest
+
+    test.run        yes
+    test.target
+    test.cmd        pytest-${python.branch} test_portend.py
+    test.env        PYTHONPATH=${worksrcpath}/build/lib
+
+    if {${python.version} < 37} {
+        version             2.6
+        revision            0
+        # Below distname is required for this to work
+        distname            ${python.rootname}-${version}
+
+        checksums           rmd160  757276d2616c502f998f9f84e7e09150ce9beaa6 \
+                            sha256  600dd54175e17e9347e5f3d4217aa8bcf4bf4fa5ffbc4df034e5ec1ba7cdaff5 \
+                            size    12295
+
+        test.run            no
+
+        livecheck.type      none
+    }
+
+    livecheck.type  none
+}

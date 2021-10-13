@@ -1,0 +1,17 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           octave 1.0
+
+octave.setup        nan 3.6.0
+revision            1
+platforms           darwin
+license             GPL-3+
+maintainers         {mps @Schamschula} openmaintainer
+description         A statistics and machine learning toolbox for \
+                    data with and without missing values.
+long_description    {*}${description}
+
+checksums           rmd160  9f77d48d38b57c3e1a58a873a12a7593a426937c \
+                    sha256  98b032711c8055615c4afcdd6fb851f1ab7cff086d467bafc1dccaf23c78adff \
+                    size    257037

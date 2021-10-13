@@ -1,0 +1,57 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           select 1.0
+
+name                py-tox
+version             3.20.0
+revision            0
+
+categories-append   devel
+maintainers         {gmail.com:pedro.salgado @steenzout} openmaintainer
+platforms           darwin
+supported_archs     noarch
+license             MIT
+
+description         tox: virtualenv-based automation of test activities
+long_description    Tox as is a generic virtualenv management and test command line tool
+
+homepage            https://tox.readthedocs.io/en/latest/
+
+checksums           rmd160  f7d473ccaa33d766f77458bd67c8d58aa9096478 \
+                    sha256  eb629ddc60e8542fd4a1956b2462e3b8771d49f1ff630cecceacaa0fbfb7605a \
+                    size    307259
+
+python.versions     27 35 36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools_scm
+
+    depends_lib-append \
+                    port:py${python.version}-filelock \
+                    port:py${python.version}-packaging \
+                    port:py${python.version}-pluggy \
+                    port:py${python.version}-py \
+                    port:py${python.version}-setuptools \
+                    port:py${python.version}-six \
+                    port:py${python.version}-toml \
+                    port:py${python.version}-virtualenv \
+                    port:tox_select
+
+    if {${python.version} ne 38} {
+        depends_lib-append \
+                    port:py${python.version}-importlib-metadata
+    }
+
+    select.group    tox
+    select.file     ${filespath}/tox${python.version}
+    notes "
+To make the Python ${python.branch} version of tox the one that is run\
+when you execute the commands without a version suffix, e.g. 'tox', run:
+
+port select --set ${select.group} [file tail ${select.file}]
+"
+    livecheck.type  none
+}

@@ -1,0 +1,24 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/keybase/client 5.8.1 v
+name                keybase
+categories          security
+license             BSD
+maintainers         nomaintainer
+description         Command-line interface to Keybase.io
+long_description    ${description}
+
+depends_run         path:bin/gpg:gnupg2
+
+checksums           rmd160  0b5ad228679679dba7a7910e00039c41d0641455 \
+                    sha256  6afdaab5621d8c801ce7a351c9c02dcffac68bc7e17360320741af11b746636d \
+                    size    81055333
+
+build.args          -tags production ${go.package}/go/keybase
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
+}

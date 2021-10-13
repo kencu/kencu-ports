@@ -1,0 +1,36 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+PortGroup           legacysupport 1.1
+
+go.setup            github.com/GoogleCloudPlatform/terraformer 0.8.17
+revision            0
+
+description         Generate terraform files from existing infrastructure \
+                    (reverse Terraform).
+
+long_description    {*}${description} Terraformer uses Terraform providers \
+                    and is designed to easily support newly added resources. \
+                    To upgrade resources with new fields, all you need to do \
+                    is upgrade the relevant Terraform providers.
+
+categories          sysutils
+license             Apache-2
+installs_libs       no
+
+# Allow deps to be fetched at build time
+build.env-delete    GO111MODULE=off GOPROXY=off
+
+checksums           rmd160  33426a05b9a30354d6b43fa3176adb7106f0bd9d \
+                    sha256  a14a3e275a585f921c937ee923291733c9cafa19d774aab90535818ad21ccdef \
+                    size    387301
+
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+
+destroot {
+    xinstall -m 755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
+}
+
+github.tarball_from archive

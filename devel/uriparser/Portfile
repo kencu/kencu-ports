@@ -1,0 +1,41 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        uriparser uriparser 0.9.5 uriparser-
+revision            0
+checksums           rmd160  46e4b8f4a2023fa632752a6c083009dabf2d0549 \
+                    sha256  dd8061eba7f2e66c151722e6db0b27c972baa6215cf16f135dbe0f0a4bc6606c \
+                    size    176501
+
+categories          devel www
+platforms           darwin
+maintainers         {ryandesign @ryandesign} openmaintainer
+license             BSD
+
+description         a strictly RFC 3986 compliant parsing library for URIs
+
+long_description    ${name} is {*}${description}. \
+                    ${name} is cross-platform, fast, and supports Unicode.
+
+homepage            https://uriparser.github.io
+github.tarball_from releases
+use_bzip2           yes
+
+configure.args      -DURIPARSER_BUILD_DOCS=OFF \
+                    -DURIPARSER_BUILD_TESTS=OFF
+
+variant tests description {Enable tests} {
+    configure.args-delete   -DURIPARSER_BUILD_TESTS=OFF
+    depends_build-append    port:gtest
+
+    # duplicate settings from gtest CMakeLists.txt file
+    compiler.cxx_standard   2011
+    configure.args-append   -DCMAKE_CXX_STANDARD=11 \
+                            -DCMAKE_CXX_STANDARD_REQUIRED=ON
+
+    test.run                yes
+    test.target             check
+}

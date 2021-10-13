@@ -1,0 +1,54 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               github 1.0
+
+github.setup            vapoursynth vapoursynth 56 R
+github.tarball_from     archive
+revision                0
+
+categories              multimedia python
+platforms               darwin
+license                 LGPL-2.1+
+
+description             A video processing framework with simplicity in mind
+
+long_description        VapourSynth is an application for video manipulation. \
+                        Or a plugin. Or a library. It’s hard to tell because \
+                        it has a core library written in C++ and a Python \
+                        module to allow video scripts to be created. The \
+                        software has been heavily inspired by Avisynth.
+
+checksums               rmd160  6b4d5fac793c5d214fadb6d7c8dcdcd5791d13ec \
+                        sha256  15b325da458c9ee56aca22625737afe40c761a68ef74227fd7679f3fc595ee41 \
+                        size    561320
+
+maintainers             {gmail.com:herby.gillot @herbygillot} \
+                        openmaintainer
+
+set python_branch       3.9
+set python_version      [string map {. {}} ${python_branch}]
+
+use_autoreconf          yes
+autoreconf.cmd          ./autogen.sh
+autoreconf.args
+
+depends_build-append    port:autoconf \
+                        port:automake \
+                        port:libtool \
+                        port:pkgconfig \
+                        port:py${python_version}-cython
+
+depends_lib-append      port:ffmpeg \
+                        port:ImageMagick \
+                        port:libass \
+                        port:libiconv \
+                        port:python${python_version} \
+                        port:zimg
+
+configure.args          --disable-silent-rules \
+                        --with-cython=${prefix}/bin/cython-${python_branch}
+
+configure.python        ${prefix}/bin/python${python_branch}
+
+build.env-append        PYTHON=${configure.python}

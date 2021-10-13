@@ -1,0 +1,47 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           python 1.0
+
+name                py-oct2py
+
+python.versions     27 36 37 38 39
+python.default_version 27
+
+github.setup        blink1073 oct2py 5.1.0 v
+checksums           rmd160 1df2c9020955ee699a0b844240bd5700ed093381 \
+                    sha256 879b39e54b284ec74a84f88dafb9cec4acbbf15f135470c674fb29f8fc4ee980 \
+                    size   439908
+revision            1
+
+license             MIT
+maintainers         {michaelld @michaelld} openmaintainer
+description         Python to GNU Octave bridge --> run m-files from Python.
+long_description    ${description}
+platforms           darwin
+
+supported_archs     noarch
+
+if {${name} ne ${subport}} {
+    depends_lib-append \
+        port:octave \
+        port:py${python.version}-metakernel \
+        port:py${python.version}-octave_kernel
+
+    test.run            yes
+    depends_test-append \
+        port:py${python.version}-pytest \
+        port:octave-signal
+    # from Makefile
+    test.cmd            py.test-[join [split ${python.version} {}] {.}]
+    test.target
+    test.env            PYTHONPATH=${worksrcpath}/build/lib
+}
+
+foreach {old new} {34 36 35 36} {
+    subport py${old}-${python.rootname} "
+        replaced_by py${new}-${python.rootname}
+        PortGroup obsolete 1.0
+    "
+}

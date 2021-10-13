@@ -1,0 +1,55 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-pytest-html
+version             3.1.1
+revision            0
+
+categories-append   devel
+platforms           darwin
+supported_archs     noarch
+license             MPL-2
+maintainers         nomaintainer
+
+description         Plugin for generating HTML reports for pytest results
+long_description    pytest-html is a plugin for pytest that generates\
+                    a HTML report for the test results.
+
+homepage            https://github.com/pytest-dev/pytest-html
+
+checksums           rmd160  bf8bb0780771f7f8ea5d259d29c500c140252b67 \
+                    sha256  3ee1cf319c913d19fe53aeb0bc400e7b0bc2dbeb477553733db1dad12eb75ee3 \
+                    size    38548
+
+python.versions     27 36 37 38 39
+
+if {${name} ne ${subport}} {
+    if {${python.version} == 27} {
+        version     1.22.1
+        epoch       1
+        revision    0
+        distname    ${python.rootname}-${version}
+        checksums   rmd160  a508b0ae976430d2a82add89c26e0ae65dd86119 \
+                    sha256  f0fae6de71f02f62f9460f628d0c5f70b0cdc86bb393239860c7dec70fd2973d \
+                    size    28183
+    }
+
+    depends_build-append \
+                    port:py${python.version}-setuptools \
+                    port:py${python.version}-setuptools_scm
+
+    depends_run-append \
+                    port:py${python.version}-pytest \
+                    port:py${python.version}-pytest-metadata
+
+    post-destroot {
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath} README.rst LICENSE \
+            ${destroot}${docdir}
+    }
+
+    livecheck.type  none
+}

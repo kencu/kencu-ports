@@ -1,0 +1,66 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim: fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-ipykernel
+version             6.4.1
+revision            0
+categories-append   devel
+platforms           darwin
+license             BSD
+supported_archs     noarch
+
+python.versions     27 35 36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         IPython Kernel for Jupyter.
+long_description    ${description}
+
+homepage            https://ipython.org/
+
+checksums           rmd160  b999a07e94e1142cd81a0415cbaaee715b0f4235 \
+                    sha256  df3355e5eec23126bc89767a676c5f0abfc7f4c3497d118c592b83b316e8c0cd \
+                    size    120971
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                        port:py${python.version}-setuptools
+
+    depends_lib-append  port:py${python.version}-ipython_genutils \
+                        port:py${python.version}-debugpy \
+                        port:py${python.version}-ipython \
+                        port:py${python.version}-traitlets \
+                        port:py${python.version}-jupyter_client \
+                        port:py${python.version}-tornado \
+                        port:py${python.version}-matplotlib-inline \
+                        port:py${python.version}-appnope
+
+    if {${python.version} eq 27} {
+        version             4.9.0
+        revision            0
+        distname            ${python.rootname}-${version}
+        checksums           rmd160  055f76d943ed8f8d1011676d418c4cf23fa891c6 \
+                            sha256  c5a498c70f7765c34f3397cf943b069057f5bef4e0218e4cfbb733e9f38fa5fa \
+                            size    95255
+        depends_lib-delete  port:py${python.version}-ipython_genutils \
+                            port:py${python.version}-debugpy \
+                            port:py${python.version}-matplotlib-inline \
+                            port:py${python.version}-appnope 
+    } elseif {${python.version} < 37} {
+        version             5.5.5
+        revision            0
+        checksums           rmd160  c913280414227713b9c91c22121dbd5d3fc74a0b \
+                            sha256  e976751336b51082a89fc2099fb7f96ef20f535837c398df6eab1283c2070884 \
+                            size    112909
+        depends_lib-delete  port:py${python.version}-ipython_genutils \
+                            port:py${python.version}-debugpy \
+                            port:py${python.version}-matplotlib-inline
+    } elseif {${python.version} eq 37} {
+         depends_lib-append     port:py${python.version}-importlib-metadata \
+                                port:py${python.version}-argcomplete
+    }
+
+    livecheck.type      none
+}

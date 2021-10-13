@@ -1,0 +1,11 @@
+--- modules.cfg.orig	2021-05-19 00:43:30.000000000 -0500
++++ modules.cfg	2021-08-01 18:51:45.000000000 -0500
+@@ -133,7 +133,7 @@
+ 
+ # OpenType table validation.  Needs `ftotval.c' below.
+ #
+-# AUX_MODULES += otvalid
++AUX_MODULES += otvalid
+ 
+ # Auxiliary PostScript driver component to share common code.
+ #

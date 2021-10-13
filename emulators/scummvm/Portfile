@@ -1,0 +1,142 @@
+PortSystem          1.0
+PortGroup           github 1.0
+
+name                scummvm
+platforms           darwin
+categories          emulators games
+maintainers         nomaintainer
+license             {GPL-2 BSD}
+description         cross-platform interpreter for several adventure engines
+long_description    \
+    ScummVM is a cross-platform interpreter for several point-and-click \
+    adventure engines. A current list of playable games is available at \
+    <https://www.scummvm.org/compatibility/>.
+
+homepage            https://www.scummvm.org
+
+if {${subport} eq ${name}} {
+    github.setup        scummvm scummvm 2.2.0 v
+    revision            2
+    checksums           sha256  1469657e593bd8acbcfac0b839b086f640ebf120633e93f116cab652b5b27387 \
+                        rmd160  3011e4d66fd3b5e28029afbd894a9cd7df9e9ec1 \
+                        size    63652348
+
+    conflicts           ${name}-devel
+    long_description ${description}: \
+        This port follows the release version of ${name}, which is typically updated every \
+        6 months. If for some reason this port does not build or function as desired, try \
+        the ${name}-devel port.
+
+    master_sites        https://downloads.scummvm.org/frs/${name}/${version}
+    use_xz              yes
+
+    patchfiles-append   patch-scummvm-sdl2indet.diff
+    patchfiles-append   remove-date-time-from-version.patch
+
+    github.livecheck.regex {([0-9.]+)}
+}
+
+subport ${name}-devel {
+    github.setup        scummvm scummvm 62581d91cdc4f18ef22aeae8778c96e1e0c63dca
+    version             20201209
+    revision            2
+    checksums           rmd160  c26b3eb067e299ef15f10e88deb8027d8d6e5821 \
+                        sha256  f40e642d50fde808a7f8102ed957a7b832047e1b762d87b737ac840dc738b097 \
+                        size    140636255
+
+    conflicts           ${name}
+    long_description ${description}: \
+        This port follows the master version of ${name}, which is typically updated every few weeks.
+
+    patchfiles-append   patch-scummvm-sdl2indet.diff
+    patchfiles-append   remove-date-time-from-version-devel.patch
+
+    # this needs to be added to the devel build at present, otherwise all the plugins
+    # fail to link against libSDL2
+    configure.ldflags-append -lSDL2
+
+    livecheck.type      none
+}
+
+depends_lib-append  port:libsdl2 \
+                    port:libsdl2_net \
+                    port:libmad \
+                    port:libogg \
+                    port:libvorbis \
+                    port:libpng \
+                    port:flac \
+                    port:libtheora \
+                    port:fluidsynth \
+                    port:faad2 \
+                    path:include/turbojpeg.h:libjpeg-turbo \
+                    port:freetype \
+                    port:bzip2 \
+                    port:curl \
+                    port:expat \
+                    port:gettext \
+                    path:lib/pkgconfig/glib-2.0.pc:glib2 \
+                    port:libedit \
+                    port:libffi \
+                    port:libiconv \
+                    port:libsndfile \
+                    port:ncurses \
+                    port:pcre \
+                    port:portaudio \
+                    port:readline \
+                    port:zlib
+
+configure.args-append  \
+                    --enable-release \
+                    --enable-plugins \
+                    --default-dynamic \
+                    --enable-sdlnet \
+                    --enable-cloud \
+                    --enable-libcurl \
+                    --enable-theoradec \
+                    --enable-jpeg \
+                    --enable-readline \
+                    --enable-all-engines \
+                    --enable-verbose-build \
+                    --enable-c++11
+
+# libcurl needs --enable-cloud as well otherwise link errors
+# also connected to --enable-sdlnet
+
+if {[string match *clang* ${configure.cxx}]} {
+    configure.ldflags-append -stdlib=${configure.cxx_stdlib}
+}
+
+# Leopard build, at least, fails without c++11
+compiler.cxx_standard   2011
+
+variant mpeg2 description {add mpeg2 support - has many dependencies} {
+     # this builds fine, but libmpeg2 is old (2008) and pulls in a lot of deps
+     # and I'm not sure if any games actually use this - make it optional
+     configure.args-append \
+                    --enable-mpeg2
+     depends_lib-append    \
+                    port:libmpeg2 \
+                    port:db48 \
+                    port:libsdl \
+                    port:libxml2 \
+                    path:lib/libssl.dylib:openssl \
+                    port:python27 \
+                    port:python2_select \
+                    port:python_select \
+                    port:sqlite3 \
+                    port:xorg-xorgproto \
+                    port:xorg-libX11 \
+                    port:xorg-libXau \
+                    port:xorg-libXdmcp \
+                    port:xorg-libXext \
+                    port:xorg-libXrandr \
+                    port:xorg-libXv \
+                    port:xorg-libice \
+                    port:xorg-libpthread-stubs \
+                    port:xorg-libsm \
+                    port:xorg-libxcb \
+                    port:xorg-xcb-proto \
+                    port:xrender \
+                    port:xz
+
+}

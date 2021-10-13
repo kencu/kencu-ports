@@ -1,0 +1,43 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-absl
+version             0.12.0
+revision            0
+python.rootname     absl-py
+platforms           darwin
+supported_archs     noarch
+license             Apache-2
+maintainers         {emcrisostomo @emcrisostomo} openmaintainer
+
+description         Abseil Python Common Libraries
+long_description    ${python.rootname} is a collection of Python \
+                    library code for building Python applications. The \
+                    code is collected from Google's own Python code \
+                    base, and has been extensively tested and used in \
+                    production.
+
+homepage            https://github.com/abseil/abseil-py
+
+checksums           rmd160  7ac42744a0299c779a525edea8bd8830ca2b5a40 \
+                    sha256  b44f68984a5ceb2607d135a615999b93924c771238a63920d17d3387b0d229d5 \
+                    size    112475
+
+python.versions     27 36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+        port:py${python.version}-setuptools \
+        port:py${python.version}-setuptools_scm
+
+    depends_lib-append \
+        port:py${python.version}-six
+
+    if {${python.version} == 27} {
+        depends_lib-append port:py${python.version}-enum34
+    }
+
+    livecheck.type  none
+}

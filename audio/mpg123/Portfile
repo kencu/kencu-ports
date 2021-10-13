@@ -1,0 +1,48 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           muniversal 1.0
+
+name                mpg123
+version             1.29.0
+revision            0
+checksums           rmd160  6af2df827f4086d46477d5fd4324343e40ba7315 \
+                    sha256  135e0172dfb6c7937a81f1188c27f9a47b0a337f7637680039ff3ee5fea3ce7d \
+                    size    1068523
+
+categories          audio
+maintainers         nomaintainer
+license             LGPL-2.1
+
+description         fast mp3 player
+long_description \
+    Mpg123 is a fast, free and portable MPEG audio player for Unix. It \
+    supports MPEG 1.0/2.0 layers 1, 2 and 3. For full CD quality \
+    playback (44 kHz, 16 bit, stereo) a Pentium, SPARCstation10, DEC \
+    Alpha or similar CPU is required. Mono and/or reduced quality \
+    playback (22 kHz or 11 kHz) is even possible on 486 CPUs.
+
+homepage            https://www.mpg123.de/
+platforms           darwin
+master_sites        sourceforge:project/mpg123/mpg123/${version} \
+                    ${homepage}download/
+use_bzip2           yes
+
+platform macosx {
+    configure.args-append --with-audio=coreaudio
+}
+
+set merger_configure_args(arm64)    --with-cpu=aarch64
+set merger_configure_args(i386)     --with-cpu=sse
+set merger_configure_args(ppc)      --with-cpu=altivec
+set merger_configure_args(ppc64)    --with-cpu=altivec
+set merger_configure_args(x86_64)   --with-cpu=x86-64
+if {![info exists universal_possible]} {
+    set universal_possible [expr {${os.universal_supported} && [llength ${configure.universal_archs}] >= 2}]
+}
+if {(!${universal_possible} || ![variant_isset universal]) && [info exists merger_configure_args(${configure.build_arch})]} {
+    configure.args-append $merger_configure_args(${configure.build_arch})
+}
+
+test.run            yes
+test.target         check

@@ -1,0 +1,70 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               cmake 1.1
+PortGroup               github 1.0
+
+github.setup            jupyter-xeus xeus-sqlite 0.5.1
+revision                0
+categories              databases
+license                 BSD
+maintainers             {mps @Schamschula} openmaintainer
+description             xeus-sqlite is a Jupyter kernel for SQL based on the native \
+                        implementation of the Jupyter protocol xeus.
+long_description        {*}${description}
+platforms               darwin
+
+checksums               rmd160  fa8e3f5e0366165012993fc1323930930d408315 \
+                        sha256  b24f507cabbd0f2416b54c34fad48034d56f9056ca8ca5dbe10b1fa3d527b4b3 \
+                        size    370236
+
+compiler.cxx_standard   2017
+
+cmake.out_of_source     yes
+
+depends_build-append    port:pkgconfig
+
+variant python37 conflicts python38 python39 description {Use Python 3.7} {}
+variant python38 conflicts python37 python39 description {Use Python 3.8} {}
+variant python39 conflicts python37 python38 description {Use Python 3.9} {}
+
+if {![variant_isset python37] && ![variant_isset python38]} {
+    default_variants +python39
+}
+
+foreach pv {39 38 37} {
+    if {[variant_isset python${pv}]} {
+        set python.version ${pv}
+        break
+    }
+}
+
+depends_lib-append      port:cppzmq \
+                        path:lib/libssl.dylib:openssl \
+                        port:py${python.version}-jupyterlab \
+                        port:sqlite3 \
+                        port:sqlitecpp \
+                        port:tabulate \
+                        port:xeus \
+                        port:xproperty \
+                        port:xtl \
+                        port:xvega \
+                        port:xvega-bindings \
+                        port:zmq
+
+configure.args-append   -DCMAKE_PREFIX_PATH:PATH=${prefix}/lib/pkgconfig \
+                        -Dcppzmq_DIR=${prefix}/share/cmake/cppzmq \
+                        -Dnlohmann_json_DIR=${prefix}/lib/cmake/nlohmann_json \
+                        -DOPENSSL_INCLUDE_DIR=${prefix}/include/openssl \
+                        -DOPENSSL_CRYPTO_LIBRARY=${prefix}/lib/libssl.dylib \
+                        -DSQLite3_INCLUDE_DIR=${prefix}/include \
+                        -DSQLite3_LIBRARY=${prefix}/lib/libsqlite3.dylib \
+                        -DSQLiteCpp_DIR=${prefix}/lib/cmake/SQLiteCpp \
+                        -Dtabulate_DIR=${prefix}/lib/cmake/tabulate \
+                        -Dxeus_DIR=${prefix}/lib/cmake/xeus \
+                        -Dxproperty_DIR=${prefix}/lib/cmake/xproperty \
+                        -Dxtl_DIR=${prefix}/share/cmake/xtl \
+                        -Dxvega_DIR=${prefix}/lib/cmake/xvega \
+                        -Dxvega-bindings_DIR=${prefix}/lib/cmake/xvega-bindings \
+                        -DZeroMQ_DIR=${prefix}/lib/cmake/ZeroMQ \
+                        -DXSQL_DISABLE_ARCH_NATIVE:BOOL=ON

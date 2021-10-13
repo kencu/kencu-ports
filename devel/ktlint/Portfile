@@ -1,0 +1,36 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           java 1.0
+
+github.setup        pinterest ktlint 0.42.1
+github.tarball_from releases
+distfiles           ${name}
+dist_subdir         ${name}/${version}
+categories          devel java
+platforms           darwin
+supported_archs     noarch
+maintainers         {amake @amake} openmaintainer
+license             MIT
+
+description         An anti-bikeshedding Kotlin linter with built-in formatter
+long_description    {*}${description}
+
+checksums           rmd160  d023de65604a2792f07e243b2e63a1e842630f95 \
+                    sha256  01242e3161fab2d52ea4991f3a9cd532cf9cfb1abb3966d5c4687a218db377bd \
+                    size    55496103
+
+extract.only
+use_configure       no
+
+java.version        1.8+
+java.fallback       openjdk8
+
+build {}
+
+destroot {
+    xinstall -m 0755 ${distpath}/${distfiles} ${destroot}${prefix}/bin
+}
+
+github.livecheck.regex  {([^"-]+)}

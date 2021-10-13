@@ -1,0 +1,43 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           clang_dependency 1.0
+
+name                libidn2
+version             2.3.2
+revision            0
+categories          mail
+license             {LGPL-2.1+ GPL-3+}
+description         GNU International Domain Name Library (current version 2)
+long_description    {*}${description}.\
+                    GNU Libidn2 is an implementation of the IDNA2008 + TR46 \
+                    specifications (RFC 5890, RFC 5891, RFC 5892, RFC 5893, TR 46). \
+                    Libidn2 is a standalone library, without any dependency on Libidn. \
+                    Libidn2 is believed to be a complete IDNA2008 / TR46 implementation.
+homepage            https://www.gnu.org/software/libidn/#libidn2
+platforms           darwin
+maintainers         {mps @Schamschula} openmaintainer
+master_sites        gnu:libidn
+
+checksums           rmd160  ca4f5a6f7d0b0117796ac9832a8c6069ec6fd1ff \
+                    sha256  76940cd4e778e8093579a9d195b25fff5e936e9dc6242068528b437a76764f91 \
+                    size    2169556
+
+depends_build       port:pkgconfig
+
+depends_lib         port:gettext \
+                    port:libiconv \
+                    port:libunistring
+
+configure.args      --disable-silent-rules
+
+if {${os.platform} eq "darwin" && ${os.major} < 10} {
+    depends_build-append port:cctools
+    configure.env-append NM=${prefix}/bin/nm
+    configure.args-append lt_cv_path_NM=${prefix}/bin/nm
+}
+
+test.run            yes
+test.target         check
+
+livecheck.distname  ${name}

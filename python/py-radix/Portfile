@@ -1,0 +1,43 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           deprecated 1.0
+
+name                py-radix
+version             0.5
+license             BSD-old ISC
+platforms           darwin
+maintainers         nomaintainer
+description         radix tree data structure implementation for python
+long_description    py-radix is an implementation of a radix tree data \
+                    structure for the storage and retrieval of IPv4 and IPv6 \
+                    network prefixes. The radix tree is the data structure most \
+                    commonly used for routing table lookups. It efficiently stores \
+                    network prefixes of varying lengths and allows fast lookups of \
+                    containing networks.
+
+homepage            http://www.mindrot.org/projects/py-radix/
+python.rootname     py-radix
+master_sites        googlecode
+checksums           rmd160 1cd4425de62d0c4cc567ea5f319cbd4e608d6d16 \
+                    sha256 3c9ffe6742009cca121c2c8f76e658af7fab25eb14cf671b5e40b7ccf91e1550
+
+deprecated.upstream_support no
+livecheck.type      none
+
+python.versions     27
+
+if {${name} ne ${subport}} {
+    pre-test {
+        system "cd ${worksrcpath} && ln -sf build/lib*/radix.so"
+    }
+    test.run        yes
+    test.cmd        ${python.bin}
+    test.target     test.py
+
+    post-destroot {
+        xinstall -m 644 -W ${worksrcpath} ChangeLog LICENSE README TODO \
+            ${destroot}${prefix}/share/doc/${subport}
+    }
+}

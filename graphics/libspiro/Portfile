@@ -1,0 +1,26 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem      1.0
+PortGroup       github 1.0
+
+epoch           1
+github.setup    fontforge libspiro 20200505
+
+categories      graphics
+license         GPL-3+
+maintainers     {devans @dbevans} openmaintainer
+platforms       darwin
+
+description     Raph Levien's Spiro package as a library.
+
+long_description \
+                Raph Levien's Spiro package as a library. A mechanism for drawing \
+                smooth contours with constant curvature at the spline joins.
+
+checksums       sha256  6bb238d9102d62536edcb96b09e1d28c99dc5fa818eaa934ee0bba652380961a \
+                rmd160  48c12be785fa42a34f287832157f2359e6fb66e3 \
+                size    98689
+
+use_autoreconf  yes
+
+configure.args  --disable-silent-rules

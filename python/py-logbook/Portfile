@@ -1,0 +1,35 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-logbook
+python.rootname     Logbook
+version             1.5.3
+revision            0
+categories-append   devel
+platforms           darwin
+license             BSD
+
+python.versions     27 35 36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         Python logging replacement module.
+long_description    ${description}
+
+homepage            https://packages.python.org/Logbook/
+
+checksums           rmd160  8c3ea048b9ec50db36299e59bd8b7c97a8b323b6 \
+                    sha256  66f454ada0f56eae43066f604a222b09893f98c1adc18df169710761b8f32fe8 \
+                    size    85783
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                        port:py${python.version}-setuptools \
+                        port:py${python.version}-cython
+
+    patchfiles-append   patch-setup.py.diff
+
+    livecheck.type      none
+}

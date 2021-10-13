@@ -1,0 +1,49 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-sphinxcontrib-bibtex
+version             2.2.0
+revision            0
+
+categories-append   textproc devel
+platforms           darwin
+supported_archs     noarch
+license             BSD
+maintainers         nomaintainer
+
+description         Sphinx extension for BibTeX style citations
+long_description    ${description}
+
+homepage            https://github.com/mcmtroffaes/sphinxcontrib-bibtex
+
+checksums           rmd160  0b7ad73abfc03f36e6e1674cbcad91306d3865d1 \
+                    sha256  7500843e154d76983c23bca5ca7380965e0725c46b8f484c1322d0b58a6ce3b2 \
+                    size    96027
+
+python.versions     27 36 37 38 39
+
+if {${name} ne ${subport}} {
+    if {${python.version} == 27} {
+        version     0.4.2
+        revision    0
+        checksums   rmd160  dfe9eb50f1278f05416f6c3f3a09cff7aa2d222b \
+                    sha256  169afb3a3485775e5473934a0fdff1780e8bdcdd44db7ed286044a074331c729 \
+                    size    49490
+
+        depends_lib-append \
+                    port:py${python.version}-six \
+    }
+
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    depends_lib-append \
+                    port:py${python.version}-sphinx \
+                    port:py${python.version}-pybtex \
+                    port:py${python.version}-pybtex-docutils \
+                    port:py${python.version}-oset
+
+    livecheck.type  none
+}

@@ -1,0 +1,25 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup github    1.0
+PortGroup ocaml     1.1
+
+name                ocaml-gen
+github.setup        c-cube gen 0.5.3
+
+categories          ocaml devel
+maintainers         {landonf @landonf} openmaintainer
+license             BSD
+description         Iterator library for OCaml 
+long_description    Iterator library for OCaml, with support for \
+                    restartable and consumable iterators.
+
+platforms           darwin
+
+checksums           rmd160  426088cb6c99639e80302c1b9623e5d3ac832d81 \
+                    sha256  8ff9b0a78658e01ea8cdeb6902ec9b5a36169229ae9bbad830353f222e68f941 \
+                    size    30930
+
+ocaml.build_type    dune
+
+depends_lib         port:ocaml-dune-configurator

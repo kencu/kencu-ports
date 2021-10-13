@@ -1,0 +1,85 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        gpac gpac 1.0.1 v
+revision            1
+categories          multimedia
+platforms           darwin
+maintainers         nomaintainer
+license             LGPL-2+
+
+description         multimedia framework for research and academic purposes
+long_description    GPAC is an Open Source multimedia framework for \
+                    research and academic purposes. The project \
+                    covers different aspects of multimedia, with a \
+                    focus on presentation technologies (graphics, \
+                    animation and interactivity). Includes MP4Box and \
+                    Osmo4.
+
+homepage            http://gpac.wp.mines-telecom.fr/
+
+github.tarball_from archive
+checksums           rmd160  1e19dba1a2770268f64947f6ba34fb458028764f \
+                    sha256  3b0ffba73c68ea8847027c23f45cd81d705110ec47cf3c36f60e669de867e0af \
+                    size    10352926
+
+depends_build       port:pkgconfig \
+                    port:zlib
+
+depends_lib         port:a52dec \
+                    port:faad2 \
+                    path:lib/libavcodec.dylib:ffmpeg \
+                    path:include/turbojpeg.h:libjpeg-turbo \
+                    port:libmad \
+                    port:libogg \
+                    port:libpng \
+                    port:libsdl \
+                    port:libtheora \
+                    port:libvorbis \
+                    port:openjpeg \
+                    path:lib/libssl.dylib:openssl \
+                    port:jack \
+                    port:XviD \
+                    port:libGLU \
+                    port:mesa \
+                    port:xorg-libXv
+
+# Though HEVC is officially supported only in 10.13+, the symbol
+# kCMVideoCodecType_HEVC is available in 10.11+ [1][2]
+# [1] https://build.macports.org/builders/ports-10.10_x86_64-builder/builds/94933/steps/install-port/logs/stdio
+# [2] https://build.macports.org/builders/ports-10.11_x86_64-builder/builds/94369/steps/install-port/logs/stdio
+patchfiles          patch-configure.diff \
+                    patch-no-hevc-yosemite.diff
+
+post-patch {
+    reinplace "s|@APPLICATIONS_DIR@|${applications_dir}|g" ${worksrcpath}/configure
+}
+
+if {${os.platform} eq "darwin" && ${os.major} < 12} {
+    known_fail  yes
+    pre-fetch {
+        # See https://trac.macports.org/ticket/56408
+        ui_error "${name} @${version} requires OS X 10.8 or greater."
+        return -code error "incompatible Mac OS X version"
+    }
+}
+
+# external spidermonkey (--use-js=no) is not recognized because it doesn't provide a pkg-config file and build fails with local copy
+# pulseaudio is recognized if installed but build fails
+
+configure.args      --cc="${configure.cc}" \
+                    --cxx="${configure.cxx}" \
+                    --extra-cflags="${configure.cc_archflags}" \
+                    --extra-ldflags="${configure.ld_archflags}" \
+                    --mandir=${prefix}/share/man \
+                    --X11-path=${prefix} \
+                    --disable-pulseaudio \
+                    --use-js=no \
+                    --verbose
+
+# This project's build system detects CPU and endianness at configure time.
+# muniversal is worth a try.
+universal_variant   no
+use_parallel_build  no

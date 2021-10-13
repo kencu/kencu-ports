@@ -1,0 +1,167 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+github.setup        mesonbuild meson 0.59.1
+revision            2
+
+github.tarball_from releases
+license             Apache-2
+categories          devel python
+maintainers         {soap.za.net:git @SoapZA} openmaintainer
+platforms           darwin
+supported_archs     noarch
+installs_libs       no
+homepage            https://mesonbuild.com
+
+description         Meson - A high productivity build system
+long_description    Meson is a build system designed to optimize programmer productivity. \
+                    It aims to do this by providing simple, out-of-the-box support for modern \
+                    software development tools and practices, such as unit tests, coverage reports, \
+                    Valgrind, CCache and the like. It is both extremely fast, and, even more importantly, \
+                    as user friendly as possible.
+
+checksums           rmd160  2f7977dd49fe7e4b24e465013e83a4182fba4d79 \
+                    sha256  db586a451650d46bbe10984a87b79d9bcdc1caebf38d8e189f8848f8d502356d \
+                    size    1944678
+
+# as of verison 0.45.0,requires python 3.5 or better
+
+python.versions         36 37 38 39
+python.default_version  39
+python.link_binaries    no
+
+depends_build-append \
+                    port:py${python.version}-setuptools
+
+depends_run-append \
+                    port:py${python.version}-setuptools \
+                    port:ninja
+
+# requires a newer install_name_tool on older systems
+if {${os.platform} eq "darwin" && ${os.major} <= 9} {
+    depends_run-append \
+                    port:cctools
+}
+
+if {${os.platform} eq "darwin" && ${os.major} <= 10} {
+    patchfiles-append \
+                    remove-Wl,-no_weak_imports.patch
+}
+
+# https://github.com/mesonbuild/meson/issues/6187
+patchfiles-append   patch-meson-32bit-apple.diff
+
+# https://github.com/mesonbuild/meson/pull/9211
+patchfiles-append   patch-meson-gcc-appleframeworks.diff
+
+# Compiled typelib files need their dylibs' full install path
+patchfiles-append   patch-meson-gnome.diff
+
+# disable warning not accepted by older clang versions
+# this manifests currently on systems up to 10.9
+# https://github.com/mesonbuild/meson/issues/8307
+if {${os.platform} eq "darwin" && ${os.major} <= 13} {
+    patchfiles-append   patch-meson-clang-unknown-optimization-error.diff
+}
+
+# https://trac.macports.org/ticket/63462
+patchfiles-append    patch-meson-objc-accept-gnu89.diff
+
+platform darwin 8 {
+
+    # this meson is modified for systems without @rpath support
+    # and is therefore fragile. Keep pegged, and update occasionally
+
+    github.setup        mesonbuild meson 0.57.2
+    github.tarball_from releases
+    revision            1
+    checksums           rmd160  8cf66e2b6cd4214cf6166d67fd4820de1f7776fb \
+                        sha256  3a83e7b1c5de94fa991ec34d9b198d94f38ed699d3524cb0fdf3b99fd23d4cc5 \
+                        size    1853721
+
+    patchfiles-delete   patch-meson-clang-unknown-optimization-error.diff \
+                        patch-meson-objc-accept-gnu89.diff \
+                        patch-meson-32bit-apple.diff \
+                        patch-meson-gnome.diff
+    patchfiles-append   patch-meson57-tiger-no-rpath-fix.diff \
+                        patch-meson-32bit-apple-tiger.diff \
+                        patch-meson57-gnome.diff
+}
+
+# add a search path for crossfiles in our prefix
+patchfiles-append   patch-meson-search-prefix-for-cross-files.diff
+post-patch {
+    reinplace "s|@@PREFIX@@|${prefix}|g" ${worksrcpath}/data/shell-completions/bash/meson \
+                                         ${worksrcpath}/mesonbuild/coredata.py
+}
+
+post-destroot {
+    set python_prefix ${frameworks_dir}/Python.framework/Versions/${python.branch}
+    ln -s  ${python_prefix}/bin/meson ${destroot}${prefix}/bin/meson
+    ln -s  ${python_prefix}/share/man/man1/meson.1 ${destroot}${prefix}/share/man/man1
+
+    # install our MacPorts cross files
+    xinstall -m 755 -d ${destroot}${prefix}/share/meson/
+    copy ${filespath}/cross ${destroot}${prefix}/share/meson/
+
+    fs-traverse f ${destroot}${prefix}/share/meson/cross/ {
+        if {![file isdirectory ${f}]} {
+            reinplace "s|@@PREFIX@@|${prefix}|g" ${f}
+        }
+    }
+
+    # install shell completion files
+    set bash_completion_dir ${prefix}/share/bash-completion/completions
+    xinstall -d ${destroot}${bash_completion_dir}
+    xinstall -m 644 ${worksrcpath}/data/shell-completions/bash/meson ${destroot}${bash_completion_dir}
+
+    set zsh_completion_dir ${prefix}/share/zsh/site-functions
+    xinstall -d ${destroot}${zsh_completion_dir}
+    xinstall -m 644 ${worksrcpath}/data/shell-completions/zsh/_meson ${destroot}${zsh_completion_dir}
+
+    # install editor syntax files
+    set vim_dir ${prefix}/share/vim/vimfiles
+    foreach d {ftdetect ftplugin syntax indent} {
+        xinstall -d ${destroot}${vim_dir}/${d}
+        xinstall -m 644 ${worksrcpath}/data/syntax-highlighting/vim/${d}/meson.vim ${destroot}${vim_dir}/${d}
+    }
+
+    set emacs_lispdir ${prefix}/share/emacs/site-lisp
+    xinstall -d ${destroot}${emacs_lispdir}
+    xinstall -m 644 ${worksrcpath}/data/syntax-highlighting/emacs/meson.el ${destroot}${emacs_lispdir}
+}
+
+# the following block avoids requiring users to 'sudo port select python3 python37'
+# doing a file test for ${prefix}/bin/python3 and requiring this
+# to be honest would have been much simpler, but not the "MacPorts way"
+pre-test {
+    reinplace "s|/usr/bin/env python3$|${python.bin}|" \
+        ${worksrcpath}/run_tests.py \
+        ${worksrcpath}/run_cross_test.py \
+        ${worksrcpath}/run_meson_command_tests.py \
+        ${worksrcpath}/run_project_tests.py \
+        ${worksrcpath}/run_unittests.py
+
+    set testpath "${worksrcpath}/test\\ cases"
+    fs-traverse f ${testpath} {
+        if { [string match *.py ${f}] } {
+            reinplace "s|/usr/bin/env python3$|${python.bin}|" ${f}
+        }
+    }
+}
+
+test.run            yes
+test.env            CXX=${configure.cxx} \
+                    "CXXFLAGS=${configure.cxxflags} [get_canonical_archflags cxx]" \
+                    CC=${configure.cc} \
+                    "CFLAGS=${configure.cflags} [get_canonical_archflags cc]" \
+                    "LDFLAGS=${configure.ldflags} [get_canonical_archflags ld]" \
+                    PREFIX=${prefix}
+test.cmd            ./run_tests.py
+test.target
+
+# restrict livecheck to release versions only, no pre-releases
+github.livecheck.regex  {(\d+(?:\.\d+)*)}

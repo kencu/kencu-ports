@@ -1,0 +1,51 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-biopython
+version             1.79
+revision            0
+
+categories-append   science
+platforms           darwin
+license             BSD
+maintainers         {reneeotten @reneeotten} openmaintainer
+
+description         Python tools for computational molecular biology
+long_description    ${description}: parsers for various file formats, interfaces for \
+                    programs, tools for performing common operations on sequences, etc.
+
+homepage            https://biopython.org/
+
+checksums           rmd160  255f7048741fb2dc08b16578c2fa9054751da51f \
+                    sha256  edb07eac99d3b8abd7ba56ff4bedec9263f76dfc3c3f450e7d2e2bcdecf8559b \
+                    size    16738730
+
+python.versions     27 35 36 37 38 39
+
+if {${name} ne ${subport}} {
+    if {${python.version} in "27 35"} {
+        version     1.76
+        revision    0
+        checksums   rmd160  dd99b8275b0aeb9a5d4d5378a93663534c378209 \
+                    sha256  3873cb98dad5e28d5e3f2215a012565345a398d3d2c4eebf7cd701757b828c72 \
+                    size    16283634
+    }
+
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    depends_lib-append \
+                    port:py${python.version}-numpy
+
+    post-destroot {
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath} README.rst NEWS.rst \
+            LICENSE.rst DEPRECATED.rst CONTRIBUTING.rst \
+            CONTRIB.rst ${destroot}${docdir}
+    }
+
+    livecheck.type      none
+}

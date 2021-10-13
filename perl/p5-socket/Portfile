@@ -1,0 +1,18 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Socket 2.032
+revision            0
+license             {Artistic-1 GPL}
+maintainers         nomaintainer
+description         Socket - networking constants and support functions
+long_description    {*}${description}
+
+platforms           darwin
+
+checksums           rmd160  1f85591b51ae51840be6936fcee2a5108c67205b \
+                    sha256  20ecb6ad469f4a13c5c7a891abfa12a3cecfdeccc7140ad57b05be12815dd517 \
+                    size    44867

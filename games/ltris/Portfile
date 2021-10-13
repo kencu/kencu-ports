@@ -1,0 +1,48 @@
+PortSystem              1.0
+PortGroup               app 1.0
+
+name                    ltris
+version                 1.2.1
+categories              games
+platforms               darwin
+maintainers             nomaintainer
+license                 GPL-2+
+use_parallel_build      yes
+
+description             Tetris clone with multiplayer and AI support.
+long_description        LTris as a tetris clone which means you have a bowl \
+                        with blocks falling down. By rotating and moving the \
+                        blocks you try to assemble whole lines which then \
+                        disappear. LTris has three modes for this: Classic is \
+                        the classical one where you play until the bowl \
+                        becomes filled, Figures resets the bowl contents to a \
+                        new figure for each level and adds suddenly appearing \
+                        tiles and lines later on and Multiplayer where up to \
+                        three players either controlled by human or CPU(!) \
+                        compete and send completed lines to each other.
+
+homepage                http://lgames.sourceforge.net/index.php?project=LTris
+master_sites            sourceforge:project/lgames/ltris
+
+checksums               rmd160  fe451e7950c8f360ac37fc2772ec96f7bb98f273 \
+                        sha256  f868f79da7d4fc2029b38d16f393e9f09925daa5c7c4b3dbfdddf602fbdea924 \
+                        size    1804119
+
+depends_lib             port:libsdl \
+                        port:libsdl_mixer \
+                        port:gettext \
+                        port:libiconv
+
+post-extract {
+    move ${worksrcpath}/src/sdl.h ${worksrcpath}/src/sdl_.h
+}
+
+patchfiles              patch-sdl_.h.diff \
+                        patch-libintl.diff \
+                        patch-install-mode.diff
+
+configure.args          --with-highscore-path=${prefix}/var/lib/games/ \
+                        --disable-sdltest
+
+app.name                LTris
+app.icon                ltris48.gif

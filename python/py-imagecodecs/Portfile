@@ -1,0 +1,58 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-imagecodecs
+version             2021.8.26
+revision            0
+
+categories-append   graphics
+platforms           darwin
+license             BSD
+maintainers         {mps @Schamschula} openmaintainer
+
+description         Image transformation, compression, and decompression codecs
+long_description    {*}${description}
+
+homepage            https://www.lfd.uci.edu/~gohlke/
+
+checksums           rmd160  46d0ce572c9cf2c6e8c9132001f87877dd60f14a \
+                    sha256  e87994d918ea951a589ec46648c24d9c7e56b7b5c2466d93f3b07883f0ecea19 \
+                    size    10400106
+
+python.versions     37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+     depends_lib-append \
+                    port:blosc \
+                    port:brotli \
+                    port:brunsli \
+                    port:bzip2 \
+                    port:cfitsio \
+                    port:charls \
+                    port:giflib5 \
+                    path:include/turbojpeg.h:libjpeg-turbo \
+                    port:libaec \
+                    port:openjpeg \
+                    port:py${python.version}-cython \
+                    port:py${python.version}-numpy \
+                    port:py${python.version}-pyobjc \
+                    port:snappy \
+                    port:tiff \
+                    port:webp \
+                    port:zopfli \
+                    port:zstd
+
+    patchfiles      patch-setup.py.diff
+
+    post-patch {
+        reinplace "s|%PREFIX%|${prefix}|g" \
+            ${worksrcpath}/setup.py
+    }
+
+    livecheck.type  none
+}

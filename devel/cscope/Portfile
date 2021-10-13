@@ -1,0 +1,37 @@
+PortSystem 1.0
+
+name                cscope
+version             15.9
+revision            0
+categories          devel
+platforms           darwin freebsd
+maintainers         nomaintainer
+license             BSD
+description         development tool for browsing source code
+long_description    Cscope is a developer's tool for browsing source code. \
+                    It has an impeccable Unix pedigree, having been \
+                    originally developed at Bell Labs back in the days of \
+                    the PDP-11. Cscope was part of the official AT&T Unix \
+                    distribution for many years, and has been used to \
+                    manage projects involving 20 million lines of code.
+
+homepage            http://cscope.sourceforge.net/
+master_sites        sourceforge
+checksums           rmd160  afea7d56e0536bfe02fcd647a510ae022100c88d \
+                    sha256  c5505ae075a871a9cd8d9801859b0ff1c09782075df281c72c23e72115d9f159 \
+                    size 613948
+
+patchfiles          patch-symlink-not-found-fix.diff
+
+depends_lib         port:ncurses
+
+configure.args      --mandir=${prefix}/share/man --with-flex --with-ncurses=${prefix}
+
+post-destroot    {
+    system "strip ${destroot}${prefix}/bin/cscope"
+
+    # Install Emacs xcscope package
+    xinstall -d ${destroot}${prefix}/share/emacs/site-lisp
+    xinstall -m 644 ${worksrcpath}/contrib/xcscope/xcscope.el \
+        ${destroot}${prefix}/share/emacs/site-lisp/
+}

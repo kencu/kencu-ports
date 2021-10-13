@@ -1,0 +1,42 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           legacysupport 1.0
+
+# clock_gettime
+legacysupport.newest_darwin_requires_legacy 15
+
+name                fping
+epoch               1
+version             5.0
+revision            0
+categories          net
+platforms           darwin
+maintainers         nomaintainer
+license             X11
+
+description         A scriptable ping program to check if multiple hosts are up
+
+long_description    fping is different from ping in that you can specify \
+                    any number of hosts on the command line, or specify \
+                    a file containing the lists of hosts to ping. \
+                    Instead of trying one host until it timeouts or \
+                    replies, fping will send out a ping packet and move \
+                    on to the next host in a round-robin fashion. If a \
+                    host replies, it is noted and removed from the list \
+                    of hosts to check. If a host does not respond within \
+                    a certain time limit and/or retry limit it will be \
+                    considered unreachable.
+
+homepage            http://fping.org/
+master_sites        ${homepage}dist/
+
+checksums           rmd160  8c48aa65006414e566a9832d668159c4d8cef9ba \
+                    sha256  ed38c0b9b64686a05d1b3bc1d66066114a492e04e44eef1821d43b1263cd57b8 \
+                    size    185281
+
+configure.args      --enable-ipv4 \
+                    --enable-ipv6
+
+livecheck.type      regex
+livecheck.regex     ${name}-(\[0-9.\]+)${extract.suffix}

@@ -1,0 +1,38 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-htseq
+python.rootname     HTSeq
+version             0.12.3
+platforms           darwin
+license             GPL-3+
+maintainers         {gmail.com:davide.liessi @dliessi} openmaintainer
+
+description         A framework to process and analyze data from high-throughput \
+                    sequencing (HTS) assays
+long_description    ${description}
+
+homepage            https://github.com/htseq/htseq
+
+checksums           rmd160  6f0c0b89e03cbcfea2bc8a45bc01bddf0d3ea49f \
+                    sha256  0bdc778358e5bd06901639797adb27bf4e85602d621062b62d6be9fee70e645e \
+                    size    625810
+
+# Python 3.9 is not currently supported by dependency py-pysam
+python.versions     27 36 37 38
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    depends_lib-append \
+                    port:py${python.version}-pysam \
+                    port:py${python.version}-numpy
+
+    depends_run-append \
+                    port:py${python.version}-matplotlib
+
+    livecheck.type  none
+}

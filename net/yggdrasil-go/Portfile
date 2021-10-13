@@ -1,0 +1,46 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        yggdrasil-network yggdrasil-go 0.4.0 v
+revision            0
+categories          net
+platforms           darwin
+maintainers         {l2dy @l2dy} openmaintainer
+license             LGPL-3
+
+description         An experiment in scalable routing as an encrypted IPv6 overlay network
+
+long_description    Yggdrasil is an early-stage implementation of a fully \
+                    end-to-end encrypted IPv6 network. It is lightweight, self-arranging, \
+                    supported on multiple platforms and allows pretty much any \
+                    IPv6-capable application to communicate securely with other Yggdrasil \
+                    nodes.
+
+checksums           rmd160  e90850360ec09f989da6cacea4f8e2d51f2dce86 \
+                    sha256  a2d64f57e7cbf35f138004f83612229f3e7e5f5398bbe3b2292cc2e22fc66213 \
+                    size    89505
+
+depends_build       port:go
+
+use_configure       no
+
+build.cmd           "./build"
+build.target
+build.env-append    PKGNAME=yggdrasil PKGVER=${version}
+
+destroot {
+        xinstall -m 755 -d ${destroot}${prefix}/bin
+        # https://github.com/yggdrasil-network/yggdrasil-go/commit/4b9bce855eeb6af6b53e6927dc394c65af8bd157
+        xinstall -m 755 -W ${worksrcpath} yggdrasil yggdrasilctl ${destroot}${prefix}/bin
+}
+
+startupitem.create      yes
+startupitem.name        yggdrasil
+startupitem.executable  ${prefix}/bin/yggdrasil -useconffile ${prefix}/etc/yggdrasil.conf
+
+notes "
+To launch yggdrasil at startup, first generate default config with the following command:
+umask 0077 && yggdrasil -genconf | sudo tee ${prefix}/etc/yggdrasil.conf >/dev/null
+"

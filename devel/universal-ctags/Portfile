@@ -1,0 +1,77 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        universal-ctags ctags 5.9.20210919.0 p
+name                universal-ctags
+epoch               1
+revision            0
+
+categories          devel
+platforms           darwin
+license             GPL-2+
+maintainers         {@kaimingguo gmail.com:augustin.guo} openmaintainer
+
+description         A maintained ctags implementation
+long_description \
+    universal-ctags has the objective of continuing the development from what \
+    existed in the Sourceforge area. Github exuberant-ctags repository was \
+    started by Reza Jelveh and was later moved to the universal-ctags organization.
+
+homepage            https://ctags.io
+
+checksums           rmd160  691806b3ec164006870591e5a8941057e35ce37e \
+                    sha256  409ebcc50cfe3ddbe3e37da3e14ccb3ea30074e002d670c6d2da919da05c4a93 \
+                    size    2540833
+
+pre-patch {
+    if {![file exists ${prefix}/bin/rst2man.py]} {
+        set files [glob -directory ${prefix}/bin "rst2man-*.py"]
+        foreach f $files {
+            if {[regexp {rst2man-.*\.py} $f result]} {
+                reinplace "s|rst2man3.py|${result}|g" \
+                    ${worksrcpath}/configure.ac
+            }
+        }
+    }
+}
+
+use_autoconf        yes
+autoconf.cmd        ./autogen.sh
+configure.args      --program-prefix=u --enable-json --enable-yaml
+
+depends_build       port:autoconf \
+                    port:automake \
+                    port:pkgconfig \
+                    port:libtool
+
+depends_lib         port:jansson \
+                    port:libyaml
+
+universal_variant   no
+default_variants    +iconv +libxml2 +manpages
+
+variant aspell description {Enable aspell backend} {
+    depends_lib-append      port:aspell
+    depends_run             port:aspell-dict-en
+    configure.args-append   --enable-aspell
+}
+
+variant debug description {Build with debug support} {
+    configure.args-append   --enable-debugging
+}
+
+variant iconv description {Add iconv support} {
+    depends_lib-append      port:libiconv
+    configure.args-append   --enable-iconv
+}
+
+variant libxml2 description {Extra support for XML based languages} {
+    depends_lib-append      port:libxml2
+    configure.args-append   --enable-xml
+}
+
+variant manpages description {Enable documentation} {
+    depends_build-append    port:py-docutils
+}

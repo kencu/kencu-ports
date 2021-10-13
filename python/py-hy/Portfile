@@ -1,0 +1,43 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem 1.0
+PortGroup python 1.0
+PortGroup select 1.0
+
+name                py-hy
+version             0.20.0
+categories-append   lang
+license             MIT
+platforms           darwin
+maintainers         {toby @tobypeterson} openmaintainer
+description         Lisp dialect embedded in Python
+long_description    Hy is a Lisp dialect that's embedded in Python. Since Hy \
+                    transforms its Lisp code into Python abstract syntax tree (AST) \
+                    objects, you have the whole beautiful world of Python at your \
+                    fingertips, in Lisp form.
+
+homepage            http://hylang.org/
+
+checksums           rmd160  3d5e6081dd85b478c7a65b063691cab84bcd5b4b \
+                    sha256  1b72863754fb57e2dd275a9775bf621cb50a565e76733a2e74e9954e7fbb060e \
+                    size    90040
+
+python.versions     38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append    port:py${python.version}-setuptools
+
+    depends_lib-append      port:py${python.version}-astor \
+                            port:py${python.version}-colorama \
+                            port:py${python.version}-funcparserlib \
+                            port:py${python.version}-rply
+
+    depends_run-append      port:hy_select
+
+    select.group            hy
+    select.file             ${filespath}/hy${python.version}
+
+    livecheck.type          none
+} else {
+    livecheck.type          pypi
+}

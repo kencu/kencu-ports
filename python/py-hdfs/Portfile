@@ -1,0 +1,44 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-hdfs
+version             2.6.0
+revision            0
+
+categories-append   net sysutils parallel
+platforms           darwin
+supported_archs     noarch
+license             MIT
+maintainers         {petr @petrrr} openmaintainer
+
+description         API and command line interface for HDFS
+long_description    ${description}
+
+homepage            https://hdfscli.readthedocs.org/
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+distname            ${python.rootname}-${version}
+
+checksums           rmd160  65e4ad72003ae5cd54fbfeb6c01293872a5e01b2 \
+                    sha256  bc92ce4347f106d48b541f756caa930476998cfd3eed477ffbd63ae9ad1cdc22 \
+                    size    43399
+
+python.versions     27 35 36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_lib-append\
+                    port:py${python.version}-docopt \
+                    port:py${python.version}-requests \
+                    port:py${python.version}-setuptools \
+                    port:py${python.version}-six
+
+    post-destroot {
+        set dest_doc ${destroot}${prefix}/share/doc/${subport}
+        xinstall -d ${dest_doc}
+        xinstall -m 0644 -W ${worksrcpath} LICENSE \
+            README.md ${dest_doc}
+    }
+
+    livecheck.type  none
+}

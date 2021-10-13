@@ -1,0 +1,55 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem      1.0
+PortGroup       php 1.1
+
+name            php-mailparse
+license         PHP
+categories      php mail devel
+platforms       darwin
+maintainers     {ryandesign @ryandesign} openmaintainer
+
+php.branches    5.3 5.4 5.5 5.6 7.0 7.1 7.2 7.3 7.4 8.0
+php.pecl        yes
+
+if {[vercmp ${php.branch} 7] >= 0} {
+    version     3.1.2
+    revision    0
+    checksums   rmd160  5d20dba857effab0b645b09c30d32b4b9adffd27 \
+                sha256  b0647ab07ea480fcc13533368e38fdb4f4bb45d30dce65fc90652a670a4f4010 \
+                size    941292
+} else {
+    version     2.1.6
+    revision    1
+    checksums   rmd160  68b2fedcacda2850c10e3551131502429b8daee1 \
+                sha256  73705197d2b2ee782efa5477eb2a21432f592c2cb05a72c3a037bbe39e02b5cc \
+                size    36538
+}
+
+description     Email message manipulation
+
+long_description \
+    Mailparse is an extension for parsing and working with email messages. \
+    It can deal with rfc822 and rfc2045 (MIME) compliant messages.
+
+if {${name} ne ${subport}} {
+    depends_build       port:autoconf port:${php}-mbstring
+    depends_run         port:${php}-mbstring
+
+    configure.cppflags-append -DHAVE_MBSTRING
+
+    use_parallel_build  yes
+
+    test.run            yes
+
+    post-destroot {
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath} CREDITS ${destroot}${docdir}
+        if {[vercmp ${version} 3.0.3] >= 0} {
+            xinstall -m 0644 -W ${worksrcpath} README.md ${destroot}${docdir}
+        } else {
+            xinstall -m 0644 -W ${worksrcpath} README ${destroot}${docdir}
+        }
+    }
+}

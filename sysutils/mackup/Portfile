@@ -1,0 +1,33 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                mackup
+version             0.8.32
+
+categories-prepend  sysutils
+license             GPL-3
+maintainers         {gmail.com:newtonne.github @newtonne} openmaintainer
+platforms           darwin
+supported_archs     noarch
+
+description         Keep your Mac's application settings in sync.
+
+long_description    Mackup backs ups your application settings in a safe \
+                    directory (e.g. Dropbox), so they can then be synced \
+                    across all your machines, and restored with a single \
+                    command.
+
+homepage            https://github.com/lra/mackup
+
+checksums           rmd160  f60cf5a5bb1813010901d6fb8219b24e8a2e4185 \
+                    sha256  154c5d78951e20da2ed0ed226b0684d2bc7f5553dd7b465f217fd6caad6e7fef \
+                    size    54542
+
+python.default_version 38
+
+depends_lib-append \
+    port:py${python.version}-docopt \
+    port:py${python.version}-setuptools \
+    port:py${python.version}-six

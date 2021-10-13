@@ -1,0 +1,121 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+version             2.0.0
+revision            0
+
+# Github CLI is failing to build on 10.12 and below.
+# So in that case, use the pre-built binary tarball.
+if {${os.major} >= 17} {
+    set source_build yes
+} else {
+    set source_build no
+}
+
+if ${source_build} {
+    PortGroup       golang 1.0
+
+    go.setup        github.com/cli/cli ${version} v
+} else {
+    PortGroup       github 1.0
+    PortGroup       legacysupport 1.1
+
+    github.setup    cli cli ${version} v
+
+    platforms       darwin
+    supported_archs x86_64
+}
+
+name                gh
+
+homepage            https://cli.github.com
+
+description         GitHub’s official command line tool
+
+long_description    ${name} is GitHub on the command line. It brings pull \
+                    requests, issues, and other GitHub concepts to the \
+                    terminal next to where you are already working with git \
+                    and your code.
+
+categories          devel
+license             MIT
+maintainers         {l2dy @l2dy} \
+                    {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+installs_libs       no
+
+if ${source_build} {
+    # Allow Go to fetch dependencies at build time
+    build.env-delete    GO111MODULE=off GOPROXY=off
+    build.cmd           make
+    build.pre_args-append \
+                        GH_VERSION=${version}
+    build.args          bin/${name} manpages
+
+    use_parallel_build  no
+
+    checksums       rmd160  e9fd68c263ac144353e0a31557be1cae5064eb20 \
+                    sha256  5d93535395a6684dee1d9d1d3cde859addd76f56581e0111d95a9c685d582426 \
+                    size    548905
+
+    github.tarball_from archive
+
+    patch {
+        # Do not override GOOS, GOARCH, GOARM and other environment variables
+        reinplace -E \
+            {s|GOOS= GOARCH= GOARM= GOFLAGS= CGO_ENABLED= go build|go build|g} \
+            ${worksrcpath}/Makefile
+    }
+
+} else {
+    build {}
+
+    distname        gh_${version}_macOS_amd64
+
+    checksums       rmd160  d39b0dde3444a00291b84dc55a95dea9b346a83e \
+                    sha256  33dd2c9aff1ef2397100263e6c63d4f2a119add725eb4fb10d684412879e6d0a \
+                    size    7005549
+
+    github.tarball_from releases
+
+    use_configure   no
+}
+
+destroot {
+    xinstall -m 0755 -W ${worksrcpath} bin/gh ${destroot}${prefix}/bin
+
+    if {!$source_build} {
+        # standard legacysupport tweaks don't work, since the install here is
+        # from a binary tarball ... have to tweak the binary to use the legacy
+        # support library, which in turn uses the System.B library.
+        # Add legacysupport for 10.11 and older for clock_gettime support
+        if {${os.major} <= 15} {
+            system -W ${destroot}${prefix}/bin "install_name_tool -change /usr/lib/libSystem.B.dylib ${prefix}/lib/libMacportsLegacySupport.dylib gh"
+        }
+    }
+
+    set docdir ${prefix}/share/doc/${name}
+    xinstall -d ${destroot}${docdir}
+    xinstall -m 0644 -W ${worksrcpath} LICENSE ${destroot}${docdir}
+
+    # Man pages
+    xinstall -d ${destroot}${prefix}/share/man/man1
+    xinstall -m 0644 {*}[glob ${worksrcpath}/share/man/man1/*] \
+        ${destroot}${prefix}/share/man/man1
+
+    # Shell completions
+    xinstall -d ${destroot}${prefix}/share/bash-completion/completions
+    exec ${destroot}${prefix}/bin/gh completion -s bash >> \
+        ${destroot}${prefix}/share/bash-completion/completions/gh
+
+    xinstall -d ${destroot}${prefix}/share/zsh/site-functions
+    exec ${destroot}${prefix}/bin/gh completion -s zsh >> \
+        ${destroot}${prefix}/share/zsh/site-functions/_gh
+
+    xinstall -d ${destroot}${prefix}/share/fish/vendor_completions.d
+    exec ${destroot}${prefix}/bin/gh completion -s fish >> \
+        ${destroot}${prefix}/share/fish/vendor_completions.d/gh.fish
+}
+
+github.livecheck.regex {([0-9.]+)}

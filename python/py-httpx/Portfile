@@ -1,0 +1,35 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-httpx
+version             0.19.0
+revision            0
+platforms           darwin
+license             BSD
+maintainers         nomaintainer
+
+description         The next generation HTTP client.
+long_description    {*}${description}
+
+homepage            https://github.com/encode/httpx
+
+checksums           rmd160  eab8dcf20bc4f4b776b11be05c7fd305e500381f \
+                    sha256  92ecd2c00c688b529eda11cedb15161eaf02dee9116712f621c70d9a40b2cdd0 \
+                    size    97592
+
+python.versions     37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    depends_lib-append \
+                    port:py${python.version}-certifi  \
+                    port:py${python.version}-sniffio  \
+                    port:py${python.version}-rfc3986  \
+                    port:py${python.version}-httpcore
+
+    livecheck.type  none
+}

@@ -1,0 +1,43 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem      1.0
+PortGroup       compiler_blacklist_versions 1.0
+PortGroup       github 1.0
+
+github.setup    protobuf-c protobuf-c 1.4.0 v
+revision        0
+categories      devel
+license         BSD
+maintainers     nomaintainer
+platforms       darwin
+description     Pure C code generator and runtime libraries for Protocol Buffers
+
+long_description \
+                protobuf-c is a C implementation of the Google \
+                Protocol Buffers data serialization format. It \
+                includes libprotobuf-c, a pure C library that \
+                implements protobuf encoding and decoding, and \
+                protoc-c, a code generator that converts Protocol \
+                Buffer .proto files to C descriptor code, based on the \
+                original protoc.
+
+checksums       sha256  09d9a2013236c482b4a8af5a40d19e9931748788d6bf4ba96cef1287d2be8b58 \
+                rmd160  2943650fc3cb7b53121028d44a6cf89b22471628 \
+                size    134388
+
+use_autoreconf  yes
+
+depends_build-append \
+                port:pkgconfig
+
+depends_lib     port:protobuf3-cpp
+
+compiler.cxx_standard 2011
+
+# error: constexpr constructor never produces a constant expression [-Winvalid-constexpr]
+compiler.blacklist-append {clang < 900}
+
+configure.args  --disable-silent-rules
+
+test.run        yes
+test.target     check

@@ -1,0 +1,27 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Net-SSH2 0.72
+license             {Artistic-1 GPL}
+maintainers         oaf.dk:mni openmaintainer
+platforms           darwin
+
+description         Perl module for the SSH 2 protocol via libSSH2.
+long_description    Net::SSH2 is a perl interface to the libssh2 library. \
+                    It supports the SSH2 protocol (there is no support for \
+                    SSH1) with all of the key exchanges, ciphers, and \
+                    compression of libssh2.
+
+checksums           rmd160  a224935358a1cdbfc98a6af83d0d95bfb3b045db \
+                    sha256  867d83070fac6436b9f0971918243002072fbf8d2724a87c254b34250dce0222 \
+                    size    147016
+
+if {${perl5.major} != ""} {
+    depends_lib-append \
+                    path:lib/libssl.dylib:openssl \
+                    port:libssh2 \
+                    port:zlib
+}

@@ -1,0 +1,57 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem      1.0
+PortGroup       github 1.0
+
+github.setup    Guardsquare proguard 7.0.1 v
+revision        0
+
+categories      java
+platforms       darwin
+license         GPL-2
+maintainers     nomaintainer
+
+description     Java bytecode shrinker, optimizer, and obfuscator.
+long_description \
+    ProGuard is a free Java class file shrinker, optimizer, \
+    obfuscator, and preverifier.  It detects and removes unused \
+    classes, fields, methods, and attributes.  It optimizes bytecode \
+    and removes unused instructions.  It renames the remaining \
+    classes, fields, and methods using short meaningless names. \
+    Finally, it preverifies the processed code for Java 6 or for Java \
+    Micro Edition.
+
+homepage        https://www.guardsquare.com/en/products/proguard
+
+github.tarball_from \
+                releases
+
+checksums       rmd160  17afce2755e0be8139c9d0cec63f255988a08065 \
+                sha256  b7fd1ee6da650b392ab9fe619f0bfd01f1fe8272620d9471fcfc7908b5216d71 \
+                size    13246555
+
+depends_lib     bin:java:kaffe
+
+use_configure   no
+
+build {}
+
+destroot {
+    set javadir ${destroot}${prefix}/share/java
+    set docdir ${destroot}${prefix}/share/doc/${name}
+
+    xinstall -d -m 0755 ${javadir}
+    xinstall -d -m 0755 ${docdir}
+
+    foreach f [glob -directory ${worksrcpath}/lib *.jar] {
+        file copy ${f} ${javadir}/
+    }
+    foreach f [glob -directory ${worksrcpath}/docs *] {
+        file copy ${f} ${docdir}/
+    }
+    foreach f {LICENSE examples} {
+        file copy ${worksrcpath}/${f} ${docdir}/
+    }
+}
+
+livecheck.regex ${name}(\\d+(?:\\.\\d+))${extract.suffix}

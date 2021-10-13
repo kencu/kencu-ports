@@ -1,0 +1,53 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-kaptan
+version             0.5.12
+revision            0
+
+categories-append   devel
+platforms           darwin
+license             BSD
+maintainers         {@egorenar posteo.net:egorenar-dev} openmaintainer
+
+description         Configuration parser.
+long_description    Configuration parser with dict, JSON, YAML, .ini \
+                    and python file handlers.
+homepage            https://github.com/emre/kaptan
+
+checksums           rmd160  f815b558ccb87e79a9240f40ba65a23313a6e25b \
+                    sha256  1abd1f56731422fce5af1acc28801677a51e56f5d3c3e8636db761ed143c3dd2 \
+                    size    10539
+
+python.versions     27 35 36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_lib-append \
+                    port:py${python.version}-setuptools \
+
+    depends_run-append \
+                    port:py${python.version}-yaml
+
+    depends_test-append \
+                    port:py${python.version}-pytest
+
+    test.run        yes
+    test.cmd        py.test-${python.branch}
+    test.target
+    test.env        PYTHONPATH=${worksrcpath}/build/lib
+
+    post-destroot {
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath} README.rst LICENSE \
+            AUTHORS ${destroot}${docdir}
+    }
+
+    livecheck.type  none
+
+} else {
+
+    livecheck.type  pypi
+}

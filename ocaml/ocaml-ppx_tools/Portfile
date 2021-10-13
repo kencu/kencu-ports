@@ -1,0 +1,26 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup github    1.0
+PortGroup ocaml     1.1
+
+name                ocaml-ppx_tools
+github.setup        ocaml-ppx ppx_tools 6.3
+
+categories          ocaml devel
+maintainers         {landonf @landonf} openmaintainer
+license             MIT
+description         Tools for authors of OCaml syntactic tools
+long_description    Tools for authors of OCaml syntactic tools, including \
+                    OCaml PPX rewriters.
+
+platforms           darwin
+
+checksums           rmd160  c18f16d7d931384f14bf3ca66295e42790b23980 \
+                    sha256  9f607edcdf81cd7524e3142e40874abb603c703af3be7746e84c5b1b85fe9b5e \
+                    size    18824
+
+depends_build       port:ocaml-cppo
+
+ocaml.build_type    dune
+

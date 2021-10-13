@@ -1,0 +1,36 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Module-Signature 0.87
+license             Permissive
+maintainers         nomaintainer
+description         Module signature file manipulation
+long_description    ${description}
+
+platforms           darwin
+supported_archs     noarch
+
+checksums           rmd160  0a52138061fde1ececd13ddba2ade9ee6e06f4cf \
+                    sha256  214e8055c50fec371a95743520fe26940004e76169063b2b44ec90a0d45d6982 \
+                    size    97211
+
+variant gnupg1 description {Use old gnupg v1 rather than default gnupg v2} {}
+
+if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-ipc-run
+
+    if {[variant_isset gnupg1]} {
+        depends_lib-append \
+                    port:gnupg1
+    } else {
+        depends_lib-append \
+                    path:bin/gpg2:gnupg2
+
+        patchfiles-append \
+                    patch-ignore-gnupg1.diff
+    }
+}

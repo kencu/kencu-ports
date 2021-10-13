@@ -1,0 +1,92 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        Reference-LAPACK lapack 3.10.0 v
+if {${subport} eq ${name}} {
+    PortGroup           compilers 1.0
+    compilers.choose    cc fc f77 f90
+    compilers.setup     require_fortran -clang
+
+    PortGroup           cmake 1.0
+    cmake.out_of_source yes
+}
+revision            0
+categories          math devel science
+platforms           darwin
+license             BSD
+maintainers         {takeshi @tenomoto} openmaintainer
+description         Linear Algebra PACKage
+long_description \
+    LAPACK is written in Fortran 90 and provides routines \
+    for solving systems of simultaneous linear equations, \
+    least-squares solutions of linear systems of equations, \
+    eigenvalue problems, and singular value problems.
+homepage            http://www.netlib.org/${name}/
+
+checksums           rmd160  9b72149acdfd72e9d4731cd8b37c2ed8b24063f5 \
+                    sha256  5dda370a83a17f2ceb6a6661ab8f3aa1523eff5d70a8b436846c75257c836b74 \
+                    size    7632043
+
+configure.cppflags-append \
+                    -DADD_
+# remove MACOSX_DEPLOYMENT_TARGET #53565
+macosx_deployment_target
+configure.args-delete \
+                    -DCMAKE_INSTALL_RPATH=${prefix}/lib \
+                    -DCMAKE_INSTALL_NAME_DIR=${prefix}/lib
+
+configure.args-append \
+                    -DBUILD_SHARED_LIBS=ON \
+                    -DCBLAS=ON \
+                    -DLAPACKE=ON \
+                    -DCMAKE_INSTALL_INCLUDEDIR=${prefix}/include/${name} \
+                    -DCMAKE_INSTALL_LIBDIR=${prefix}/lib/${name} \
+                    -DCMAKE_INSTALL_RPATH=${prefix}/lib/${name} \
+                    -DCMAKE_INSTALL_NAME_DIR=${prefix}/lib/${name}
+
+if {${subport} eq ${name}} {
+    if {[variant_isset gfortran]} {
+        set gccPort [fortran_depends_port_name ${compilers.gcc_default}]
+        configure.ldflags-append    -L${prefix}/lib/${gccPort} -lgfortran
+    }
+    variant accelerate conflicts openblas description {use BLAS in Accelerate.framework} {
+        depends_lib-append          port:vecLibFort
+        configure.ldflags-append    -lvecLibFort
+    }
+    variant openblas conflicts accelerate description {use BLAS in openblas} {
+        depends_lib-append          path:lib/libopenblas.dylib:OpenBLAS
+        configure.ldflags-append    -lopenblas
+    }
+    if {[variant_isset accelerate] || [variant_isset openblas]} {
+       configure.args-append       -DUSE_OPTIMIZED_BLAS=ON
+    }
+    post-destroot {
+        # move CMake scripts to the directory cmake expects to find them in
+        xinstall -m 755 -d ${destroot}${cmake_share_module_dir}
+        file delete -force ${destroot}${cmake_share_module_dir}
+        move ${destroot}${prefix}/lib/${name}/cmake \
+            ${destroot}${cmake_share_module_dir}
+    }
+}
+
+notes "C headers are installed in ${prefix}/include/${name}."
+
+subport ${name}-manpages {
+    supported_archs     noarch
+    description         LAPACK manpages
+    long_description    ${description}
+
+    depends_build       bin:doxygen:doxygen
+
+    use_configure       no
+    build.cmd           doxygen
+    build.target        DOCS/Doxyfile_man
+
+    destroot            {
+        foreach f [glob ${worksrcpath}/DOCS/man/man3/*] {
+            xinstall -m 444 ${f} ${destroot}${prefix}/share/man/man3
+        }
+    }
+}

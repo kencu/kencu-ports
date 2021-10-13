@@ -1,0 +1,77 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           meson 1.0
+
+name                py-gobject3
+set my_name         pygobject
+version             3.38.0
+revision            2
+set branch          [join [lrange [split ${version} .] 0 1] .]
+categories-append   gnome
+license             LGPL-2.1+
+maintainers         {devans @dbevans} openmaintainer
+platforms           darwin
+description         Python bindings for GObject, version 3
+
+long_description    PyGObject is a Python dynamic module that enables developers to use the \
+                    power of GObject, which is part of the GNOME platform.
+
+homepage            https://pygobject.readthedocs.io/
+master_sites        gnome:sources/${my_name}/${branch}/
+distname            ${my_name}-${version}
+use_xz              yes
+
+checksums           rmd160  6f4d13c182cd8fedd78c01527efcc1cf116cde7e \
+                    sha256  0372d1bb9122fc19f500a249b1f38c2bb67485000f5887497b4b205b3e7084d5 \
+                    size    553892
+
+python.versions     35 36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append    port:pkgconfig
+
+    depends_lib-append      path:lib/pkgconfig/glib-2.0.pc:glib2 \
+                            port:libffi \
+                            port:py${python.version}-cairo \
+                            port:gobject-introspection
+
+    compiler.c_standard     2011
+
+    # https://github.com/Damenly/pygobject/commit/01013b1003bac67061e595cd857be9cf7b69d7fd
+    # this patch is designed to work around PyGObject's use of GOI's use of LIBFFI
+    patchfiles              patch-pygobject_fix_arm64_closure_exec.diff
+    patch.pre_args -p1
+
+    use_configure           yes
+
+    configure.pkg_config_path \
+                            ${python.prefix}/lib/pkgconfig
+
+    configure.pre_args      --prefix='${python.prefix}'
+    configure.args          -Dpython=${python.bin}
+    configure.cppflags-append \
+                            -I${python.prefix}/include
+
+    destroot.cmd            ${build.cmd}
+
+if {![info exists universal_possible]} {
+    set universal_possible [expr {${os.universal_supported} && [llength ${configure.universal_archs}] >= 2}]
+}
+# uses g-ir-scanner, which uses $CC from env
+if {${universal_possible} && [variant_isset universal]} {
+    foreach arch ${configure.universal_archs} {
+        lappend merger_build_env(${arch})  "CC=${configure.cc} -arch ${arch}"
+        lappend merger_destroot_env(${arch})  "CC=${configure.cc} -arch ${arch}"
+    }
+} else {
+    build.env-append       "CC=${configure.cc} ${configure.cc_archflags}"
+    destroot.env-append    "CC=${configure.cc} ${configure.cc_archflags}"
+}
+
+    livecheck.type          none
+} else {
+    livecheck.type          gnome
+    livecheck.name          ${my_name}
+}

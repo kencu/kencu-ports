@@ -1,0 +1,78 @@
+PortSystem 1.0
+
+name		nmap
+version		7.92
+categories	net
+maintainers	darkart.com:opendarwin.org {geeklair.net:dluke @danielluke}
+description	Port scanning utility for large networks
+license		{GPL-2 OpenSSLException}
+homepage	https://nmap.org/
+platforms	darwin freebsd
+
+long_description Nmap is a utility for port scanning large networks, although \
+		 it works fine for single hosts. The guiding philosophy for \
+		 the creation of nmap was TMTOWTDI (There's More Than One Way \
+		 To Do It). This is the Perl slogan, but it is equally \
+		 applicable to scanners. Sometimes you need speed, other \
+		 times you may need stealth. In some cases, bypassing \
+		 firewalls may be required. Not to mention the fact that you \
+		 may want to scan different protocols (UDP, TCP, ICMP, etc.). \
+		 You just can't do all this with one scanning mode. And you \
+		 don't want to have 10 different scanners around, all with \
+		 different interfaces and capabilities.
+
+master_sites	https://nmap.org/dist/
+
+checksums	md5	849f7298a786ce4cd5728db989cff763 \
+		sha1	62342a9a6641833c5c16b7a24ced4bace68c60fb \
+		rmd160	90e066815ff7f9d6e8bffcd6464a22061c150a24 \
+		sha256	a5479f2f8a6b0b2516767d2f7189c386c1dc858d997167d7ec5cfc798c7571a1 \
+		size	10498200
+
+depends_lib	port:libpcap \
+		port:zlib \
+		port:apr
+
+use_bzip2	yes
+
+# https://github.com/macports/macports-ports/pull/11689 nmap's configure
+# still looks for subversion for a feature that no longer exists, so we
+# need --without-subversion here until that gets fixed upstream
+configure.args	--without-zenmap --without-ndiff \
+		--mandir=\\\${prefix}/share/man \
+		--infodir=\\\${prefix}/share/info \
+		--with-liblua=included \
+		--without-subversion
+		
+# https://trac.macports.org/ticket/58837
+# build system does not pass the stdlib on the link line resulting in link errors
+# for some build configurations using non-default stdlib settings
+if {${os.platform} eq "darwin" && ${os.version} < 13} {
+  if {[string match *clang* ${configure.cxx}]} {
+    configure.ldflags-append -stdlib=${configure.cxx_stdlib}
+  }
+}
+
+# nmap's configure script in nselib-bin does not respect --with-liblua=included
+configure.env ac_cv_header_lua_h=no
+
+use_parallel_build	no
+configure.ccache	no
+
+default_variants +ssl +pcre
+
+variant ssl description {build with ssl support} {
+			configure.args-append --with-openssl=${prefix}
+			depends_lib-append path:lib/libssl.dylib:openssl
+		}
+
+variant pcre description {build with pcre support} {
+			configure.args-append --with-pcre=${prefix}
+			depends_lib-append port:pcre
+		}
+
+variant zenmap description {build zenmap in addition to nmap} {
+			configure.args-delete --without-zenmap
+			configure.python ${prefix}/bin/python2.7
+			depends_lib-append port:py27-pygtk
+		}

@@ -1,0 +1,72 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           active_variants 1.1
+PortGroup           gobject_introspection 1.0
+
+name                gcr
+version             3.38.0
+revision            1
+license             LGPL-2
+set branch          [join [lrange [split ${version} .] 0 1] .]
+description         GCR is a library for displaying certificates, and crypto UI, accessing \
+                    key stores.
+long_description    ${description} \
+                    It also provides the viewer for crypto files on the GNOME \
+                    desktop and a library for accessing PKCS#11 modules like smart cards, in a \
+                    (G)object oriented way.
+
+maintainers         {devans @dbevans} openmaintainer
+categories          gnome security
+platforms           darwin
+homepage            https://wiki.gnome.org/Projects/GnomeKeyring
+master_sites        gnome:sources/${name}/${branch}/
+
+use_xz              yes
+
+checksums           rmd160  bfe464c4e7135a1ae753c9c2c93f6b53635f4416 \
+                    sha256  a64cc7b65757fc2cd16de1708d132a16d05cd1f62c6eba436d56fe45d4ba27e1 \
+                    size    1029784
+
+depends_build       port:pkgconfig \
+                    port:autoconf \
+                    port:automake \
+                    port:libtool \
+                    port:gtk-doc
+
+depends_lib         port:desktop-file-utils \
+                    path:lib/pkgconfig/glib-2.0.pc:glib2 \
+                    port:gtk3 \
+                    port:gnupg2 \
+                    port:p11-kit \
+                    port:libgcrypt \
+                    port:vala
+
+gobject_introspection yes
+
+patchfiles          patch-ui-gcr.pc.in.diff
+
+# gcr uses X11 specific code in UI (#41839)
+# https://bugzilla.gnome.org/show_bug.cgi?id=734366
+# https://bugzilla.gnome.org/show_bug.cgi?id=688678
+
+require_active_variants port:gtk3 x11
+
+configure.cmd       ./autogen.sh
+
+configure.args      --enable-vala=yes \
+                    --disable-maintainer-mode \
+                    --disable-valgrind \
+                    --disable-schemas-compile \
+                    --disable-update-mime \
+                    --disable-update-icon-cache \
+                    --disable-silent-rules
+
+post-activate {
+    system "${prefix}/bin/glib-compile-schemas ${prefix}/share/glib-2.0/schemas"
+    system "${prefix}/bin/update-desktop-database ${prefix}/share/applications"
+    system "${prefix}/bin/gtk-update-icon-cache-3.0 -f -t ${prefix}/share/icons/hicolor"
+    system "${prefix}/bin/update-mime-database ${prefix}/share/mime"
+}
+
+livecheck.type      gnome

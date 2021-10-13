@@ -1,0 +1,115 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           clang_dependency 1.0
+
+github.setup        rockdaboot libpsl 0.21.1
+# when incrementing version or revision please check
+# that psl_data_commit and psl_data_date refer to latest
+# publicsuffix/list git master commit
+revision            2
+license             MIT
+description         A C library and utility to handle the Public Suffix List
+long_description    ${description}
+maintainers         nomaintainer
+categories          net
+platforms           darwin
+
+github.tarball_from releases
+set main_distfile   ${distfiles}
+
+set psl_data_commit     ba7dc5b6b41bcd3c1c97a35f836ab49bcc42e5a2
+set psl_data_date       20210726
+set psl_data_worksrcdir list-${psl_data_commit}
+set psl_data_distname   publicsuffix-list-[string range ${psl_data_commit} 0 6]
+set psl_data_distfile   ${psl_data_distname}${extract.suffix}
+
+version             ${version}-${psl_data_date}
+
+distfiles           ${main_distfile}:main \
+                    ${psl_data_distfile}:list
+
+master_sites        ${github.master_sites}:main \
+                    https://github.com/publicsuffix/list/archive/${psl_data_commit}:list
+
+checksums           ${main_distfile} \
+                    rmd160  1abd98152f3e4b2a7f2b647beea335867ec63cf3 \
+                    sha256  ac6ce1e1fbd4d0254c4ddb9d37f1fa99dec83619c1253328155206b896210d4c \
+                    size    9199351 \
+                    ${psl_data_distfile} \
+                    rmd160  8c760c0b2e4b7c86699bc0b0acffa6df58046c94 \
+                    sha256  cd1c08635ecaf8c3a5b75094222910eb7b368848a37c0c5fc542868e4c47e547 \
+                    size    106855
+
+# Please note this port is (indirectly, via cmake) a dependency of the
+# various clang-X ports. When updating the port versions (e.g. python)
+# used here make sure to ensure that the new port being used uses the
+# clang_dependency PortGroup to avoid circular dependencies whilst building.
+# See e.g. https://trac.macports.org/ticket/60419
+
+set py_ver          3.9
+set py_ver_nodot    [string map {. {}} ${py_ver}]
+
+depends_build-append \
+                    port:pkgconfig \
+                    port:python${py_ver_nodot}
+
+depends_lib-append  \
+                    port:gettext \
+                    port:libiconv \
+                    port:libidn2 \
+                    port:libunistring
+
+license_noconflict  python${py_ver_nodot}
+
+post-extract {
+    # Replace older bundled publicsuffix list.
+    delete ${worksrcpath}/list
+    move ${workpath}/${psl_data_worksrcdir} ${worksrcpath}/list
+}
+
+post-patch {
+    reinplace "s|^#!.*|#!${prefix}/bin/python${py_ver}|" \
+        ${worksrcpath}/src/psl-make-dafsa
+}
+
+configure.python    ${prefix}/bin/python${py_ver}
+
+configure.args      --enable-builtin=libidn2 \
+                    --enable-runtime=libidn2 \
+                    --disable-silent-rules
+
+subport libpsl-docs {
+    description         GTK docs for libpsl.
+    long_description    ${description}
+}
+
+if {${subport} eq ${name}} {
+
+    configure.args-append \
+        --disable-gtk-doc \
+        --disable-gtk-doc-html \
+        --disable-gtk-doc-pdf
+
+    notes "libpsl API documentation is provided by the port 'libpsl-docs'."
+
+} else {
+
+    depends_build-append \
+        port:gtk-doc
+
+    depends_lib-append \
+        port:libpsl
+
+    configure.args-append \
+        --enable-gtk-doc
+
+    post-destroot {
+        delete ${destroot}${prefix}/bin \
+            ${destroot}${prefix}/include \
+            ${destroot}${prefix}/lib \
+            ${destroot}${prefix}/share/man
+
+    }
+}

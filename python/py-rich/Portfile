@@ -1,0 +1,55 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-rich
+version             10.11.0
+platforms           darwin
+license             MIT
+supported_archs     noarch
+
+maintainers         {@harens gmail.com:harensdeveloper} \
+                    openmaintainer
+
+description         Python library for rich text and beautiful formatting \
+                    in the terminal
+long_description    {*}${description}. The Rich API makes it easy to add color \
+                    and style to terminal output. Rich can also render pretty tables, \
+                    progress bars, markdown, syntax highlighted source code, tracebacks, \
+                    and more — out of the box.
+
+homepage            https://rich.readthedocs.io/en/latest/
+
+checksums           rmd160 ba717645286bd14053e90266a7689f8d33b09856 \
+                    sha256 016fa105f34b69c434e7f908bb5bd7fefa9616efdb218a2917117683a6394ce5 \
+                    size   195164
+
+python.versions     36 37 38 39
+
+if {${name} ne ${subport}} {
+
+    depends_build-append \
+                        port:py${python.version}-setuptools
+
+    depends_run-append  port:py${python.version}-colorama \
+                        port:py${python.version}-commonmark \
+                        port:py${python.version}-pygments
+
+    if {${python.version} < 38} {
+        depends_run-append \
+                        port:py${python.version}-typing_extensions
+    }
+
+    # Separate if statment since we want typing_extensions for py36 as well.
+    if {${python.version} eq 36} {
+        depends_run-append \
+                        port:py${python.version}-dataclasses
+    }
+
+    test.run            yes
+    test.cmd            ${python.bin}
+    test.target         -m rich
+
+    livecheck.type      none
+}

@@ -1,0 +1,29 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           meson 1.0
+
+name                libmpdclient
+version             2.18
+set branch          [join [lrange [split ${version} .] 0 0] .]
+categories          audio
+maintainers         {lbschenkel @lbschenkel} openmaintainer
+description         libmpdclient is a stable, documented, asynchronous API library for interfacing MPD in the C, C++ & Objective C languages.
+long_description    ${description}
+license             BSD
+homepage            https://www.musicpd.org/libs/${name}/
+master_sites        https://www.musicpd.org/download/${name}/${branch}/
+platforms           darwin
+use_xz              yes
+checksums           rmd160  5def195263e827c826bdad7fcbc06b1b8ab2dadb \
+                    sha256  4cb01e1f567e0169aca94875fb6e1200e7f5ce35b63a4df768ec1591fb1081fa \
+                    size    67236
+
+livecheck.url       http://www.musicpd.org/download/${name}/${branch}/
+livecheck.regex     "${name}-(\\d+(?:\\.\\d+)*)"
+
+post-destroot {
+    # change @rpath to absolute path
+    set lib ${prefix}/lib/libmpdclient.2.dylib
+    system "install_name_tool -id ${lib} ${destroot}${lib}"
+}

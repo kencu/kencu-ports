@@ -1,0 +1,40 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        strophe libstrophe 0.10.1
+revision            0
+checksums           rmd160  a28ca3c97ee7883e979e14313c13a096732a5694 \
+                    sha256  28a1634a61ccfa9d1073041428c5a6b00280d5017c1cef9d7528f1f8504b3774 \
+                    size    173603
+
+categories          net
+platforms           darwin
+maintainers         nomaintainer
+description         A simple, lightweight C library for writing XMPP clients
+homepage            https://strophe.im/libstrophe/
+license             {GPL-3 MIT}
+
+long_description    libstrophe is a lightweight XMPP client library written in C. \
+                    It has minimal dependencies and is configurable for various \
+                    environments. It runs well on both Linux, Unix, and Windows \
+                    based platforms.
+
+depends_build       port:m4 \
+                    port:pkgconfig
+
+depends_lib         port:expat \
+                    path:lib/libssl.dylib:openssl
+
+use_autoreconf      yes
+
+variant libxml description {Use libxml for XML parsing} {
+    depends_lib-delete     port:expat
+    depends_lib-append     port:libxml2
+    configure.args-append  --with-libxml2
+}
+
+post-destroot {
+    delete ${destroot}${prefix}/lib/libstrophe.a
+}

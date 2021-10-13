@@ -1,0 +1,41 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               php 1.1
+
+name                    php-event
+categories-append       devel
+platforms               darwin
+maintainers             {ryandesign @ryandesign} openmaintainer
+license                 PHP-3.01
+
+php.branches            5.4 5.5 5.6 7.0 7.1 7.2 7.3 7.4 8.0
+php.pecl                yes
+
+if {[vercmp ${php.branch} 5.4] >= 0} {
+    version             3.0.6
+    revision            0
+    checksums           rmd160  2e0ceae210a9ebd6ad6dd7fd00160af3fe38fdfc \
+                        sha256  04de37c3274f40109595adbd6283ea29256285264290b00880365bf8235079cc \
+                        size    198565
+}
+
+description             efficiently schedule I/O, time and signal based events
+
+long_description        PECL extension to ${description} using libevent.
+
+if {${name} ne ${subport}} {
+    depends_lib-append  port:libevent \
+                        path:lib/libssl.dylib:openssl \
+                        port:${php}-sockets
+
+    configure.args-append \
+                        --with-event-libevent-dir=${prefix}
+
+    if {[vercmp ${php.branch} 7.4] < 0} {
+        configure.args-append \
+                        --with-openssl-dir=${prefix}
+    } else {
+        depends_build-append    port:pkgconfig
+    }
+}

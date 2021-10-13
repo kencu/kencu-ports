@@ -1,0 +1,38 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+github.setup        ryan-roemer sphinx-bootstrap-theme 0.8.0 v
+name                py-sphinx-bootstrap-theme
+revision            0
+
+platforms           darwin
+supported_archs     noarch
+license             MIT
+maintainers         nomaintainer
+
+description         Sphinx bootstrap theme.
+long_description    ${description}
+
+checksums           rmd160  5bb192a3d03199f910a54f2382f87873f1f65281 \
+                    sha256  a344b1fa5c1f4f465b318dc328b70ab8685a0030c6f48b5b8ae4bf3829d2e710 \
+                    size    1227328
+
+python.versions     27 36 37 38 39
+
+if {${subport} ne ${name}} {
+    depends_lib-append \
+                    port:py${python.version}-setuptools
+
+    post-destroot {
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath} README.rst \
+            LICENSE.txt HISTORY.rst ${destroot}${docdir}
+    }
+
+    livecheck.type  none
+}
+

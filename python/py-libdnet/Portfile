@@ -1,0 +1,51 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                py-libdnet
+version             1.12
+
+categories          python net
+license             BSD
+maintainers         nzbox.com:msavory consault.com:chris.owen
+platforms           darwin
+
+description         A python module for the libdnet low-level networking library.
+long_description    Libdnet provides a simplified, portable interface to several low-level \
+                    networking routines, including: network address manipulation, kernel \
+                    arp(4) cache and route(4) table lookup and manipulation, network \
+                    firewalling (IP filter, ipfw, ipchains, pf, ...), network interface \
+                    lookup and manipulation, raw IP packet and Ethernet frame transmission.
+
+homepage            https://code.google.com/p/libdnet/
+master_sites        googlecode
+extract.suffix      .tgz
+distname            libdnet-${version}
+dist_subdir         libdnet
+
+checksums           rmd160  4b849f07c3513522fda65af067928b7e6d504aab \
+                    sha256  83b33039787cf99990e977cef7f18a5d5e7aaffc4505548a83d31bd3515eb026 \
+                    size    970125
+
+subport py27-libdnet {
+    set python.bin	${prefix}/bin/python2.7
+    set python.prefix  ${frameworks_dir}/Python.framework/Versions/2.7
+    depends_lib-append  port:python27
+}
+
+if {$subport ne $name} {
+    depends_lib-append  port:libdnet
+
+    # libdnet is not universal
+    universal_variant       no
+
+    pre-destroot {
+        worksrcdir	${worksrcdir}/python
+    }
+    destroot.cmd		${python.bin} setup.py --no-user-cfg install
+    destroot.destdir	--prefix=${python.prefix} --root=${destroot}
+
+    livecheck.type  none
+} else {
+    livecheck.regex "libdnet-(\\d+(?:\\.\\d+)*)${extract.suffix}"
+}

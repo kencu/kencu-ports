@@ -1,0 +1,91 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-sunpy
+version             3.0.1
+revision            0
+categories          python
+license             BSD
+maintainers         {mps @Schamschula} openmaintainer
+description         SunPy is an open-source Python library for Solar Physics data \
+                    analysis and visualization.
+long_description    {*}${description}
+platforms           darwin
+homepage            https://sunpy.org
+
+python.versions     37 38 39
+
+checksums           rmd160  d4f961e57ec0425f75b859fcc01a1b2a44d5e644 \
+                    sha256  5a9aa4080c0361be8bf96e154c2ff56ae1956db967358c01c5b93eb596c0881c \
+                    size    7532016
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-extension-helpers \
+                    port:py${python.version}-setuptools_scm
+
+    depends_lib-append \
+                    port:py${python.version}-astropy \
+                    port:py${python.version}-numpy \
+                    port:py${python.version}-parfive
+
+    variant asdf {
+        depends_lib-append \
+                    port:py${python.version}-pyasdf
+    }
+
+    variant dask {
+        depends_lib-append \
+                    port:py${python.version}-dask
+    }
+
+    variant database {
+        depends_lib-append \
+                    port:py${python.version}-sqlalchemy
+    }
+
+    variant image {
+        depends_lib-append \
+                    port:py${python.version}-scikit-image
+    }
+
+    variant map {}
+
+    variant net {
+        depends_lib-append \
+                    port:py${python.version}-beautifulsoup4 \
+                    port:py${python.version}-dateutil \
+                    port:py${python.version}-drms \
+                    port:py${python.version}-tqdm \
+                    port:py${python.version}-zeep
+    }
+
+    variant timeseries {
+        depends_lib-append \
+                    port:py${python.version}-h5netcdf
+    }
+
+    variant visualization {}
+
+    if {[variant_isset map] || [variant_isset timeseries] \
+            || [variant_isset visualization]} {
+        depends_lib-append \
+                    port:py${python.version}-matplotlib
+    }
+
+    if {[variant_isset net] || [variant_isset timeseries]} {
+        depends_lib-append \
+                    port:py${python.version}-pandas
+    }
+
+    if {[variant_isset image] || [variant_isset map]} {
+        depends_lib-append \
+                    port:py${python.version}-scipy
+    }
+
+    default_variants +database +image +map +net +timeseries +visualization
+
+    livecheck.type  none
+}

@@ -1,0 +1,36 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                fpc-sources
+version             3.2.0
+categories          lang
+platforms           darwin
+license             GPL-2 LGPL-2
+supported_archs     noarch
+maintainers         {@kamischi web.de:karl-michael.schindler} openmaintainer
+description         Sources of the FreePascal compiler
+long_description    Sources of the compiler, the runtime library (rtl), \
+                    packages and utils. Used by lazarus.
+homepage            http://www.freepascal.org
+master_sites        sourceforge:freepascal
+
+dist_subdir         ${name}/${version}/source
+distname            fpc-${version}
+extract.suffix      .source${extract.suffix}
+checksums           rmd160  bc2ece054dcf5f90649f81f4b3a95625e6be15c1 \
+                    sha256  d595b72de7ed9e53299694ee15534e5046a62efa57908314efa02d5cc3b1cf75 \
+                    size    52028183
+
+use_configure       no
+build               {}
+
+# Using file copy instead of xinstall, since it works recursively
+destroot {
+    xinstall -d                       ${destroot}${prefix}/share/fpcsrc
+    file copy ${worksrcpath}/compiler ${destroot}${prefix}/share/fpcsrc
+    file copy ${worksrcpath}/rtl      ${destroot}${prefix}/share/fpcsrc
+    file copy ${worksrcpath}/packages ${destroot}${prefix}/share/fpcsrc
+    file copy ${worksrcpath}/utils    ${destroot}${prefix}/share/fpcsrc
+    system "chmod -R 755              ${destroot}${prefix}/share/fpcsrc/*"
+}

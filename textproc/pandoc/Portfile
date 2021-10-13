@@ -1,0 +1,57 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           compiler_blacklist_versions 1.0
+PortGroup           haskell_stack 1.0
+
+github.setup        jgm pandoc 2.14.2
+revision            0
+categories          textproc haskell
+platforms           darwin
+license             GPL-3
+maintainers         nomaintainer
+
+description         Conversion between markup formats
+
+long_description    Pandoc is a Haskell library for converting from \
+                    one markup format to another, and a command-line \
+                    tool that uses this library. It can read markdown \
+                    and (subsets of) HTML, reStructuredText, LaTeX, \
+                    DocBook, MediaWiki markup, and Textile, and it can \
+                    write markdown, reStructuredText, HTML, LaTeX, \
+                    ConTeXt, Docbook, OpenDocument, ODT, Word docx, \
+                    RTF, MediaWiki, Textile, groff man pages, plain \
+                    text, Emacs Org-Mode, AsciiDoc, EPUB (v2 and v3), \
+                    FictionBook2, and S5, Slidy and Slideous HTML \
+                    slide shows.
+
+homepage            https://pandoc.org
+
+checksums           rmd160  b5480da275d14ee4d650438e94f8c978b3faa26b \
+                    sha256  1fd0fd58308345783d6fbbb1000c4b61a3a8dbf79405c209456d6289e1f3decd \
+                    size    6231975
+
+configure.ccache    no
+
+test.run            yes
+test.args           --test-arguments='-p markdown'
+
+compiler.blacklist-append \
+                   {clang < 900}
+
+post-destroot {
+    xinstall -d ${destroot}${prefix}/share/doc
+    copy ${worksrcpath}/doc ${destroot}${prefix}/share/doc/${subport}
+    xinstall -m 0644 -W ${worksrcpath} \
+        AUTHORS.md \
+        BUGS \
+        CONTRIBUTING.md \
+        COPYING.md \
+        COPYRIGHT \
+        MANUAL.txt \
+        README.md \
+        ${destroot}${prefix}/share/doc/${subport}
+    xinstall -m 0644 ${worksrcpath}/man/pandoc.1 \
+        ${destroot}${prefix}/share/man/man1
+}

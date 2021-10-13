@@ -1,0 +1,66 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem 1.0
+
+name                file
+version             5.40
+checksums           rmd160  3990b2569c28aaa6ab83ab9e2462f915a2ada422 \
+                    sha256  167321f43c148a553f68a0ea7f579821ef3b11c27b8cbe158e4df897e4a5dd57 \
+                    size    1004214
+
+categories          sysutils
+license             BSD
+maintainers         {ryandesign @ryandesign} openmaintainer
+description         File - determine file type
+long_description \
+    File tests each argument in an attempt to classify it. There are three  \
+    sets of tests, performed in this order: filesystem tests, magic number  \
+    tests, and language tests. The first test that succeeds causes the file \
+    type to be printed. \
+    For information on Mach-O binaries, it is suggested that one uses the command \
+    `otool -fv`.
+
+homepage            http://www.darwinsys.com/file/
+platforms           darwin
+master_sites        freebsd \
+                    gentoo \
+                    ftp://ftp.fu-berlin.de/unix/tools/${name}/ \
+                    ftp://ftp.astron.com/pub/${name}/ \
+                    ftp://ftp.gw.com/mirrors/pub/unix/${name}/
+
+patchfiles          patch-magic-Makefile.am.diff \
+                    patch-getline.diff \
+                    patch-daylight.diff
+
+configure.args      --disable-silent-rules \
+                    --enable-fsect-man5
+
+depends_lib         port:zlib
+
+use_autoreconf      yes
+autoreconf.args     -fvi
+
+if {${name} eq ${subport}} {
+    revision            0
+
+    depends_lib-append port:libmagic
+    
+    destroot {
+        xinstall -W ${worksrcpath}/src/.libs file ${destroot}${prefix}/bin
+        xinstall -m 0644 -W ${worksrcpath}/doc file.1 ${destroot}${prefix}/share/man/man1
+    }
+    
+    livecheck.type      regex
+    livecheck.url       ftp://ftp.astron.com/pub/${name}/
+    livecheck.regex     ${name}-(\\d+(?:\\.\\d+)*)${extract.suffix}
+} else {
+    livecheck.type      none
+}
+
+subport libmagic {
+    revision            0
+
+    post-destroot {
+        delete ${destroot}${prefix}/bin/file ${destroot}${prefix}/share/man/man1/file.1
+    }
+}

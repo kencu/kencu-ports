@@ -1,0 +1,49 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+PortSystem          1.0
+PortGroup           ocaml 1.1
+PortGroup           github 1.0
+
+github.setup        garrigue labltk 8.06.10
+name                ocaml-labltk
+revision            0
+categories          graphics devel ocaml
+license             {LGPL-2.1 OpenSSLException}
+maintainers         nomaintainer
+description         OCaml interface to the Tcl/Tk GUI framework
+long_description    LablTk is an interface to the Tcl/Tk GUI framework. It \
+                    allows to develop GUI applications in a speedy and type \
+                    safe way. A legacy Camltk interface is included. The \
+                    OCamlBrowser library viewer is also part of this project.
+
+homepage            https://garrigue.github.io/labltk/
+
+platforms           darwin
+
+checksums           rmd160  12d8d219a42dcf93093f52f57868a380e878489e \
+                    sha256  16a547afb9e638fa7fce971fbdac5e4350d2234353de170317f64f8661410a74 \
+                    size    371922
+
+# in searching for headers and libraries, search ${prefix} first
+patchfiles-append   patch-configure.diff
+post-patch {
+    reinplace "s|__MACPORTS_PREFIX__|${prefix}|g" ${worksrcpath}/configure
+}
+
+depends_lib-append  port:tcl \
+                    port:tk
+
+configure.pre_args  -libdir ${prefix}/lib/ocaml \
+                    --verbose \
+                    --tk-no-x11 \
+                    -tklibs -L${prefix}/lib -tkdefs -I${prefix}/include
+
+use_parallel_build  no
+
+pre-destroot {
+    xinstall -m 755 -d ${destroot}${prefix}/lib/ocaml/stublibs
+}
+
+build.target-append opt
+destroot.destdir    INSTALLDIR=${destroot}${prefix}/lib/ocaml/labltk \
+                    INSTALLBINDIR=${destroot}${prefix}/bin \
+                    STUBLIBDIR=${destroot}${prefix}/lib/ocaml/stublibs

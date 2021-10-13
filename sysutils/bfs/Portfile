@@ -1,0 +1,39 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           legacysupport 1.0
+PortGroup           compiler_blacklist_versions 1.0
+PortGroup           github 1.0
+PortGroup           makefile 1.0
+
+# Need openat(), unlinkat(), fdopendir()
+legacysupport.newest_darwin_requires_legacy 13
+
+github.setup        tavianator bfs 2.2.1
+
+categories          sysutils
+platforms           darwin freebsd linux
+license             BSD
+maintainers         {@ylluminarious orbitalimpact.com:georgedp} \
+                    {@judaew outlook.de:judaew} openmaintainer
+description         A breadth-first version of the UNIX find command.
+homepage            https://tavianator.com/projects/bfs.html
+
+long_description    bfs is a variant of the UNIX find command that operates breadth-first rather \
+    than depth-first. It is otherwise intended to be compatible with many \
+    versions of find, including: POSIX find, GNU find, BSD find and macOS find. \
+    If you're not familiar with find, the GNU find manual provides a good introduction.
+
+checksums           rmd160  69e1fc337e941c7a4396b80e921ed91ea67a5d3a \
+                    sha256  a3d625482ea4f84130c5f3ba4b37196638516909a445003dbba398d3322d1b34 \
+                    size    139274
+
+# clang: error: unable to execute command: Segmentation fault: 11
+compiler.blacklist  {clang < 500}
+
+configure.cppflags  -DNDEBUG
+
+build.target        bfs
+
+test.run            yes
+test.target         check

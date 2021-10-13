@@ -1,0 +1,40 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+PortGroup           makefile 1.0
+
+name                bs
+version             2.11
+revision            0
+
+homepage            http://www.catb.org/~esr/bs/
+
+categories          games
+license             GPL-2
+maintainers         nomaintainer
+description         ncurses version of Battleship
+long_description \
+    The classic game of Battleships against the computer. Uses \
+    character-cell graphics with a visual point-and-shoot interface. \
+    If you're using an xterm under Linux the mouse will work.
+
+platforms           darwin
+
+master_sites        ${homepage}
+
+checksums           rmd160  a4747e68d9648bc8a89286ccd05c3699464f12d1 \
+                    sha256  a53e22a94ed590a3e6720816f8b5750134fa004e7e738e0b123b77ac9668b026 \
+                    size    14967
+
+patch {
+    reinplace "s|/usr|${prefix}|g" ${worksrcpath}/Makefile
+}
+
+build.target        ${name}
+
+makefile.has_destdir \
+                    yes
+
+livecheck.type      regex
+livecheck.regex     ${name}-(\[0-9.\]+)\\.tar

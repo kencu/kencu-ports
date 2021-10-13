@@ -1,0 +1,124 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        OpenRCT2 OpenRCT2 0.3.4.1 v
+github.tarball_from archive
+name                openrct2
+revision            0
+
+categories          games
+platforms           darwin
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+license             {GPL-3+ CC-BY-4}
+
+description         An open-source re-implementation of RollerCoaster Tycoon 2.
+long_description    ${description} A construction and management simulation \
+                    video game that simulates amusement park management. Requires \
+                    files from the original RollerCoaster Tycoon 2 in order to work.
+
+extract.suffix      .zip
+use_zip             yes
+
+set main_distfile       ${distfiles}
+
+set objects_distfile    objects${extract.suffix}
+set objects_mastersite  https://github.com/${github.author}/objects/releases/download/v1.0.21
+
+set ts_distfile         title-sequences${extract.suffix}
+set ts_mastersite       https://github.com/${github.author}/title-sequences/releases/download/v0.1.2c
+
+distfiles           ${main_distfile}:main \
+                    ${objects_distfile}:objects \
+                    ${ts_distfile}:ts
+
+master_sites        ${github.master_sites}:main \
+                    ${objects_mastersite}:objects \
+                    ${ts_mastersite}:ts
+
+checksums           ${main_distfile} \
+                    rmd160  503ffbb3fd137cbb8e400876ca5aadc824ca92a5 \
+                    sha256  f84d22158e32ffadf824b75a6a5c8e7dee37e8feb12b8e91fa75603dae820834 \
+                    size    16398477 \
+                    ${objects_distfile} \
+                    rmd160  1f826ad19c5c42a3706b1796702882298b3a3e64 \
+                    sha256  b081f885311f9afebc41d9dd4a68b7db4cf736eb815c04e307e1a426f08cfa35 \
+                    size    3159059 \
+                    ${ts_distfile} \
+                    rmd160  a0d44e1790a67e7400927fe567aa4814403ea5ee \
+                    sha256  5284333fa501270835b5f0cf420cb52155742335f5658d7889ea35d136b52517 \
+                    size    2980030
+
+patchfiles          patch-jsonfwd-hpp.diff
+
+# requires 10.11 or newer at present
+# see https://trac.macports.org/ticket/55591
+if { ${os.platform} eq "darwin" && ${os.major} < 15 } {
+    known_fail      yes
+    pre-fetch {
+        ui_error "${name} requires OS X 10.11 or later"
+        return -code error "incompatible OS version"
+    }
+}
+
+depends_build-append \
+                    port:pkgconfig
+
+depends_lib-append  port:libsdl2 \
+                    path:lib/libssl.dylib:openssl \
+                    port:jansson \
+                    port:libpng \
+                    port:libsdl2_ttf \
+                    port:speexDSP \
+                    port:libzip \
+                    port:curl \
+                    port:freetype \
+                    port:libiconv \
+                    port:nlohmann-json
+
+compiler.cxx_standard       2017
+configure.cxxflags-append   -std=c++17
+
+post-extract {
+    file mkdir ${worksrcpath}/data/sequence
+    move {*}[glob -nocomplain ${workpath}/*.parkseq] \
+        ${worksrcpath}/data/sequence
+    file mkdir ${worksrcpath}/data/object
+    move ${workpath}/official {*}[glob -nocomplain ${workpath}/rct*] \
+        ${worksrcpath}/data/object
+}
+
+post-patch {
+    reinplace "s|-Werror||" CMakeLists.txt
+    reinplace "s|git describe HEAD|echo v${version}|" CMakeLists.txt
+    reinplace "s|git rev-parse --abbrev-ref HEAD|echo master|" CMakeLists.txt
+    reinplace "s|git rev-parse --short HEAD|echo 0000000|" CMakeLists.txt
+}
+
+configure.args-append \
+    -DDISABLE_DISCORD_RPC=ON \
+    -DDISABLE_GOOGLE_BENCHMARK=ON \
+    -DDISABLE_HTTP=OFF \
+    -DDISABLE_NETWORK=OFF \
+    -DDOWNLOAD_OBJECTS=OFF \
+    -DDOWNLOAD_REPLAYS=OFF \
+    -DDOWNLOAD_TITLE_SEQUENCES=OFF \
+    -DENABLE_SCRIPTING=OFF \
+    -DENABLE_LIGHTFX=ON \
+    -DPORTABLE=OFF \
+    -DSTATIC=OFF \
+    -DUSE_MMAP=ON \
+    -DMACOS_USE_DEPENDENCIES=OFF
+
+# prevent unctrl.h from loading - it brings in an error regarding undefined SCREEN*
+# if MacPorts ncurses has been installed
+configure.cppflags-append -DNCURSES_UNCTRL_H_incl
+
+configure.cppflags-append -Wno-deprecated-declarations
+configure.cppflags-append -Wno-range-loop-analysis
+
+notes "
+OpenRCT2 requires files from the original RollerCoaster Tycoon 2 in order to work.
+"

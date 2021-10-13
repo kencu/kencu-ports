@@ -1,0 +1,41 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-h11
+version             0.11.0
+revision            0
+
+categories-append   net www
+platforms           darwin
+supported_archs     noarch
+license             MIT
+maintainers         nomaintainer
+
+description         A pure-Python, bring-your-own-I/O implementation of HTTP/1.1
+long_description    \
+    This is a little HTTP/1.1 library written from scratch in Python, heavily \
+    inspired by hyper-h2.
+
+homepage            https://github.com/python-hyper/h11
+
+checksums           rmd160  b931c83cd3ee3724aaf4d89c2a9b8f2fe3a39ba4 \
+                    sha256  3c6c61d69c6f13d41f1b80ab0322f1872702a3ba26e12aa864c928f6a43fbaab \
+                    size    97509
+
+python.versions     27 36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    depends_test-append \
+                    port:py${python.version}-pytest
+
+    test.run        yes
+    test.cmd        py.test-${python.branch}
+    test.target     h11
+
+    livecheck.type  none
+}

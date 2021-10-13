@@ -1,0 +1,69 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        kornelski pngquant 2.15.1
+revision            0
+categories          graphics
+platforms           darwin
+maintainers         nomaintainer
+license             GPL-3+
+
+description         command-line utility and library for lossy compression of PNG images
+
+long_description    pngquant is a ${description}. \
+                    The conversion reduces file sizes significantly (often as \
+                    much as 70%) and preserves full alpha transparency. \
+                    Generated images are compatible with all modern web \
+                    browsers, and have better fallback in IE6 than 24-bit PNGs.
+
+homepage            http://pngquant.org/
+master_sites        ${homepage}
+distfiles           ${name}-${version}-src${extract.suffix}
+
+checksums           rmd160  176bf2be42152a7bddd3c4dbd7716cd39abd6072 \
+                    sha256  718aabbc346b82ed93564d8e757b346988d86de268ee03d2904207cd5d64c829 \
+                    size    149278
+
+depends_lib-append  port:libpng \
+                    port:lcms2 \
+                    port:zlib
+                    
+depends_build-append \
+                    path:bin/pkg-config:pkgconfig
+
+compiler.c_standard 1999
+
+pre-configure {
+    # The configure script will not pick up the compiler correctly from an envvar
+    configure.args-append   CC=${configure.cc}
+}
+
+# Not a default variant because running many pngquant processes in parallel, one for each image,
+# is probably a common use case. This is more efficient than parallelization within a process.
+variant openmp description {Build with OpenMP support} {
+    compiler.openmp_version 3.0
+    configure.args-append   --with-openmp
+}
+
+variant debug description {Enable debug binaries} {
+    configure.args-append   --enable-debug
+}
+
+post-destroot {
+    set docdir ${prefix}/share/doc/${subport}
+    xinstall -d ${destroot}${docdir}
+    xinstall -m 644 -W ${worksrcpath} \
+        CHANGELOG \
+        COPYRIGHT \
+        README.md \
+        ${destroot}${docdir}
+}
+
+test.run            yes
+test.target         test
+
+livecheck.type      regex
+livecheck.url       ${homepage}releases.html
+livecheck.regex     ${name}-(\[0-9.\]+)-src${extract.suffix}

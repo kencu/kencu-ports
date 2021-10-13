@@ -1,0 +1,28 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Mail-AuthenticationResults 1.20200824.1
+license             {Artistic-1 GPL}
+maintainers         {devans @dbevans} openmaintainer
+categories-append   mail
+description         Mail::AuthenticationResults - Object Oriented Authentication-Results Headers
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  4ad1489932ee21b34eb93e4a1b04d02a75d162ec \
+                    sha256  33baa8e29fab0e86cdb4790d009cc59f7225672516682bc72b2d4c1f86a11e9a \
+                    size    30880
+
+if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-test-exception
+
+    depends_lib-append \
+                    port:p${perl5.major}-json
+
+    supported_archs noarch
+}

@@ -1,0 +1,33 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-pycparser
+version             2.20
+revision            0
+categories-append   devel
+platforms           darwin
+license             BSD
+supported_archs     noarch
+
+python.versions     27 35 36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         pycparser is a complete parser of the C language.
+
+long_description    pycparser is a complete parser of the C language, \
+                    written in pure Python using the PLY parsing library. \
+                    It parses C code into an AST and can serve \
+                    as a front-end for C compilers or analysis tools.
+
+homepage            https://github.com/eliben/pycparser
+
+checksums           rmd160  84c1efb5f614e9e2f978d2caa2a2ed1bc2785467 \
+                    sha256  2d475327684562c3a96cc71adf7dc8c4f0565175cf86b6d7a404ff4c771f15f0 \
+                    size    161330
+
+if {${name} ne ${subport}} {
+    livecheck.type      none
+}

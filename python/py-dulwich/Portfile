@@ -1,0 +1,50 @@
+
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+github.setup        dulwich dulwich 0.20.24 dulwich-
+name                py-dulwich
+categories-append   devel
+maintainers         {lbschenkel @lbschenkel} openmaintainer
+platforms           darwin
+license             GPL-2+
+
+description         Pure-Python Git Library
+long_description    Simple Pure-Python implementation of the Git file \
+                    formats and protocols. Dulwich is the place where \
+                    Mr. and Mrs. Git live in one of the Monty Python sketches.
+
+homepage            https://www.dulwich.io
+
+checksums           rmd160  58303926e0d100177ef296ce58a262fed80221f4 \
+                    sha256  d4aad56da35e97b68c5501faaede5d75d11b7bf4358b5f76218499b7bc8080c4 \
+                    size    406154
+
+python.versions     27 38 39
+
+if {${name} ne ${subport}} {
+    # 0.20 dropped support for Python 2.7
+    if {${python.version} == 27} {
+        github.setup            dulwich dulwich 0.19.16 dulwich-
+        livecheck.type          none
+
+        checksums               rmd160  1029473c8fd18718ef7f4a3dea082a053ee92ca4 \
+                                sha256  6d225b7d5f5a293beb1d0855f41feef74230605ffde7929a5719eed4019cb6d1 \
+                                size    369717
+    } else {
+        livecheck.type          none
+    }
+
+    patchfiles      patch-archflags.diff \
+                    patch-strnlen-lion.diff
+
+    depends_lib-append \
+                    port:py${python.version}-setuptools \
+                    port:py${python.version}-urllib3
+
+    build.target-append build_ext
+    build.args-append   --inplace
+}

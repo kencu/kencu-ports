@@ -1,0 +1,54 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           meson 1.0
+
+# version 3.36.0+ requires gio-2.0 >= 2.60
+# current glib2 is 2.58.3
+
+name                devhelp
+version             3.34.0
+revision            0
+license             GPL-2+
+description         Devhelp is an API documentation browser for GTK+ and GNOME.
+long_description    Devhelp is an API documentation browser for GTK+ and GNOME. It works \
+                    natively with gtk-doc (the API reference framework developed for GTK+ \
+                    and used throughout GNOME for API documentation). If you use gtk-doc \
+                    with your project, you can use Devhelp to browse the documentation.
+
+maintainers         {devans @dbevans} openmaintainer
+categories          gnome
+platforms           darwin
+homepage            https://wiki.gnome.org/Apps/Devhelp
+set branch          [join [lrange [split ${version} .] 0 1] .]
+
+default master_sites {gnome:sources/${name}/${branch}/}
+
+use_xz              yes
+
+checksums           rmd160  3ce87b3e2c518a322ee7bdc9307ca825aadb935b \
+                    sha256  ef920537b0afeaadeece765cdb326e471b0d5c2b2ac646ecf62abef99cb1f57e \
+                    size    288352
+
+depends_build-append \
+                    port:pkgconfig \
+                    port:itstool
+
+depends_lib         port:desktop-file-utils \
+                    port:amtk \
+                    path:lib/pkgconfig/glib-2.0.pc:glib2 \
+                    port:gsettings-desktop-schemas \
+                    port:gtk3 \
+                    path:lib/pkgconfig/webkit2gtk-4.0.pc:webkit2-gtk
+
+depends_run         port:adwaita-icon-theme
+
+patchfiles          patch-disable-version-script.diff
+
+post-activate {
+    system "${prefix}/bin/gtk-update-icon-cache-3.0 -f -t ${prefix}/share/icons/hicolor"
+    system "${prefix}/bin/update-desktop-database ${prefix}/share/applications"
+    system "${prefix}/bin/glib-compile-schemas ${prefix}/share/glib-2.0/schemas"
+}
+
+livecheck.type      gnome

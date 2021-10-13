@@ -1,0 +1,24 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         MIME-Lite 3.031
+license             {Artistic-1 GPL}
+maintainers         nomaintainer
+description         a low-calorie MIME generator
+long_description    ${description}
+platforms           darwin
+supported_archs     noarch
+
+checksums           rmd160  5ccf6ef44de891328206de3688eb8b2db8105c07 \
+                    sha256  f1235866482b67f00858b3edaa4ff4cf909ef900f1d15d889948bf9c03a591e0 \
+                    size    82577
+
+if {${perl5.major} != ""} {
+    depends_lib-append \
+                    port:p${perl5.major}-email-date-format \
+                    port:p${perl5.major}-mailtools \
+                    port:p${perl5.major}-mime-types
+}

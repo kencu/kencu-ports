@@ -1,0 +1,20 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               github 1.0
+
+github.setup            liberfa erfa 2.0.0 v
+revision                0
+categories              science
+maintainers             {mps @Schamschula} openmaintainer
+license                 BSD
+platforms               darwin
+
+description             Essential Routines for Fundamental Astronomy
+long_description        {*}${description}
+
+github.tarball_from     releases
+
+checksums               rmd160  c546408e7844a4b7c13859bc37c586660d7d2935 \
+                        sha256  75cb0a2cc1561d24203d9d0e67c21f105e45a70181d57f158e64a46a50ccd515 \
+                        size    729292

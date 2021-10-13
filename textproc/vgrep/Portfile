@@ -1,0 +1,38 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/vrothberg/vgrep 5.2.2 v
+github.tarball_from archive
+revision            0
+
+description         an easy to use front-end for (git) grep
+
+long_description    vgrep is a command-line tool to search textual patterns \
+                    in directories. It serves as a front-end to grep and \
+                    git-grep and allows to open the indexed matching lines \
+                    in a user-specified editor. vgrep is inspired by the \
+                    ancient cgvg scripts but extended to perform further \
+                    operations such as listing statistics of files and \
+                    directory trees or showing the context lines before and \
+                    after the matches.
+
+categories          textproc
+installs_libs       no
+license             GPL-3
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+
+checksums           rmd160  273f2620841bfa7ef9ef9a565cc4540dc8e5d01f \
+                    sha256  5132ef6b254bfb8535b4021c297aaeafa1e641de5ab3d1ba0e1748586f97d192 \
+                    size    1571756
+
+# Do not need go.vendors as source archive already includes vendored
+# dependencies.
+build.cmd           make
+build.target        release
+
+destroot {
+    xinstall -m 755 ${worksrcpath}/build/${name} ${destroot}${prefix}/bin/
+}

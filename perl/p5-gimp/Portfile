@@ -1,0 +1,34 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Gimp 2.33 ../../authors/id/E/ET/ETJ
+license             GPL-2+
+maintainers         {devans @dbevans} openmaintainer
+description         Gimp Extensions/Plug-ins/Load and Save-Handlers in perl
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  a1839bae4a37a31f81553c23e302b269f8c6a5ad \
+                    sha256  3fcde6b558561538aa4c6a2a885ce46765bddb7cfa09f13f4c79c2ab6c11f84a \
+                    size    443831
+
+if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-extutils-makemaker
+
+    depends_lib-append \
+                    path:lib/libgimpbase-2.0.dylib:gimp2 \
+                    port:p${perl5.major}-alien-gimp \
+                    port:p${perl5.major}-extutils-depends \
+                    port:p${perl5.major}-gtk2 \
+                    port:p${perl5.major}-gtk2-ex-podviewer \
+                    port:p${perl5.major}-html-parser \
+                    port:p${perl5.major}-io-all \
+                    port:p${perl5.major}-io-stringy \
+                    port:p${perl5.major}-pdl \
+                    port:p${perl5.major}-web-scraper
+}

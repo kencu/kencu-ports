@@ -1,0 +1,30 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         DBD-Mock 1.58
+platforms           darwin
+maintainers         nomaintainer
+license             {Artistic-1 GPL}
+supported_archs     noarch
+
+description         DBD::Mock - Mock database driver for testing
+
+long_description    ${description}
+
+checksums           rmd160  f8dfbfba15830b2dc575a4b80b7f8e11fbbcbd48 \
+                    sha256  bb1ebf0124101396e5bb83dead0f14f12dd5f175cb1378a59da5295c62c9c73c \
+                    size    75236
+
+if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-module-build-tiny \
+                    port:p${perl5.major}-test-exception
+
+    depends_lib-append \
+                    port:p${perl5.major}-dbi
+
+    perl5.use_module_build
+}

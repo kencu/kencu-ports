@@ -1,0 +1,44 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           ruby 1.0
+
+# If you update this port, also update the port rb-mini_portile2 to the latest
+# compatible with this port.
+#
+#   ../rb-mini_portile2/Portfile
+#
+ruby.branches       3.0 2.7 2.6 2.5 2.4
+ruby.setup          nokogiri 1.12.5 gem
+revision            0
+maintainers         {kimuraw @kimuraw} \
+                    {outlook.de:judaew @judaew} openmaintainer
+description         Nokogiri is an HTML, XML, SAX, and Reader parser.
+long_description    Nokogiri is an HTML, XML, SAX, and Reader parser. \
+                    Among Nokogiri's many features is the ability to search \
+                    documents via XPath or CSS3 selectors.
+license             MIT
+platforms           darwin
+homepage            https://nokogiri.org
+
+checksums           rmd160  88a5974683061cc26525a38a978e6b606080e932 \
+                    sha256  2b20905942acc580697c8c496d0d1672ab617facb9d30d156b3c7676e67902ec \
+                    size    9588736
+
+if {${name} ne ${subport}} {
+    depends_extract     port:rb${ruby.suffix}-gem-patch
+
+    post-patch {
+        copy ${filespath}/patch-extconf.rb.diff ${worksrcpath}
+        reinplace "s|@@PREFIX@@|${prefix}|g" ${worksrcpath}/patch-extconf.rb.diff
+        system -W ${worksrcpath} "${ruby.gem} patch ${ruby.filename}.gem patch-extconf.rb.diff -o ${ruby.filename}.gem -p0"
+    }
+
+    depends_lib-append  port:libxml2 \
+                        port:libxslt \
+                        port:zlib \
+                        port:libiconv \
+                        port:rb${ruby.suffix}-mini_portile2
+
+    destroot.env-append NOKOGIRI_USE_SYSTEM_LIBRARIES=YES
+}

@@ -1,0 +1,28 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem 1.0
+
+name                libmd
+epoch               1
+version             1.0.3
+categories          devel
+license             BSD ISC Permissive
+platforms           darwin
+maintainers         {raimue @raimue} \
+                    openmaintainer
+
+description         message digest library
+long_description \
+    libmd provides message digest functions commonly found on BSD systems. \
+    Currently supported algorithms include MD2, MD4, MD5, RIPEMD160, SHA1, \
+    SHA256, SHA384, SHA512.
+
+homepage            https://www.hadrons.org/software/libmd/
+master_sites        https://archive.hadrons.org/software/libmd/
+use_xz yes
+
+checksums           rmd160  90f4335f802b30cba2e9020e85871ce054d8b25f \
+                    sha256  5a02097f95cc250a3f1001865e4dbba5f1d15554120f95693c0541923c52af4a \
+                    size    258584
+
+patchfiles          patch-symbol-alias.diff

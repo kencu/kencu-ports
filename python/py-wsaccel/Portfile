@@ -1,0 +1,28 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-wsaccel
+version             0.6.3
+platforms           darwin
+license             Apache-2
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+
+description         Accelerator for ws4py and AutobahnPython
+long_description    {*}${description}
+
+homepage            https://github.com/methane/wsaccel
+
+checksums           rmd160  82bce43e36a2383fda3dda7648126e6ed0e96804 \
+                    sha256  fdb27866bb6b6e7a29e45222778ff97938782a0ce92eff07dfb20af8fb9301c4 \
+                    size    215995
+
+python.versions     38
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+}

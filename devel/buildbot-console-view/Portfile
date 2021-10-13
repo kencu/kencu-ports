@@ -1,0 +1,46 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                buildbot-console-view
+version             3.3.0
+revision            0
+checksums           rmd160  ffe8af5dfba14be36b687426c276ba72f67fbd07 \
+                    sha256  5282824409cf0108dbec5826f98906bf56e85d8fb14839180371361221243461 \
+                    size    18739
+
+categories          devel
+platforms           darwin
+maintainers         {ryandesign @ryandesign} {rajdeep @rajdeepbharati} {mojca @mojca} openmaintainer
+license             GPL-2
+supported_archs     noarch
+
+description         console view plugin for Buildbot web UI
+long_description    {*}${description}
+
+homepage            https://buildbot.net
+
+python.default_version \
+                    39
+
+depends_build-append \
+                    port:buildbot-pkg
+
+depends_run-append  port:buildbot-www
+
+# These obsolete subports can be removed after August 2021.
+set old_subports [list py-${name} py38-${name}]
+foreach old_subport ${old_subports} {
+    subport ${old_subport} {
+        PortGroup   obsolete 1.0
+        replaced_by ${name}
+    }
+}
+pre-activate {
+    foreach old_subport ${old_subports} {
+        if {![catch {set installed [lindex [registry_active ${old_subport}] 0]}]} {
+            registry_deactivate_composite ${old_subport} {} [list ports_nodepcheck 1]
+        }
+    }
+}

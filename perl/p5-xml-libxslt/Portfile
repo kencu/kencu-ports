@@ -1,0 +1,33 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         XML-LibXSLT 1.99
+revision            1
+maintainers         nomaintainer
+license             {Artistic-1 GPL}
+categories-append   textproc
+description         Perl interface to libxslt.
+long_description    This module is an interface to the gnome project's \
+                    libxslt. This is an extremely good XSLT engine, \
+                    highly compliant and also very fast. I have tests \
+                    showing this to be more than twice as fast as Sablotron.
+
+checksums           rmd160  11a3b279b06fef54fc0bd079cbcb09c352d0f942 \
+                    sha256  127e17a877fb61e47b9e8b87bf8daad31339a62a00121f9751d522b438b0f7f0 \
+                    size    114083
+
+platforms           darwin
+
+if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:pkgconfig
+    
+    depends_lib-append \
+                    port:p${perl5.major}-xml-libxml \
+                    port:libxslt \
+                    port:gdbm \
+                    port:icu
+}

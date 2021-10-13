@@ -1,0 +1,31 @@
+diff --git Makefile Makefile
+index f0427f0..3ade051 100644
+--- Makefile
++++ Makefile
+@@ -24,7 +24,7 @@ PLUM_DATA = bin/rime-install \
+ OPENCC_DATA = data/opencc/TSCharacters.ocd2 \
+ 	data/opencc/TSPhrases.ocd2 \
+ 	data/opencc/t2s.json
+-DEPS_CHECK = $(RIME_LIBRARY) $(PLUM_DATA) $(OPENCC_DATA)
++DEPS_CHECK = $(PLUM_DATA)
+ 
+ OPENCC_DATA_OUTPUT = librime/thirdparty/share/opencc/*.*
+ PLUM_DATA_OUTPUT = plum/output/*.*
+@@ -54,7 +54,7 @@ copy-rime-binaries:
+ 
+ .PHONY: data plum-data opencc-data copy-plum-data copy-opencc-data
+ 
+-data: plum-data opencc-data
++data: plum-data
+ 
+ $(PLUM_DATA):
+ 	$(MAKE) plum-data
+@@ -79,7 +79,7 @@ copy-opencc-data:
+ 	mkdir -p data/opencc
+ 	cp $(OPENCC_DATA_OUTPUT) data/opencc/
+ 
+-deps: librime data
++deps: data
+ 
+ ifdef ARCHS
+ BUILD_SETTINGS += ARCHS="$(ARCHS)"

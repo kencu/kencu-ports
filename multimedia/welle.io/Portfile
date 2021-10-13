@@ -1,0 +1,134 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               qt5 1.0
+PortGroup               github 1.0
+PortGroup               cmake 1.1
+
+name                    welle.io
+subport welle.io-devel  {}
+
+categories              multimedia
+platforms               darwin
+maintainers             nomaintainer
+
+description             DAB/DAB+ Software Radio
+long_description        This is an open source DAB and DAB+ software defined radio (SDR)  \
+                        with support for rtl-sdr (RTL2832U) and airspy. It supports  \
+                        high DPI and touch displays and it runs even on cheap computers  \
+                        like Raspberry Pi 2/3 and 100€ China Windows 10 tablets.
+
+license                 GPL-3+
+license_noconflict      openssl mpg123
+
+homepage                https://www.welle.io/
+
+qt5.depends_component   qtcharts \
+                        qtdeclarative \
+                        qtmultimedia \
+                        qtquickcontrols \
+                        qtquickcontrols2
+qt5.min_version         5.10.0
+
+depends_lib-append      port:faad2 \
+                        port:fftw-3-single \
+                        port:lame \
+                        port:libusb \
+                        port:mpg123
+
+default_variants        +rtlsdr +soapysdr +airspy
+
+variant rtlsdr description {Add RTL-SDR support} {
+    configure.pre_args-append \
+        -DRTLSDR=ON
+    depends_lib-append port:rtl-sdr
+}
+
+variant soapysdr description {Add SoapySDR support} {
+    configure.pre_args-append \
+        -DSOAPYSDR=ON
+    depends_lib-append port:SoapySDR
+}
+
+variant airspy description {Add Airspy support} {
+    configure.pre_args-append \
+        -DAIRSPY=ON
+    depends_lib-append port:airspy
+}
+
+variant cli description {Also compile welle-cli} {
+    # mpg123 is licensed as LGPL-2.1 except for
+    # file src/libout123/modules/coreaudio.c which is GPL-2
+    # welle-cli relies on libout123 while the GUI does not.
+    # In order to have binaries distributed for welle-io,
+    # we enable only welle-gui by default. The user can enable
+    # cli variant to build also welle-cli locally.
+
+    configure.pre_args-replace -DBUILD_WELLE_CLI=OFF -DBUILD_WELLE_CLI=ON
+
+    license_noconflict-delete   mpg123
+
+    post-patch {
+        reinplace "s!\"index.html\"!\"${applications_dir}/welle-io.app/Contents/Resources/welle-cli/index.html\"!" \
+        ${worksrcpath}/src/welle-cli/webradiointerface.cpp
+        reinplace "s!\"index.js\"!\"${applications_dir}/welle-io.app/Contents/Resources/welle-cli/index.js\"!" \
+        ${worksrcpath}/src/welle-cli/webradiointerface.cpp
+    }
+
+    post-destroot {
+        ln -s ${applications_dir}/welle-io.app/Contents/MacOS/welle-cli \
+            ${destroot}${prefix}/bin/welle-cli
+    }
+}
+
+variant profiling description {Enable profiling (see README.md)} {
+    configure.pre_args-append \
+        -DPROFILING=ON
+}
+
+variant kiss_fft description {Use KISS FFT instead of FFTW} {
+    configure.pre_args-append \
+        -DKISS_FFT=ON
+    depends_lib-delete  port:fftw-3-single
+}
+
+if {${subport} eq ${name}} {
+    # stable
+    github.setup            AlbrechtL welle.io 2.3 v
+    github.tarball_from     archive
+    epoch                   1
+    revision                0
+
+    conflicts               welle.io-devel
+
+    checksums               rmd160  f7d8290701e86e3859cf165910c0228ad63e965b \
+                            sha256  e7aa936bf46499ce0abbbf617dd7984ccdaade955a5afb0c86886a0873f015c0 \
+                            size    6771774
+
+    configure.pre_args-append \
+        -DGIT_COMMIT_HASH=${version}
+} else {
+    # devel
+    github.setup            AlbrechtL welle.io 66675c9a4160c644a5ade5bf7a0cd0647647f33c
+    set githash             [string range ${github.version} 0 6]
+    version                 20210522+git${githash}
+
+    conflicts               welle.io
+
+    checksums               rmd160  b59b2c23af4405b0220980b21fa7c5da0f9640cb \
+                            sha256  84bcd5835e462bc2cb829df594ecc0accaa6e2c232c8ba1bc75dbf0cd30fdb3c \
+                            size    6772022
+
+    configure.pre_args-append \
+        -DGIT_COMMIT_HASH=${githash}
+}
+
+configure.pre_args-append \
+    -DBUILD_WELLE_CLI=OFF \
+    -DBUNDLE_INSTALL_DIR=${applications_dir} \
+    -DGIT_DESCRIBE=${version} \
+    -DWELLE-IO_VERSION=${version}
+
+post-patch {
+    reinplace "s/\$(PRODUCT_BUNDLE_IDENTIFIER)/@PRODUCT_BUNDLE_IDENTIFIER@/" ${worksrcpath}/welle-io.plist
+}

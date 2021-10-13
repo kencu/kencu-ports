@@ -1,0 +1,51 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-unidecode
+python.rootname     Unidecode
+version             1.3.2
+revision            0
+
+categories-append   textproc
+platforms           darwin
+supported_archs     noarch
+license             GPL-2+
+maintainers         {gmail.com:esafak @esafak} openmaintainer
+
+description         ASCII transliterations of Unicode text
+long_description    Unidecode takes Unicode data and tries to \
+                    represent it in ASCII characters (i.e., the \
+                    universally displayable characters between 0x00 \
+                    and 0x7F), where the compromises taken when \
+                    mapping between two character sets are chosen to \
+                    be near what a human with a US keyboard would \
+                    choose. This is a Python port of Text::Unidecode \
+                    Perl module by Sean M. Burke.
+
+homepage            https://github.com/avian2/unidecode
+
+checksums           rmd160  bfafa2ba48bdb41af8ded41b3bf19e55b6be5d73 \
+                    sha256  669898c1528912bcf07f9819dc60df18d057f7528271e31f8ec28cc88ef27504 \
+                    size    191917
+
+python.versions     27 35 36 37 38 39
+
+if {${subport} ne ${name}} {
+    if {${python.version} == 27} {
+        version     1.2.0
+        revision    0
+        checksums   rmd160  ea53ed4b2322cc7f0f47461c268170bcae518893 \
+                    sha256  8d73a97d387a956922344f6b74243c2c6771594659778744b2dbdaad8f6b727d \
+                    size    216042
+    }
+
+    depends_lib-append \
+                    port:py${python.version}-setuptools
+
+    test.run        yes
+    test.env        PYTHONPATH=${worksrcpath}/build/lib
+
+    livecheck.type  none
+}

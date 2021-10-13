@@ -1,0 +1,46 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim: fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+name                py-stack_data
+github.setup        alexmojaki stack_data 0.1.1 v
+revision            0
+categories-append   devel
+platforms           darwin
+license             MIT
+supported_archs     noarch
+
+python.versions     37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         Library that extracts data from stack frames and tracebacks.
+long_description    ${description}
+
+homepage            http://github.com/alexmojaki/stack_data
+
+checksums           rmd160  70192df9bd11a5910c96fd82da7d27b11200aa36 \
+                    sha256  d68fa346c6d858082f1fd1b6559be9a6e26bada84d33d7412227d7bec4a735b9 \
+                    size    27678
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                        port:py${python.version}-setuptools \
+                        port:py${python.version}-wheel \
+                        port:py${python.version}-setuptools_scm \
+                        port:py${python.version}-toml
+
+    depends_lib-append  port:py${python.version}-executing \
+                        port:py${python.version}-asttokens \
+                        port:py${python.version}-pure_eval
+
+    patchfiles-append   patch-pyproject.toml.diff
+
+    post-patch {
+        reinplace "s|@@VERSION@@|${version}|" ${worksrcpath}/pyproject.toml
+    }
+
+    livecheck.type      none
+}

@@ -1,0 +1,65 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                1password-cli
+version             1.12.2
+revision            0
+
+categories          security
+license             Restrictive/Distributable
+platforms           darwin
+
+description         Official 1Password command-line tool
+
+long_description    View and manage 1password.com users, groups and objects \
+                    from the command-line.
+
+homepage            https://support.1password.com/command-line
+
+maintainers         {gmail.com:newtonne.github @newtonne} \
+                    {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+
+set bin_name        op
+set archive         ${bin_name}_apple_universal
+set pkg_path        ${workpath}/pkg
+set pkg_workpath    ${pkg_path}/op.pkg
+
+extract.cmd         pkgutil
+extract.pre_args    --expand
+extract.post_args   ${pkg_path}
+extract.mkdir       yes
+extract.suffix      .pkg
+
+master_sites        https://cache.agilebits.com/dist/1P/op/pkg/v${version}/
+distfiles           ${archive}_v${version}${extract.suffix}
+supported_archs     arm64 x86_64
+
+checksums           rmd160  f4aca0441c9ec5800fa056f3d6d3dd597c2ed89c \
+                    sha256  c46ffa619764271af93f2f74ae42321b898ae34c854e63527e287d8cedae17ee \
+                    size    7953836
+
+# Pre-built binary
+use_configure       no
+build               {}
+
+post-extract {
+    system -W ${pkg_workpath} "cat ./Payload | gzip -d > ./Payload.cpio"
+    system -W ${pkg_workpath} "cat ./Payload.cpio | cpio -i"
+}
+
+destroot {
+    xinstall -m 755 ${pkg_workpath}/${bin_name} ${destroot}${prefix}/bin
+}
+
+livecheck.type      regex
+livecheck.url       https://app-updates.agilebits.com/product_history/CLI
+livecheck.regex     ${archive}_v(\\d+(\\.\\d+)+)${extract.suffix}
+
+notes "
+1Password CLI has been installed as ${bin_name}
+
+For instructions on getting started, see:
+https://support.1password.com/command-line-getting-started/#get-started-with-the-command-line-tool
+"

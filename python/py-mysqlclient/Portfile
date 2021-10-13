@@ -1,0 +1,100 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           python 1.0
+
+github.setup        PyMySQL mysqlclient-python 2.0.3 v
+checksums           rmd160  fd564b163bc20aec4c8dbb4f4cce609dc34d8af7 \
+                    sha256  1c78aef4389f8faad56d1c68eb051a0293ed1b233c6d1b62d079d4bb4ea7ae3d \
+                    size    91582
+
+name                py-mysqlclient
+
+categories-append   devel databases
+platforms           darwin
+license             GPL-2
+maintainers         {ctreleaven @ctreleaven} openmaintainer
+
+description         Python3 interface to MySQL/MariaDB, fork of MySQL-python
+long_description    ${description}
+
+python.versions     38
+
+if {${name} ne ${subport}} {
+    set mysql_config {}
+
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    patchfiles      patch_setup-posix.py.diff
+
+    post-patch {
+        reinplace "s|@MYSQL_CONFIG@|${prefix}/${mysql_config}|g" \
+            ${worksrcpath}/setup_posix.py
+    }
+
+    pre-configure {
+        if {![variant_isset mysql57] &&
+            ![variant_isset mysql8] &&
+            ![variant_isset mariadb55] &&
+            ![variant_isset mariadb10_2] &&
+            ![variant_isset mariadb10_3] &&
+            ![variant_isset mariadb10_4] &&
+            ![variant_isset mariadb10_5] &&
+            ![variant_isset percona55]} {
+            return -code error "you must select either mysql57, mysql8, mariadb55, mariadb10_2 through mariadb10_5 or percona55"
+        }
+    }
+
+    variant mysql57 conflicts mysql8 mariadb55 mariadb10_2 mariadb10_3 mariadb10_4 mariadb10_5 percona55 description {Access mysql57} {
+        depends_lib-append  port:mysql57
+        set mysql_config lib/mysql57/bin/mysql_config
+    }
+
+    variant mysql8 conflicts mysql57 mariadb55 mariadb10_2 mariadb10_3 mariadb10_4 mariadb10_5 percona55 description {Access mysql8} {
+        depends_lib-append  port:mysql8
+        set mysql_config lib/mysql8/bin/mysql_config
+    }
+
+    variant mariadb55 conflicts mysql57 mysql8 mariadb10_2 mariadb10_3 mariadb10_4 mariadb10_5 percona55 description {Access mariadb55} {
+        depends_lib-append  port:mariadb
+        set mysql_config lib/mariadb/bin/mysql_config
+    }
+
+    variant mariadb10_2 conflicts mysql57 mysql8 mariadb10_3 mariadb10_4 mariadb10_5 mariadb55 percona55 description {Access mariadb-10.2} {
+        depends_lib-append  port:mariadb-10.2
+        set mysql_config lib/mariadb-10.2/bin/mysql_config
+    }
+
+    variant mariadb10_3 conflicts mysql57 mysql8 mariadb10_2 mariadb10_4 mariadb10_5 mariadb55 percona55 description {Access mariadb-10.3} {
+        depends_lib-append  port:mariadb-10.3
+        set mysql_config lib/mariadb-10.3/bin/mysql_config
+    }
+
+    variant mariadb10_4 conflicts mysql57 mysql8 mariadb10_2 mariadb10_3 mariadb10_5 mariadb55 percona55 description {Access mariadb-10.4} {
+        depends_lib-append  port:mariadb-10.4
+        set mysql_config lib/mariadb-10.4/bin/mysql_config
+    }
+
+    variant mariadb10_5 conflicts mysql57 mysql8 mariadb10_2 mariadb10_3 mariadb10_4 mariadb55 percona55 description {Access mariadb-10.5} {
+        depends_lib-append  port:mariadb-10.5
+        set mysql_config lib/mariadb-10.5/bin/mysql_config
+    }
+
+    variant percona55 conflicts mysql57 mysql8 mariadb55 mariadb10_2 mariadb10_3 mariadb10_4 mariadb10_5 description {Access percona} {
+        depends_lib-append  port:percona
+        set mysql_config lib/percona/bin/mysql_config
+    }
+
+    if {![variant_isset mysql57] &&
+            ![variant_isset mysql8] &&
+            ![variant_isset mariadb55] &&
+            ![variant_isset mariadb10_2] &&
+            ![variant_isset mariadb10_3] &&
+            ![variant_isset mariadb10_4] &&
+            ![variant_isset mariadb10_5] &&
+            ![variant_isset percona55]} {
+        default_variants +mariadb10_2
+    }
+}

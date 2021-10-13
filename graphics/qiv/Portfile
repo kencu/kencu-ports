@@ -1,0 +1,47 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                qiv
+version             2.3.2
+categories          graphics
+license             GPL-2
+platforms           darwin
+maintainers         {lloyd.io:me @lloyd}
+
+description         A very small and pretty fast gdk/Imlib image viewer
+
+long_description    A very small and pretty fast gdk/Imlib image viewer \
+                    for X.
+
+homepage            http://spiegl.de/qiv/
+master_sites        ${homepage}download/
+extract.suffix      .tgz
+
+checksums           rmd160  0ebbe5b6dfa64f363595c3f6da6071134fc5a8d3 \
+                    sha256  48e0a088a0d5cf5fac2314a60b3aed62c4913e792627f64f03986865ad7080d5 \
+                    size    133614
+
+depends_build       port:pkgconfig
+
+depends_lib         port:gtk2 \
+                    port:imlib2 \
+                    port:lcms2 \
+                    port:libexif \
+                    port:libmagic
+
+patchfiles          patch-Makefile.diff
+
+post-patch {
+    reinplace "s|@PREFIX@|${prefix}|" ${worksrcpath}/Makefile
+}
+
+use_configure       no
+
+variant universal {}
+
+build.args          CC="${configure.cc} [get_canonical_archflags cc]"
+
+livecheck.type      regex
+livecheck.url       [lindex ${master_sites} 0]
+livecheck.regex     ${name}-(\\d+(?:\\.\\d+)*)${extract.suffix}

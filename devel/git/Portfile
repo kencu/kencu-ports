@@ -1,0 +1,284 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+name                git
+version             2.33.0
+revision            1
+
+description         A fast version control system
+long_description    Git is a fast, scalable, distributed open source version \
+                    control system focusing on speed and efficiency.
+maintainers         {ciserlohn @ci42} openmaintainer
+categories          devel
+license             GPL-2 LGPL-2.1+
+installs_libs       no
+platforms           darwin
+homepage            https://git-scm.com/
+master_sites        https://www.kernel.org/pub/software/scm/git/ \
+                    https://cdn.kernel.org/pub/software/scm/git/
+distname            git-${version}
+use_xz              yes
+distfiles           git-${version}${extract.suffix} \
+                    git-manpages-${version}${extract.suffix}
+
+checksums           git-${version}${extract.suffix} \
+                    rmd160  c1aa086fc178020862b837ea5c0c81687126361e \
+                    sha256  bf3c6ab5f82e072aad4768f647cfb1ef60aece39855f83f080f9c0222dd20c4f \
+                    size    6548308 \
+                    git-manpages-${version}${extract.suffix} \
+                    rmd160  ed2306890b7505a1ca1a75b62e814eca0b25828e \
+                    sha256  d6d38abe3fe45b74359e65d53e51db3aa92d7f551240b7f7a779746f24c4bc31 \
+                    size    492900
+
+perl5.require_variant   false
+perl5.conflict_variants yes
+perl5.branches          5.28 5.30 5.32
+perl5.default_branch    5.28
+perl5.create_variants   ${perl5.branches}
+
+depends_lib-append  port:curl \
+                    port:zlib \
+                    path:lib/libssl.dylib:openssl \
+                    port:expat \
+                    port:libiconv
+
+depends_run-append  port:rsync
+
+patchfiles          patch-Makefile.diff \
+                    patch-git-gui-Makefile.diff \
+                    patch-git-subtree.1.diff \
+                    patch-sha1dc-older-apple-gcc-versions.diff \
+                    patch-gitk-git-gitk.diff
+patch.pre_args      -p1
+
+extract.only        git-${version}${extract.suffix} \
+                    git-manpages-${version}${extract.suffix}
+
+use_configure       no
+
+variant universal   {}
+
+set CFLAGS          "-I. -Wall -O2 -I${prefix}/include [get_canonical_archflags cc]"
+set LDFLAGS         "-L${prefix}/lib [get_canonical_archflags ld]"
+
+build.args          CFLAGS="${CFLAGS}" \
+                    LDFLAGS="${LDFLAGS}" \
+                    CC=${configure.cc} \
+                    prefix=${prefix} \
+                    CURLDIR=${prefix} \
+                    OPENSSLDIR=${prefix} \
+                    ICONVDIR=${prefix} \
+                    NO_FINK=1 \
+                    NO_DARWIN_PORTS=1 \
+                    NO_R_TO_GCC_LINKER=1 \
+                    NO_PERL=1 \
+                    V=1
+
+if {[variant_isset ${perl5.variant}]} {
+    depends_run-append \
+                    port:p${perl5.major}-authen-sasl \
+                    port:p${perl5.major}-error \
+                    port:p${perl5.major}-net-smtp-ssl \
+                    port:p${perl5.major}-term-readkey \
+                    port:p${perl5.major}-cgi
+
+    build.args-delete \
+                    NO_PERL=1
+
+    build.args-append \
+                    PERL_PATH="${perl5.bin}" \
+                    NO_PERL_CPAN_FALLBACK=1
+} elseif {[variant_isset svn]} {
+    pre-configure {
+        return -code error "+svn does not work without +perl5_xx"
+    }
+}
+
+test.run            yes
+test.cmd            make
+test.target         test
+test.dir            ${worksrcpath}
+pre-test {
+    test.args  {*}${build.args}
+}
+
+destroot.target     install
+pre-destroot {
+    destroot.args  {*}${build.args}
+    xinstall -m 644 ${worksrcpath}/contrib/subtree/git-subtree.1 ${workpath}/man1
+}
+
+set docdestroot ${destroot}${prefix}/share/doc/git-doc
+
+post-destroot {
+    foreach f {1 5 7} {
+        xinstall -d ${destroot}${prefix}/share/man/man${f}
+        foreach m [glob -directory ${workpath} man${f}/*.${f}] {
+            xinstall ${m} ${destroot}${prefix}/share/man/man${f}
+        }
+    }
+    if {![variant_isset svn]} {
+        system "rm ${destroot}${prefix}/libexec/git-core/git-svn*"
+    }
+
+    xinstall -d ${docdestroot}
+
+    fs-traverse badfile ${destroot} {
+        if {[string last perllocal.pod ${badfile}] != -1} {
+            ui_info "Removing ${badfile}"
+            file delete ${badfile}
+        }
+    }
+
+    set completions_path ${destroot}${prefix}/share/bash-completion/completions
+    xinstall -d ${completions_path}
+    xinstall -m 644 ${worksrcpath}/contrib/completion/git-completion.bash \
+        ${completions_path}/git
+
+    set share_path ${destroot}${prefix}/share/${name}
+    xinstall -d ${share_path}
+    xinstall -m 644 ${worksrcpath}/contrib/completion/git-prompt.sh \
+        ${share_path}/git-prompt.sh
+
+    xinstall -d ${destroot}${prefix}/libexec/git-core
+    xinstall -m 755 ${worksrcpath}/contrib/subtree/git-subtree.sh \
+        ${destroot}${prefix}/libexec/git-core/git-subtree
+
+    file delete -force ${share_path}/contrib
+    copy ${worksrcpath}/contrib ${share_path}
+}
+
+variant pcre description {Use pcre} {
+    build.args-append       LIBPCREDIR=${prefix} USE_LIBPCRE2=1
+    depends_lib-append      port:pcre2
+}
+
+variant doc description {Install HTML and plaintext documentation} {
+    distfiles-append        git-htmldocs-${version}${extract.suffix}
+    checksums-append        git-htmldocs-${version}${extract.suffix} \
+                            rmd160  da1afce9a7160466ea2dabf84a87bd3147eefe2a \
+                            sha256  309c5d3cdd9a115f693c0e035298cc867a3b8ba8ce235fa1ac950a48cb4b0447 \
+                            size    1393260
+
+    patchfiles-append       patch-git-subtree.html.diff
+
+    post-extract {
+        file mkdir ${workpath}/htmldocs
+        system -W ${workpath}/htmldocs "${extract.cmd} ${extract.pre_args} \
+            '${distpath}/git-htmldocs-${version}${extract.suffix}' \
+            ${extract.post_args}"
+    }
+
+    pre-destroot {
+        xinstall -m 644 ${worksrcpath}/contrib/subtree/git-subtree.html ${workpath}/htmldocs
+    }
+
+    post-destroot {
+        foreach f [glob ${workpath}/htmldocs/*] {
+            file delete -force "${docdestroot}/[file tail ${f}]"
+            file attribute ${f} -permissions ugo+r
+            copy ${f} ${docdestroot}
+        }
+
+        fs-traverse f [list ${docdestroot}/howto ${docdestroot}/technical ${docdestroot}/RelNotes] {
+            if {[file isdirectory ${f}]} {
+                file attribute ${f} -permissions ugo+rx
+            } else {
+                file attribute ${f} -permissions ugo+r
+            }
+        }
+    }
+}
+
+variant gitweb description {Install gitweb.cgi} {
+    depends_run-append  port:lighttpd
+
+    build.target-append gitweb
+
+    post-destroot {
+        xinstall -d ${destroot}${prefix}/share/${name}/gitweb
+        xinstall -W ${worksrcpath}/gitweb \
+            gitweb.cgi \
+            ${destroot}${prefix}/share/${name}/gitweb
+        xinstall -m 444 -W ${worksrcpath}/gitweb/static \
+            gitweb.css \
+            gitweb.js \
+            git-favicon.png \
+            git-logo.png \
+            ${destroot}${prefix}/share/${name}/gitweb
+        xinstall -d ${docdestroot}/gitweb
+        xinstall -m 444 -W ${worksrcpath}/gitweb README INSTALL \
+            ${docdestroot}/gitweb
+    }
+}
+
+variant svn description {Bi-directional subversion repository support} {
+    depends_run-append  port:subversion \
+                        port:p${perl5.major}-libwww-perl \
+                        port:p${perl5.major}-svn-simple
+}
+
+variant credential_osxkeychain description {Install git credential-osxkeychain utility from contrib} {
+
+    post-build {
+        system -W "${worksrcpath}/contrib/credential/osxkeychain" "make [join ${build.args}]"
+    }
+
+    post-destroot {
+        xinstall -m 755 "${worksrcpath}/contrib/credential/osxkeychain/git-credential-osxkeychain" \
+            "${destroot}${prefix}/libexec/git-core/"
+
+        # Create a global gitconfig file that sets credential.helper to
+        # osxkeychain. This can be overriden on a per-user basis in the user's
+        # own git config file
+        set f [open ${destroot}${prefix}/etc/gitconfig w 0644]
+        puts ${f} "\[credential]\n\thelper = osxkeychain"
+        close ${f}
+    }
+
+    notes "
+A gitconfig file has been created at ${prefix}/etc/gitconfig to enable the
+osxkeychain credential helper. If you do not wish to use this credential
+helper, you can override this setting in your own git config file, e.g.
+
+    \[credential]
+            helper = some_other_credential_helper
+
+For more information, run
+
+    git help credentials
+"
+}
+
+variant diff_highlight description {Install git diff-highlight utility from contrib} {
+
+    post-build {
+        system -W "${worksrcpath}/contrib/diff-highlight" "make [join ${build.args}]"
+    }
+
+    post-destroot {
+        xinstall -m 755 "${worksrcpath}/contrib/diff-highlight/diff-highlight" \
+            "${destroot}${prefix}/bin/"
+    }
+}
+
+# Python is only needed to enable certain tools for interacting with other
+# version control systems, such as git-p4 (for interfacing with Perforce).
+# This variant enables git to use MacPorts' Python as it builds these
+# additional tools.
+variant python description {Build with Python support} {
+    depends_lib-append  port:python39
+    build.args-append   PYTHON_PATH="${prefix}/bin/python3.9"
+}
+
+platform darwin 8 {
+    build.args-append   NO_APPLE_COMMON_CRYPTO=1
+    build.args-append   CC_LD_DYNPATH=-R
+}
+
+default_variants    +doc +pcre +credential_osxkeychain +diff_highlight
+
+livecheck.type          regexm
+livecheck.regex         {<span class="version">.*?(\d+\.\d+\.\d+).*?</span>}

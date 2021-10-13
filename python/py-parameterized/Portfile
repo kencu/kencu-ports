@@ -1,0 +1,41 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-parameterized
+version             0.8.1
+revision            0
+
+platforms           darwin
+supported_archs     noarch
+license             FreeBSD
+maintainers         nomaintainer
+
+description         Parameterized testing with any Python test framework
+long_description    ${description}
+
+homepage            https://github.com/wolever/parameterized
+
+checksums           sha256  41bbff37d6186430f77f900d777e5bb6a24928a1c46fb1de692f8b52b8833b5c \
+                    rmd160  a9038d08e8c26a89085c4b308bafe884e647982c \
+                    size    23936
+
+python.versions     37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    depends_test-append \
+                    port:py${python.version}-mock \
+                    port:py${python.version}-nose
+
+    # there are five different ways of running tests, see tox.ini
+    # this runs just one
+    test.run        yes
+    test.cmd        ${python.bin} -m unittest
+    test.target     parameterized.test
+
+    livecheck.type  none
+}

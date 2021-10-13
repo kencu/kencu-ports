@@ -1,0 +1,43 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem                           1.0
+PortGroup           python           1.0
+PortGroup           github           1.0
+
+github.setup        scikit-hep mplhep 0.3.12 v
+name                py-scikit-hep-mplhep
+revision            0
+
+checksums           rmd160  014878ca40f47c3022bb30d4e2a8c0cd6b8d77d2 \
+                    sha256  1abe5e49153fa6cdabac3233316eaaa652535900492a2aa8049d53dfa09da84f \
+                    size    1209086
+
+platforms           darwin
+supported_archs     noarch
+license             MIT
+
+maintainers         {jonesc @cjones051073} openmaintainer
+
+description         A set of helpers for matplotlib to more easily produce plots typically needed in HEP.
+long_description    {*}${description}
+
+# Supported python versions
+python.versions     37 38 39
+
+if {${name} ne ${subport}} {
+
+    depends_build-append \
+        port:py${python.version}-setuptools
+
+    depends_lib-append \
+        port:py${python.version}-scikit-hep-mplhep_data
+
+    depends_test-append \
+        port:py${python.version}-pytest
+
+    livecheck.type none
+
+}
+
+# Only allow numbers, to avoid pre-release versions
+github.livecheck.regex  {([0-9.]+)}

@@ -1,0 +1,41 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-fasteners
+version             0.16.3
+revision            0
+license             Apache-2
+platforms           darwin
+supported_archs     noarch
+maintainers         {khindenburg @kurthindenburg} openmaintainer
+
+description         A python package that provides useful locks
+long_description    ${description}
+
+homepage            https://pypi.python.org/pypi/${python.rootname}/
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+distname            ${python.rootname}-${version}
+
+checksums           rmd160  ef42ac9cdfd57b8617a9e7d5bc54546c21f4dff4 \
+                    sha256  b1ab4e5adfbc28681ce44b3024421c4f567e705cc3963c732bf1cba3348307de \
+                    size    24756
+
+python.versions     27 35 36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append    port:py${python.version}-setuptools
+
+    if {${python.version} == 27} {
+        depends_lib-append port:py${python.version}-monotonic \
+    }
+    depends_lib-append port:py${python.version}-six
+
+    # Something wrong w/ testtools or fasteners tests
+#    depends_test-append port:py${python.version}-testtools
+#    test.run            yes
+#    test.env            PYTHONPATH=${worksrcpath}/build/lib
+
+    livecheck.type  none
+}

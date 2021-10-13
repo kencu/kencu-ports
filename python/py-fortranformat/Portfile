@@ -1,0 +1,30 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+github.setup        simright py-fortranformat 7de5aa505ee26f2457d25e6546d6814273cd5815
+version             0.2.5
+revision            0
+checksums           rmd160  90ca2363b1b4adf8dd15c3f160219ce53b6cbd5c \
+                    sha256  e72b09b9d9d88804651aa9acc59d40dd7a7eb035a289990cc61e16f51a8838e3 \
+                    size    14117179
+
+categories-append   science print
+platforms           darwin
+supported_archs     noarch
+license             MIT
+maintainers         {fusion.gat.com:smithsp @smithsp} openmaintainer
+description         Mimics Fortran textual IO in Python
+long_description    Generates text from a Python list of variables or will \
+    read a line of text into Python variables according to the FORTRAN format \
+    statement passed.
+
+python.versions     27 35 36 37 38
+
+github.tarball_from archive
+
+if {${name} ne ${subport}} {
+    depends_build-append port:py${python.version}-setuptools
+    livecheck.type       none
+}

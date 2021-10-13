@@ -1,0 +1,57 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+
+PortGroup               python 1.0
+PortGroup               github 1.0
+
+github.setup            enthought pyface 7.3.0
+
+name                    py-pyface
+categories-append       devel
+license                 BSD
+maintainers             {gmail.com:jjstickel @jjstickel} openmaintainer
+supported_archs         noarch
+
+description             The Enthought pyface package
+long_description        The pyface project contains a toolkit-independent GUI\
+                        abstraction layer, which is used to support the\
+                        "visualization" features of the Traits package.
+platforms               darwin
+
+checksums               rmd160  4977e943517d985a38a37e3b3a3446f842e8ae50 \
+                        sha256  11de35069a47767ff89479326017b5162d0e4d5752d5eb32172dcbc641a15282 \
+                        size    6162350
+
+python.versions         36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append    port:py${python.version}-setuptools
+    depends_lib-append      port:py${python.version}-traits \
+                            port:py${python.version}-importlib-metadata \
+                            port:py${python.version}-pygments
+
+    if {${python.version}!=39} {
+        depends_lib-append  port:py${python.version}-importlib-resources
+    }
+
+    variant pyqt4 description "Qt backend using PyQt4" {
+        depends_lib-append  port:py${python.version}-pyqt4
+    }
+
+    variant pyside description "Qt backend using PySide2" {
+        depends_lib-append  port:py${python.version}-pyside2
+    }
+    
+    variant pyqt5 description "Qt backend using PyQt5" {
+        depends_lib-append  port:py${python.version}-pyqt5
+        notes-append "To specify pyqt5 backend at run time, set the environmental variables: `ETS_TOOLKIT=qt4` and `QT_API=pyqt5`\n"
+    }
+
+    if {![variant_isset pyqt4] && ![variant_isset pyqt5] && ![variant_isset pyside]} {
+        default_variants    +pyqt5
+    }
+
+    notes-append "If multiple backends are installed, the toolkit backend may be set\
+ with environment variables ETS_TOOLKIT and QT_API, e.g., ETS_TOOLKIT=qt4, QT_API=pyqt5.\n"
+}

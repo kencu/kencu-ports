@@ -1,0 +1,46 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Astro-satpass 0.116 ../../authors/id/W/WY/WYANT
+maintainers         nomaintainer
+platforms           darwin
+license             {Artistic-1 GPL}
+
+description         Astro-satpass - Predict satellite passes over an observer.
+
+long_description    This package contains classes needed to predict \
+                    satellite visibility, and an optional demonstration application \
+                    (satpass) that makes use of these classes.
+
+homepage            https://metacpan.org/release/${perl5.module}
+
+checksums           rmd160  b9dce6ed9f2fd9341795ccb6dcc670ddcf9c6d71 \
+                    sha256  6ac2540de57b5ea86c9c92da0cf2f14b572b2c18cb2d673a09947aaec6364ae9 \
+                    size    522017
+
+variant script description {Install the deprecated satpass script and optional dependencies} {}
+
+if {${perl5.major} != ""} {
+    depends_lib-append \
+                    port:p${perl5.major}-datetime \
+                    port:p${perl5.major}-datetime-timezone \
+                    port:p${perl5.major}-json
+
+    if {[variant_isset script]} {
+#       requires Makefile.PL -y to install deprecated satpass script
+        configure.pre_args-append -y
+#       optional dependencies for satpass script
+        depends_lib-append \
+                    port:p${perl5.major}-astro-simbad-client \
+                    port:p${perl5.major}-astro-spacetrack \
+                    port:p${perl5.major}-date-manip \
+                    port:p${perl5.major}-geo-coder-osm \
+                    port:p${perl5.major}-geo-webservice-elevation-usgs
+    }
+
+    perl5.use_module_build
+    supported_archs noarch
+}

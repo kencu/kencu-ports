@@ -1,0 +1,39 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           texlive 1.0
+
+name                texlive-lang-german
+version             58652
+revision            0
+
+categories          tex
+maintainers         {dports @drkp}
+license             Copyleft Permissive
+description         TeX Live: German
+long_description    Support for German.
+
+checksums           texlive-lang-german-58652-run.tar.xz \
+                    rmd160  3fbb44fbaeb7a5d508429afb2d127419eebbd7c2 \
+                    sha256  cfba8c7ba966546c50505bb2a153e3a63897aefa82f025c5ed8d740e6919fee9 \
+                    size    20423556 \
+                    texlive-lang-german-58652-doc.tar.xz \
+                    rmd160  cfb5e4bb7941129ea6608a56522b0d9737d4927a \
+                    sha256  db481882425ab8f122186f59fc28c1e8a21699576807ecdd72c37b4472f9f37c \
+                    size    19253416 \
+                    texlive-lang-german-58652-src.tar.xz \
+                    rmd160  ad20b594f495ffbdd2312771d0a1752f004bac76 \
+                    sha256  d3a33ff6d6fcc5deedf65ae3f919a8e5503830a2a4c69995f8009a9bd14a6e93 \
+                    size    129480
+
+depends_lib         port:texlive-basic
+
+texlive.languages      \
+    {german-x-2021-02-26 dehypht-x-2021-02-26.tex 2 2 {german-x-latest} {hyph-de-1901.pat.txt} {} {} } \
+    {ngerman-x-2021-02-26 dehyphn-x-2021-02-26.tex 2 2 {ngerman-x-latest} {hyph-de-1996.pat.txt} {} {} } \
+    {german loadhyph-de-1901.tex 2 2 {} {hyph-de-1901.pat.txt} {} {} } \
+    {ngerman loadhyph-de-1996.tex 2 2 {} {hyph-de-1996.pat.txt} {} {} } \
+    {swissgerman loadhyph-de-ch-1901.tex 2 2 {} {hyph-de-ch-1901.pat.txt} {} {} }
+
+
+texlive.texmfport

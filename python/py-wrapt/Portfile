@@ -1,0 +1,27 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim: fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-wrapt
+version             1.12.1
+revision            0
+platforms           darwin
+license             BSD
+
+python.versions     27 35 36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         A Python module for decorators, wrappers and monkey patching.
+long_description    ${description}
+
+homepage            https://github.com/GrahamDumpleton/wrapt
+
+checksums           rmd160  3a7943cc5072f8e341badac12000e489b7a42fbb \
+                    sha256  b62ffa81fb85f4332a4f609cab4ac40709470da05643a082ec1eb88e6d9b97d7 \
+                    size    27488
+
+if {${name} ne ${subport}} {
+    livecheck.type      none
+}

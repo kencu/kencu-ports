@@ -1,0 +1,33 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-sphinxcontrib-htmlhelp
+version             2.0.0
+revision            0
+
+categories-append   textproc devel
+platforms           darwin
+supported_archs     noarch
+license             BSD
+maintainers         {mcalhoun @MarcusCalhoun-Lopez} openmaintainer
+
+description         a sphinx extension which renders HTML help files
+long_description    sphinxcontrib-htmlhelp is ${description}.
+
+homepage            https://www.sphinx-doc.org/
+
+checksums           rmd160  8aafaebaac69398a3c3ba0a60ac0ad7b0548f4bb \
+                    sha256  f5f8bb2d0d629f398bf47d0d69c07bc13b65f75a81ad9e2f71a63d4b7a2f6db2 \
+                    size    28144
+
+python.versions     35 36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                        port:py${python.version}-setuptools
+    depends_run-append \
+                        port:py${python.version}-docutils
+    livecheck.type      none
+}

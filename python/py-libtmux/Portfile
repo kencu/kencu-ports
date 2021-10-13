@@ -1,0 +1,47 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-libtmux
+version             0.10.1
+revision            0
+
+categories-append   devel
+platforms           darwin
+supported_archs     noarch
+license             MIT
+maintainers         {@egorenar posteo.net:egorenar-dev} \
+                    {@judaew outlook.de:judaew} openmaintainer
+
+description         Python binding for tmux
+long_description    ${description}
+
+homepage            https://github.com/tmux-python/libtmux
+master_sites        pypi:l/${python.rootname}/
+distname            ${python.rootname}-${version}
+
+checksums           rmd160  0ff908d8ca69fcb743d99ce552bd17af936367a4 \
+                    sha256  c8bc81499616ba899538704e419463a1c83ba7ca21e53b1efc6abbe98eb26b61 \
+                    size    37786
+
+python.versions     36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    depends_run-append \
+                    port:tmux
+
+    post-destroot {
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath} README.md LICENSE \
+           CHANGES ${destroot}${docdir}
+    }
+
+    livecheck.type  none
+} else {
+    livecheck.type  pypi
+}

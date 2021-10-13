@@ -1,0 +1,51 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/pulumi/pulumi 3.14.0 v
+revision            0
+
+homepage            https://www.pulumi.com
+
+description         Pulumi - Modern Infrastructure as Code. Any cloud, any \
+                    language.
+
+long_description    Pulumi's Infrastructure as Code SDK is the easiest way to \
+                    create and deploy cloud software that use containers, \
+                    serverless functions, hosted services, and \
+                    infrastructure, on any cloud. Simply write code in your \
+                    favorite language and Pulumi automatically provisions and \
+                    manages your AWS, Azure, Google Cloud Platform, and/or \
+                    Kubernetes resources, using an infrastructure-as-code \
+                    approach. Skip the YAML, and use standard language \
+                    features like loops, functions, classes, and package \
+                    management that you already know and love.
+
+categories          sysutils net
+installs_libs       no
+license             Apache-2
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+
+checksums           rmd160  4cfc7a261094e342876d19d194f66d9da5efd57b \
+                    sha256  2f9660120d93915ae32ea5435079a00265120be0b09625261a34ae596db41e54 \
+                    size    8709099
+
+build.cmd           make
+build.pre_args      BREW_VERSION="${github.tag_prefix}${version}"
+# The brew makefile target builds only the Pulumi executables,
+# and not the SDKs
+build.args          brew
+
+# FIXME: This port currently can't be built without allowing go mod to fetch
+# dependencies during the build phase. See
+# https://trac.macports.org/ticket/61192
+build.env-delete    GOPROXY=off GO111MODULE=off
+
+destroot {
+    xinstall -m 755 {*}[glob ${gopath}/bin/pulumi*] ${destroot}${prefix}/bin/
+}
+
+github.livecheck.regex  {([0-9.]+)}
+github.tarball_from     archive

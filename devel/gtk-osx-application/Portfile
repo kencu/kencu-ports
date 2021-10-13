@@ -1,0 +1,140 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem 1.0
+PortGroup       active_variants 1.1
+
+name            gtk-osx-application
+conflicts       ige-mac-integration
+version         3.0.1
+license         LGPL-2.1
+set branch      [join [lrange [split ${version} .] 0 1] .]
+categories      devel
+maintainers     {mascguy @mascguy} openmaintainer
+
+description	Mac OS X menu bar integration library for GTK2 quartz
+
+long_description \
+		A simple library whose purpose is to \
+		allow GTK quartz applications to integrate with \
+		the Mac OS X menu bar. Requires gtk2 or gtk3 and its \
+		dependencies to be built with variant +quartz
+
+homepage        https://wiki.gnome.org/Projects/GTK%2B/OSX/Integration
+
+platforms       darwin
+
+set myname      gtk-mac-integration
+master_sites    gnome:sources/gtk-mac-integration/${branch}/
+distname        ${myname}-${version}
+use_xz          yes
+
+# sha256 from upstream, rmd160 computed locally
+checksums       sha256  f19e35bc4534963127bbe629b9b3ccb9677ef012fc7f8e97fd5e890873ceb22d \
+                rmd160  50b403a4fa0216f87fc462b775dacd4a366935df \
+                size    349228
+
+
+depends_build   port:pkgconfig
+
+set gtk_version gtk2
+
+pre-configure {
+
+  if {${name} eq ${subport}} {
+    ui_error "
+The gtk-osx-application port has been replaced by 'gtk-osx-application-gtk2'
+and 'gtk-osx-application-gtk3'.
+Please `sudo port deactivate gtk-osx-application`
+followed by `sudo port upgrade -u outdated` or another command to update.
+Then if all works as intended `sudo port uninstall gtk-osx-application`
+"
+    return -code error
+  }
+
+  if {![active_variants $gtk_version quartz ""]} {
+    ui_error "
+${subport} is meant to be used only in a GTK quartz
+development environment but your version of GTK does not
+support quartz.  Please make sure that port $gtk_version and all its
+dependencies are built with variants +quartz and try again.
+"
+    error "$gtk_version +quartz not installed."
+  }
+}
+
+subport gtk-osx-application-gtk3 {
+    set gtk_version gtk3
+    
+    depends_lib-append port:gtk3 \
+                       path:include/gtkmacintegration/gtk-mac-bundle.h:gtk-osx-application-common-gtk3
+
+    
+    # force gtk version
+    configure.args-append --with-gtk3 --without-gtk2
+
+    configure.args-append --enable-python=no
+
+    post-destroot {
+        delete ${destroot}${prefix}/include
+        delete ${destroot}${prefix}/lib/pkgconfig/gtk-mac-integration.pc
+        delete ${destroot}${prefix}/share/locale
+        delete ${destroot}${prefix}/share/strings
+    }
+}
+
+subport gtk-osx-application-common-gtk3 {
+    set gtk_version gtk3
+    
+    depends_lib-append port:gtk3
+
+    
+    # force gtk version
+    configure.args-append --with-gtk3 --without-gtk2
+
+    configure.args-append --enable-python=no
+
+    post-destroot {
+        delete ${destroot}${prefix}/lib
+        delete ${destroot}${prefix}/share/gir-1.0
+    }
+}
+
+subport gtk-osx-application-gtk2 {
+    set gtk_version gtk2
+
+    depends_lib-append port:gtk2 \
+                       path:include/gtkmacintegration/gtk-mac-bundle.h:gtk-osx-application-common-gtk2
+
+    # force gtk version to 2.0
+    configure.args-append --with-gtk2 --without-gtk3  --disable-introspection
+
+    configure.args-append --enable-python=no
+
+    post-destroot {
+        delete ${destroot}${prefix}/include
+        delete ${destroot}${prefix}/lib/pkgconfig/gtk-mac-integration.pc
+        delete ${destroot}${prefix}/share/locale
+        delete ${destroot}${prefix}/share/strings
+    }
+}
+
+subport gtk-osx-application-common-gtk2 {
+    set gtk_version gtk2
+
+    depends_lib-append port:gtk2
+
+    # force gtk version to 2.0
+    configure.args-append --with-gtk2 --without-gtk3 --disable-introspection
+
+    configure.args-append --enable-python=no
+
+    post-destroot {
+        delete ${destroot}${prefix}/lib
+    }
+}
+
+configure.ccache        no
+configure.cmd-append    --libdir=${prefix}/lib --includedir=${prefix}/include
+
+livecheck.type          gnome
+livecheck.name          ${myname}

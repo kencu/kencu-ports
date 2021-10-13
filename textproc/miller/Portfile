@@ -1,0 +1,44 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        johnkerl miller 5.10.2 v
+revision            0
+
+homepage            https://johnkerl.org/miller/doc
+
+description         Miller is like awk, sed, cut, join, and sort for \
+                    name-indexed data such as CSV, TSV, and tabular JSON
+
+long_description    Miller is like awk, sed, cut, join, and sort for \
+                    name-indexed data such as CSV, TSV, and tabular JSON. \
+                    You get to work with your data using named fields, without \
+                    needing to count positional column indices. It operates on \
+                    key-value-pair data while the familiar Unix tools operate \
+                    on integer-indexed fields: if the natural data structure \
+                    for the latter is the array, then Miller’s natural data \
+                    structure is the insertion-ordered hash map. This \
+                    encompasses a variety of data formats, including but not \
+                    limited to the familiar CSV, TSV, and JSON. (Miller can \
+                    handle positionally-indexed data as a special case.)
+
+platforms           darwin
+categories          textproc
+license             BSD
+
+checksums           rmd160  a11720c8ed61f52e0725aca847b16b14f10a7920 \
+                    sha256  b6026479ee7315656d7ec228d0084f86d4cecc5b8b00d5400f5fb3600af65eb3 \
+                    size    6192382
+
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+
+github.tarball_from archive
+
+installs_libs       no
+
+test.run            yes
+test.target         check
+
+notes "miller is installed as mlr"

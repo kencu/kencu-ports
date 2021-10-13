@@ -1,0 +1,38 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+name                s3cmd
+categories          net
+license             GPL-2
+maintainers         nomaintainer
+description         Command line tool for managing Amazon S3 service
+
+long_description    S3cmd lets you copy files from/to Amazon S3 \
+                    (Simple Storage Service) using a simple to use \
+                    command line client. Supports rsync-like backup, \
+                    GPG encryption, and more. Also supports management \
+                    of Amazon's CloudFront content delivery network.
+
+homepage            http://s3tools.org/s3cmd
+
+github.setup        s3tools s3cmd 2.1.0 v
+revision            0
+
+checksums           rmd160  4baa9f6ab2b469d94fd40eee3ea82f7d495a300f \
+                    sha256  71d05b14cd834014f6b79650f89072a818746b2583c886d570637c8331780e31 \
+                    size    450117
+
+platforms           darwin
+supported_archs     noarch
+
+python.default_version  38
+
+depends_build-append    port:py${python.default_version}-setuptools
+depends_run-append      path:share/curl/curl-ca-bundle.crt:curl-ca-bundle \
+                        port:py${python.default_version}-dateutil \
+                        port:py${python.default_version}-magic
+
+github.livecheck.regex  {([0-9.]+)}

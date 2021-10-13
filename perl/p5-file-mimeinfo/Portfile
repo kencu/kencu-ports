@@ -1,0 +1,34 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         File-MimeInfo 0.30
+license             {Artistic-1 GPL}
+maintainers         nomaintainer
+description         This module can be used to determine the mime type of a file.   \
+                    It tries to implement the freedesktop specification for a shared MIME database.
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  0a60c026763f0a6f009b233e1013d4d6799118ea \
+                    sha256  e2c6e4bf90be3b863bfb4efadbcb1b4b029fc74f4e794bd86965aca7ee3ba872 \
+                    size    36132
+
+if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-encode-locale \
+                    port:p${perl5.major}-file-basedir \
+                    port:p${perl5.major}-file-desktopentry
+
+    depends_lib-append \
+                    port:shared-mime-info
+
+    patchfiles      patch-lib-File-MimeInfo.pm.diff
+
+    post-patch {
+        reinplace "s|__PREFIX__|${prefix}|g" ${worksrcpath}/lib/File/MimeInfo.pm
+    }
+}

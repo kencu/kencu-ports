@@ -1,0 +1,65 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        jwilk pdf2djvu 0.9.18
+revision            0
+categories          graphics textproc
+platforms           darwin
+license             GPL-2
+maintainers         {nicos @NicosPavlov} openmaintainer
+
+description         Convert PDF to DjVu
+long_description    pdf2djvu creates DjVu files from PDF files. It's able \
+                    to extract: graphics, text layer, hyperlinks, document \
+                    outline (bookmarks), and metadata.
+
+homepage            http://jwilk.net/software/pdf2djvu
+github.tarball_from releases
+use_xz              yes
+
+checksums           rmd160  4625b8c420c0e269d3b34501e823ef91fd0f2204 \
+                    sha256  42a855585f9152fad5f1848cc1b0c71a6a102170c452530ba30efef3c602aa6f \
+                    size    300412
+
+depends_build       port:pkgconfig \
+                    port:gsed
+
+depends_lib         port:djvulibre \
+                    port:exiv2 \
+                    port:poppler \
+                    port:libiconv \
+                    port:GraphicsMagick \
+                    port:libxslt
+
+patchfiles          patch-i18n.hh.diff \
+                    patch-sys-uuid.diff
+
+compiler.cxx_standard  2011
+
+# explicitly configure to build with system libuuid, overriding pkg-config
+# this prevents linking with ossp-uuid if it is installed
+configure.env-append \
+                    LIBUUID_CFLAGS=-I/usr/include/uuid/uuid.h \
+                    LIBUUID_LIBS=
+
+compiler.openmp_version 2.5
+configure.args-append   --enable-openmp
+
+configure.universal_args-delete \
+                    --disable-dependency-tracking
+
+#Forcing use of system types with llvm-gcc and clang on Lion (ticket #35170)
+configure.cxxflags-append \
+                    -DHAVE_SYS_TYPES_H=1
+
+post-destroot {
+   xinstall -m 644 -W ${worksrcpath}/doc ${name}.1 \
+      ${destroot}${prefix}/share/man/man1
+}
+
+test.run            yes
+depends_test-append port:python27 \
+                    port:py27-nose
+test.args           PYTHON=${prefix}/bin/python2.7

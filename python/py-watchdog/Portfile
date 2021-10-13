@@ -1,0 +1,65 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-watchdog
+version             2.1.6
+revision            0
+
+categories-append   sysutils
+platforms           darwin
+license             Apache-2
+maintainers         {petr @petrrr} openmaintainer
+
+description         Python API and shell utilities to monitor file system events.
+long_description    ${description}
+
+homepage            https://github.com/gorakhargosh/watchdog
+
+checksums           sha256  a36e75df6c767cbf46f61a91c70b3ba71811dfa0aca4a324d9407a06a8b7a2e7 \
+                    rmd160  aee34de434703fc7bf64dfcefdfb10c004c1631e \
+                    size    107292
+
+python.versions     27 35 36 37 38 39
+
+if {${name} ne ${subport}} {
+    if {${python.version} < 36} {
+        version     0.10.7
+        revision    0
+        checksums   sha256  50cb861700b99edcb4b7af330d28ce34ba5551a74b51c0a283ed221e936435f4 \
+                    rmd160  73748d31a104982a71a2329288e0b6bcef92f90d \
+                    size    102622
+        depends_lib-append  port:py${python.version}-pathtools
+    } elseif {${os.platform} eq "darwin" && ${os.major} <= 16} {
+        # support for 10.12 and below was dropped in version 2.0.0
+        version     1.0.2
+        revision    0
+        checksums   sha256  376cbc2a35c0392b0fe7ff16fbc1b303fd99d4dd9911ab5581ee9d69adc88982 \
+                    rmd160  72dbfbb51f8b9a1d5ea277e1815ec53fadada066 \
+                    size    98483
+    }
+
+    depends_lib-append      port:py${python.version}-argh \
+                            port:py${python.version}-setuptools \
+                            port:py${python.version}-yaml
+
+    if {${os.major} <= 10} {
+        patchfiles  patch.osx-10.6.setup.py
+    }
+
+    pre-test {
+        test.env    PYTHONPATH=[glob -nocomplain ${worksrcpath}/build/lib*]
+    }
+
+    depends_test-append \
+                    port:py${python.version}-flaky \
+                    port:py${python.version}-pytest
+
+    test.run        yes
+    test.cmd        py.test-${python.branch}
+    test.args       -o addopts=''
+    test.target
+
+    livecheck.type  none
+}

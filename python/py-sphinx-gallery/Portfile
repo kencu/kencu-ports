@@ -1,0 +1,49 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+github.setup        sphinx-gallery sphinx-gallery 0.10.0 v
+github.tarball_from archive
+revision            0
+name                py-sphinx-gallery
+
+platforms           darwin
+supported_archs     noarch
+license             BSD
+maintainers         {reneeotten @reneeotten} openmaintainer
+
+description         Extension for automatic generation of an example gallery
+long_description    ${description}
+
+checksums           rmd160  8e27941eba6e14ff875db0c90064f607e49de886 \
+                    sha256  88a050a3567a04cfa9a15fd659a82aa73c7c50f99fec8d12cceee1cab53809bf \
+                    size    687002
+
+python.versions     27 36 37 38 39
+
+if {${subport} ne ${name}} {
+    if {${python.version} eq 27} {
+        github.setup    sphinx-gallery sphinx-gallery 0.4.0 v
+        revision        0
+        checksums       rmd160  dfc05aaa3695cadaf45c4592374256ef152e03f5 \
+                        sha256  56a370df236defee839f6e37e0d8d1553e412bf1f8d844dcba51a14f802f4fe6 \
+                        size    392841
+    }
+
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    depends_lib-append \
+                    port:py${python.version}-sphinx
+
+    post-destroot {
+        set DOCDIR ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${DOCDIR}
+        xinstall -m 0644 -W ${worksrcpath} LICENSE README.rst \
+            CHANGES.rst ${destroot}${DOCDIR}
+    }
+
+    livecheck.type  none
+}

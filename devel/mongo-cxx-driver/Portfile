@@ -1,0 +1,53 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+PortGroup           compiler_blacklist_versions 1.0
+
+epoch               1
+github.setup        mongodb mongo-cxx-driver 3.6.6 r
+revision            0
+checksums           rmd160  5092a9704db4edad12733b451c053d395d4572ef \
+                    sha256  d5906b9e308a8a353a2ef92b699c9b27ae28ec6b34fdda94e15d2981b27e64ca \
+                    size    1394871
+
+license             Apache-2
+categories          devel databases
+platforms           darwin
+maintainers         {ryandesign @ryandesign} openmaintainer
+
+description         library for using mongodb from C++ code
+
+long_description    ${name} provides libmongocxx, a {*}${description}. \
+                    Also contains companion library libbsoncxx.
+
+supported_archs     arm64 i386 x86_64
+
+github.tarball_from releases
+distname            ${name}-${github.tag_prefix}${version}
+
+depends_lib-append  port:mnmlstc-core \
+                    port:mongo-c-driver
+
+compiler.cxx_standard 2011
+
+# Segmentation fault observed during build for Xcode 6.2
+compiler.blacklist-append {clang == 600.0.57}
+
+configure.args      -DBSONCXX_POLY_USE_MNMLSTC=ON \
+                    -DBSONCXX_POLY_USE_SYSTEM_MNMLSTC=ON \
+                    -DBUILD_VERSION=${version} \
+                    -DMONGOCXX_ENABLE_SSL=ON
+
+if {${os.platform} eq "darwin" && ${os.major} < 10} {
+    known_fail      yes
+    depends_build
+    depends_lib
+    pre-fetch {
+        ui_error "${name} @${version} requires Mac OS X 10.6 or greater."
+        return -code error "incompatible Mac OS X version"
+    }
+}
+
+github.livecheck.regex {([0-9.]+)}

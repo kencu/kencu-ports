@@ -1,0 +1,68 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/aws/copilot-cli 1.11.0 v
+name                copilot
+revision            0
+
+homepage            https://aws.github.io/copilot-cli
+
+description         AWS Copilot CLI allows developers to build, release and \
+                    operate containerized applications on Amazon ECS and AWS \
+                    Fargate.
+
+long_description    The AWS Copilot CLI is a tool for developers to create, \
+                    release and manage production ready containerized \
+                    applications on Amazon ECS and AWS Fargate. From getting \
+                    started, pushing to a test environment and releasing to \
+                    production, Copilot helps you through the entire life of \
+                    your app development.
+
+categories          devel
+installs_libs       no
+license             Apache-2
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+platforms           darwin
+
+depends_build-append \
+                    port:go-mockgen \
+                    port:npm7       \
+                    port:packr
+
+# allow Go to fetch deps at run-time
+build.env-delete    GO111MODULE=off GOPROXY=off
+
+build.cmd           make
+build.pre_args      VERSION=${version}
+build.args          release
+
+installs_libs       no
+use_parallel_build  no
+
+checksums           rmd160  086a671bdfe6e5dc5cfc9d9853e777d366b8598d \
+                    sha256  98f22a545e016733a43b8cc3a548c0df75c443ae50edb3644e709e8df079598d \
+                    size    8022135
+
+github.tarball_from archive
+
+patch {
+    # Remove Windows and Linux builds for the release target
+    reinplace -E {/^release:/ s/compile-(linux|windows)[[:space:]]+//g} \
+        ${worksrcpath}/Makefile
+
+    # Delete all 'go get' lines, to prohibit the Makefile from installing
+    # build utilities on its own (we want it to use those MacPorts provides).
+    reinplace -E {/go get/d} ${worksrcpath}/Makefile
+
+    # Modify custom Go tools path to use binaries provided by MacPorts
+    reinplace -E "s|^GOBIN=.*|GOBIN=${prefix}/bin|g" ${worksrcpath}/Makefile
+}
+
+destroot {
+    xinstall -m 755 \
+        ${worksrcpath}/bin/local/${name}-${goos}-${goarch} \
+        ${destroot}${prefix}/bin/${name}
+}

@@ -1,0 +1,73 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+PortGroup           wxWidgets 1.0
+
+categories          science comms
+platforms           darwin macosx
+license             LGPL-2.1
+maintainers         {ra1nb0w @ra1nb0w} openmaintainer
+description         GUI Application for FreeDV - an open source digital \
+    voice protocol that integrates the modems, codecs, and FEC
+long_description    ${description}
+
+github.setup        drowe67 freedv-gui 5e9f5c3b06b0358be6ba5ad99809eec752b1a3d3
+version             20210919-[string range ${github.version} 0 7]
+checksums           rmd160  eb3c317f0f476be59faeaf26282bf23fd28047f1 \
+                    sha256  d1f285cadee1608ba4a9184423a4ac277c2fd9fbd99df57c3d5608e52b947cee \
+                    size    9448428
+revision            0
+
+# move from commit to version
+epoch               1
+
+depends_build-append \
+    port:pkgconfig
+
+wxWidgets.use \
+    wxWidgets-3.2
+
+depends_lib-append \
+    port:${wxWidgets.port} \
+    port:portaudio \
+    path:lib/libhamlib.dylib:hamlib \
+    port:libsndfile \
+    port:libsamplerate \
+    port:libao \
+    port:codec2 \
+    port:lpcnetfreedv \
+    port:speexDSP
+
+compiler.cxx_standard 2011
+
+configure.args-append \
+    -DUSE_INTERNAL_CODEC2=FALSE \
+    -DWXCONFIG=${wxWidgets.wxconfig} \
+    -DWXRC=${wxWidgets.wxrc} \
+    -DPORTAUDIO_LIBRARIES=${prefix}/lib/libportaudio.dylib \
+    -DPORTAUDIO_INCLUDE_DIRS=${prefix}/include
+
+# avoid dmg and use app portgroup
+patchfiles-append \
+    patch-src_cmakelists.txt.diff
+
+destroot {
+    xinstall -d -m 0755 ${destroot}${applications_dir}/FreeDV.app/Contents
+    xinstall -d -m 0755 ${destroot}${applications_dir}/FreeDV.app/Contents/MacOS
+    xinstall -d -m 0755 ${destroot}${applications_dir}/FreeDV.app/Contents/Resources
+    xinstall -m 0644 ${worksrcpath}/src/freedv.icns \
+        ${destroot}${applications_dir}/FreeDV.app/Contents/Resources/FreeDV.icns
+    xinstall -m 0755 ${workpath}/build/src/freedv \
+        ${destroot}${applications_dir}/FreeDV.app/Contents/MacOS/FreeDV
+    xinstall -m 0644 ${filespath}/info.plist \
+        ${destroot}${applications_dir}/FreeDV.app/Contents/Info.plist
+    reinplace "s|_VERSION_|${version}|g" \
+        ${destroot}${applications_dir}/FreeDV.app/Contents/Info.plist
+    ln -s ${applications_dir}/FreeDV.app/Contents/MacOS/FreeDV \
+        ${destroot}${prefix}/bin/freedv
+    xinstall -d -m 0755 ${destroot}${prefix}/share/doc/freedv-gui
+    xinstall -m 0644 ${worksrcpath}/USER_MANUAL.pdf \
+        ${destroot}${prefix}/share/doc/freedv-gui
+}

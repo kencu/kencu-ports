@@ -1,0 +1,37 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               github 1.0
+
+github.setup            pkubowicz opendetex 2.8.9 v
+revision                0
+checksums               rmd160  a5c6d6aa47e354fcbb2f3e15dd4dc7cfa24f4d2e \
+                        sha256  0d6b8cb1f3394b790dd757b0171ad8b398c48e306fa6339e86ed8303c51df084 \
+                        size    44224
+
+categories              tex textproc
+platforms               darwin
+maintainers             {ryandesign @ryandesign} openmaintainer
+license                 NCSA
+use_configure           no
+github.tarball_from     releases
+use_bzip2               yes
+extract.mkdir           yes
+
+description             removes TeX constructs from a text file
+
+long_description        OpenDetex {*}${description}.
+
+variant universal {}
+
+build.args              CC="${configure.cc}" \
+                        DEFS="${configure.cflags} [get_canonical_archflags cc]"
+
+destroot {
+    xinstall -W ${worksrcpath} detex ${destroot}${prefix}/bin
+    xinstall -W ${worksrcpath} -m 0644 detex.1 ${destroot}${prefix}/share/man/man1/
+    
+    set docdir ${destroot}${prefix}/share/doc/${name}
+    xinstall -d ${docdir}
+    xinstall -W ${worksrcpath} -m 0644 ChangeLog COPYRIGHT README ${docdir}
+}

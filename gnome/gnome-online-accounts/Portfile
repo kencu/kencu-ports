@@ -1,0 +1,68 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           gobject_introspection 1.0
+
+name                gnome-online-accounts
+version             3.36.0
+revision            1
+license             LGPL-2
+set branch          [join [lrange [split ${version} .] 0 1] .]
+description         Single sign-on framework for GNOME
+long_description    ${description}
+maintainers         {devans @dbevans} openmaintainer
+categories          gnome
+platforms           darwin
+homepage            https://wiki.gnome.org/Projects/GnomeOnlineAccounts
+master_sites        gnome:sources/${name}/${branch}/
+
+use_xz              yes
+
+checksums           rmd160  dd5bc0427140b0eaab80687ec53efe4b8ea9f23e \
+                    sha256  1c8f62990833ca41188dbb80c5e99d99b57a62608ca675bbcd37bc2244742f2e \
+                    size    860472
+
+depends_build       port:pkgconfig \
+                    port:gtk-doc
+
+depends_lib         port:gdk-pixbuf2 \
+                    port:gtk3 \
+                    port:libsoup \
+                    port:json-glib \
+                    port:kerberos5 \
+                    port:rest \
+                    port:libsecret \
+                    port:libxml2 \
+                    port:gcr \
+                    port:vala \
+                    path:lib/pkgconfig/webkit2gtk-4.0.pc:webkit2-gtk
+
+gobject_introspection yes
+
+compiler.cxx_standard 2011
+
+patchfiles          patch-src-goaidentity-Makefile.am.diff
+
+use_autoreconf      yes
+autoreconf.args     -fvi
+
+configure.cppflags-append \
+                    -DBUILDING_GTK__
+
+configure.args      --enable-compile-warnings=no \
+                    --disable-media-server \
+                    --enable-exchange \
+                    --enable-inspector \
+                    --enable-flickr \
+                    --enable-foursquare \
+                    --enable-google \
+                    --enable-imap-smtp \
+                    --enable-owncloud \
+                    --enable-facebook \
+                    --enable-windows-live \
+                    --enable-lastfm \
+                    --enable-kerberos \
+                    --disable-maintainer-mode \
+                    --disable-silent-rules
+
+livecheck.type      gnome

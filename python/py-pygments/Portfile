@@ -1,0 +1,72 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           select 1.0
+
+name                py-pygments
+python.rootname     Pygments
+version             2.10.0
+revision            0
+categories-append   devel
+platforms           darwin
+license             BSD
+supported_archs     noarch
+
+python.versions     27 35 36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         Python syntax highlighter
+
+long_description \
+    Pygments is a fast syntax highlighter written in Python with a \
+    special focus on details. Can highlight source code in many supported \
+    languages: Python, Ruby, PHP, HTML etc. Outputs arbitrarily-styled \
+    HTML or LaTeX, comes with many builtin styles.
+
+homepage            http://pygments.org/
+
+checksums           rmd160  0aa9a012dd168d385c7aa2d5cee5a7e4e722d788 \
+                    sha256  f398865f7eb6874156579fdf36bc840a03cab64d1cde9e93d68f46a425ec52c6 \
+                    size    4052321
+
+if {${name} ne ${subport}} {
+
+    if {${python.version} < 36} {
+        version             2.5.2
+        revision            0
+        distname            ${python.rootname}-${version}
+        checksums           rmd160  e38d8d2e69af42784f2b7235ba5ee464df71901b \
+                            sha256  98c8aa5a9f778fcd1026a17361ddaf7330d1b7c62ae97c3bb0ae73e0b9b6b0fe \
+                            size    20263984
+    }
+
+    depends_lib-append  port:py${python.version}-setuptools
+
+    depends_run-append  port:pygments_select
+
+    post-destroot {
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 644 -W ${worksrcpath} AUTHORS CHANGES LICENSE \
+            ${destroot}${docdir}
+        set man1 ${python.prefix}/share/man/man1
+        xinstall -d ${destroot}${man1}
+        xinstall -m 644 ${worksrcpath}/doc/pygmentize.1 ${destroot}${man1}
+        ln -sf ${man1}/pygmentize.1 \
+            ${destroot}${prefix}/share/man/man1/pygmentize-${python.branch}.1
+    }
+
+    select.group        pygments
+    select.file         ${filespath}/py${python.version}-pygments
+
+    notes "
+To make the Python ${python.branch} version of Pygments the one that is run when\
+you execute the commands without a version suffix, e.g. 'pygmentize', run:
+
+port select --set ${select.group} [file tail ${select.file}]
+"
+
+    livecheck.type      none
+}

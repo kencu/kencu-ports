@@ -1,0 +1,53 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim: fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-anyio
+version             3.3.2
+revision            0
+categories-append   devel
+platforms           darwin
+license             MIT
+supported_archs     noarch
+
+python.versions     36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         AnyIO is a asynchronous compatibility API
+long_description    ${description}
+
+homepage            https://github.com/agronholm/anyio
+
+checksums           rmd160  c2154e852273461598bcb0b4fcfe1e24c0f5321c \
+                    sha256  0b993a2ef6c1dc456815c2b5ca2819f382f20af98087cc2090a4afed3a501436 \
+                    size    133260
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                        port:py${python.version}-setuptools \
+                        port:py${python.version}-setuptools_scm
+
+    depends_lib-append  port:py${python.version}-idna \
+                        port:py${python.version}-sniffio
+
+    if {${python.version} eq 36} {
+        # py36-jupyter-server requires anyio < 3.x
+        version             2.2.0
+        revision            1
+        distname            ${python.rootname}-${version}
+        checksums           rmd160  c35c743b310fbe8f50125a5410fb0b70b105c482 \
+                            sha256  4a41c5b3a65ed92e469d51b6fba3779301850ea2e352afcf9e36c46f21ee14a9 \
+                            size    97217
+
+        depends_lib-append  port:py${python.version}-async_generator \
+                            port:py${python.version}-dataclasses
+    }
+
+    if {${python.version} < 38} {
+        depends_lib-append  port:py${python.version}-typing_extensions
+    }
+
+    livecheck.type      none
+}

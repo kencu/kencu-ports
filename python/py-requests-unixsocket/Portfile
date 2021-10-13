@@ -1,0 +1,39 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-requests-unixsocket
+version             0.2.0
+revision            0
+categories-append   devel
+platforms           darwin
+license             Apache-2
+supported_archs     noarch
+
+python.versions     27 35 36 37 38 39
+
+maintainers         nomaintainer
+
+description         HTTP via a UNIX domain socket
+
+long_description    This module uses py-requests to talk HTTP \
+                    via a UNIX domain socket.
+
+checksums           rmd160  734f57911c70bf75fb8c33378340154bc51a1251 \
+                    sha256  9e5c1a20afc3cf786197ae59c79bcdb0e7565f218f27df5f891307ee8817c1ea \
+                    size    13303
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                        port:py${python.version}-setuptools \
+                        port:py${python.version}-pbr
+    depends_lib-append  port:py${python.version}-requests
+
+    patchfiles          patch-requirements.diff
+
+    build.env-append    PBR_VERSION=${version}
+    destroot.env-append PBR_VERSION=${version}
+
+    livecheck.type      none
+}

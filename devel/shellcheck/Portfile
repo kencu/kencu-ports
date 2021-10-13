@@ -1,0 +1,24 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           haskell_stack 1.0
+
+github.setup        koalaman shellcheck 0.7.2 v
+revision            1
+categories          devel haskell
+
+license             GPL-3+
+maintainers         {cal @neverpanic} openmaintainer
+platforms           darwin
+
+description         ShellCheck, a static analysis tool for shell scripts
+long_description    \
+    The goals of ShellCheck are: \
+    \n - To point out and clarify typical beginner's syntax issues, that causes a shell to give cryptic error messages. \
+    \n - To point out and clarify typical intermediate level semantic problems, that causes a shell to behave strangely and counter-intuitively. \
+    \n - To point out subtle caveats, corner cases and pitfalls, that may cause an advanced user's otherwise working script to fail under future circumstances.
+
+checksums           rmd160  d7a5ac158bbb125bffa5758a5fbaba627be95434 \
+                    sha256  0474e71e8ef64862dbb5909964e97c5c32b6137b53983058773b1038df8525e4 \
+                    size    225245

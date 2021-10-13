@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Finance-QuoteHist 1.29
+license             {Artistic-1 GPL}
+maintainers         nomaintainer
+description         Perl module for fetching historical stock quotes.
+long_description    The Finance-QuoteHist bundle is several modules \
+                    designed to fetch historical stock quotes from the web.
+
+platforms           darwin
+
+checksums           rmd160  f39e3085cb6896f971289172d3c020db546e9375 \
+                    sha256  7aaf681efc13f4c9485533b5cb02a80ff94c390e51f80c9aeb936d2dec78599f \
+                    size    41672
+
+if {${perl5.major} != ""} {
+    depends_lib-append \
+                    port:p${perl5.major}-date-manip \
+                    port:p${perl5.major}-html-tableextract \
+                    port:p${perl5.major}-http-message \
+                    port:p${perl5.major}-libwww-perl \
+                    port:p${perl5.major}-regexp-common \
+                    port:p${perl5.major}-text-csv \
+                    port:p${perl5.major}-text-csv_xs
+
+    supported_archs noarch
+}

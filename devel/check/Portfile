@@ -1,0 +1,36 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        libcheck check 0.15.2
+revision            0
+checksums           rmd160  56617db11452f9a72a700e45f03b3982bedfc368 \
+                    sha256  272bc05b0db3b25177c5a4fb266fb67dabb4dc5ebba75f73074924b5c03fcaae \
+                    size    306088
+
+categories          devel
+license             LGPL-2.1+
+maintainers         nomaintainer
+homepage            https://libcheck.github.io/check/
+description         C unit testing framework
+long_description    Check is a unit test framework for C. It \
+                    features a simple interface for defining unit \
+                    tests, putting little in the way of the \
+                    developer. Tests are run in a separate address \
+                    space, so Check can catch both assertion \
+                    failures and code errors that cause \
+                    segmentation faults or other signals. The \
+                    output from unit tests can be used within \
+                    source code editors and IDEs.
+platforms           darwin
+
+depends_build       port:autoconf \
+                    port:automake \
+                    port:libtool \
+                    port:pkgconfig
+
+use_autoreconf      yes
+
+test.run            yes
+test.target         check

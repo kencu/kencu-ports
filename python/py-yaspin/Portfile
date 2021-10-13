@@ -1,0 +1,45 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-yaspin
+version             2.0.0
+revision            1
+platforms           darwin
+license             MIT
+supported_archs     noarch
+
+maintainers         {@harens gmail.com:harensdeveloper} \
+                    openmaintainer
+
+description         Yaspin is a lightweight terminal spinner for Python with safe pipes and redirects
+long_description    {*}${description}. It provides a full-featured terminal spinner to show the progress \
+                    during long-hanging operations.
+
+homepage            https://pypi.org/project/yaspin/
+
+checksums           rmd160 ef782b0dd0a3752ccb9688a745a2187bc4857ce9 \
+                    sha256 0498039b3e110f53824417a9f59418a20843e8752b8b15c26bb81a659d4aec5c \
+                    size   33794
+
+python.versions     38 39
+
+if {${name} ne ${subport}} {
+
+    depends_build-append \
+                        port:py${python.version}-setuptools
+
+    depends_run-append \
+                        port:py${python.version}-termcolor
+
+    post-destroot {
+        # Install the tests and examples to the yaspin folder
+        set python.site_packages ${destroot}${python.prefix}/lib/python${python.branch}/site-packages
+        move ${python.site_packages}/tests ${python.site_packages}/${python.rootname}/tests
+        move ${python.site_packages}/examples ${python.site_packages}/${python.rootname}/examples
+
+    }
+
+    livecheck.type      none
+}

@@ -1,0 +1,41 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-cffi
+version             1.14.6
+revision            1
+categories-append   devel
+platforms           darwin
+license             MIT
+
+python.versions     27 35 36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         Foreign Function Interface for Python calling C code.
+
+long_description    Foreign Function Interface for Python calling C code. \
+                    The aim of this project is to provide a convenient and \
+                    reliable way of calling C code from Python.
+
+homepage            https://cffi.readthedocs.org/
+
+checksums           rmd160  02a34fb6f526cb05d42d840db29e27ba0c8b0d0e \
+                    sha256  c9a875ce9d7fe32887784274dd533c57909b7b1dcadcc128a2ac21331a9765dd \
+                    size    475744
+
+if {${name} ne ${subport}} {
+    patchfiles-append   patch-setup.py.diff
+
+    # ticket 61804
+    compiler.blacklist-append *gcc-3.* *gcc-4.*
+
+    depends_build-append \
+                        port:py${python.version}-setuptools
+    depends_lib-append  port:libffi \
+                        port:py${python.version}-pycparser
+
+    livecheck.type      none
+}

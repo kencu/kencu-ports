@@ -1,0 +1,46 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                verde
+version             1.6.1
+revision            0
+categories-append   science
+license             BSD
+maintainers         {mps @Schamschula} openmaintainer
+description         Verde is a Python library for processing spatial data
+long_description    {*}${description} (bathymetry, geophysics surveys, etc) and \
+                    interpolating it on regular grids (i.e., gridding).
+platforms           darwin
+homepage            https://github.com/fatiando/verde
+
+checksums           rmd160  c80c06b816b0a0f309a787d50946934dfe13ddce \
+                    sha256  f82a149a3a13ccd60227840cdc9d93a23b8faeb44308d7c447554bd0452698cb \
+                    size    2817800
+
+variant python37 conflicts python38 python39 description {Use Python 3.7} {}
+variant python38 conflicts python37 python39 description {Use Python 3.8} {}
+variant python39 conflicts python37 python38 description {Use Python 3.9} {}
+
+if {![variant_isset python37] && ![variant_isset python38]} {
+    default_variants +python39
+}
+
+foreach pv {39 38 37} {
+    if {[variant_isset python${pv}]} {
+        python.default_version ${pv}
+        break
+    }
+}
+
+depends_build-append \
+                    port:py${python.version}-setuptools_scm
+
+depends_lib-append  port:py${python.version}-dask \
+                    port:py${python.version}-numpy \
+                    port:py${python.version}-pandas \
+                    port:py${python.version}-pooch \
+                    port:py${python.version}-scikit-learn \
+                    port:py${python.version}-scipy \
+                    port:py${python.version}-xarray

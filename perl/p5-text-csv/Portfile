@@ -1,0 +1,27 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Text-CSV 2.01
+license             {Artistic-1 GPL}
+maintainers         nomaintainer
+description         Text::CSV - comma-separated values manipulation routines
+long_description    Text::CSV provides facilities for the composition and \
+                    decomposition of comma-separated values. An instance \
+                    of the Text::CSV class can combine fields into a CSV \
+                    string and parse a CSV string into fields.
+
+platforms           darwin
+
+checksums           rmd160  dc59b8ba83e76811bd637fb0cde4a924addbdf0e \
+                    sha256  2a90a5eea3f22c40b87932a929621680609ab5f6b874a77c4134c8a04eb8e74b \
+                    size    134279
+
+if {${perl5.major} != ""} {
+    depends_lib-append \
+                    port:p${perl5.major}-text-csv_xs
+
+    supported_archs noarch
+}

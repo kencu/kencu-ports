@@ -1,0 +1,49 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           python 1.0
+
+github.setup        doug-101 TreeLine 3.1.4 v
+github.tarball_from releases
+name                treeline
+revision            0
+
+categories          office pim python
+platforms           darwin
+supported_archs     noarch
+license             GPL-2+
+maintainers         nomaintainer
+
+description         Advanced outliner and personal information manager
+long_description    Some would call TreeLine an Outliner, others would call \
+                    it a PIM. Basically, it just stores almost any kind of \
+                    information. A tree structure makes it easy to keep \
+                    things organized. And each node in the tree can contain \
+                    several fields, forming a mini-database. The output \
+                    format for each node can be defined, and the output can \
+                    be shown on the screen, printed, or exported to html.
+
+homepage            https://treeline.bellz.org
+
+checksums           rmd160  33454538b90a62201a76749d1d6f2d61869f27f3 \
+                    sha256  6602f529c6a8b365f5ad721bd8fb7a0e8c8f76a6a99be29ec74d0e6f09cbea82 \
+                    size    692310
+
+python.default_version 39
+
+patchfiles          patch-install.py.diff
+post-patch {
+    reinplace "s|@@PYTHON_BRANCH@@|${python.branch}|g" ${worksrcpath}/install.py
+}
+
+depends_lib-append  port:py${python.version}-pyqt5 \
+                    port:aspell \
+                    port:aspell-dict-en \
+
+build.cmd           ${python.bin} install.py
+build.args          -p ${python.prefix} \
+                    -b ${destroot}
+build.target
+
+destroot {}

@@ -1,0 +1,39 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/golang/tools 0.1.7 v
+epoch               7
+revision            1
+
+
+name                go-tools
+categories          devel
+platforms           darwin freebsd linux
+license             BSD
+maintainers         {ciserlohn @ci42} {@enckse voidedtech.com:enckse} openmaintainer
+description         Various packages and tools that support the Go programming language.
+long_description    $description
+
+checksums           rmd160  71a1a020b05829115088d3bb575100d38e51ca48 \
+                    sha256  b88cae9ca14fc3f18ff714c8014929c8c2c63d15805416d49d88b51f201e9fbf \
+                    size    2884220
+
+github.tarball_from archive
+
+# FIXME: This port currently can't be built without allowing go mod to fetch
+# dependencies during the build phase. See
+# https://trac.macports.org/ticket/61192
+build.env-delete    GOPROXY=off GO111MODULE=off
+
+build.args          -o bin/ ./cmd/... ./cmd/auth/...
+
+destroot {
+    set dp_bin ${destroot}${prefix}/bin
+    xinstall -m 755 {*}[glob ${worksrcpath}/bin/*] ${dp_bin}
+
+    # Remove internal Go utility 'bundle', to avoid conflict with Ruby
+    # See: https://trac.macports.org/ticket/57787
+    delete ${dp_bin}/bundle
+}

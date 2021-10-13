@@ -1,0 +1,17 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         B-COW 0.004 ../../authors/id/A/AT/ATOOMIC
+license             {Artistic-1 GPL}
+maintainers         {devans @dbevans} openmaintainer
+description         B::COW - additional B helpers to check Copy-On-Write status
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  7e923587e6217bde4d63e41d746ca39612827349 \
+                    sha256  fcafb775ed84a45bc2c06c5ffd71342cb3c06fb0bdcd5c1b51b0c12f8b585f51 \
+                    size    18295

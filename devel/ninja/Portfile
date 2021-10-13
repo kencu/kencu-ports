@@ -1,0 +1,92 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+epoch               1
+github.setup        ninja-build ninja 1.10.2 v
+revision            1
+
+checksums           rmd160  1346989347fbb47b7211c1a49d5f9236f3027488 \
+                    sha256  ce35865411f0490368a8fc383f29071de6690cbadc27704734978221f25e2bed \
+                    size    213959
+
+categories          devel
+platforms           darwin
+maintainers         {ryandesign @ryandesign} openmaintainer
+license             Apache-2
+installs_libs       no
+conflicts           samurai
+
+description         Small build system with a focus on speed.
+
+long_description    Ninja is yet another build system. It takes as input    \
+                    the interdependencies of files (typically source code   \
+                    and output executables) and orchestrates building them, \
+                    quickly.                                                \
+                                                                            \
+                    Ninja joins a sea of other build systems. Its           \
+                    distinguishing goal is to be fast. It is born from my   \
+                    work on the Chromium browser project, which has over    \
+                    30,000 source files and whose other build systems       \
+                    (including one built from custom non-recursive          \
+                    Makefiles) can take ten seconds to start building       \
+                    after changing one file. Ninja is under a second.
+
+homepage            https://ninja-build.org
+github.tarball_from archive
+
+installs_libs       no
+
+patchfiles          patch-configure.py-bootstrap-only.diff \
+                    patch-ninja-configure.py-remove-mmd.diff
+
+depends_build-append \
+                    port:re2c
+
+configure.python    /usr/bin/python
+default configure.cmd \
+                    {${configure.python}}
+configure.pre_args  configure.py
+default configure.args \
+                    {--with-python=${configure.python}}
+configure.post_args --bootstrap \
+                    --verbose
+configure.universal_args
+
+build.cmd           ./ninja
+build.target
+build.args          -v
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/${name} ${destroot}${prefix}/bin
+    xinstall -d ${destroot}${prefix}/etc/bash_completion.d
+    xinstall -m 0644 ${worksrcpath}/misc/bash-completion ${destroot}${prefix}/etc/bash_completion.d/ninja
+
+    xinstall -d ${destroot}${prefix}/share/zsh/site-functions
+    xinstall -m 0644 ${worksrcpath}/misc/zsh-completion ${destroot}${prefix}/share/zsh/site-functions/_ninja
+
+    set docdir ${prefix}/share/doc/${subport}
+    xinstall -d ${destroot}${docdir}
+    xinstall -m 0644 -W ${worksrcpath} \
+        CONTRIBUTING.md \
+        COPYING \
+        README.md \
+        ${destroot}${docdir}
+}
+
+platform darwin {
+    if {${os.major} < 10} {
+        depends_build-append    port:python27
+        configure.python        ${prefix}/bin/python2.7
+    }
+    
+    if {${os.major} == 8} {
+        patchfiles-append patch-tiger-no-posix-spawn.diff
+        patchfiles-append patch-tiger-sysconf.diff
+    }
+}
+
+test.run            yes
+test.cmd            ./ninja ninja_test && ./ninja_test
+test.args

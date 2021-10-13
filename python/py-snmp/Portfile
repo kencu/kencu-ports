@@ -1,0 +1,40 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-snmp
+python.rootname     pysnmp
+version             4.2.5
+revision            0
+
+categories-append	net
+platforms           darwin freebsd
+supported_archs     noarch
+license			    BSD
+maintainers         {gmail.com:valyukov @valyukov} openmaintainer
+
+description         SNMP library for Python
+long_description
+
+homepage            http://snmplabs.com/pysnmp/
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+distname            pysnmp-${version}
+
+checksums           rmd160  e2d0dafa6edf9b2940244adec4719dfe393b7a9b \
+                    sha256  c46e65d99a604f690b3d5800e2f6e26e1ed9a3c7f7e17e7b4b4d897150f7077f \
+                    size    225014
+
+python.versions     27 35 36
+
+if {${name} ne ${subport}} {
+    depends_lib-append  \
+                    port:py${python.version}-asn1 \
+                    port:py${python.version}-crypto
+
+    post-destroot {
+        file delete -force ${destroot}${prefix}/share/doc/${subport}
+        file copy ${worksrcpath}/docs ${destroot}${prefix}/share/doc/${subport}
+        file copy ${worksrcpath}/examples ${destroot}${prefix}/share/doc/${subport}
+    }
+}

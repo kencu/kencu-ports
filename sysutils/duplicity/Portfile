@@ -1,0 +1,70 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                duplicity
+version             0.8.18
+revision            0
+
+homepage            http://duplicity.nongnu.org/
+
+description         Encrypted bandwidth-efficient backup.
+
+long_description    Duplicity backs up directories by producing encrypted \
+                    tar-format volumes and uploading them to a remote or local file \
+                    server. Because duplicity uses librsync, the incremental archives \
+                    are space efficient and only record the parts of files that have \
+                    changed since the last backup. Because duplicity uses GnuPG to \
+                    encrypt and/or sign these archives, they will be safe from spying \
+                    and/or modification by the server.
+
+categories          sysutils
+platforms           darwin
+license             GPL-2
+maintainers         nomaintainer
+
+set stable_series   [join [lrange [split ${version} .] 0 1] .]-series
+
+master_sites        https://launchpad.net/duplicity/${stable_series}/${version}/+download
+
+checksums           rmd160  aa1fc9880f31fe22144988f0b42b6f6e06b6f92c \
+                    sha256  2643fea0f52920a0fb114069c78389f9621f1c24db7f26bda77bbc239b01ae53 \
+                    size    1352646
+
+python.default_version 39
+
+post-patch {
+    foreach f {duplicity rdiffdir} {
+        reinplace "s|^#!/usr/bin/env python3$|#!${python.bin}|" ${worksrcpath}/bin/${f}
+    }
+}
+
+build.args          --librsync-dir=${prefix}
+post-destroot {
+    xinstall -m 644 -W ${worksrcpath}/bin \
+        ${name}.1 \
+        rdiffdir.1 \
+        ${destroot}${prefix}/share/man/man1/
+}
+
+depends_build-append    port:py${python.version}-setuptools \
+                        port:py${python.version}-setuptools_scm \
+                        port:py${python.version}-rbtools \
+                        port:py${python.version}-nose \
+                        port:py${python.version}-pip
+
+depends_run-append  port:py${python.version}-boto \
+                    port:py${python.version}-boto3 \
+                    port:py${python.version}-fasteners \
+                    port:py${python.version}-future \
+                    port:py${python.version}-lockfile \
+                    port:py${python.version}-paramiko \
+                    port:ncftp
+
+depends_lib-append  port:librsync \
+                    path:bin/gpg:gnupg2
+
+livecheck.type    regex
+livecheck.url     https://launchpad.net/duplicity/+download
+livecheck.regex   {duplicity-(\d+(?:\.\d+)*).tar.gz}

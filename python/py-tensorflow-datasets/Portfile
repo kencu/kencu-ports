@@ -1,0 +1,68 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           python 1.0
+
+github.setup        tensorflow datasets 4.3.0 v
+revision            0
+name                py-${github.author}-${github.project}
+
+platforms           darwin
+license             Apache-2
+maintainers         nomaintainer
+
+description         tensorflow/datasets is a library of datasets ready \
+                    to use with TensorFlow.
+long_description    TensorFlow Datasets provides many public datasets \
+                    as tf.data.Datasets.
+
+homepage            https://github.com/tensorflow/datasets
+
+checksums           rmd160  c02ca26a81cbd25a15454e60f88a9a706306ccd3 \
+                    sha256  65e7988caae5bf5410aab21284a65aa7f5ec4957a2255823fde2b945d9617a13 \
+                    size    82140654
+
+python.versions     37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    depends_run-append \
+                    port:py${python.version}-absl \
+                    port:py${python.version}-attrs \
+                    port:py${python.version}-dill \
+                    port:py${python.version}-future \
+                    port:py${python.version}-numpy \
+                    port:py${python.version}-promise \
+                    port:py${python.version}-protobuf3 \
+                    port:py${python.version}-requests \
+                    port:py${python.version}-six \
+                    port:py${python.version}-tensorflow-metadata \
+                    port:py${python.version}-termcolor \
+                    port:py${python.version}-tqdm \
+                    port:py${python.version}-wrapt
+
+    depends_test-append \
+                    port:py${python.version}-jupyter \
+                    port:py${python.version}-mako \
+                    port:py${python.version}-pytest \
+                    port:py${python.version}-pytest-xdist \
+                    port:py${python.version}-tensorflow-data-validation
+
+    test.run        yes
+    test.cmd        py.test-${python.branch}
+    test.target
+    test.env-append \
+                    PYTHONPATH=${worksrcpath}/build/lib
+
+    post-destroot {
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath} LICENSE README.md \
+            ${destroot}${docdir}
+    }
+
+    livecheck.type  none
+}

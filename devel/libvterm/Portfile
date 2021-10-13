@@ -1,0 +1,45 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                libvterm
+version             0.1.4
+categories          devel
+platforms           darwin
+maintainers         {raimue @raimue} \
+                    openmaintainer
+license             MIT
+
+description         A library for a VT220/xterm/ECMA-48 terminal emulator
+  
+long_description \
+    An abstract C99 library which implements a VT220 or xterm-like terminal \
+    emulator. It doesn't use any particular graphics toolkit or output system, \
+    instead it invokes callback function pointers that its embedding program \
+    should provide it to draw on its behalf. It avoids calling malloc() during \
+    normal running state, allowing it to be used in embedded kernel situations.
+
+homepage            http://www.leonerd.org.uk/code/libvterm/
+
+master_sites        ${homepage}
+
+checksums           rmd160  827234390d2ac60377786c896808736827cbfbee \
+                    sha256  bc70349e95559c667672fc8c55b9527d9db9ada0fb80a3beda533418d782d3dd \
+                    size    69122
+
+compiler.c_standard 1999
+
+depends_build       port:libtool \
+                    port:pkgconfig
+
+patchfiles-append   patch-disable-silent-rules.diff
+
+use_configure no
+
+build.args          PREFIX=${prefix}
+build.env-append    CC=${configure.cc} \
+                    "CFLAGS=${configure.cflags} [get_canonical_archflags cc]" \
+                    "LDFLAGS=${configure.ldflags} [get_canonical_archflags ld]" \
+                    VERBOSE=1
+
+destroot.args       ${build.args}

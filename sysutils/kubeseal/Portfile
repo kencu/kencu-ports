@@ -1,0 +1,37 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+PortGroup           legacysupport 1.1
+
+go.setup            github.com/bitnami-labs/sealed-secrets 0.16.0 v
+name                kubeseal
+revision            0
+
+categories          sysutils security
+platforms           darwin
+license             Apache-2
+
+description         Kubernetes tool for one-way encrypted Secrets
+long_description    CLI for {*}${description}
+
+maintainers         @tux-o-matic \
+                    {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+
+# Allow fetching deps at build time
+build.env-delete    GO111MODULE=off GOPROXY=off
+
+build.pre_args      -ldflags \"-X main.VERSION=${version}\"
+build.args          ./cmd/${name}
+
+checksums           rmd160  76f811e87df88059fbbcf0f3946b5aac805c7bba \
+                    sha256  ecbd8bf71679cf68425a1aad64c7e9263c1361534ee5bd67210e4cd2ed1ca3a0 \
+                    size    6522519
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/kubeseal ${destroot}${prefix}/bin/kubeseal
+}
+
+github.livecheck.regex  {([\d.]+)}
+github.tarball_from archive

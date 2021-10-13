@@ -1,0 +1,43 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/cloudskiff/driftctl 0.15.0 v
+revision            0
+
+homepage            https://driftctl.com
+
+description         Detect, track and alert on infrastructure drift
+
+long_description    {*}${description}. Measures infrastructure as code \
+                    coverage, and tracks infrastructure drift.
+
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+
+categories          sysutils
+license             Apache-2
+platforms           darwin
+installs_libs       no
+
+checksums           rmd160  3931254ab094968b532ecad2b97db430ae99d1b2 \
+                    sha256  d9c62b6fd8d29a6fc5d78f1d744adcee4ad8639b8a75209b96c18825b993544a \
+                    size    9506953
+
+# Allow fetching dependencies at build time
+build.env-delete    GOPROXY=off GO111MODULE=off
+
+build.env-append    OS_ARCH=${os.platform}/${goarch}
+
+build.pre_args-append \
+                    -ldflags \" \
+                        -X ${go.package}/pkg/version.version=${version} \
+                        -X ${go.package}/build.env=release \
+                    \"
+
+destroot {
+    xinstall -m 755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
+}
+
+github.tarball_from archive

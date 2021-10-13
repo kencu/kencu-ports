@@ -1,0 +1,41 @@
+--- src/buildtools/configure.json.orig
++++ src/buildtools/configure.json
+@@ -35,25 +35,25 @@
+         "webengine-xcomposite": {
+             "label": "xcomposite",
+             "sources": [
+-                { "type": "pkgConfig", "args": "xcomposite" }
++                { "type": "pkgConfig", "args": "xcomposite-fail-on-macports" }
+             ]
+         },
+         "webengine-xcursor": {
+             "label": "xcursor",
+             "sources": [
+-                { "type": "pkgConfig", "args": "xcursor" }
++                { "type": "pkgConfig", "args": "xcursor-fail-on-macports" }
+             ]
+         },
+         "webengine-xi": {
+             "label": "xi",
+             "sources": [
+-                { "type": "pkgConfig", "args": "xi" }
++                { "type": "pkgConfig", "args": "xi-fail-on-macports" }
+             ]
+         },
+         "webengine-xtst": {
+             "label": "xtst",
+             "sources": [
+-                { "type": "pkgConfig", "args": "xtst" }
++                { "type": "pkgConfig", "args": "xtst-fail-on-macports" }
+             ]
+         },
+         "webengine-nss": {
+@@ -65,7 +65,7 @@
+         "webengine-x11" : {
+             "label" : "x11",
+             "sources": [
+-                { "type": "pkgConfig", "args": "x11" }
++                { "type": "pkgConfig", "args": "x11-fail-on-macports" }
+             ]
+         },
+         "webengine-glib": {

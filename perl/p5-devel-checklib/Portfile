@@ -1,0 +1,26 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Devel-CheckLib 1.14
+license             {Artistic-1 GPL}
+maintainers         nomaintainer
+description         check that a library is available
+long_description    Devel::CheckLib is a perl module that checks whether \
+                    a particular C library and its headers are available.
+
+platforms           darwin
+
+checksums           rmd160  312faeed14e7b3dc677489feed10a90ab68aee2f \
+                    sha256  f21c5e299ad3ce0fdc0cb0f41378dca85a70e8d6c9a7599f0e56a957200ec294 \
+                    size    15562
+
+supported_archs     noarch
+
+if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-capture-tiny \
+                    port:p${perl5.major}-mock-config
+}

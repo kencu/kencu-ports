@@ -1,0 +1,134 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/junegunn/fzf 0.27.2
+revision            2
+
+categories          sysutils
+platforms           darwin
+license             MIT
+maintainers         {isi.edu:calvin @cardi} openmaintainer
+description         A command-line fuzzy finder written in Go
+long_description    ${description}
+
+checksums           ${distname}${extract.suffix} \
+                        rmd160  577e575ab9b9104694dd8ec2ad914b2b86553d8c \
+                        sha256  68aef240eb89c59a6e699dcc7341833a9be48483c663c16e9a4650ea18d2de4c \
+                        size    191979
+
+go.vendors          golang.org/x/text \
+                        lock    v0.3.6 \
+                        rmd160  e3da48fcc60d98e202458228188bf6dac408e309 \
+                        sha256  6b2d69df22b5ba1634bc6730c3f03404db499536a96c48b8016da80ced804450 \
+                        size    8356058 \
+                    golang.org/x/term \
+                        lock    de623e64d2a6 \
+                        rmd160  8f8c61baa39ab9af01714065975f9c1b41c3baf5 \
+                        sha256  ea781a5a35d70ed6f86287db5296e3b438625120be22bd9e208432dca8fd8f18 \
+                        size    15357 \
+                    golang.org/x/sys \
+                        lock    5e06dd20ab57 \
+                        rmd160  0e29fa746c2128c6d39e6b6b846d79384c3e9cb8 \
+                        sha256  93b0de8ad37fc1f97bc1f0a782fcb666b5ec01a8bcd6f5bce9bbc673c7f7d16b \
+                        size    1218990 \
+                    golang.org/x/sync \
+                        lock    036812b2e83c \
+                        rmd160  f42be6eb3565d2ed3d1066ea1a7f69437c8bb1e6 \
+                        sha256  6f1daceb16cd75bdbf35da6c50aa352d1995d68ccd0049851d27686f451fad92 \
+                        size    18756 \
+                    github.com/saracen/walker \
+                        lock    v0.1.2 \
+                        rmd160  1b55e475639f6a540a5470caf2e0517e1394e2d8 \
+                        sha256  4d4c83c864f8300ff7576195ac7a1056b01005c2a6742414a6385d5c64d6b3c9 \
+                        size    11298 \
+                    github.com/rivo/uniseg \
+                        lock    v0.2.0 \
+                        rmd160  33577def583aa2db50b69ca601e5d29ab201ebc4 \
+                        sha256  2832965221246272462a03ffc8e159c94d8f534827f660f1ac4fc77e5ccd644c \
+                        size    44037 \
+                    github.com/mattn/go-shellwords \
+                        lock    v1.0.11 \
+                        rmd160  6f262db0fb01afc26566a52cfe350c02218d056b \
+                        sha256  480c08a3a6d24008e0fac687a75f318f095a5108578605f9d7e560581c02eb4a \
+                        size    6112 \
+                    github.com/mattn/go-runewidth \
+                        lock    v0.0.12 \
+                        rmd160  56fc1bfe9eb51e2c283d005ac369b3757ecae355 \
+                        sha256  63f20c04796f9f991a67f7ccf0e09c418b8e454d5cbd424943a5ade2f0065e6e \
+                        size    17358 \
+                    github.com/mattn/go-isatty \
+                        lock    v0.0.12 \
+                        rmd160  4f55aecbddbee6089cbac8456d2932bce2cb57e7 \
+                        sha256  d4d1912998d401389e06ee1dbed06e32a8db95350416f227fbe6a59ac84f0651 \
+                        size    4549 \
+                    github.com/lucasb-eyer/go-colorful \
+                        lock    v1.2.0 \
+                        rmd160  a4183d0625e6c94474942cdc544c1061d35c4e34 \
+                        sha256  fbad1aade4444bf51409f5b6a008cc14c7a7cdd1af856841fc1170605fae3914 \
+                        size    970841 \
+                    github.com/gdamore/tcell \
+                        lock    v1.4.0 \
+                        rmd160  479ce3d189ac02a4de5219054f537cc173c28b43 \
+                        sha256  ee8948a76a4cc5ba8285f03840473cf41e80e476a1317239414ee54396db82c9 \
+                        size    152003 \
+                    github.com/gdamore/encoding \
+                        lock    v1.0.0 \
+                        rmd160  3ed8916f763a5b51db1bcc8bd3ad06cf3d12ec07 \
+                        sha256  4f470c7308790bea8a526ea26cecbaa22345aad8dc566821cda6175b3d241ee1 \
+                        size    10900
+
+# adds specific major.minor.patch version information
+build.args-append   "-ldflags \"-X main.version=${version} -X main.revision=MacPorts\""
+
+destroot {
+    # install fzf
+    xinstall -d ${destroot}${prefix}/bin
+    xinstall -m 755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/${name}
+    # install fzf-tmux (has a failover if tmux isn't installed)
+    xinstall -m 755 ${worksrcpath}/bin/${name}-tmux ${destroot}${prefix}/bin/${name}-tmux
+}
+
+post-destroot {
+    # install documentation
+    xinstall -d -m 0755 ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 -W ${worksrcpath} LICENSE README-VIM.md README.md ${destroot}${prefix}/share/doc/${name}
+
+    # install man pages
+    xinstall -d -m 0755 ${destroot}${prefix}/share/man/man1
+    xinstall -m 0644 {*}[glob ${worksrcpath}/man/man1/*.1] ${destroot}${prefix}/share/man/man1/
+
+    # install shell completion (bash, zsh)
+    xinstall -d ${destroot}${prefix}/share/bash-completion/completions/
+    xinstall -m 644 ${worksrcpath}/shell/completion.bash ${destroot}${prefix}/share/bash-completion/completions/${name}
+    xinstall -d ${destroot}${prefix}/share/zsh/site-functions/
+    xinstall -m 644 ${worksrcpath}/shell/completion.zsh ${destroot}${prefix}/share/zsh/site-functions/_${name}
+
+    # make other files available, but not enabled
+    xinstall -d ${destroot}${prefix}/share/fzf/shell/
+    xinstall -m 0644 {*}[glob ${worksrcpath}/shell/key-bindings.*] ${destroot}${prefix}/share/fzf/shell/
+    xinstall -d ${destroot}${prefix}/share/fzf/vim/doc/
+    xinstall -m 644 ${worksrcpath}/doc/${name}.txt ${destroot}${prefix}/share/fzf/vim/doc/${name}.txt
+    xinstall -d ${destroot}${prefix}/share/fzf/vim/plugin/
+    xinstall -m 644 ${worksrcpath}/plugin/${name}.vim ${destroot}${prefix}/share/fzf/vim/plugin/${name}.vim
+}
+
+notes "
+Shell key bindings for bash and zsh are located in:
+
+    ${prefix}/share/fzf/shell
+
+The Vim plugin is located in:
+
+    ${prefix}/share/fzf/vim
+
+Enable the Vim plugin by adding the following to your
+Vim configuration file (default: ~/.vimrc):
+
+    set rtp+=${prefix}/share/fzf/vim
+
+Documentation for fzf and the Vim plugin is located in:
+
+    ${prefix}/share/doc/fzf
+"

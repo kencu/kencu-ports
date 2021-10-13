@@ -1,0 +1,50 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim: fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-nuitka
+python.rootname     Nuitka
+version             0.6.17.2
+revision            0
+categories-append   devel
+platforms           darwin
+license             Apache-2
+
+python.versions     37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         Python compiler with full language support and CPython compatibility.
+long_description    ${description}
+
+homepage            http://nuitka.net/
+
+checksums           rmd160  9625f3babef0420ceaaf943e3c076737b2584c46 \
+                    sha256  8cca686f8e11bdf16dbb9d9e4b32d7ef43b29a7697387b2d93d7f17dc96b97d1 \
+                    size    3150443
+
+if {${name} ne ${subport}} {
+
+    depends_lib-append  port:py${python.version}-setuptools
+
+    # Fix permissions
+    post-extract {
+        fs-traverse item ${worksrcpath} {
+            if {[file isdirectory ${item}]} {
+                file attributes ${item} -permissions a+rx
+            } elseif {[file isfile ${item}]} {
+                file attributes ${item} -permissions a+r
+            }
+        }
+    }
+
+    livecheck.type      none
+}
+
+foreach {old new} {27 37 35 37 36 37} {
+    subport py${old}-${python.rootname} "
+        replaced_by py${new}-${python.rootname}
+        PortGroup obsolete 1.0
+    "
+}

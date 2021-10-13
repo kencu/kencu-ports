@@ -1,0 +1,52 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-arviz
+version             0.11.4
+revision            0
+
+platforms           darwin
+supported_archs     noarch
+license             Apache-2
+maintainers         {reneeotten @reneeotten} openmaintainer
+
+description         Exploratory analysis of Bayesian models
+long_description    ${description}
+
+homepage            https://github.com/arviz-devs/arviz
+
+checksums           rmd160  787d818fc3dba23e3684f93fcc893caa3fe7beca \
+                    sha256  01872758eeabb9941479ec5dd378117337bf95d14cc2c298b437cfda1780b436 \
+                    size    1506007
+
+python.versions     36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    depends_lib-append \
+                    port:py${python.version}-matplotlib \
+                    port:py${python.version}-netcdf4 \
+                    port:py${python.version}-numpy \
+                    port:py${python.version}-packaging \
+                    port:py${python.version}-pandas \
+                    port:py${python.version}-scipy \
+                    port:py${python.version}-xarray
+
+    if {${python.version} > 36} {
+    depends_lib-append \
+                    port:py${python.version}-typing_extensions
+    }
+
+    post-destroot {
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath} CHANGELOG.md CODE_OF_CONDUCT.md \
+            CONTRIBUTING.md LICENSE README.md ${destroot}${docdir}
+    }
+
+    livecheck.type  none
+}

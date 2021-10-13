@@ -1,0 +1,118 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        pocoproject poco 1.10.1 poco- -release
+categories          devel
+maintainers         {gmail.com:vandervelde.ag @arjanvandervelde} openmaintainer
+platforms           darwin
+
+license             Boost-1
+supported_archs     arm64 i386 x86_64
+
+description         POCO C++ Libraries
+
+long_description \
+    POCO aims to be for network-centric, cross-platform C++ software development \
+    what Apple's Cocoa is for Mac development, or Ruby on Rails is for Web \
+    development -- a powerful, yet easy to use platform to build your applications upon.
+
+homepage            https://pocoproject.org
+master_sites        ${homepage}/releases/poco-[strsed ${version} {s/[^0-9.].*$//}]/
+distname            ${name}-${version}-all
+
+set docdir          ${prefix}/share/doc/${name}
+
+if {${subport} eq ${name}} {
+    PortGroup           cmake 1.1
+
+    revision            3
+    checksums           rmd160  b3ba1f1cb925b24626ab09a6cb055edf99380464 \
+                        sha256  2cde4b50778013ab3b7a522aa59bccaa7e85a8ccfc654a354c4d9611b6ce1758 \
+                        size    5313561
+
+    use_bzip2           yes
+    
+    depends_lib-append  port:expat \
+                        path:lib/libssl.dylib:openssl \
+                        port:pcre \
+                        port:zlib
+    
+    patchfiles          DYLD_LIBRARY_PATH.patch
+    
+    compiler.c_standard 1999
+    compiler.cxx_standard \
+                        2014
+
+    configure.args      -DBUILD_SHARED_LIBS=ON \
+                        -DENABLE_APACHECONNECTOR=OFF \
+                        -DENABLE_CRYPTO=ON \
+                        -DENABLE_DATA_MYSQL=OFF \
+                        -DENABLE_DATA_ODBC=OFF \
+                        -DENABLE_DATA_POSTGRESQL=OFF \
+                        -DENABLE_DATA_SQLITE=OFF \
+                        -DENABLE_TESTS=ON \
+                        -DPOCO_UNBUNDLED=ON
+    
+    test.run            yes
+    
+    post-destroot {
+        xinstall -d ${destroot}${docdir}/html
+        xinstall -m 0644 -W ${worksrcpath} CHANGELOG CONTRIBUTORS LICENSE NEWS README VERSION \
+            ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath}/doc Acknowledgements.html ${destroot}${docdir}/html
+        copy ${worksrcpath}/CppUnit/doc ${destroot}${docdir}/html/CppUnit
+    }
+    
+    variant odbc description {Build ODBC backend for Data library} {
+        depends_lib-append      port:libiodbc
+        configure.args-replace  -DENABLE_DATA_ODBC=OFF \
+                                -DENABLE_DATA_ODBC=ON
+        configure.args-append   -DODBC_INCLUDE_DIR=${prefix}/include/libiodbc \
+                                -DODBC_LIBRARY=${prefix}/lib/libiodbc.dylib
+    }
+    
+    variant mysql description {Build MySQL backend for Data library} {
+        depends_lib-append      path:bin/mysql_config5:mysql5
+        configure.args-replace  -DENABLE_DATA_MYSQL=OFF \
+                                -DENABLE_DATA_MYSQL=ON
+        configure.args-append   -DMYSQL_INCLUDE_DIR=${prefix}/include/mysql5/mysql \
+                                -DMYSQL_LIBRARY=${prefix}/lib/mysql5/mysql/libmysqlclient.dylib
+    }
+    
+    variant sqlite description {Build SQLite backend for Data library} {
+        depends_lib-append      port:sqlite3
+        configure.args-replace  -DENABLE_DATA_SQLITE=OFF \
+                                -DENABLE_DATA_SQLITE=ON
+    }
+
+    default_variants    +sqlite
+}
+
+subport ${name}-docs {
+    revision            0
+    checksums           rmd160  7f8e7036fd2d4ce0ca726c044cebdc751921959a \
+                        sha256  f7cf08449cafed511d7d1ee3faeef8696c2d563f77825768798c54bf3e016804 \
+                        size    1352421
+
+    license             unknown
+    supported_archs     noarch
+    description         documentation for POCO
+    long_description    This port contains an offline copy of the POCO documentation.
+    homepage            ${homepage}/documentation/
+    distname            ${distname}-doc
+
+    use_configure       no
+
+    build {}
+
+    destroot {
+        xinstall -d ${destroot}${docdir}
+        copy ${worksrcpath} ${destroot}${docdir}/html
+    }
+}
+
+if {${subport} ne ${name}} {
+    livecheck.type  none
+}

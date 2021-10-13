@@ -1,0 +1,108 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                gpodder
+version             3.10.20
+categories          gnome audio
+license             GPL-3
+maintainers         nomaintainer
+platforms           darwin
+description         A media aggregator and podcast client
+
+long_description    gPodder is a standalone podcast manager. \
+                    It provides anything to manage feeds and podcasts \
+                    but requires an external player to actually listen/view \
+                    the content, e.g. Apple QuickTime Player.
+
+homepage            http://gpodder.org
+master_sites        https://github.com/gpodder/gpodder/archive/refs/tags
+distfiles           ${version}.tar.gz
+
+checksums           rmd160 dade29fc8be46f75506ddca2c86462c84dcfd43b \
+                    sha256 994f7f04a31c68fb3479ad000d4e9af2c0d8caf02c161ede71c7c2cd4b9bc804
+
+
+depends_build       port:help2man\
+                    port:intltool
+
+depends_lib         port:vorbis-tools\
+                    port:lame \
+                    port:gtk3 \
+                    port:librsvg
+
+# python group overrides
+destroot.cmd           make
+destroot.destdir       DESTDIR=${destroot}
+
+
+variant python36 conflicts python27 python35 python37 python38 python39 description {Use Python 3.6} {}
+variant python37 conflicts python27 python35 python36 python38 python39 description {Use Python 3.7} {}
+variant python38 conflicts python27 python35 python36 python37 python39 description {Use Python 3.8} {}
+variant python39 conflicts python27 python35 python36 python37 python38 description {Use Python 3.9} {}
+
+if {![variant_isset python36] && ![variant_isset python37] && ![variant_isset python38] && ![variant_isset python39]} {
+    default_variants +python39
+}
+
+if {[variant_isset python36]} {
+    python.default_version  36
+} elseif {[variant_isset python37]} {
+    python.default_version  37
+} elseif {[variant_isset python38]} {
+    python.default_version  38
+} elseif {[variant_isset python39]} {
+    python.default_version  39
+}
+
+set my_python "${frameworks_dir}/Python.framework/Versions/${python.branch}"
+
+depends_lib-append \
+                    port:py${python.version}-gobject3 \
+                    port:dbus-python${python.version} \
+                    port:py${python.version}-mutagen \
+                    port:py${python.version}-mygpoclient \
+                    port:py${python.version}-podcastparser \
+                    port:youtube-dl
+
+post-patch {
+    reinplace s|python|${my_python}/bin/python|g ${worksrcpath}/makefile
+}
+
+# install in python prefix
+destroot.args PREFIX=${my_python}
+
+
+variant quartz {
+    post-destroot {
+       # Command-XX shortcuts in gPodder menus
+       system "/usr/bin/xsltproc -o ${destroot}${my_python}/share/gpodder/ui/gtk/gpodder.ui \
+               ${filespath}/adjust-modifiers.xsl ${worksrcpath}/share/gpodder/ui/gtk/gpodder.ui"
+    }
+}
+
+build {}
+
+post-destroot {
+
+    set install_path "${my_python}"
+    set contents "${destroot}${applications_dir}/gPodder.app/Contents"
+
+    file mkdir ${contents}/MacOS ${contents}/Resources
+    copy ${worksrcpath}/tools/mac-osx/icon.icns ${contents}/Resources/gPodder.icns
+    copy ${worksrcpath}/tools/mac-osx/Info.plist ${contents}
+    reinplace "s|__VERSION__|${version}|g" ${contents}/Info.plist
+    reinplace "s|__COPYRIGHT__|© 2005-2021 The gPodder Team|g" ${contents}/Info.plist
+    ln -s ${install_path}/bin/gpodder ${contents}/MacOS/gpodder
+
+    # ticket #39613 gPodder +x11 keeps bouncing otherwise
+    if {![variant_isset quartz]} {
+        reinplace -E {s|(<string>org.gpodder.gpodder</string>)|\1 <key>LSUIElement</key><string>1</string>|} \
+                 "${destroot}${applications_dir}/gPodder.app/Contents/Info.plist"
+    }
+}
+
+livecheck.type      regex
+livecheck.url       ${master_sites}
+livecheck.regex     "gpodder-(\\d+(?:\\.\\d+)*)${extract.suffix}"

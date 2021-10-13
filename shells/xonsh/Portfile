@@ -1,0 +1,46 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           python 1.0
+
+github.setup        xonsh xonsh 0.10.1
+revision            0
+categories          shells
+platforms           darwin
+maintainers         {mps @Schamschula} openmaintainer
+license             Permissive
+
+description         Xonsh is a Python-ish, BASHwards-looking shell language \
+                    and command prompt.
+
+long_description    {*}${description} \
+                    The language is a superset of Python 3.4+ with additional \
+                    shell primitives that you are used to from Bash and \
+                    IPython. It works on all major systems including Linux, \
+                    macOS, and Windows. Xonsh is meant for the daily use of \
+                    experts and novices alike.
+
+checksums           rmd160  d1999630e367bf59d083fb9f172d3513a1001e25 \
+                    sha256  64341aff10bdc74342f8adb2154d89208e6d6569e69067f495a9ae0eedfce65d \
+                    size    12662146
+
+variant python36 conflicts python37 python38 python39 description {Use Python 3.6} {}
+variant python37 conflicts python36 python38 python39 description {Use Python 3.7} {}
+variant python38 conflicts python36 python37 python39 description {Use Python 3.8} {}
+variant python39 conflicts python36 python37 python38 description {Use Python 3.9} {}
+
+if {![variant_isset python36] && ![variant_isset python37] && ![variant_isset python39]} {
+    default_variants +python38
+}
+
+foreach pv {39 38 37 36} {
+    if {[variant_isset python${pv}]} {
+        python.default_version ${pv}
+        break
+    }
+}
+
+depends_lib-append  port:py${python.version}-prompt_toolkit \
+                    port:py${python.version}-pygments \
+                    port:py${python.version}-gnureadline

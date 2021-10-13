@@ -1,0 +1,46 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               python 1.0
+
+name                    hg-git
+version                 0.10.2
+revision                0
+
+categories              devel
+license                 GPL-2
+platforms               darwin
+supported_archs         noarch
+maintainers             {danchr @danchr} openmaintainer
+
+homepage                https://www.mercurial-scm.org/wiki/HgGit
+description             Push to and pull from a Git server repository from Mercurial.
+long_description        This is the Hg-Git plugin for Mercurial, adding the ability \
+                        to push to and pull from a Git server repository from Mercurial.\
+                        This means you can collaborate on Git based projects from Mercurial, \
+                        or use a Git server as a collaboration point for a team with \
+                        developers using both Git and Mercurial.
+
+checksums               rmd160  67fa6a611089576851a8c22c540d485832fd4a6a \
+                        sha256  aae1c47328bb7f928778712654c3d5f100445190e2891f175dac66d743fdb2e8 \
+                        size    177794
+
+python.default_version  39
+
+depends_lib-append      port:mercurial port:py${python.version}-dulwich
+
+# workaround for https://foss.heptapod.net/mercurial/hg-git/-/issues/326
+depends_lib-append      port:py${python.version}-brotli
+
+depends_test-append     port:git
+
+notes               "
+To enable hggit, add the following to your ~/.hgrc:
+
+\[extensions\]
+hggit =
+"
+
+test {
+    system -W ${worksrcpath} "${python.bin} ./tests/run-tests.py -j ${build.jobs}"
+}

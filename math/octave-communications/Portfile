@@ -1,0 +1,21 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           octave 1.0
+
+octave.setup        communications 1.2.3
+revision            1
+octave.config_h     yes
+platforms           darwin
+license             GPL-3+
+maintainers         nomaintainer
+description         Digital Communications, Error Correcting Codes \
+                    (Channel Code), Source Code functions, \
+                    Modulation and Galois Fields.
+long_description    {*}${description}
+
+checksums           rmd160  f0176827d778e472485ce7661fd1d88c65c87e7d \
+                    sha256  e30d6195e4b69bb37873c226b0de8f1661c31a0e0c1d1bac55aed0a2220399e4 \
+                    size    340483
+
+depends_lib-append  port:octave-signal

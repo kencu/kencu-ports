@@ -1,0 +1,107 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               github 1.0
+
+# Need strnlen() and strndup()
+PortGroup               legacysupport 1.0
+legacysupport.newest_darwin_requires_legacy 10
+
+github.setup            VirusTotal yara 4.1.2 v
+revision                0
+
+categories              security
+license                 GPL-2+
+platforms               darwin
+maintainers             nomaintainer
+
+description             Malware identification and classification tool
+long_description        YARA is a tool aimed at helping malware researchers to identify \
+                        and classify malware samples.
+
+checksums               rmd160  d2eb6f9b7f787630fe626a48917c8bd143d11406 \
+                        sha256  d25dfe6d14c23fe0496010f01acab8717c355380cfe6ff98565afba784923761 \
+                        size    936849
+
+if {${subport} eq ${name}} {
+    depends_build-append \
+                        port:autoconf \
+                        port:automake \
+                        port:libtool \
+                        port:pkgconfig
+
+    depends_lib-append  port:libmagic \
+                        port:jansson \
+                        path:lib/libssl.dylib:openssl \
+                        port:pcre \
+                        port:protobuf-c
+
+    pre-configure {
+        reinplace "s|/usr/local/opt/openssl/include|${prefix}/include/openssl|" ${worksrcpath}/configure.ac
+        reinplace "s|/usr/local/opt/openssl/lib|${prefix}/lib|" ${worksrcpath}/configure.ac
+        system -W ${worksrcpath} "./bootstrap.sh"
+    }
+    # If previous yara is installed, this build will fail since
+    # /opt/local/include is before ./libyara/include
+    # so swap CPPFLAGS and CFLAGS
+    # Remove this upon the next release after verifying it is not needed.
+    post-configure {
+            reinplace "s|\$(CPPFLAGS) \$(AM_CFLAGS) \$(CFLAGS)|\$(CFLAGS) \$(AM_CFLAGS) \$(CPPFLAGS)|" ${worksrcpath}/Makefile
+            reinplace "s|\$(DEFAULT_INCLUDES) \$(INCLUDES) \$(AM_CPPFLAGS) \$(CPPFLAGS)|\$(DEFAULT_INCLUDES) \$(INCLUDES) \$(AM_CPPFLAGS) \$(CFLAGS)|" ${worksrcpath}/Makefile
+            reinplace "s|\t\$(AM_CFLAGS) \$(CFLAGS)|\t\$(AM_CFLAGS) \$(CPPFLAGS)|" ${worksrcpath}/Makefile
+    }
+
+    configure.cflags-append -std=gnu99
+    configure.args-append   --with-crypto \
+                            --disable-silent-rules \
+                            --disable-dependency-tracking \
+                            --enable-cuckoo \
+                            --enable-magic
+
+    test.run            yes
+    test.target         check
+
+    github.livecheck.regex (\[0-9a-z.\]+)
+}
+
+set python.branches [list 3.7 3.8 3.9]
+
+foreach b ${python.branches} {
+    set python.branch          ${b}
+    set python.version         [join [split ${python.branch} "."] ""]
+    set python.bin             ${prefix}/bin/python${python.branch}
+    set python.prefix          ${frameworks_dir}/Python.framework/Versions/${python.branch}
+
+    subport py${python.version}-${name} {
+        github.setup            VirusTotal yara-python 4.1.2 v
+        revision                0
+        categories              security python
+        description             ${name} bindings for python ${python.branch}
+        long_description        Malware identification and classification tool. \
+                                This subport provides bindings for python ${python.branch}
+
+        checksums               rmd160  6d98961a552c366782c962e9bd41ff7a170f6448 \
+                                sha256  f3b519cf59387208e0f50acf2253e4aa79bf0a6b2a9b7ea7c4d9c8dfb2f9946a \
+                                size    33737
+
+        depends_build-append    port:py${python.version}-setuptools
+        depends_lib-append      port:${name} \
+                                port:python${python.version}
+
+        use_configure           no
+
+        build.cmd               ${python.bin} setup.py --no-user-cfg
+        build.target            build --dynamic-linking
+
+        destroot.cmd            ${python.bin} setup.py --no-user-cfg
+        destroot.destdir        --prefix=${python.prefix} --root=${destroot}
+
+        pre-test {
+            test.env-append     PYTHONPATH=[glob -nocomplain ${worksrcpath}/build/lib*]
+        }
+
+        test.run                yes
+        test.cmd                ${python.bin} tests.py
+        test.target
+    }
+}

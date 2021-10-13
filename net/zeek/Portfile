@@ -1,0 +1,170 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+
+name                zeek
+version             4.1.1
+revision            0
+categories          net security
+platforms           darwin
+maintainers         {mps @Schamschula} openmaintainer
+license             BSD
+
+description         Zeek is a powerful network analysis framework that is much different \
+                    from the typical IDS you may know.
+
+long_description    {*}${description} Zeek is the new name for the long-established Bro \
+                    system. Note that parts of the system retain the "Bro" name, and it \
+                    also often appears in the documentation and distributions.
+
+homepage            https://www.zeek.org/
+master_sites        https://download.zeek.org/
+
+
+checksums           rmd160  80bdd58785bd9237108d3b9d05cf12d37abc2b32 \
+                    sha256  8c0afc999a8dd1c1f677a5cf818479b99c2d527e679e1ef99fb1b03f989c0373 \
+                    size    32348208
+
+depends_build-append \
+                    port:libgeoip \
+                    port:pkgconfig \
+                    port:swig \
+                    port:swig-python
+
+
+# use the system-provided flex
+depends_lib-append  port:bison \
+                    port:curl \
+                    port:libmagic \
+                    port:libpcap \
+                    path:lib/libssl.dylib:openssl \
+                    port:perl5 \
+                    port:readline \
+                    port:zlib
+
+variant universal {}
+
+compiler.cxx_standard 2017
+
+
+platform darwin {
+    # see https://trac.macports.org/ticket/60252
+    if {${os.major} < 18} {
+        pre-fetch {
+            ui_error "${name} @${version} requires at least macOS 10.14 Mojave"
+            return -code error "incompatible macOS version"
+        }
+        known_fail  yes
+    }
+}
+
+configure.args      -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
+
+variant python37 conflicts python38 description {Build using Python 3.7} {
+    configure.args-append \
+                    -DPYTHON_EXECUTABLE=${prefix}/bin/python3.7 \
+                    -DPYTHON_CONFIG=${prefix}/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/config-3.7m-darwin/python-config
+    depends_lib-append  \
+                    port:python37
+}
+
+variant python38 conflicts python37 description {Build using Python 3.8} {
+    configure.args-append \
+                    -DPYTHON_EXECUTABLE=${prefix}/bin/python3.8 \
+                    -DPYTHON_CONFIG=${prefix}/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/config-3.8-darwin/python-config
+    depends_lib-append  \
+                    port:python38
+}
+
+if {![variant_isset python37] && ![variant_isset python38]} {
+    default_variants \
+                    +python38
+}
+
+post-destroot {
+    xinstall -d ${destroot}${prefix}/share/examples/${name}
+    copy ${worksrcpath}/auxil/zeekctl/etc/node.cfg ${destroot}${prefix}/share/examples/${name}/
+    copy ${worksrcpath}/auxil/zeekctl/etc/networks.cfg ${destroot}${prefix}/share/examples/${name}/
+    copy ${worksrcpath}/auxil/zeekctl/etc/zeekctl.cfg.in ${destroot}${prefix}/share/examples/${name}/
+
+    xinstall -d ${destroot}${prefix}/Library/LaunchDaemons/
+    copy ${filespath}/org.macports.zeek.plist ${destroot}${prefix}/Library/LaunchDaemons/
+    reinplace "s|%%PREFIX%%|${prefix}|g" ${destroot}${prefix}/Library/LaunchDaemons/org.macports.zeek.plist
+
+    xinstall -d ${destroot}${prefix}/etc/${name}
+    xinstall -d ${destroot}${prefix}/var/log/${name}
+    xinstall -d ${destroot}${prefix}/var/spool/${name}
+    destroot.keepdirs ${destroot}${prefix}/etc/${name} \
+        ${destroot}${prefix}/var/log/${name} \
+        ${destroot}${prefix}/var/spool/${name}
+}
+
+pre-activate {
+    # we have switched to the bundled caf library
+    if {![catch {set installed [lindex [registry_active caf] 0]}]} {
+        registry_deactivate_composite caf "" [list ports_nodepcheck 1]
+    }
+}
+
+post-activate {
+    if {![file exists ${prefix}/etc/zeek/node.cfg]} {
+        copy ${prefix}/share/examples/${name}/node.cfg ${prefix}/etc/zeek/node.cfg
+    }
+    if {![file exists ${prefix}/etc/zeek/networks.cfg]} {
+        copy ${prefix}/share/examples/${name}/networks.cfg ${prefix}/etc/zeek/networks.cfg
+    }
+    if {![file exists ${prefix}/etc/zeek/zeekctl.cfg]} {
+        copy ${prefix}/share/examples/${name}/zeekctl.cfg.in ${prefix}/etc/zeek/zeekctl.cfg
+    }
+}
+
+startupitem.create      yes
+startupitem.netchange   yes
+startupitem.start       "${prefix}/bin/zeekctl start"
+startupitem.stop        "${prefix}/bin/zeekctl stop"
+startupitem.restart     "${prefix}/bin/zeekctl restart"
+
+# This doesn't work due to error: error: AF_UNIX path too long
+# To manual test:
+# sudo port build
+# cd ${worksrcpath}/aux/btest/testing
+# sudo make all
+#
+#test.run            yes
+#test.target         all
+#test.dir            ${worksrcpath}/aux/btest/testing
+
+notes "
+You'll need to set your ZEEKHOME to ${prefix}/share/zeek and your
+ZEEKPATH to ${prefix}/share/zeek/site:${prefix}/share/zeek/policy
+to use the provided policies.
+
+Check online documentation to finish install
+https://docs.zeek.org/en/stable/quickstart/index.html
+
+1) review config: node.cfg, network.cfg, zeekctl.cfg
+   especially network interface, MailTo
+   Existing files have not been modified
+
+2) Run as root or with sudo
+     # zeekctl
+     \[ZeekControl\] > install
+     \[ZeekControl\] > start
+
+3) Use scheduled task for maintenance
+  # ln -s ${prefix}/Library/LaunchDaemons/org.macports.zeek.plist /Library/LaunchDaemons/
+  # launchctl load -w /Library/LaunchDaemons/org.macports.zeek.plist
+
+
+**** UPGRADING ****
+
+Paths have been changed to respect macports hierarchy
+${prefix}/etc -> ${prefix}/etc/zeek
+${prefix}/spool -> ${prefix}/var/spool/zeek
+${prefix}/logs -> ${prefix}/var/log/zeek
+"
+
+livecheck.type      regex
+livecheck.url       https://zeek.org/get-zeek/
+livecheck.regex     org/${name}-(\[0-9a-z.\]+)${extract.suffix}

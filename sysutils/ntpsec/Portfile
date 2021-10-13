@@ -1,0 +1,116 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           waf 1.0
+PortGroup           python 1.0
+
+name                ntpsec
+version             1.2.1
+revision            0
+categories          sysutils net
+maintainers         {fwright.net:fw @fhgwright} openmaintainer
+description         A secure, hardened, and improved implementation of NTP
+license             Permissive
+platforms           darwin
+long_description    A secure, hardened, and improved implementation of Network \
+                    Time Protocol derived from NTP Classic, Dave Mills’s original.
+homepage            https://www.ntpsec.org/
+
+conflicts           ntp openntpd
+
+master_sites        ftp://ftp.ntpsec.org/pub/releases/
+checksums           rmd160  ca5d758bf6572b460ba8e8c8e70f09b8a7417fd0 \
+                    sha256  f2684835116c80b8f21782a5959a805ba3c44e3a681dd6c17c7cb00cc242c27a \
+                    size    2681237
+
+# 10.5 x86_64 builds successfully and passes all build tests, but doesn't
+# actually work.  This has apparently been true forever, but until recently,
+# dependency issues prevented building it at all.  Since this is a rare case
+# and not really a regression, we simply disallow it for now.  It's unknown
+# whether 10.4 x86_64 has the same issue, but we also disallow that out of
+# conservatism.  This should be removed once the code is fixed.
+if { ${os.platform} eq "darwin" && ${os.major} < 10 } {
+    supported_archs     i386 ppc
+}
+
+# To avoid breaking any code that uses our Python package, keep the Python
+# version at 2.7 until we add variants for Python versions.  The upstream
+# code itself works with 2.6, 2.7, and 3.3+.
+python.versions     27
+
+# Note that the upstream --python option may not work correctly, so waf
+# must be run with the target Python version.  The waf PortGroup doesn't
+# currently allow selecting its Python version, but since it's hard-coded
+# for 2.7, we can ignore this for now.
+
+# Also note that the new ffi-based Python client library doesn't work properly
+# on the Mac, so we use the old extension-based version.
+
+depends_build-append    port:bison port:pkgconfig
+# NOTE: doesn't work with libressl
+depends_lib-append      port:openssl \
+                        port:python${python.version}
+
+patchfiles          patch-PreHighSierra.diff
+
+use_configure       yes
+configure.post_args-delete --nocache
+configure.args      --alltests \
+                    --define=CONFIG_FILE=${prefix}/etc/ntp.conf \
+                    --disable-manpage \
+                    --python=${python.bin} \
+                    --enable-pylib=ext \
+                    --pythondir=${python.pkgd} \
+                    --pythonarchdir=${python.pkgd}
+# Make sure we use waf, not setup.py for build
+build.cmd           ${waf.python} ./waf
+destroot.cmd        ${build.cmd}
+
+default_variants    +doc
+
+# ntpsec has issues with universal builds:
+# 1) It expects endianness to be single-valued at configure time.
+# 2) There are problems with Python compiled extensions and universality.
+universal_variant   no
+
+variant classic description {Enable classic mode} {
+    configure.args-append   --enable-classic-mode
+}
+variant doc description {Build manpages and HTML documentation} {
+    depends_build-append    port:asciidoctor
+    configure.args-append   --enable-doc --htmldir=${prefix}/share/doc/${name}
+    configure.args-delete   --disable-manpage
+}
+variant refclock description {Enable all reference clocks} {
+    configure.args-append   --refclock=all
+}
+variant smear description {Enable smearing of leap seconds} {
+    configure.args-append   --enable-leap-smear
+}
+
+post-destroot {
+    xinstall -o root -m 644 ${filespath}/ntp.conf \
+        ${destroot}${prefix}/etc/ntp.conf.dist
+    
+    xinstall -m 755 -d \
+        ${destroot}${prefix}/var/db \
+        ${destroot}${prefix}/var/run
+    destroot.keepdirs \
+        ${destroot}${prefix}/var/db \
+        ${destroot}${prefix}/var/run
+}
+post-activate {
+    if {![file exists ${prefix}/etc/ntp.conf]} {
+        file copy ${prefix}/etc/ntp.conf.dist ${prefix}/etc/ntp.conf
+    }
+}
+
+notes "See \"man 8 ntpd\" for documentation; \"man ntpd\" may reflect Apple's."
+notes-append "To replace Apple's ntpd,\
+             disable \"Set date and time automatically\"\
+             in the Date & Time Preferences."
+notes-append "Configuration is in ${prefix}/etc/ntp.conf."
+
+startupitem.create      yes
+startupitem.netchange   yes
+startupitem.executable  ${prefix}/sbin/ntpd -n -g -p ${prefix}/var/run/ntpd.pid -f ${prefix}/var/db/ntp.drift -c ${prefix}/etc/ntp.conf

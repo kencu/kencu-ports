@@ -1,0 +1,39 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        axel-download-accelerator axel 2.17.10 v
+revision            0
+categories          net www
+platforms           darwin
+maintainers         {@i0ntempest me.com:szf1234} openmaintainer
+license             {GPL-2+ OpenSSLException}
+
+description         A light Unix download accelerator
+
+long_description    Axel does the same thing any other accelerator does: \
+                    it opens more than one HTTP/FTP connection per download and \
+                    each connection transfers its own, separate, part of the file. \
+                    It may sound weird, but it works very well in practice.
+
+github.tarball_from releases
+use_xz              yes
+
+checksums           rmd160  800331a6c3441fe534716ac8245ba38fc6dcd222 \
+                    sha256  46eb4f10a11c4e50320ae6a034ef03ffe59dc11c3c6542a9867a3e4dc0c4b44e \
+                    size    274648
+
+depends_build-append \
+                    port:pkgconfig
+
+depends_lib         port:gettext \
+                    path:lib/libssl.dylib:openssl
+
+# Tiger needs a different workaround for this issue:
+# https://github.com/axel-download-accelerator/axel/issues/136
+patchfiles          patch-axel-tiger-no-posix-c-source.diff
+
+post-destroot {
+    copy ${worksrcpath}/doc ${destroot}${prefix}/share/doc/${subport}
+}

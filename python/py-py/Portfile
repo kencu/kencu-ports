@@ -1,0 +1,36 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-py
+version             1.10.0
+revision            0
+categories-append   devel
+platforms           darwin
+license             MIT
+supported_archs     noarch
+
+python.versions     27 35 36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         py lib is a Python development support library
+
+long_description    The py lib is a Python development support library \
+                    featuring ad-hoc distributed execution, micro-threads \
+                    and svn abstractions.
+
+homepage            https://py.readthedocs.io/
+
+checksums           rmd160  a0f9ef1b13959f9414e6a95c00d4a6101f811a5a \
+                    sha256  21b81bda15b66ef5e1a777a21c4dcd9c20ad3efd0b3f817e7a809035269e1bd3 \
+                    size    206984
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                        port:py${python.version}-setuptools \
+                        port:py${python.version}-setuptools_scm
+
+    livecheck.type      none
+}

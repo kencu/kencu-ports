@@ -1,0 +1,22 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup github    1.0
+PortGroup ocaml     1.1
+
+name                ocaml-pprint
+github.setup        fpottier pprint 20200410
+
+categories          ocaml devel
+maintainers         {landonf @landonf} openmaintainer
+license             LGPL-2
+description         Pretty-printing library for OCaml
+long_description    A pretty-printing combinator library and rendering engine for OCaml.
+
+platforms           darwin
+
+checksums           rmd160  b4f25609e64e0f6f63805217d646e009a573e8cd \
+                    sha256  bd02f93d118baa8c8debe483a4b7597e470a5478d3d9e174b21a1c607c82db6e \
+                    size    41494
+
+ocaml.build_type    dune

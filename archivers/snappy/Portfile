@@ -1,0 +1,55 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           compilers 1.0
+PortGroup           compiler_blacklist_versions 1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        google snappy 1.1.9
+revision            2
+categories          archivers
+platforms           darwin
+maintainers         nomaintainer
+license             BSD
+
+description         a fast compressor/decompressor
+
+long_description    Snappy is a compression/decompression library. It does \
+                    not aim for maximum compression, or compatibility with \
+                    any other compression library. Instead it aims for very \
+                    high speeds and reasonable compression. For instance, \
+                    compared to the fastest mode of zlib, Snappy is an order \
+                    of magnitude faster for most inputs, but the resulting \
+                    compressed files are anywhere from 20% to 100% bigger. \
+                    On a single core of a Core i7 processor in 64-bit mode, \
+                    Snappy compresses at about 250 MB/sec or more and \
+                    decompresses at about 500 MB/sec or more.
+
+homepage            https://google.github.io/snappy/
+
+checksums           rmd160  47903b5f83f424dbab2e593ef5a830a5df079d58 \
+                    sha256  9a60cbec2f1911dd811f37f1ffe7269a44ab4fe981af808d253301138a52be21 \
+                    size    1102487
+
+# Disable Xcode clang < 1200, due to the following:
+#   error: invalid output constraint '=@ccz' in asm
+compiler.blacklist-append {clang < 1200}
+
+# https://github.com/facebook/folly/issues/1583
+# https://github.com/Homebrew/homebrew-core/pull/76686
+patchfiles-append   patch-no-disable-rtti.diff
+
+# CMake Error in CMakeLists.txt:
+#  Target "snappy" requires the language dialect "CXX11" , but CMake does not
+#  know the compile flags to use to enable it.
+compiler.cxx_standard 2011
+
+depends_lib         port:lzo2 \
+                    port:zlib \
+                    port:lz4
+
+configure.args-append \
+                    -DBUILD_SHARED_LIBS=ON \
+                    -DSNAPPY_BUILD_TESTS=OFF \
+                    -DSNAPPY_BUILD_BENCHMARKS=OFF

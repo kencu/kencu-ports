@@ -1,0 +1,37 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+PortGroup           github 1.0
+PortGroup           python 1.0
+
+github.setup        dnsviz dnsviz 0.9.3 v
+github.tarball_from releases
+
+categories          net
+platforms           darwin
+license             GPL-2+
+supported_archs     noarch
+maintainers         {@cdeccio deccio.net:casey} openmaintainer
+
+description         DNS measurement and diagnostic tool suite
+long_description    DNSViz is a tool suite for measurement, diagnostic, and \
+                    visualization of Domain Name System (DNS) behavior, \
+                    including its security extensions (DNSSEC).
+
+checksums           rmd160 d996637d61539e778cf4035f5c7afefcc03a47ad \
+                    sha256 6f38f3d71b2b9ca3f4cffb003c828574d0c413bcc5112bb52921fa9db4e69259 \
+                    size 388653
+
+python.default_version  38
+
+depends_build       path:bin/dot:graphviz
+
+depends_run         port:py${python.version}-dnspython \
+                    port:py${python.version}-m2crypto \
+                    port:py${python.version}-pygraphviz \
+
+destroot.destdir    --prefix=${python.prefix} \
+                    --root=${destroot} \
+                    --install-data=${prefix} \
+                    --install-scripts=${prefix}/bin/

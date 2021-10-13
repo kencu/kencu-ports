@@ -1,0 +1,140 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           compiler_blacklist_versions 1.0
+PortGroup           legacysupport 1.0
+PortGroup           meson 1.0
+
+# O_CLOEXEC
+legacysupport.newest_darwin_requires_legacy 10
+
+# Remember to update libvirt and py-libvirt at the same time.
+name                libvirt
+version             7.8.0
+revision            0
+checksums           rmd160  9f885fe09c53cd3346bfcab92b3cbfcdbfee862f \
+                    sha256  a727cd0a47bfa24fa7de2874d23f3a9f9f02ceb6b49ba15288f6d9a098b19921 \
+                    size    8735184
+
+categories          sysutils
+license             LGPL-2.1+
+platforms           darwin
+maintainers         {ryandesign @ryandesign} openmaintainer
+
+description         Libvirt - The Virtualization API
+
+long_description    A toolkit to interact with the virtualization \
+                    capabilities of modern hypervisors.
+
+homepage            https://libvirt.org
+master_sites        ${homepage}/sources/
+use_xz              yes
+
+set python_branch   3.9
+set python_version  [string map {. {}} ${python_branch}]
+
+depends_build-append \
+                    port:gmake \
+                    port:gsed \
+                    port:grep \
+                    port:bash-completion \
+                    port:pkgconfig \
+                    port:python${python_version} \
+                    port:py${python_version}-docutils \
+                    port:perl5
+
+depends_lib         port:curl \
+                    path:lib/pkgconfig/glib-2.0.pc:glib2 \
+                    port:gnutls \
+                    port:libiconv \
+                    port:libxml2 \
+                    port:readline \
+                    port:yajl \
+                    port:zlib
+
+# error: You need at least XCode Clang v5.1 to compile QEMU
+compiler.blacklist-append apple-gcc* gcc-3.3 *gcc-4.* macports-clang-3.3 {clang < 503}
+
+patchfiles-append   patch-meson.diff
+
+# libvirt build scripts require python 3.x
+configure.python    ${prefix}/bin/python${python_branch}
+configure.perl      ${prefix}/bin/perl5
+configure.env       PATH=${frameworks_dir}/Python.framework/Versions/${python_branch}/bin:$env(PATH)
+
+configure.args      -Dapparmor=disabled \
+                    -Dattr=disabled \
+                    -Daudit=disabled \
+                    -Dbash_completion=enabled \
+                    -Dbash_completion_dir=${prefix}/share/bash-completion/completions \
+                    -Dblkid=disabled \
+                    -Dcapng=disabled \
+                    -Dcurl=enabled \
+                    -Ddriver_bhyve=disabled \
+                    -Ddriver_esx=enabled \
+                    -Ddriver_hyperv=disabled \
+                    -Ddriver_libvirtd=enabled \
+                    -Ddriver_libxl=disabled \
+                    -Ddriver_lxc=disabled \
+                    -Ddriver_network=disabled \
+                    -Ddriver_openvz=disabled \
+                    -Ddriver_qemu=disabled \
+                    -Ddriver_remote=enabled \
+                    -Ddriver_secrets=enabled \
+                    -Ddriver_test=enabled \
+                    -Ddriver_vbox=enabled \
+                    -Ddriver_vmware=enabled \
+                    -Ddriver_vz=disabled \
+                    -Ddtrace=disabled \
+                    -Dfuse=disabled \
+                    -Dglusterfs=disabled \
+                    -Dinit_script=none \
+                    -Dlibpcap=disabled \
+                    -Dlibssh=disabled \
+                    -Dlibssh2=disabled \
+                    -Dnetcf=disabled \
+                    -Dnumactl=disabled \
+                    -Dopenwsman=disabled \
+                    -Dpm_utils=disabled \
+                    -Dpolkit=disabled \
+                    -Dreadline=enabled \
+                    -Dsanlock=disabled \
+                    -Dsasl=disabled \
+                    -Dselinux=disabled \
+                    -Dsysctl_config=disabled \
+                    -Dudev=disabled \
+                    -Dwireshark_dissector=disabled \
+                    -Dyajl=enabled
+
+# As of 5.10.0, pregenerated files are no longer included in the tarball,
+# and rpcgen on OS X 10.11 and earlier is not able to generate them; see:
+# https://bugzilla.redhat.com/show_bug.cgi?id=1785575
+depends_build-append \
+                    port:rpcgen-mt
+
+variant fuse description {FUSE support} {
+    depends_lib-append      port:osxfuse
+    configure.args-replace  -Dfuse=disabled -Dfuse=enabled
+}
+
+variant libssh2 description {Enable the libssh2 transport} {
+    depends_lib-append      port:libssh2
+    configure.args-replace  -Dlibssh2=disabled -Dlibssh2=enabled
+}
+
+variant sasl description {Use Cyrus SASL for authentication} {
+    depends_lib-append      port:cyrus-sasl2
+    configure.args-replace  -Dsasl=disabled -Dsasl=enabled
+}
+
+notes "
+    The default socket path for the libvirt client is ${prefix}/var/run/libvirt/libvirt-sock,\
+    which might cause problems when you want to attach to a remote libvirtd instance.\
+    In this case, remember to also specify the socket path for the remote side, which is\
+    usually /var/run/libvirt/libvirt-sock. For example to connect to a remote host with virsh:
+      $ virsh -c qemu+ssh://user@host/system?socket=/var/run/libvirt/libvirt-sock
+"
+
+livecheck.type      regex
+livecheck.url       [lindex ${master_sites} 0]
+livecheck.regex     ${name}-(\[0-9.\]+)\\.tar

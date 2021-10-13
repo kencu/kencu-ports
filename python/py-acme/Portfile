@@ -1,0 +1,48 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           python 1.0
+
+name                py-acme
+github.setup        certbot certbot 1.20.0 v
+revision            0
+categories-append   security
+license             Apache-2
+maintainers         {mps @Schamschula} openmaintainer
+description         ACME protocol implementation in Python.
+long_description    {*}${description}
+platforms           darwin
+homepage            https://certbot.eff.org/
+
+python.versions     36 37 38 39
+
+checksums           rmd160  07a6792a745c6b88b9ddd2820d2e5ac985e01be9 \
+                    sha256  7f25891e1fa701d27a29958d94f6e019042a23b5ce84a26d99e27bf1c1bbe7d2 \
+                    size    1338966
+
+if {${name} ne ${subport}} {
+    build.dir       ${worksrcpath}/acme
+
+    depends_build-append \
+                    port:py${python.version}-funcsigs \
+                    port:py${python.version}-mock \
+                    port:py${python.version}-setuptools
+
+    depends_lib-append  \
+                    port:py${python.version}-asn1 \
+                    port:py${python.version}-chardet \
+                    port:py${python.version}-cryptography \
+                    port:py${python.version}-idna \
+                    port:py${python.version}-josepy \
+                    port:py${python.version}-ndg_httpsclient \
+                    port:py${python.version}-openssl \
+                    port:py${python.version}-requests \
+                    port:py${python.version}-requests-toolbelt \
+                    port:py${python.version}-pyrfc3339 \
+                    port:py${python.version}-six \
+                    port:py${python.version}-tz \
+                    port:py${python.version}-werkzeug
+
+    livecheck.type  none
+}

@@ -1,0 +1,30 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Clipboard 0.26 ../../authors/id/S/SH/SHLOMIF
+license             {Artistic-1 GPL}
+maintainers         nomaintainer
+description         Clipboard - Copy and paste with any OS
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  4439cdecf43b9961cb82bc63762a538fe9a9ab64 \
+                    sha256  886ae43dc8538f9bfc4e07fdbcf09b7fbd6ee59c31f364618c859de14953c58a \
+                    size    25159
+
+if {${perl5.major} != ""} {
+    depends_lib-append \
+                    port:p${perl5.major}-cgi \
+                    port:p${perl5.major}-mac-pasteboard \
+                    port:p${perl5.major}-uri \
+                    port:xclip
+
+    patchfiles      patch-use-macos-default-browser.diff
+
+    perl5.use_module_build
+    supported_archs noarch
+}

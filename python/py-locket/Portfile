@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-locket
+version             0.2.1
+revision            0
+categories-append   devel
+platforms           darwin
+license             BSD
+supported_archs     noarch
+
+python.versions     27 35 36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         File-based locks for Python.
+long_description    ${description}
+
+homepage            https://github.com/mwilliamson/locket.py
+
+checksums           rmd160  3ac3d5abf128524e2be48e58131486b8774bce25 \
+                    sha256  3e1faba403619fe201552f083f1ecbf23f550941bc51985ac6ed4d02d25056dd \
+                    size    3936
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                        port:py${python.version}-setuptools
+    livecheck.type      none
+}

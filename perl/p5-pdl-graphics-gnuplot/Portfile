@@ -1,0 +1,30 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         PDL-Graphics-Gnuplot 2.013
+platforms           darwin
+maintainers         nomaintainer
+license             {Artistic-1 GPL-1+}
+
+description         Gnuplot-based plotting for PDL
+
+long_description    ${description}
+
+checksums           rmd160  194e671b33762ec56be91f5000dcddd92a8f97b0 \
+                    sha256  2704b9cd325627a1d0367419920f894f0d08db2d9dbdffddc93b765bae5a08e5 \
+                    size    149855
+
+if {${perl5.major} != ""} {
+    depends_lib-append \
+                    port:p${perl5.major}-alien-gnuplot \
+                    port:p${perl5.major}-ipc-run \
+                    port:p${perl5.major}-pdl \
+                    port:p${perl5.major}-pdl-transform-color \
+                    port:p${perl5.major}-safe-isa \
+                    port:p${perl5.major}-time-hires
+
+    supported_archs noarch
+}

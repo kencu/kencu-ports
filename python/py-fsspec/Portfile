@@ -1,0 +1,41 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim: fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-fsspec
+version             2021.8.1
+revision            0
+categories-append   devel
+platforms           darwin
+license             BSD
+supported_archs     noarch
+
+python.versions     35 36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         File-system specification
+long_description    ${description}
+
+homepage            https://github.com/intake/filesystem_spec
+
+checksums           rmd160  32993d10eed90bf9603e2fc66ae1f7a31476546f \
+                    sha256  af125917788b77782899bbd4484d29e5407f53d2bb04cdfa025fe4931201a555 \
+                    size    121523
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                        port:py${python.version}-setuptools
+
+    if {${python.version} eq 35} {
+        version             0.6.3
+        revision            0
+        distname            ${python.rootname}-${version}
+        checksums           rmd160  49da12e32d62292ad34e072ab91c69b56852eb3e \
+                            sha256  7a6d48af15b2416c5007706039e6d46d083c89229e7cdf6474b5ef5e7e687b00 \
+                            size    103663
+    }
+
+    livecheck.type      none
+}

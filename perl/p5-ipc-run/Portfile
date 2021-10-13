@@ -1,0 +1,25 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         IPC-Run 20200505.0
+maintainers         nomaintainer
+license             {Artistic-1 GPL}
+description         system() and background procs w/ piping, redirs, ptys
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  f783b1da6a0fcf570588e0aeaad7adb0e574616a \
+                    sha256  816ebf217fa0df99c583d73c0acc6ced78ac773787c664c75cbf140bb7e4c901 \
+                    size    127505
+
+if {${perl5.major} != ""} {
+    depends_lib-append \
+                    port:p${perl5.major}-io-tty \
+                    port:p${perl5.major}-readonly
+
+    supported_archs noarch
+}

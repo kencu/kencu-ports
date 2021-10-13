@@ -1,0 +1,46 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+github.setup        neovim pynvim 0.4.3
+revision            0
+name                py-neovim
+maintainers         {g5pw @g5pw} openmaintainer
+description         Python client for Neovim
+long_description    ${description}. Implements support for python plugins in \
+                    Nvim. Also works as a library for connecting to and \
+                    scripting Nvim processes through its msgpack-rpc API.
+platforms           darwin
+license             Apache-2
+
+supported_archs     noarch
+
+checksums           rmd160  31842c48610d5b046750b6d9f6bf339b49ba5c11 \
+                    sha256  944223e79aee008ed6ed36d1e893c72d2a1362511831e72197ea2a73e990374d \
+                    size    52817
+
+python.versions     27 36 37 38 39
+
+if { ${name} ne ${subport} } {
+    depends_build-append \
+                        port:py${python.version}-setuptools \
+                        port:py${python.version}-pytest-runner
+
+    depends_lib-append  port:py${python.version}-msgpack \
+                        port:py${python.version}-greenlet
+
+    if { ${python.version} == 27 } {
+        depends_lib-append  port:py${python.version}-trollius
+    }
+
+    depends_test-append port:py${python.version}-pytest
+
+    test.run            yes
+    test.cmd            py.test-${python.branch}
+    test.target
+    test.env            PYTHONPATH=${worksrcpath}/build/lib
+
+    livecheck.type      none
+}

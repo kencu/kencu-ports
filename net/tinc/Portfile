@@ -1,0 +1,52 @@
+PortSystem          1.0
+
+name                tinc
+version             1.0.36
+revision            1
+categories          net
+maintainers         nomaintainer
+license             {GPL-2+ OpenSSLException}
+platforms           darwin
+
+conflicts           tinc-devel
+
+description         Virtual Private Network (VPN) Daemon
+
+long_description    tinc is a Virtual Private Network (VPN) daemon that uses \
+                    tunneling and encryption to create a secure private \
+                    network between hosts on the Internet.
+
+homepage            http://www.tinc-vpn.org/
+master_sites        ${homepage}packages/
+
+checksums           rmd160  02a6618451e3c5290d4257046a4ed9f261e725e2 \
+                    sha256  40f73bb3facc480effe0e771442a706ff0488edea7a5f2505d4ccb2aa8163108 \
+                    size    500320
+
+depends_lib         port:zlib \
+                    path:lib/libssl.dylib:openssl \
+                    port:lzo2
+
+post-destroot {
+    set docdir ${destroot}${prefix}/share/doc/${name}
+    xinstall -d ${docdir}
+    xinstall -m 644 -W ${worksrcpath} \
+        AUTHORS \
+        COPYING \
+        COPYING.README \
+        ChangeLog \
+        NEWS \
+        README \
+        THANKS \
+        ${docdir}
+}
+
+subport tinc-devel {
+    conflicts       tinc
+
+    version         1.1pre17
+    revision        1
+    checksums       rmd160  32f943918218d393be275d4881a01dd7a49de05a \
+                    sha256  61b9c9f9f396768551f39216edcc41918c65909ffd9af071feb3b5f9f9ac1c27 \
+                    size    927313
+}

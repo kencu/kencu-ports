@@ -1,0 +1,47 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        abseil abseil-cpp 20210324.2
+name                abseil
+revision            0
+categories          devel
+maintainers         {outlook.de:judaew @judaew} openmaintainer
+license             Apache-2
+
+description         Abseil - C++ Common Libraries
+long_description    Abseil is an open-source collection of C++ library \
+                    code designed to augment the C++ standard \
+                    library. The Abseil library code is collected from \
+                    Google's own C++ code base, has been extensively \
+                    tested and used in production.
+
+platforms           darwin
+
+if {${os.major} < 11} {
+
+    # NB this port builds with < darwin 11 if libcxx is installed
+    # with the emulated_tls variant to enable thread_local_storage
+
+    # https://abseil.io/docs/cpp/platforms/platforms
+    known_fail      yes
+    pre-fetch {
+        ui_error "${name} @${version} requires macOS 10.7 or later."
+        return -code error "incompatible OS X version"
+    }
+}
+
+checksums           rmd160  a0dcd7d6d432a9d87971bacbc86f750b98454666 \
+                    sha256  797ec019a70699178accf635843e61eedf4c01675f7ef8af22f35f50ab1dd026 \
+                    size    1774079
+
+# ignore pre releases
+github.livecheck.regex  {([0-9.]+)}
+
+compiler.cxx_standard   2014
+
+configure.args-append \
+                    -DBUILD_SHARED_LIBS=ON \
+                    -DCMAKE_CXX_STANDARD=14

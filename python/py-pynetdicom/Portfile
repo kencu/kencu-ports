@@ -1,0 +1,82 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+github.setup        pydicom pynetdicom 1.5.6 v
+name                py-pynetdicom
+python.versions     27 36 37 38 39
+platforms           darwin
+license             MIT BSD
+maintainers         {eborisch @eborisch} openmaintainer
+supported_archs     noarch
+
+description         A Python implementation of the DICOM networking protocol
+
+long_description    pynetdicom is a pure Python (2.7/3.4+) package that \
+                    implements the DICOM networking protocol. Working with \
+                    pydicom, it allows the easy creation of DICOM Service \
+                    Class Users (SCUs) and Service Class Providers (SCPs).
+
+checksums \
+    rmd160  01fba6f5e2bc0f14a036178f996e6221dfcf352f \
+    sha256  c6ceaf74c2752bb8076cab4abe1147925d6fb21a11b39a6c471fad7606982439 \
+    size    1754696
+
+if {${name} ne ${subport}} {
+    depends_lib-append      port:py${python.version}-pydicom
+    livecheck.type          none
+
+    variant doc description "Build offline documentation" {
+        depends_build-append \
+            port:py${python.version}-matplotlib\
+            port:py${python.version}-sphinx \
+            port:py${python.version}-sphinx-bootstrap-theme \
+            port:py${python.version}-sphinx-copybutton \
+            port:py${python.version}-sphinx-gallery \
+            port:py${python.version}-sphinx-issues \
+            port:py${python.version}-sphinx_rtd_theme
+
+        notes "
+            Documentation installed in :
+              file://${prefix}/share/doc/${subport}/html/index.html
+        "
+    }
+
+    if {[variant_isset doc]} {
+        notes "
+            Documentation installed at:
+            ${prefix}/share/doc/${subport}/html/index.html
+        "
+    }
+
+    post-extract {
+        reinplace s/sphinx-build/sphinx-build-${python.branch}/ \
+            docs/Makefile
+    }
+
+    post-build {
+        if {[variant_isset doc]} {
+            system -W ${worksrcpath}/docs/ \
+                "env PYTHONPATH='${worksrcpath}/build/lib' make html"
+        }
+    }
+    
+    post-destroot {
+        set DOCDIR ${destroot}${prefix}/share/doc/${subport}
+        xinstall -d ${DOCDIR}
+        xinstall -W ${worksrcpath} -m 0644 \
+            LICENCE.txt \
+            README.rst \
+            ${DOCDIR}
+
+        if {[variant_isset doc]} {
+            file copy ${worksrcpath}/docs/_build/html ${DOCDIR}
+        }
+
+        set EXDIR ${destroot}${prefix}/share/examples/${subport}
+        xinstall -d ${EXDIR}
+        system -W ${worksrcpath}/pynetdicom/apps "cp -R * ${EXDIR}/"
+    }
+}

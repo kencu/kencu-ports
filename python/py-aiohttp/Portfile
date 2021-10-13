@@ -1,0 +1,48 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-aiohttp
+version             3.7.4
+categories-append   devel
+platforms           darwin
+license             Apache-2
+
+python.versions     36 37 38 39
+
+maintainers         {ipglider.org:miguel @ipglider} openmaintainer
+
+description         Async http client/server framework
+long_description    aiohttp key futures are the support for both client and \
+                    server side of HTTP protocol, support for both client and \
+                    server Web-Sockets out-of-the-box without the Callback Hell \
+                    and Web-server's middlewares and pluggable routing.
+
+homepage            https://github.com/aio-libs/aiohttp
+master_sites        pypi:a/aiohttp
+
+distname            aiohttp-${version}
+
+checksums           rmd160  8193c0094d30fb421e41f7149768a4cf20a18954 \
+                    sha256  5d84ecc73141d0a0d61ece0742bb7ff5751b0657dab8405f899d3ceb104cc7de \
+                    size    1114533
+
+if {${name} ne ${subport}} {
+    depends_build-append    port:py${python.version}-setuptools
+    depends_lib-append      port:py${python.version}-aiodns \
+                            port:py${python.version}-async-timeout \
+                            port:py${python.version}-attrs \
+                            port:py${python.version}-brotli \
+                            port:py${python.version}-cchardet \
+                            port:py${python.version}-multidict \
+                            port:py${python.version}-yarl
+
+    if {${python.version} < 37} {
+        depends_lib-append    port:py${python.version}-idna-ssl
+    }
+
+    livecheck.type          none
+} else {
+    livecheck.type          pypi
+}

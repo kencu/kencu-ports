@@ -1,0 +1,74 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           python 1.0
+
+github.setup        garabik grc 1.11.3 v
+revision            0
+
+conflicts           cc65
+
+categories          textproc
+platforms           darwin
+license             GPL-2
+maintainers         nomaintainer
+supported_archs     noarch
+
+description         Generic Colouriser for colourising logfiles and output of commands
+long_description    Generic Colouriser makes text files or outputs of different programs \
+                    more readable by inserting ANSI colour control codes into them. \
+                    It provides the grc and grcat Python scripts for filtering \
+                    text output and colourising it.
+
+checksums           rmd160  f494d0850098fc81ca26d623ed9f01cbe0d44b3c \
+                    sha256  7c76fff1b0dc70a27b07fb3f0f7007518afa07f6804019037957a922a2ac98ec \
+                    size    45192
+
+python.versions     27 35 36
+
+variant python27 conflicts python35 python36 description {Use Python 2.7} {
+    python.default_version 27
+}
+variant python35 conflicts python27 python36 description {Use Python 3.5} {
+    python.default_version 35
+}
+variant python36 conflicts python27 python35 description {Use Python 3.6} {
+    python.default_version 36
+}
+if {![variant_isset python35] && ![variant_isset python36]} {
+    default_variants +python27
+}
+
+build {}
+destroot {}
+post-destroot {
+    reinplace "s|#! /usr/bin/env python3|#!${python.bin}|" \
+        ${worksrcpath}/grc ${worksrcpath}/grcat
+    reinplace "s|/etc|${prefix}/etc|g" \
+        ${worksrcpath}/grc ${worksrcpath}/grc.1
+    reinplace "s|/usr/local|${prefix}|g" \
+        ${worksrcpath}/grcat ${worksrcpath}/grcat.1
+    xinstall -m 755 -W ${worksrcpath} \
+        grc grcat ${destroot}${prefix}/bin
+    xinstall -m 644 -W ${worksrcpath} \
+        grc.1 grcat.1 ${destroot}${prefix}/share/man/man1
+    xinstall -m 644 -W ${worksrcpath} \
+        grc.conf ${destroot}${prefix}/etc
+    xinstall -m 755 -d ${destroot}${prefix}/share/${name}
+    xinstall -m 644 {*}[glob ${worksrcpath}/colourfiles/conf.*] \
+        ${destroot}${prefix}/share/${name}
+    xinstall -m 755 -d ${destroot}${prefix}/etc/${name}.d
+    xinstall -m 644 -W ${worksrcpath} \
+        grc.bashrc grc.zsh grc.fish ${destroot}${prefix}/etc/${name}.d
+    set docdir ${prefix}/share/doc/${subport}
+    xinstall -d ${destroot}${docdir}
+    xinstall -m 644 -W ${worksrcpath} \
+        CHANGES \
+        COPYING \
+        CREDITS \
+        INSTALL \
+        README.markdown \
+        Regexp.txt \
+        ${destroot}${docdir}
+}

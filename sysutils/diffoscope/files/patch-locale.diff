@@ -1,0 +1,10 @@
+--- diffoscope/environ.py
++++ diffoscope/environ.py
+@@ -55,6 +55,6 @@ def normalize_environment():
+         os.environ[x] = 'C'
+ 
+     os.environ['TZ'] = 'UTC'
+-    os.environ['LC_CTYPE'] = 'C.UTF-8'
++    os.environ['LC_CTYPE'] = 'UTF-8'
+ 
+     time.tzset()

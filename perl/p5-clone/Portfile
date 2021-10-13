@@ -1,0 +1,22 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Clone 0.45 ../../authors/id/A/AT/ATOOMIC
+maintainers         nomaintainer
+description         This is a Perl extension for recursively copying Perl datatypes.
+license             {Artistic-1 GPL}
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  600716c620fe6d4f036bbe02fd750d8eb43bd982 \
+                    sha256  cbb6ee348afa95432e4878893b46752549e70dc68fe6d9e430d1d2e99079a9e6 \
+                    size    16130
+
+if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-b-cow
+}

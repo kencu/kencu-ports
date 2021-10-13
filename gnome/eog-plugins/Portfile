@@ -1,0 +1,76 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                eog-plugins
+version             3.26.5
+license             GPL-2+
+set branch          [join [lrange [split ${version} .] 0 1] .]
+description         Extra plugins for the Eye of GNOME image viewer
+long_description    $description
+maintainers         {devans @dbevans} openmaintainer
+categories          gnome
+platforms           darwin
+homepage            https://wiki.gnome.org/Apps/EyeOfGnome
+master_sites        gnome:sources/${name}/${branch}/
+
+use_xz              yes
+
+checksums           rmd160  ce0d229c8dc9efc0c1e038326573b12acc30bcf7 \
+                    sha256  44968e09059272be038c00aaf9796b442a6cd68163a5cb08c98824492a9b5498 \
+                    size    478188
+
+depends_build       port:pkgconfig
+
+depends_lib         port:clutter \
+                    port:clutter-gtk \
+                    port:eog \
+                    port:gsettings-desktop-schemas \
+                    port:gtk3 \
+                    port:libchamplain \
+                    port:libgdata \
+                    port:libexif \
+                    port:libpeas
+
+patchfiles          patch-plugins-pythonconsole.diff \
+                    patch-plugins-slideshowshuffle.diff
+
+configure.args      --disable-python \
+                    --disable-schemas-compile \
+                    --disable-silent-rules
+
+variant python36 conflicts python37 python38 description {Python plugins use python 3.6} {
+    depends_build-append      port:python36
+    configure.python          ${prefix}/bin/python3.6
+    set python_framework      ${frameworks_dir}/Python.framework/Versions/3.6
+    configure.pkg_config_path ${python_framework}/lib/pkgconfig
+    configure.args-replace    --disable-python --enable-python
+}
+
+variant python37 conflicts python36 python38 description {Python plugins use python 3.7} {
+    depends_build-append      port:python37
+    configure.python          ${prefix}/bin/python3.7
+    set python_framework      ${frameworks_dir}/Python.framework/Versions/3.7
+    configure.pkg_config_path ${python_framework}/lib/pkgconfig
+    configure.args-replace    --disable-python --enable-python
+}
+
+variant python38 conflicts python36 python37 description {Python plugins use python 3.8} {
+    depends_build-append      port:python38
+    configure.python          ${prefix}/bin/python3.8
+    set python_framework      ${frameworks_dir}/Python.framework/Versions/3.8
+    configure.pkg_config_path ${python_framework}/lib/pkgconfig
+    configure.args-replace    --disable-python --enable-python
+}
+
+if {![variant_isset python36] && \
+    ![variant_isset python37] && \
+    ![variant_isset python38]} {
+    default_variants    +python38
+}
+
+post-activate {
+   system "${prefix}/bin/glib-compile-schemas ${prefix}/share/glib-2.0/schemas"
+}
+
+livecheck.type      gnome

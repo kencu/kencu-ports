@@ -1,0 +1,79 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           python 1.0
+
+github.setup        magenta note-seq 0.0.2 v
+revision            0
+name                py-${github.project}
+categories-append   audio
+
+platforms           darwin
+license             Apache-2
+maintainers         nomaintainer
+
+description         Use machine learning to create art and music.
+long_description    ${description}. This is\
+                    the home for our serializable NoteSequence\
+                    representation along with utilities for: creating\
+                    them from various formats (e.g., MIDI, abc,\
+                    MusicXML)\; manipulating them (e.g., slicing,\
+                    quantizing) extracting components (e.g., melodies,\
+                    drum tracks, chord)\; exporting them (e.g., to MIDI\
+                    or audio)\; or converting them to representations\
+                    useful for model training (e.g., one-hot tensors).
+
+homepage            https://magenta.tensorflow.org/
+distname            ${github.project}-${version}
+
+checksums           rmd160  1487efc7f871a6cfe6e96980fe1d4e613ab84f17 \
+                    sha256  9f6401d94c030f8a10dad682a3729de934c7ad68b148bfd855ed47ba70458d6b \
+                    size    955437
+
+python.versions     37 38 39
+
+if {${name} ne ${subport}} {
+    # diff -NaurdwB ./note-seq-orig/setup.py ./note-seq-new/setup.py | sed -E -e 's/\.\/note-seq-(orig|new)*\/(setup.py)(\.[[:alnum:]]+)*/\.\/setup.py/' > ./patch-setup.py.diff
+    patchfiles      patch-setup.py.diff
+    
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    depends_run-append \
+                    port:py${python.version}-absl \
+                    port:py${python.version}-attrs \
+                    port:py${python.version}-bokeh \
+                    port:py${python.version}-intervaltree \
+                    port:py${python.version}-ipython \
+                    port:py${python.version}-librosa \
+                    port:py${python.version}-numba \
+                    port:py${python.version}-numpy \
+                    port:py${python.version}-pandas \
+                    port:py${python.version}-pretty-midi \
+                    port:py${python.version}-protobuf3 \
+                    port:py${python.version}-scikit-image \
+                    port:py${python.version}-scipy
+
+    depends_test-append \
+                    port:py${python.version}-pylint \
+                    port:py${python.version}-pytest \
+                    port:py${python.version}-pytest-xdist
+
+    test.run        yes
+    test.cmd        py.test-${python.branch}
+    test.target
+    test.env-append \
+                    PYTHONPATH=${worksrcpath}/build/lib
+
+    post-destroot {
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath} LICENSE README.md \
+            ${destroot}${docdir}
+    }
+
+    livecheck.type      none
+} else {
+    github.livecheck.regex {([0-9.]+)}
+}

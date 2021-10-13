@@ -1,0 +1,27 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Inline 0.86
+license             {Artistic-1 GPL}
+maintainers         nomaintainer
+description         Write Perl subroutines in other programming languages
+long_description    Inline lets you write Perl subroutines in other programming languages \
+                    like C, C++, Java, Python, Tcl and even Assembly. You don't need to \
+                    compile anything. All the details are handled transparently so you can \
+                    just run your Perl script like normal.
+
+platforms           darwin
+
+checksums           rmd160  bc1cdeee73ca169b6b250c770a558a5b50506b01 \
+                    sha256  510a7de2d011b0db80b0874e8c0f7390010991000ae135cff7474df1e6d51e3a \
+                    size    87329
+
+if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-test-warn
+
+    supported_archs noarch
+}

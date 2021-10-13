@@ -1,0 +1,45 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem                1.0
+PortGroup                 github 1.0
+PortGroup                 cmake 1.1
+PortGroup                 boost 1.0
+
+github.setup              cryfs cryfs 0.10.3
+revision                  1
+github.tarball_from       releases
+
+license                   LGPL-3
+
+categories                net fuse
+platforms                 darwin
+
+maintainers               {@jolan78 gmail.com:jolan78} openmaintainer
+
+description               Cryptographic filesystem for the cloud
+long_description          CryFS encrypts your files, so you can safely store them anywhere.\
+                          It works well together with cloud services like Dropbox, iCloud,\
+                          OneDrive and others
+
+homepage                  https://www.cryfs.org/
+
+checksums                 rmd160  ba20af5cc2d77954b3a6f248b230860242cb690f \
+                          sha256  20348e6e2ff670505a14d4f8b2a9aa6104ce301d31ef50100cd03d17c1d7322b \
+                          size    10184695
+
+extract.mkdir             yes
+
+depends_build-append      path:lib/libssl.dylib:openssl
+
+depends_lib-append        port:curl \
+                          port:libomp \
+                          port:osxfuse
+
+cmake.build_type          Release
+universal_variant         no
+
+compiler.cxx_standard     2014
+
+configure.args-append    -DBoost_USE_MULTITHREADED=on \
+                         -DBoost_USE_STATIC_LIBS=off \
+                         -DCRYFS_UPDATE_CHECKS=off

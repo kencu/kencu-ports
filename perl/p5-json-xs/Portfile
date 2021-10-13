@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+epoch               1
+perl5.branches      5.28 5.30 5.32
+perl5.setup         JSON-XS 4.03 ../../authors/id/M/ML/MLEHMANN
+license             {Artistic-1 GPL}
+maintainers         {nottwo @nottwo} openmaintainer
+
+description         JSON serialising/deserialising, done correctly and fast
+long_description    This module converts Perl data structures to JSON and \
+                    vice versa. Its primary goal is to be *correct* and its \
+                    secondary goal is to be *fast*.  To reach the latter goal \
+                    it was written in C.
+
+checksums           rmd160  4ce6f98efd233c6f8e67c18686e3a15da07f10c5 \
+                    sha256  515536f45f2fa1a7e88c8824533758d0121d267ab9cb453a1b5887c8a56b9068 \
+                    size    86749
+
+platforms           darwin
+
+if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-canary-stability
+
+    depends_lib-append \
+                    port:p${perl5.major}-common-sense \
+                    port:p${perl5.major}-types-serialiser
+}

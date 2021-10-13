@@ -1,0 +1,22 @@
+diff --git configure configure
+index de8ea9965..017b55aa9 100755
+--- configure
++++ configure
+@@ -554,16 +554,7 @@ EOF
+     Darwin)
+         CFLAGS_DIR="-I$prefix/include"
+         LDFLAGS="-L$prefix/$libdir"
+-        if test -d /sw/bin ; then
+-            alt_macosx_dir="/sw"
+-            CFLAGS_DIR="-I/sw/include $CFLAGS_DIR"
+-            LDFLAGS="-L/sw/lib $LDFLAGS"
+-        elif test -d /opt/local/bin ; then
+-            alt_macosx_dir="/opt/local"
+-            CFLAGS_DIR="-I/opt/local/include $CFLAGS_DIR"
+-            LDFLAGS="-L/opt/local/lib $LDFLAGS"
+-        fi
+-        Mac_Applications="/Applications"
++        Mac_Applications="@APPLICATIONS_DIR@"
+         SHFLAGS="-dynamiclib"
+         DYN_LIB_SUFFIX=".dylib"
+         extralibs=""

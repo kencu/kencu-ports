@@ -1,0 +1,43 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem 1.0
+PortGroup           github 1.0
+
+github.setup        jca02266 lha 7c3cd95
+version             1.14i-ac20081023
+epoch               20191004
+revision            1
+categories          archivers sysutils
+maintainers         nomaintainer
+description         Utility for creating and opening lzh archives
+long_description \
+                    ${description}
+platforms           darwin
+license             Restrictive/Distributable
+
+checksums           rmd160  3015b301291a5b707e125dea6918f4fdbf534485 \
+                    sha256  4b21cbba1836d019d36a022d5c8ec66b1fd9d09dcfa2a857bf51b8cdea76e94e \
+                    size    220432
+
+patchfiles          c89.patch \
+                    implicit.patch \
+                    libiconv.patch \
+                    patch-src_header.c.diff
+
+depends_lib-append  port:libiconv
+
+use_autoreconf      yes
+autoreconf.args     -fvi
+
+test.run            yes
+test.target         check
+
+post-destroot {
+    set docdir ${prefix}/share/doc/${name}-${version}
+    xinstall -m 755 -d ${destroot}${docdir}/olddoc
+    xinstall -m 0644 -W ${worksrcpath} README.jp.md Hacking_of_LHa header.doc.jp \
+        ${destroot}${docdir}
+    xinstall -m 0644 {*}[glob ${worksrcpath}/olddoc/*.{txt,euc,eng}] \
+        ${destroot}${docdir}/olddoc
+}
+

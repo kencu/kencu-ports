@@ -1,0 +1,52 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           texlive 1.0
+
+name                texlive-lang-czechslovak
+version             58609
+revision            0
+
+categories          tex
+maintainers         {dports @drkp}
+license             Copyleft Permissive
+description         TeX Live: Czech/Slovak
+long_description    Support for Czech/Slovak.
+
+checksums           texlive-lang-czechslovak-58609-run.tar.xz \
+                    rmd160  fe1c97799ac10df611ca85cb91cc06a0eb499dad \
+                    sha256  ba919a7fcd9a55067062131cd6d7234ec2753adf812d1311baf39bc22cda50eb \
+                    size    10917472 \
+                    texlive-lang-czechslovak-58609-doc.tar.xz \
+                    rmd160  34c285d4fb86b64346395ea72df17a82455102f2 \
+                    sha256  17d2a50e3b968a94b16f5b98c5739f8bd8130dbc2ee833603daa1f26f4e7a34d \
+                    size    8918284 \
+                    texlive-lang-czechslovak-58609-src.tar.xz \
+                    rmd160  d023bdc9c723803baabad669d7b70a4ed1958c8e \
+                    sha256  06427b299c9188c5b0379ff2e1766507f502b5849c5704f2de7d19b0849fc443 \
+                    size    37284
+
+depends_lib         port:texlive-basic port:texlive-latex
+
+texlive.formats      \
+    {1 cslatex pdftex - {-etex cslatex.ini}} \
+    {1 pdfcslatex pdftex - {-etex cslatex.ini}} \
+    {1 csplain pdftex - {-etex -enc csplain-utf8.ini}} \
+    {1 luacsplain luatex - {-etex csplain.ini}} \
+    {1 pdfcsplain luatex - {-etex csplain.ini}} \
+    {1 pdfcsplain pdftex - {-etex -enc csplain-utf8.ini}} \
+    {1 pdfcsplain xetex - {-etex csplain.ini}}
+
+texlive.languages      \
+    {czech loadhyph-cs.tex 2 3 {} {hyph-cs.pat.txt} {hyph-cs.hyp.txt} {} } \
+    {slovak loadhyph-sk.tex 2 3 {} {hyph-sk.pat.txt} {hyph-sk.hyp.txt} {} }
+
+texlive.maps      \
+    {Map cs-charter.map} \
+    {Map csfonts.map}
+
+texlive.binaries    cslatex csplain luacsplain pdfcslatex pdfcsplain vlna
+
+depends_lib-append port:texlive-luatex
+
+texlive.texmfport

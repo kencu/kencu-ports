@@ -1,0 +1,48 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           python 1.0
+PortGroup           app 1.0
+PortGroup           active_variants 1.1
+
+github.setup        OpenShot openshot-qt 2.6.0 v
+github.tarball_from archive
+checksums           rmd160  1fd90815eb58c364c496265406a67e63e896ac39 \
+                    sha256  3d637d6028cf680e634ced52de08dc22c1c603fdb3a2ede515b1b528f0b9cd97 \
+                    size    68096356
+homepage            https://www.openshot.org/
+categories          multimedia
+license             GPL-3+
+platforms           darwin
+maintainers         ctreleaven openmaintainer
+
+description         simple and powerful video editor
+long_description    Award-winning free and open-source video editor dedicated to \
+                    delivering high quality video editing and animation solutions \
+                    to the world.
+
+python.versions         38
+python.default_version  38
+python.link_binaries    no
+
+installs_libs           no
+
+depends_build-append    port:py${python.version}-pyqt5
+depends_run             port:py${python.version}-pyqt5 \
+                        port:libopenshot
+
+require_active_variants py${python.version}-pyqt5 webkit
+
+post-extract {
+    reinplace -locale C "s|^#! */usr/bin/env python3\$|#!${python.bin}|" src/launch.py
+}
+
+post-destroot {
+    file attributes ${destroot}/${python.pkgd}/openshot_qt/launch.py -permissions +x
+}
+
+app.name Openshot
+app.executable ${python.pkgd}/openshot_qt/launch.py
+app.icon installer/openshot.icns
+app.retina yes

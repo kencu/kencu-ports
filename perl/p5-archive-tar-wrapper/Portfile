@@ -1,0 +1,27 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Archive-Tar-Wrapper 0.38
+license             GPL-3+
+maintainers         {devans @dbevans} openmaintainer
+description         Archive::Tar::Wrapper - API wrapper around the 'tar' utility
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  85729f39dd99a9c693576c3e1a18747e2849672c \
+                    sha256  19f3d0daa8b95cffb68c704350dd0674a23e1d2f14d032903b7e9609edb7b37a \
+                    size    38425
+
+if {${perl5.major} != ""} {
+    depends_lib-append \
+                    port:p${perl5.major}-file-temp \
+                    port:p${perl5.major}-file-which \
+                    port:p${perl5.major}-ipc-run \
+                    port:p${perl5.major}-log-log4perl
+
+    supported_archs noarch
+}

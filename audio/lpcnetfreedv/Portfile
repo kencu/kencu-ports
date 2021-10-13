@@ -1,0 +1,58 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           cmake 1.1
+PortGroup           muniversal 1.0
+
+name                lpcnetfreedv
+platforms           darwin macosx
+categories          audio
+license             BSD
+maintainers         {ra1nb0w @ra1nb0w} openmaintainer
+
+description         Experimental Neural Net speech coding for FreeDV
+long_description    Experimental version of LPCNet being developed \
+    for over the air Digital Voice experiments with FreeDV.
+
+github.setup        drowe67 LPCNet 0dc5935bbf49ff3ba3c9654cc2f802838ebbaead
+version             20210629-[string range ${github.version} 0 7]
+checksums           rmd160  f70f6b0c5fb9a888bbf98e271a1da88c893c4ad7 \
+                    sha256  f6bd0b7d751610ebf615295256709c5ce33f63af762f53f25262a18a0f3ff66b \
+                    size    33016918
+revision            1
+
+epoch               1
+
+depends_lib-append \
+    port:codec2
+
+# disable AVX and AVX2 for compatibility
+configure.args-append \
+    -DDISABLE_CPU_OPTIMIZATION=ON
+
+if {![info exists universal_possible]} {
+    set universal_possible [expr {${os.universal_supported} && [llength ${configure.universal_archs}] >= 2}]
+}
+# enable optimization on all Intel hardwares
+if {${universal_possible} && [variant_isset universal]} {
+    set merger_configure_args(x86_64) -DAVX=ON
+    set merger_configure_cflags(i386) [list -mssse3 -msse4.1]
+} else {
+    switch -- ${configure.build_arch} {
+        x86_64 { configure.args-append -DAVX=ON }
+        i386 { configure.cflags-append -mssse3 -msse4.1 }
+    }
+}
+
+# select native cpu flags
+variant native description {Enable auto selection of cpu flags like avx/avx2/neon} {
+    configure.args-delete -DDISABLE_CPU_OPTIMIZATION=ON
+}
+
+# linux only scripts
+test.run            off
+
+notes "To enable lpcnet on codec2 you need to rebuild it manually with\
+the respective variant enabled. Aka, circular dependency.\
+command to rebuild: sudo port -sn upgrade --force codec2"

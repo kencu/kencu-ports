@@ -1,0 +1,41 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               makefile 1.0
+
+name                    daemon
+version                 0.8
+revision                0
+categories              sysutils
+platforms               darwin
+license                 GPL-2+
+maintainers             {khindenburg @kurthindenburg} openmaintainer
+description             Daemon turns other process into daemons
+long_description        Daemon turns other process into daemons. There are many \
+                        tasks that need to be performed to correctly set up a \
+                        daemon process. This can be tedious. Daemon performs these \
+                        tasks for other processes. This is useful for writing \
+                        daemons in languages other than C, C++ or Perl (e.g. \
+                        /bin/sh, Java).
+
+homepage                http://libslack.org/daemon/
+master_sites            ${homepage}download/
+
+checksums               rmd160  9b3cb7c36eb38fcfaea94feab8457c255815fb95 \
+                        sha256  74f12e6d4b3c85632489bd08431d3d997bc17264bf57b7202384f2e809cff596 \
+                        size    441748
+
+patchfiles              disable-test-pseudo.patch
+
+# Only a script, not a real configure.
+use_configure           yes
+
+test.run                yes
+test.target             check
+
+destroot.destdir        PREFIX=${destroot}${prefix}
+
+livecheck.type      regex
+livecheck.url       ${master_sites}
+livecheck.regex     ${name}-(\\d+(?:\\.\\d+)*)${extract.suffix}
+

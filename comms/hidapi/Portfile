@@ -1,0 +1,34 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        libusb hidapi 0.9.0 hidapi-
+categories          comms
+platforms           darwin
+maintainers         {raimue @raimue} \
+                    openmaintainer
+license             {GPL-3 BSD Permissive}
+
+description         library for interacting with HID-class devices
+long_description \
+    HIDAPI is a multi-platform library which allows an application to \
+    interface with USB and Bluetooth HID-Class devices.
+
+checksums           rmd160  26c6b358a58d86beed2a00a3c7f8c2bf494871a7 \
+                    sha256  c719535a018c393bdfdafe14de9a8b6e79741243a6b426c2622f8721a704d869 \
+                    size    112965
+
+use_autoreconf yes
+
+variant testgui description {Install GUI to test HIDAPI} {
+    depends_lib-append      port:fox
+    configure.args-append   --enable-testgui
+    patchfiles-append       patch-appbundle.diff
+
+    post-destroot {
+        set destapp ${destroot}${applications_dir}/HIDAPI-TestGUI.app
+        copy ${worksrcpath}/testgui/TestGUI.app ${destapp}
+        ln -s ${prefix}/bin/hidapi-testgui ${destapp}/Contents/MacOS/
+    }
+}

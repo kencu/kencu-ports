@@ -1,0 +1,125 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           wxWidgets 1.0
+wxWidgets.use       wxWidgets-3.2
+
+compiler.cxx_standard  2011
+
+name                saga
+categories          gis
+license             GPL
+version             7.9.1
+revision            0
+platforms           darwin
+maintainers         {vince @Veence} openmaintainer
+
+description         SAGA is a GIS oriented towards statistics and analysis
+
+long_description    SAGA is yet another open source GIS targeted towards\
+                    spatial analysis and statistics. It uses wxWidgets as\
+                    a GUI.
+
+homepage            http://www.saga-gis.org/en/index.html
+master_sites        sourceforge:project/saga-gis/SAGA%20-%207/SAGA%20-%20${version}
+
+checksums           rmd160  fe7b74b3627277428e17141fe216f209d587a5ef \
+                    sha256  26ad4b84149e26eabd4a5365fe4a3923cfa39e36672cc7c660d3549f3556a3bc \
+                    size    5512365
+
+patchfiles          patch-configure.diff
+
+depends_build       port:autoconf \
+                    port:automake \
+                    port:libtool
+
+depends_lib         port:geos \
+                    port:gdal \
+                    port:proj8 \
+                    port:liblas \
+                    port:jasper \
+                    port:fftw-3 \
+                    path:lib/libodbc.dylib:unixODBC \
+                    port:qhull \
+                    port:triangle
+
+depends_lib-append  port:${wxWidgets.port}
+
+post-patch {
+    fs-traverse f ${worksrcpath} {
+        if {[file isfile ${f}]} {
+            switch [file tail ${f}] {
+                configure -
+                Makefile.in {
+                    reinplace -E -q "s|wx-config|${wxWidgets.wxconfig}|" ${f}
+                }
+            }
+        }
+    }
+}
+
+configure.cppflags-append   -I${prefix}/lib/proj8/include
+configure.cxxflags-append   -std=c++11
+configure.ldflags-append    -L${prefix}/lib/proj8/lib
+
+configure.args              --disable-openmp \
+                            --enable-debug \
+                            --disable-libfire \
+                            --disable-gui
+
+variant gui description "build the GUI interface" {
+
+    configure.args-delete   --disable-gui
+}
+
+variant python description "build Python 3.9 bindings" {
+    depends_lib-append      port:python39 \
+                            port:swig-python
+
+    configure.args-append   --enable-python
+    configure.env-append    PYTHON=${prefix}/bin/python3.9
+    configure.env-append    PYTHON_VERSION=3.9
+}
+
+variant libfire {
+    configure.args-delete   --disable-libfire
+}
+
+# Database variants (carried over from gdal)
+set postgresql_suffixes {10 11 12 13}
+
+set portsgresql_variants {}
+set postgresql_default_variant "if {"
+
+foreach s ${postgresql_suffixes} {
+    lappend portsgresql_variants postgresql${s}
+    set postgresql_default_variant "${postgresql_default_variant}!\[variant_isset postgresql${s}] && "
+}
+
+set postgresql_default_variant [string range ${postgresql_default_variant} 0 end-4]
+set postgresql_default_variant "${postgresql_default_variant}} {default_variants +postgresql${s}}"
+eval $postgresql_default_variant
+
+foreach s ${postgresql_suffixes} {
+    set p postgresql${s}
+    set i [lsearch -exact ${portsgresql_variants} ${p}]
+    set c [lreplace ${portsgresql_variants} ${i} ${i}]
+    variant ${p} description "Enable PostgreSQL ${s} support" conflicts {*}${c} "
+        depends_lib-append      port:${p}
+        configure.args-append   --with-postgresql=${prefix}/lib/postgresql${s}/bin/pg_config
+        configure.env-append    PKG_CONFIG_PATH=${prefix}/lib/postgresql${s}/pkgconfig
+    "
+}
+
+post-destroot {
+    if {[variant_isset python]} {
+        file mkdir ${destroot}${frameworks_dir}/Python.framework/Versions/3.9/lib/python3.9
+        file rename ${destroot}${prefix}/lib/python3.9/site-packages \
+        ${destroot}${frameworks_dir}/Python.framework/Versions/3.9/lib/python3.9/site-packages
+    }
+}
+
+configure.ldflags-append    -gdwarf-3
+configure.cxxflags-append   -gdwarf-3
+
+livecheck.regex             ${name}_(\[0-9a-z.\]+)${extract.suffix}

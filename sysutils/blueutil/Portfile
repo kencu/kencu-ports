@@ -1,0 +1,53 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem                  1.0
+PortGroup                   github 1.0
+PortGroup                   makefile 1.0
+
+github.setup                toy blueutil 2.9.0 v
+revision                    0
+checksums                   sha1    e5874592fd0da67ecf05a09d7eaa4026f2eb049e \
+                            rmd160  8e39accbd6b46b18fa1691d994a4ee4e06c5ed84 \
+                            sha256  bf7bd529bfe2fcd3f2437bec4d20472eeceae2aee87f0fccf69197b8fe372b96 \
+                            size    18515
+
+categories                  sysutils
+platforms                   darwin
+maintainers                 {dons.net.au:darius @DanielO}
+license                     BSD
+
+description                 CLI for Bluetooth on macOS
+
+long_description            Command line interface for Bluetooth on macOS, \
+                            control power, discoverable state, list paired \
+                            devices, pair new devices, connect and disconnect \
+                            devices, and check if a device is connected.
+
+if { ${os.platform} eq "darwin" && ${os.major} <= 12} {
+    known_fail              yes
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.9 or later."
+        return -code error "Unsupported platform"
+    }
+}
+
+patchfiles                  blueutil-Makefile.diff
+
+# error: use of undeclared identifier '_errorCode'
+supported_archs             arm64 x86_64
+
+configure.cppflags-delete   -I${prefix}/include
+configure.ldflags-delete    -L${prefix}/lib
+
+makefile.prefix_name        prefix
+makefile.override           PREFIX
+
+post-destroot {
+    xinstall -d -m 0755 ${destroot}${prefix}/share/${name}
+    xinstall -m 0644 -W ${worksrcpath} README.md LICENSE.txt CHANGELOG.md \
+        ${destroot}${prefix}/share/${name}/
+}
+
+test.run                    yes
+test.args
+test.cmd                    echo y | ./test

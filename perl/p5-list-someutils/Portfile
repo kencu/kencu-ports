@@ -1,0 +1,30 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         List-SomeUtils 0.58
+license             {Artistic-1 GPL}
+maintainers         {devans @dbevans} openmaintainer
+description         List::SomeUtils - Provide the stuff missing in List::Util
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  b53b04dd9a1db257037db45e00cdffd4f519926a \
+                    sha256  96eafb359339d22bf2a2de421298847a3c40f6a28b6d44005d0965da86a5469d \
+                    size    67003
+
+if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-test-leaktrace \
+                    port:p${perl5.major}-text-parsewords
+
+    depends_lib-append \
+                    port:p${perl5.major}-list-someutils-xs \
+                    port:p${perl5.major}-module-implementation \
+                    port:p${perl5.major}-scalar-list-utils
+
+    supported_archs noarch
+}

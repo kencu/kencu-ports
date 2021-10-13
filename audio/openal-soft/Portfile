@@ -1,0 +1,100 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               cmake 1.1
+if {${subport} eq "openal-soft" && [variant_isset gui]} {
+PortGroup               qt5 1.0
+}
+
+name                    openal-soft
+version                 1.21.1
+checksums               rmd160  b5b96f0e36d4a29303d62a484d7c6c1fe0798de6 \
+                        sha256  c8ad767e9a3230df66756a21cc8ebf218a9d47288f2514014832204e666af5d8 \
+                        size    524787
+
+categories              audio devel
+platforms               darwin
+maintainers             {ryandesign @ryandesign} openmaintainer
+license                 LGPL-2
+
+description             cross-platform software implementation of the OpenAL \
+                        3D audio API
+
+long_description        OpenAL Soft is a ${description}. It's forked from the \
+                        open-sourced Windows version available originally \
+                        from the SVN repository at openal.org. OpenAL \
+                        provides capabilities for playing audio in a virtual \
+                        3D environment. Distance attenuation, doppler shift, \
+                        and directional sound emitters are among the features \
+                        handled by the API. More advanced effects, including \
+                        air absorption, occlusion, and environmental reverb, \
+                        are available through the EFX extension. It also \
+                        facilitates streaming audio, multi-channel buffers, \
+                        and audio capture.
+
+homepage                https://openal-soft.org
+master_sites            ${homepage}/openal-releases/
+use_bzip2               yes
+
+if {${subport} eq ${name}} {
+revision                0
+
+depends_build-append    port:pkgconfig
+
+depends_lib-append      port:libmysofa \
+                        port:zlib
+
+compiler.cxx_standard   2014
+compiler.thread_local_storage   yes
+
+configure.args-append   -DALSOFT_EXAMPLES=OFF \
+                        -DALSOFT_UTILS=ON \
+                        -DALSOFT_NO_CONFIG_UTIL=ON \
+                        -DALSOFT_REQUIRE_JACK=OFF \
+                        -DALSOFT_BACKEND_JACK=OFF \
+                        -DALSOFT_REQUIRE_PORTAUDIO=OFF \
+                        -DALSOFT_BACKEND_PORTAUDIO=OFF \
+                        -DALSOFT_REQUIRE_PULSEAUDIO=OFF \
+                        -DALSOFT_BACKEND_PULSEAUDIO=OFF \
+                        -DALSOFT_REQUIRE_SDL2=OFF \
+                        -DALSOFT_BACKEND_SDL2=OFF
+
+variant gui description {Enable alsoft-config Qt GUI} {
+    configure.args-replace  -DALSOFT_NO_CONFIG_UTIL=ON -DALSOFT_NO_CONFIG_UTIL=OFF
+}
+
+variant jack description {Enable JACK backend} {
+    depends_lib-append  port:jack
+    configure.args-replace  -DALSOFT_REQUIRE_JACK=OFF -DALSOFT_REQUIRE_JACK=ON \
+                            -DALSOFT_BACKEND_JACK=OFF -DALSOFT_BACKEND_JACK=ON
+}
+
+variant portaudio description {Enable PortAudio backend} {
+    depends_lib-append  port:portaudio
+    configure.args-replace  -DALSOFT_REQUIRE_PORTAUDIO=OFF -DALSOFT_REQUIRE_PORTAUDIO=ON \
+                            -DALSOFT_BACKEND_PORTAUDIO=OFF -DALSOFT_BACKEND_PORTAUDIO=ON
+}
+
+variant pulseaudio description {Enable PulseAudio backend} {
+    depends_lib-append  port:pulseaudio
+    configure.args-replace  -DALSOFT_REQUIRE_PULSEAUDIO=OFF -DALSOFT_REQUIRE_PULSEAUDIO=ON \
+                            -DALSOFT_BACKEND_PULSEAUDIO=OFF -DALSOFT_BACKEND_PULSEAUDIO=ON
+}
+
+variant sdl2 description {Enable SDL2 backend} {
+    depends_lib-append  port:libsdl2
+    configure.args-replace  -DALSOFT_REQUIRE_SDL2=OFF -DALSOFT_REQUIRE_SDL2=ON \
+                            -DALSOFT_BACKEND_SDL2=OFF -DALSOFT_BACKEND_SDL2=ON
+}
+
+livecheck.type          regex
+livecheck.regex         /${name}-(\[0-9.\]+)${extract.suffix}
+}
+
+# Remove this obsolete subport after November 2021.
+subport ${name}-native-tools {
+    PortGroup           obsolete 1.0
+
+    revision            0
+    replaced_by         ${name}
+}

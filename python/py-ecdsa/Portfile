@@ -1,0 +1,33 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-ecdsa
+version             0.17.0
+revision            0
+categories-append   devel security
+platforms           darwin
+license             MIT
+supported_archs     noarch
+
+python.versions     27 35 36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         ECDSA cryptographic signature library
+long_description    ${description}
+
+homepage            https://github.com/warner/python-ecdsa
+
+checksums           rmd160  6d1f2032ed4d017e1f9176912887c2cb77b3b2ab \
+                    sha256  b9f500bb439e4153d0330610f5d26baaf18d17b8ced1bc54410d189385ea68aa \
+                    size    158486
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                        port:py${python.version}-setuptools \
+                        port:py${python.version}-six
+
+    livecheck.type      none
+}

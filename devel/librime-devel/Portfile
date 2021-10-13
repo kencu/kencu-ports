@@ -1,0 +1,36 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           cmake 1.1
+PortGroup           boost 1.0
+
+github.setup        rime librime 62a97cf64a75fe86140dfb3f4be5f5c1adfe0e07
+name                librime-devel
+version             20210909
+revision            0
+categories          devel
+platforms           darwin
+license             BSD
+maintainers         {l2dy @l2dy} openmaintainer
+description         Rime Input Method Engine, the core library
+long_description    ${description}
+homepage            https://rime.im/
+
+depends_build-append \
+                    port:pkgconfig
+
+depends_lib-append  port:capnproto \
+                    port:gflags \
+                    port:google-glog \
+                    port:leveldb \
+                    port:marisa-trie \
+                    port:opencc \
+                    port:yaml-cpp
+
+configure.args      -DBOOST_USE_CXX11=ON \
+                    -DBUILD_TEST=OFF
+
+checksums           rmd160  3e73d005f356c3b2105598190b5109efbfb024fc \
+                    sha256  907e4b667577542270de3cd01d940a7b26aa9b264747b7038415b530a2f78ab5 \
+                    size    2849160

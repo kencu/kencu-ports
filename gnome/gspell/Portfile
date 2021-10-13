@@ -1,0 +1,59 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           active_variants 1.1
+PortGroup           gobject_introspection 1.0
+
+name                gspell
+version             1.8.4
+revision            1
+license             GPL-2
+set branch          [join [lrange [split ${version} .] 0 1] .]
+description         gspell - a spell-checking library for GTK+
+long_description    gspell provides a flexible API to implement the spell checking \
+                    in a GTK+ application.
+maintainers         {devans @dbevans} openmaintainer
+categories          gnome
+platforms           darwin
+
+homepage            https://wiki.gnome.org/Projects/gspell
+master_sites        gnome:sources/${name}/${branch}/
+
+use_xz              yes
+
+checksums           rmd160  3105f9c09b3c221fa7a9ed650c26d63cf63e1b2d \
+                    sha256  cf4d16a716e813449bd631405dc1001ea89537b8cdae2b8abfb3999212bd43b4 \
+                    size    424356
+
+depends_build       port:pkgconfig \
+                    port:gtk-doc
+
+depends_lib         port:gdk-pixbuf2 \
+                    port:gtk3 \
+                    port:gtksourceview3 \
+                    port:libxml2 \
+                    port:enchant2 \
+                    port:iso-codes \
+                    port:vala
+
+gobject_introspection yes
+
+use_autoreconf      yes
+autoreconf.args     -fvi
+
+patchfiles          patch-gspell-Makefile.am.diff \
+                    patch-testsuite-Makefile.am.diff
+
+configure.args      --enable-compile-warnings=no \
+                    --disable-silent-rules
+
+variant quartz {}
+
+if {[variant_isset quartz]} {
+    require_active_variants gtk3 quartz
+    depends_lib-append      port:gtk-osx-application-gtk3
+} else {
+    require_active_variants gtk3 x11
+}
+
+livecheck.type      gnome

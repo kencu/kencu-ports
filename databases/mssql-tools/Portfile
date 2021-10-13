@@ -1,0 +1,37 @@
+PortSystem          1.0
+
+name                mssql-tools
+version             17.7.1.1
+categories          databases
+platforms           darwin
+supported_archs     x86_64
+maintainers         {jann @roederja} openmaintainer
+license             Restrictive
+
+description         Sqlcmd and Bcp for Microsoft(R) SQL Server(R)
+long_description    Sqlcmd and Bcp for Microsoft(R) SQL Server(R)
+
+homepage            https://docs.microsoft.com/en-us/sql/tools/sqlcmd-utility
+master_sites        https://download.microsoft.com/download/F/D/1/FD16AA69-F27D-440E-A15A-6C521A1972E6/
+
+checksums           rmd160  d780e7530b640680b08dce03d4bea8880725cd37 \
+                    sha256  0da7be669d58c2d640fb3b7d0eab72549f9e14d492d27a3a6fbffbd8a67ac074 \
+                    size    303889
+                    
+depends_run         port:msodbcsql17
+
+use_configure       no
+                    
+build               {
+     system "install_name_tool -change /usr/local/lib/libodbc.2.dylib ${prefix}/lib/libodbc.2.dylib ${worksrcpath}/bin/bcp"
+     system "install_name_tool -change /usr/local/lib/libodbc.2.dylib ${prefix}/lib/libodbc.2.dylib ${worksrcpath}/bin/sqlcmd"
+}
+
+destroot            {
+    xinstall -m 555 -W ${worksrcpath}/bin sqlcmd bcp ${destroot}${prefix}/bin
+    xinstall -d ${destroot}${prefix}/share/resources/en_US
+    xinstall -m 444 -W ${worksrcpath}/share/resources/en_US BatchParserGrammar.dfa BatchParserGrammar.llr bcp.rll SQLCMD.rll \
+     ${destroot}${prefix}/share/resources/en_US
+    xinstall -d ${destroot}${prefix}/share/doc/mssql-tools
+    xinstall -m 644 -W ${worksrcpath}/usr/share/doc/mssql-tools/ LICENSE.txt THIRDPARTYNOTICES.txt ${destroot}${prefix}/share/doc/mssql-tools/
+}

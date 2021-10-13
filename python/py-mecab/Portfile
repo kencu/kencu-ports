@@ -1,0 +1,33 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-mecab
+version             0.996.2
+categories-append   textproc japanese
+maintainers         nomaintainer
+license             {GPL LGPL BSD}
+platforms           darwin
+
+description         A Python module for MeCab
+long_description    {*}${description}
+
+checksums           rmd160  2ab0878c8ebbe11ddce9946e025130ba9fffa551 \
+                    sha256  ec8e46e4930e091c25f9f2dc740543bfc483482917dc1340fd914a9344de5b10 \
+                    size    62484
+
+homepage            https://github.com/ikegami-yukino/mecab/tree/master/mecab/python
+
+python.versions     37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    depends_lib-append \
+                    path:bin/mecab-config:mecab-utf8
+
+    livecheck.type  none
+}
+

@@ -1,0 +1,53 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                pngcheck
+version             3.0.2
+revision            0
+categories          graphics
+license             MIT GPL-2
+platforms           darwin
+maintainers         nomaintainer
+description         validate and inspect PNG, JNG and MNG files
+long_description    pngcheck verifies the integrity of PNG, JNG and MNG files \
+                    (by checking the internal 32-bit CRCs [checksums] and \
+                    decompressing the image data)\; it can optionally dump \
+                    almost all of the chunk-level information in the image in \
+                    human-readable form. For example, it can be used to print \
+                    the basic statistics about an image (dimensions, bit \
+                    depth, etc.)\; to list the color and transparency info in \
+                    its palette (assuming it has one)\; or to extract the \
+                    embedded text annotations. This is a command-line program \
+                    with batch capabilities.
+homepage            http://www.libpng.org/pub/png/apps/pngcheck.html
+master_sites        sourceforge:project/png-mng/pngcheck/${version}
+
+checksums           rmd160  7c9b7b40b73fa930d699e100eacb254d07f0455e \
+                    sha256  0d7e262f24116fddf2847a8ceb5c92d9f5f26efb42e9fff63ec2bb7676131ca7 \
+                    size    63202
+
+depends_lib         port:zlib
+
+variant universal   {}
+
+use_configure       no
+
+build.pre_args-append   -f Makefile.unx
+build.args-append       CC="${configure.cc} [get_canonical_archflags cc]" \
+                        LD="${configure.cc} [get_canonical_archflags ld]" \
+                        ZLIB="${configure.ldflags} -lz" \
+                        ZINC="${configure.cppflags}"
+
+destroot {
+    xinstall -m 755 -W ${worksrcpath} pngcheck pngsplit png-fix-IDAT-windowsize ${destroot}${prefix}/bin
+
+    set docdir ${prefix}/share/doc/${subport}
+    xinstall -d ${destroot}${docdir}
+    xinstall -m 644 ${worksrcpath}/README ${destroot}${docdir}
+    set man1dir ${prefix}/share/man/man1
+    xinstall -d ${destroot}${man1dir}
+    xinstall -m 644 ${worksrcpath}/pngcheck.1 ${destroot}${man1dir}
+}
+
+livecheck.regex     ${name}-(\\d+(?:\\.\\d+)*)

@@ -1,0 +1,57 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+github.setup        kurtmckee feedparser 6.0.8
+revision            0
+name                py-${name}
+license             BSD
+platforms           darwin
+supported_archs     noarch
+maintainers         {khindenburg @kurthindenburg} openmaintainer
+
+description         RSS and Atom parser
+long_description    Universal Feed Parser is a Python module for downloading \
+    and parsing syndicated feeds. It can handle RSS 0.90, Netscape RSS 0.91, \
+    Userland RSS 0.91, RSS 0.92, RSS 0.93, RSS 0.94, RSS 1.0, RSS 2.0, Atom, \
+    and CDF feeds.
+
+checksums           rmd160  5be96c91c28c358adb022c3ad1ee394f3b59e098 \
+                    sha256  d0640676dfd21749d203247dfcff1aca6afea4cc3633eb2835504435f491b8e6 \
+                    size    252517
+
+python.versions     27 36 37 38 39
+
+# Skip beta versions
+github.livecheck.regex  {([0-9.]+)}
+
+if {${name} ne ${subport}} {
+    depends_build-append port:py${python.version}-setuptools
+
+    if {${python.version} eq 27} {
+        github.setup        kurtmckee feedparser 5.2.1
+        revision            0
+
+        checksums           rmd160  22f74a36800fc02a57a69a16f3b793c23b863375 \
+                            sha256  53a133aed63977066b772b44e8b4d7e2d9c3e1ab80a6a549a8f587db4bc8956f \
+                            size    249223
+    } else {
+        depends_lib-append port:py${python.version}-sgmllib3k
+
+        depends_test-append port:py${python.version}-chardet
+        test.run        yes
+        test.dir        ${build.dir}/
+        test.cmd        ${python.bin} tests/runtests.py
+        test.target
+        test.env        PYTHONPATH=${worksrcpath}/build/lib
+    }
+
+    post-destroot {
+        xinstall -m 644 -W ${worksrcpath} LICENSE README.rst \
+            ${destroot}${prefix}/share/doc/${subport}
+    }
+
+    livecheck.type  none
+}

@@ -1,0 +1,82 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               python 1.0
+PortGroup               select 1.0
+PortGroup               github 1.0
+
+github.setup            bpython bpython 0.21 "" -release
+name                    py-${name}
+revision                0
+
+platforms               darwin
+supported_archs         noarch
+maintainers             {aronnax @lpsinger} openmaintainer
+license                 MIT
+description             fancy interface to the Python interpreter
+long_description        a fancy interface to the Python interpreter for \
+                        Unix-like operating systems
+
+homepage                https://www.bpython-interpreter.org
+checksums               rmd160  95f8ff51ef91c47fdc6af27f0fc2d1b88ad91ca6 \
+                        sha256  3ea76e18327060edd7751204fd66f69f1b4404b830dccdbec9ef888a63dd4473 \
+                        size    208860
+
+python.versions         27 36 37 38 39
+
+if {${name} ne ${subport}} {
+    livecheck.type          none
+
+    depends_lib-append      port:py${python.version}-curtsies \
+                            port:py${python.version}-greenlet \
+                            port:py${python.version}-pygments \
+                            port:py${python.version}-requests \
+                            port:py${python.version}-setuptools \
+                            port:py${python.version}-six \
+                            port:py${python.version}-xdg
+
+    depends_build-append    port:py${python.version}-babel \
+                            port:py${python.version}-sphinx
+
+    depends_run-append      port:py${python.version}-jedi \
+                            port:py${python.version}-urwid \
+                            port:py${python.version}-watchdog \
+                            port:bpython_select
+
+    # Version >= 0.21 requires Python >= 3.6
+    if {${python.version} == 27} {
+        github.setup        bpython bpython 0.20.1 "" -release
+        revision            0
+
+        checksums           rmd160  b7d5b088996ba2c1a70677e2c4117ace31b17c4d \
+                            sha256  481054f9120c025f4621c93bdf6bb797bc9f2858006f545b426a87297054923b \
+                            size    211239
+
+        depends_lib-replace port:py${python.version}-cwcwidth \
+                            port:py${python.version}-wcwidth
+    }
+
+    post-destroot {
+        set themedir ${destroot}${python.prefix}/share/themes
+        xinstall -d ${themedir}
+
+        if {${python.version} == 27} {
+            xinstall -W ${worksrcpath} sample.theme light.theme \
+                ${themedir}
+        } else {
+            xinstall -d ${themedir}
+            xinstall -W ${worksrcpath}/theme sample.theme light.theme \
+                ${themedir}
+        }
+    }
+
+    select.group            bpython
+    select.file             ${filespath}/bpython${python.version}
+
+    notes "
+To make the Python ${python.branch} version of bpython the one that is run\
+when you execute the commands without a version suffix, e.g. 'bpython', run:
+
+port select --set ${select.group} [file tail ${select.file}]
+"
+}

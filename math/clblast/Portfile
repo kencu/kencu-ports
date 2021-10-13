@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           cmake 1.1
+
+github.setup        CNugteren CLBlast 1.5.2
+
+name                clblast
+categories          math
+platforms           darwin
+license             Apache-2
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         Tuned OpenCL BLAS
+long_description    ${description}
+
+checksums           rmd160  1496b35baf7f14cb3e09e31fb773f6359a126a1f \
+                    sha256  429d985110d057913b966274b7ee634fb2a7306976aa43b61c48a6119f22ddb1 \
+                    size    419782
+
+configure.args-append \
+                    -DBUILD_SHARED_LIBS=ON \
+                    -DSAMPLES=OFF \
+                    -DTUNERS=ON \
+                    -DCLIENTS=OFF \
+                    -DTESTS=OFF \
+                    -DNETLIB=ON \
+                    -DCUBLAS=OFF \
+                    -DVERBOSE=OFF

@@ -1,0 +1,30 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup github    1.0
+PortGroup ocaml     1.1
+
+name                ocaml-sexplib0
+github.setup        janestreet sexplib0 0.14.0 v
+
+categories          ocaml devel
+maintainers         {landonf @landonf} openmaintainer
+license             MIT
+description         Jane Street's S-expression definitions and base converters for OCaml
+long_description    Part of Jane Street's Core suite of libraries for OCaml, providing \
+                    S-expression definitions and base converters.
+
+platforms           darwin
+
+# Strip everything but <major>.<minor> from version
+set sexplib_vers    [regsub {^([^\.]+\.[^\.]+).*} ${version} {\1}]
+master_sites        https://ocaml.janestreet.com/ocaml-core/v${sexplib_vers}/files/
+
+distname            ${github.project}-${git.branch}
+
+checksums           rmd160  600edd9d053996f9bcbbe94611ed4ab81b280d3a \
+                    sha256  6fab188a1ad5e1a9ada53de95981c3cfb500ffe412c9cb5a2079ef1d3260b929 \
+                    size    17787
+
+ocaml.build_type    dune
+test.run            yes

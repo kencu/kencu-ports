@@ -1,0 +1,22 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         File-Remove 1.60 ../../authors/id/S/SH/SHLOMIF
+license             {Artistic-1 GPL}
+maintainers         nomaintainer
+description         Remove files and directories
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  77ba942572684f588b4a345973435f3f9bbb9aba \
+                    sha256  e86e2a40ffedc6d5697d071503fd6ba14a5f9b8220af3af022110d8e724f8ca6 \
+                    size    25997
+
+if {${perl5.major} != ""} {
+    perl5.use_module_build
+    supported_archs noarch
+}

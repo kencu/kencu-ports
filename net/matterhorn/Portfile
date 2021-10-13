@@ -1,0 +1,27 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           haskell_cabal 1.0
+
+name                matterhorn
+version             50200.13.0
+revision            0
+checksums           rmd160  d8fdb31d2d4ebdaf34e688498c7ed2ff5d91de58 \
+                    sha256  a2ebc8b1eec4e56e82e1ccd53c98ee6233e699a5a3c56b47bf24cd2d8fc4d0f3 \
+                    size    948356
+
+master_sites        https://hackage.haskell.org/package/${name}-${version}
+
+description         A feature-rich Unix terminal client for the \
+                    Mattermost chat system.
+long_description    ${description}
+
+homepage            https://github.com/matterhorn-chat/matterhorn/
+
+categories          net
+platforms           darwin
+supported_archs     noarch
+maintainers         {isi.edu:calvin @cardi} openmaintainer
+license             BSD
+
+test.run            yes

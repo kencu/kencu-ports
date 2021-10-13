@@ -1,0 +1,43 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup github    1.0
+PortGroup python    1.0
+
+github.setup        linkchecker linkchecker 10.0.1 v
+categories          www python
+maintainers         {khindenburg @kurthindenburg} openmaintainer
+platforms           darwin freebsd
+license             GPL-2+
+
+description         linkchecker for html pages
+long_description    linkchecker for html pages with recursive checking, \
+                    multithreaded, output can be colored or normal text, HTML, \
+                    SQL, CSV or a sitemap graph in XML or GML format, additionally \
+                    reports download time for HTML pages HTTP/1.1 and 1.0, HTTPS, \
+                    FTP, mailto:, news:, nntp:, gopher, telnet and local file \
+                    links are supported, restrict link checking with regular \
+                    expression filters for URLs, proxy support, give \
+                    username/password for HTTP and FTP authorization, robots.txt \
+                    exclusion protocol support, i18n support, CGI web interface. \
+                    The gui portion is no longer included as it is not maintained.
+
+checksums           rmd160  72769023105b9b11e6cf1cdcd84c84313f349ab9 \
+                    sha256  83b0e4f91bf4067fd0fe9cb0884299f900ce2060550f02717d8887c3093dc177 \
+                    size    512670
+
+python.default_version  38
+
+depends_build-append    port:py${python.version}-setuptools
+
+depends_lib-append  port:py${python.version}-dnspython \
+                    port:py${python.version}-requests \
+                    port:py${python.version}-xdg
+
+# A few tests fail to missing python modules
+depends_test-append port:py${python.version}-py \
+                    port:py${python.version}-pytest \
+                    port:py${python.version}-beautifulsoup4 \
+                    port:py${python.version}-openssl
+test.run            yes
+test.env            PYTHONPATH=${worksrcpath}/build/lib

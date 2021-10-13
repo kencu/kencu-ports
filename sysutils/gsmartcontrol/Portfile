@@ -1,0 +1,47 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                gsmartcontrol
+version             1.1.3
+maintainers         {cal @neverpanic} openmaintainer
+
+categories          sysutils gnome
+description         GSmartControl is a graphical user interface for smartctl
+long_description    ${description} \
+    (from the smartmontools package), which is a tool for querying and \
+    controlling SMART (Self-Monitoring, Analysis, and Reporting Technology) \
+    data on modern hard disk drives. It allows you to inspect the drive's SMART \
+    data to determine its health, as well as run various tests on it.
+
+platforms           darwin
+license             {GPL-2 GPL-3}
+
+homepage            http://gsmartcontrol.sourceforge.net/
+master_sites        sourceforge:project/${name}/${version}/
+use_bzip2           yes
+
+checksums           rmd160  13c4ca733e652cc40de14e3115b0dfa363e19ec5 \
+                    sha256  b64f62cffa4430a90b6d06cd52ebadd5bcf39d548df581e67dfb275a673b12a9 \
+                    size    677998
+
+compiler.cxx_standard 2011
+
+# uses a file called "version" during build that conflicts with c++ header
+compiler.blacklist-append {macports-clang-[8-9].0}
+
+depends_build       port:pkgconfig
+
+depends_lib         port:pcre \
+                    port:smartmontools \
+                    port:gtk3 \
+                    port:gtkmm3
+
+configure.cxxflags-append \
+                    -std=c++11
+
+post-activate {
+    system "gtk-update-icon-cache-3.0 ${prefix}/share/icons/hicolor"
+}
+
+livecheck.regex     "[quotemeta ${name}]-(\\d+(\\.\\d+)*)[quotemeta ${extract.suffix}]"

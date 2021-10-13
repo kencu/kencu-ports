@@ -1,0 +1,56 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-pygmsh
+version             7.1.12
+revision            0
+supported_archs     noarch
+license             MIT
+maintainers         {mps @Schamschula} openmaintainer
+description         PyGmsh combines power of Gmsh.
+long_description    {*}${description} with the versatility of Python and to provide \
+                    useful abstractions from the Gmsh scripting language so you can \
+                    create complex geometries more easily.
+categories-append   science
+homepage            https://github.com/nschloe/pygmsh
+
+python.versions     27 36 37 38 39
+
+platforms           darwin
+
+checksums           rmd160  0c48cf818f5b6b3b4067d0ef4173408064321e4d \
+                    sha256  eb10f73872178261ac34529db25043bf14515adb6e4abbcb983c38ae1f955026 \
+                    size    39532
+
+if {${name} ne ${subport}} {
+    if {${python.version} < 37} {
+        version     6.1.1
+        revision    0
+
+        checksums   rmd160  e5d0131497b62a8b8eacff55eeaf47c0eee791c1 \
+                    sha256  1e1b20bf2476155046e89c86b5feac3d894f71b4905f3cb16ea020b6b3dbdc70 \
+                    size    54870
+
+        depends_lib-append  \
+                    port:py${python.version}-pbr \
+                    port:py${python.version}-setuptools \
+                    port:py${python.version}-wheel
+
+    } else {
+        python.pep517       yes
+
+        depends_build-append \
+                    port:poetry \
+                    port:py${python.version}-poetry-core \
+                    port:py${python.version}-wheel
+
+        depends_lib-append  \
+                    port:py${python.version}-importlib-metadata \
+                    port:py${python.version}-meshio \
+                    port:py${python.version}-numpy
+    }
+
+    livecheck.type  none
+}

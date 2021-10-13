@@ -1,0 +1,52 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                diffoscope
+version             137
+categories          sysutils python
+platforms           darwin
+supported_archs     noarch
+license             GPL-3+
+maintainers         {raimue @raimue} \
+                    openmaintainer
+
+description         in-depth comparison of files, archives, and directories
+long_description    diffoscope will try to get to the bottom of what makes \
+                    files or directories different. It will recursively unpack \
+                    archives of many kinds and transform various binary \
+                    formats into more human readable form to compare them. It \
+                    can compare two tarballs, ISO images, or PDF just as easily. \
+                    Please note some file formats will require the installation \
+                    of additional ports.
+
+homepage            https://diffoscope.org/
+master_sites        pypi:d/diffoscope
+
+checksums           rmd160  f69e86b7c6334bb0a69ef7a8d241a2faed1a9794 \
+                    sha256  e1fc59dbbae133da65c827ba990243119f30731b1489002c396d49c66300b9da \
+                    size    1557283
+
+python.default_version 38
+
+depends_build-append \
+                    port:py${python.version}-setuptools
+
+depends_lib-append  port:py${python.version}-libarchive-c \
+                    port:py${python.version}-magic
+                    
+depends_run-append  port:gnutar \
+                    bin:bzip2:bzip2 \
+                    bin:gzip:gzip \
+                    bin:cpio:cpio
+
+patchfiles          patch-locale.diff
+
+depends_test-append \
+                    port:py${python.version}-py \
+                    port:py${python.version}-pytest
+
+test.run            yes
+
+livecheck.type      pypi

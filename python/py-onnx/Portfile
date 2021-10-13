@@ -1,0 +1,96 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           python 1.0
+PortGroup           compiler_blacklist_versions 1.0
+
+github.setup        onnx onnx 1.8.1 v
+revision            2
+name                py-${github.project}
+categories-append   science
+
+platforms           darwin
+supported_archs     noarch
+
+license             MIT
+
+maintainers         nomaintainer
+
+description         Open Neural Network Exchange
+
+long_description    Open Neural Network Exchange (ONNX) is an open\
+                    ecosystem that empowers AI developers to choose\
+                    the right tools as their project evolves. ONNX\
+                    provides an open source format for AI models, both\
+                    deep learning and traditional ML. It defines an\
+                    extensible computation graph model, as well as\
+                    definitions of built-in operators and standard\
+                    data types. Currently we focus on the capabilities\
+                    needed for inferencing (scoring).
+
+homepage            https://onnx.ai/
+
+checksums           rmd160  a319bd2f15fbbd3964e0751bd6e90596efdc6c0f \
+                    sha256  08e5f1b0a3a0a7d3bc608c6d95f3cabcd22b23148a791418e64d8dcfe3e7a0a4 \
+                    size    4934008
+
+python.versions     37 38 39
+
+# Needed to fix: constexpr constructor never produces a constant expression
+compiler.blacklist-append \
+                    {clang < 900}
+
+if {${name} ne ${subport}} {
+
+    PortGroup cmake 1.1
+
+    compiler.cxx_standard 2011
+
+    depends_build-append \
+        port:cctools \
+        port:py${python.version}-pytest-runner
+
+    depends_lib-append \
+        port:protobuf-c \
+        port:py${python.version}-future \
+        port:py${python.version}-numpy \
+        port:py${python.version}-protobuf3 \
+        port:py${python.version}-setuptools \
+        port:py${python.version}-six \
+        port:py${python.version}-typing_extensions \
+        port:pybind11
+
+    depends_test-append \
+        port:py${python.version}-nbval \
+        port:py${python.version}-pytest \
+        port:py${python.version}-tabulate
+
+    use_configure   no
+
+    build.env-append \
+        pybind11_DIR=${prefix}/share/cmake/pybind11
+    build.dir       ${worksrcpath}
+    build.post_args
+
+    destroot.dir    ${worksrcpath}
+    destroot.target install
+
+    post-destroot {
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath} LICENSE README.md \
+            ${destroot}${docdir}
+    }
+
+    pre-test {
+        test.env    PYTHONPATH=[glob -nocomplain ${worksrcpath}/build/lib*]
+    }
+
+    test.run        yes
+    test.cmd        py.test-${python.branch}
+    test.target     onnx/test
+
+    livecheck.type  none
+
+}

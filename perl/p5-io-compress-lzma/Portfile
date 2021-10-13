@@ -1,0 +1,39 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         IO-Compress-Lzma 2.101 ../../authors/id/P/PM/PMQS
+revision            0
+checksums           rmd160  108e6af2d8fd9fc57bf8718740ad7916be19a920 \
+                    sha256  1ae686dbe45dbdcf0c7cccf8a0cd81a579a019601f8e35533db93dcdd8282a90 \
+                    size    102393
+
+platforms           darwin
+
+license             {Artistic-1 GPL}
+maintainers         {isi.edu:calvin @cardi} openmaintainer
+description         Perl interface to allow reading and writing of \
+                    lzma files/buffers.
+long_description    ${description}
+
+if {${perl5.major} ne ""} {
+    depends_lib-append \
+                    port:p${perl5.major}-compress-raw-lzma \
+                    port:p${perl5.major}-io-compress
+
+    depends_test-append \
+                    port:lzip \
+                    port:p${perl5.major}-io-string \
+                    port:p${perl5.major}-test-cpan-meta \
+                    port:p${perl5.major}-test-cpan-meta-json \
+                    port:p${perl5.major}-test-pod \
+                    port:p7zip
+
+    # run all tests
+    test.env-append COMPRESS_ZLIB_RUN_ALL=1
+
+    supported_archs noarch
+    perl5.link_binaries no
+}

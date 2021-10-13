@@ -1,0 +1,44 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-python-daemon
+version             2.2.4
+revision            0
+
+categories-append   devel
+platforms           darwin
+supported_archs     noarch
+license             GPL-3+ Apache-2
+maintainers         nomaintainer
+
+description         Library to implement a well-behaved Unix daemon process.
+long_description  \
+    This library implements the well-behaved daemon specification of PEP 3143, \
+    \"Standard daemon process library\". A well-behaved Unix daemon process is \
+    tricky to get right, but the required steps are much the same for every \
+    daemon program. A DaemonContext instance holds the behaviour and \
+    configured process environment for the program\; use the instance as a \
+    context manager to enter a daemon state.
+
+homepage            https://pagure.io/python-daemon/
+
+checksums           rmd160  2447e4d6f1fe6fa0d4c9b5cd5751d12ba86bc27d \
+                    sha256  57c84f50a04d7825515e4dbf3a31c70cc44414394a71608dee6cfde469e81766 \
+                    size    80775
+
+python.versions     27 37 38
+
+patchfiles          patch-setup.py.diff
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools \
+                    port:py${python.version}-docutils
+
+    depends_lib-append \
+                    port:py${python.version}-lockfile
+
+    livecheck.type  none
+}

@@ -1,0 +1,49 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-gwpy
+version             2.0.4
+revision            0
+categories-append   science
+maintainers         nomaintainer
+
+platforms           darwin
+license             GPL-3
+
+description         A python package for gravitational-wave astrophysics
+long_description    GWpy is a collaboration-driven Python package providing \
+                    tools for studying data from ground-based \
+                    gravitational-wave detectors.
+homepage            https://gwpy.github.io
+
+checksums           rmd160 71838609306b66af4e71529c539df0997b81f36f \
+                    sha256 f2fef54f5489d484323bad5695699e865dae7d770498d90e1220938b6e831aba \
+                    size   1510563
+
+python.versions     37 38 39
+
+if {${name} ne ${subport}} {
+
+    depends_build-append \
+        port:py${python.version}-pip \
+        port:py${python.version}-setuptools_scm \
+        port:py${python.version}-wheel
+
+    depends_lib-append \
+        port:py${python.version}-astropy \
+        port:py${python.version}-colorama \
+        port:py${python.version}-dateutil \
+        port:py${python.version}-h5py \
+        port:py${python.version}-keyring \
+        port:py${python.version}-ligo-segments \
+        port:py${python.version}-ligotimegps \
+        port:py${python.version}-matplotlib \
+        port:py${python.version}-numpy \
+        port:py${python.version}-scipy \
+        port:py${python.version}-six \
+        port:py${python.version}-tqdm
+
+    livecheck.type  none
+}

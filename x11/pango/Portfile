@@ -1,0 +1,114 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               active_variants 1.1
+PortGroup               meson 1.0
+
+# Please keep the pango and pango-devel ports as similar as possible.
+
+name                    pango
+conflicts               pango-devel
+set my_name             pango
+epoch                   1
+version                 1.48.9
+revision                0
+checksums               rmd160  d32ff4e68d870416e53b13b2dbac8f8ec57f51be \
+                        sha256  a913657d3fe5aa04c03958a3b5d3fc859e891b75cd81b873a819330f6c0872aa \
+                        size    2063756
+
+set branch              [join [lrange [split ${version} .] 0 1] .]
+categories              x11
+maintainers             {ryandesign @ryandesign} {mascguy @mascguy} openmaintainer
+license                 LGPL-2+
+homepage                https://www.pango.org/
+master_sites            gnome:sources/${my_name}/${branch}
+platforms               darwin
+distname                ${my_name}-${version}
+dist_subdir             ${my_name}
+use_xz                  yes
+use_parallel_build      yes
+
+description \
+    Framework for the layout and rendering of i18n text
+
+long_description \
+    The goal of the Pango project is to provide an \
+    open-source framework for the layout and rendering \
+    of internationalized text.
+
+depends_build \
+    port:pkgconfig \
+    port:gobject-introspection \
+    port:help2man
+
+depends_lib \
+    path:lib/pkgconfig/glib-2.0.pc:glib2 \
+    path:lib/pkgconfig/cairo.pc:cairo \
+    port:fribidi \
+    path:lib/pkgconfig/harfbuzz.pc:harfbuzz
+
+configure.args-append   -Dxft=disabled \
+                        -Dintrospection=enabled
+
+configure.cflags-append \
+                        -Wno-error,-Wimplicit-fallthrough
+
+compiler.cxx_standard   2011
+configure.cxxflags-append \
+                        -std=c++11
+
+license_noconflict      gobject-introspection
+
+platform macosx {
+    variant quartz {
+        # Although this variant does nothing, pango will automatically build
+        # itself differently depending on whether or not cairo is installed with
+        # the quartz variant. Therefore this variant is necessary to be able to
+        # distinguish whether an installed pango has Quartz support or not.
+    }
+
+    default_variants    +quartz
+    # Don't allow Quartz support to be disabled. Keep the variant for awhile in
+    # case any dependents are using the active_variants portgroup to check for it.
+    variant_set         quartz
+
+    if {[variant_isset quartz]} {
+        require_active_variants path:lib/pkgconfig/cairo.pc:cairo quartz
+    }
+}
+
+variant x11 {
+    depends_lib-append      port:Xft2
+    configure.args-replace  -Dxft=disabled -Dxft=enabled
+}
+
+default_variants        +x11
+if {${os.platform} ne "darwin" || ${os.subplatform} ne "macosx"} {
+    # When not on macOS, don't allow X11 support to be disabled, since it is the
+    # only available option.
+    variant_set         x11
+}
+
+if {[variant_isset x11]} {
+    require_active_variants path:lib/pkgconfig/cairo.pc:cairo x11
+}
+
+pre-configure {
+    delete ${worksrcpath}/subprojects/glib ${worksrcpath}/subprojects/glib.wrap
+
+    # Fix for issue 56409: pango-view.1 man page not generated
+    delete ${worksrcpath}/pango-view/pango-view.1.in
+}
+
+post-destroot {
+    set docdir ${prefix}/share/doc/${my_name}
+    xinstall -d ${destroot}${docdir}
+    xinstall -m 0644 -W ${worksrcpath} CODING_STYLE.md COPYING NEWS README.md  THANKS \
+        ${destroot}${docdir}
+}
+
+test.run                yes
+test.target             check
+
+livecheck.type          gnome
+livecheck.name          ${my_name}

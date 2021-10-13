@@ -1,0 +1,35 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        qpdf qpdf 10.3.2 release-qpdf-
+revision            0
+checksums           rmd160  ca150df40d7679f2035479381a36f853af070787 \
+                    sha256  062808c40ef8741ec8160ae00168638a712cfa1d4bf673e8e595ab5eba1da947 \
+                    size    18943834
+
+categories          textproc pdf
+platforms           darwin
+license             Apache-2
+maintainers         {mps @Schamschula} openmaintainer
+
+description         content-preserving PDF transformation system
+long_description    QPDF is a command-line program that does structural, \
+                    content-preserving transformations on PDF files.
+
+homepage            http://qpdf.sourceforge.net/
+github.tarball_from releases
+
+depends_lib         path:include/turbojpeg.h:libjpeg-turbo \
+                    port:gnutls \
+                    port:libxml2 \
+                    port:libxslt \
+                    port:zlib
+
+compiler.cxx_standard   2014
+
+platform darwin 8 {
+    depends_build-append port:gmake
+    build.cmd            gmake
+}

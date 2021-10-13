@@ -1,0 +1,51 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           gobject_introspection 1.0
+
+name                libgsf
+version             1.14.47
+revision            1
+license             LGPL-2.1
+set branch          [join [lrange [split $version .] 0 1] .]
+maintainers         nomaintainer
+categories          gnome
+platforms           darwin
+
+description         An I/O abstraction library for dealing with file formats
+
+long_description    libgsf aims to provide an efficient extensible \
+                    I/O abstraction for dealing with different \
+                    structured file formats.
+
+homepage            https://www.gnome.org/
+master_sites        gnome:sources/$name/$branch/
+
+use_xz              yes
+
+checksums           rmd160  084aebcb6457498bba2c163005ef23c1f9432b66 \
+                    sha256  d188ebd3787b5375a8fd38ee6f761a2007de5e98fa0cf5623f271daa67ba774d \
+                    size    691448
+
+depends_build       port:pkgconfig \
+                    port:gtk-doc
+
+depends_lib         port:gettext \
+                    path:lib/pkgconfig/glib-2.0.pc:glib2 \
+                    port:libxml2 \
+                    port:gdk-pixbuf2 \
+                    port:zlib \
+                    port:bzip2
+
+gobject_introspection yes
+
+configure.args      --disable-silent-rules
+
+post-destroot {
+    set docdir ${prefix}/share/doc/${name}
+    xinstall -d ${destroot}${docdir}
+    xinstall -m 644 -W ${worksrcpath} AUTHORS COPYING COPYING.LIB NEWS README \
+        ${destroot}${docdir}
+}
+
+livecheck.type      gnome

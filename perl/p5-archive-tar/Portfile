@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Archive-Tar 2.38 ../../authors/id/B/BI/BINGOS/
+license             {Artistic-1 GPL}
+maintainers         nomaintainer
+description         Creation and in-memory manipulation of tar files
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  09260dcf8fdce77598c27d2b028ed5aadb2afa5c \
+                    sha256  c5e48f53514288185830ced93bf3e16fbdf5cddce97ded1d1d8a9b0a21ea287b \
+                    size    64790
+
+if {${perl5.major} != ""} {
+    depends_lib-append \
+                    port:p${perl5.major}-io-compress \
+                    port:p${perl5.major}-io-compress-lzma \
+                    port:p${perl5.major}-io-zlib \
+                    port:p${perl5.major}-text-diff
+    
+# configure Makefile.PL with -d option to add Text::Diff as a prerequisite, required by ptardiff
+    configure.pre_args-append -d
+
+    perl5.link_binaries no
+    supported_archs     noarch
+}

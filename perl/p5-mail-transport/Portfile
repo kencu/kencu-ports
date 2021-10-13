@@ -1,0 +1,24 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Mail-Transport 3.005
+license             {Artistic-1 GPL}
+maintainers         nomaintainer
+description         Mail::Transport - use Mail Transfer Agents (MTAs)
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  dfad9f9262748dcb6bf3d60961cf8c5ac30961d3 \
+                    sha256  d0dcb93f705c1285d808e34de7d86dbe28d1ed66aa2a7de830f6651fc35196a3 \
+                    size    16470
+
+if {${perl5.major} != ""} {
+    depends_lib-append \
+                    port:p${perl5.major}-mail-message
+
+    supported_archs noarch
+}

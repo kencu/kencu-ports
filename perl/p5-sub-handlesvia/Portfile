@@ -1,0 +1,33 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Sub-HandlesVia 0.016 ../../authors/id/T/TO/TOBYINK
+license             {Artistic-1 GPL}
+maintainers         {devans @dbevans} openmaintainer
+description         Sub::HandlesVia - alternative handles_via implementation
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  a3274b7a020372c5446c850fd56985613e15668b \
+                    sha256  69ded44ae54724027401667476c8af268a900af4ea6047ff44f283bc5e2cf9d5 \
+                    size    99771
+
+if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-test-fatal \
+                    port:p${perl5.major}-test-requires
+
+    depends_lib-append \
+                    port:p${perl5.major}-class-method-modifiers \
+                    port:p${perl5.major}-class-tiny \
+                    port:p${perl5.major}-exporter-tiny \
+                    port:p${perl5.major}-role-tiny \
+                    port:p${perl5.major}-scalar-list-utils \
+                    port:p${perl5.major}-type-tiny
+
+    supported_archs noarch
+}

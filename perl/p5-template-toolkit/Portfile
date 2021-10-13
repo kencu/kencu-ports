@@ -1,0 +1,48 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Template-Toolkit 3.009 ../../authors/id/A/AT/ATOOMIC
+
+license             {Artistic-1 GPL}
+maintainers         nomaintainer
+platforms           darwin
+
+description         Template processing system modules
+
+long_description    The Template Toolkit is a collection of modules \
+                    which implement a fast, flexible, powerful and \
+                    extensible template processing system. It was \
+                    originally designed and remains primarily useful \
+                    for generating dynamic web content, but it can \
+                    be used equally well for processing any other \
+                    kind of text based documents: HTML, XML, POD, \
+                    PostScript, LaTeX, and so on.
+
+homepage            http://www.template-toolkit.org/
+
+checksums           rmd160  9d9b2241268f57eeb6727601a7ffd201de585532 \
+                    sha256  d6ad23bbf637a59b5dfd1ac006460dfcb185982e4852cde77150fbd085f1f5b6 \
+                    size    523388
+
+if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-cgi \
+                    port:p${perl5.major}-test-leaktrace
+
+    depends_lib-append \
+                    port:p${perl5.major}-appconfig
+
+                    configure.post_args \
+                        TT_PREFIX=${prefix}/share/tt2 \
+                        TT_ACCEPT=y \
+                        TT_QUIET=y
+
+    post-destroot {
+        xinstall -m 755 -d ${destroot}${prefix}/share/doc/${subport}
+        xinstall -m 644 -W ${worksrcpath} INSTALL README.md \
+            ${destroot}${prefix}/share/doc/${subport}
+    }
+}

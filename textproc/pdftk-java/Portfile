@@ -1,0 +1,53 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           gitlab 1.0
+PortGroup           java 1.0
+
+gitlab.setup        pdftk-java pdftk 3.3.1 v
+revision            0
+
+checksums           rmd160  ddedfbce205d18adf84f92f8f16263c75f9380cc \
+                    sha256  7abe67cf7bfda3c0ad926d30457e88b69a6358fd1ea6e9661ea249d5b66b3711 \
+                    size    2167508
+
+name                pdftk-java
+categories          textproc graphics pdf java
+maintainers         nomaintainer
+license             GPL-2+
+platforms           darwin
+description         A port of pdftk into java
+conflicts           pdftk
+long_description    {*}${description}
+supported_archs     noarch
+
+java.version        1.7+
+java.fallback       openjdk11
+
+depends_build-append \
+                    bin:ant:apache-ant
+
+depends_lib-append  port:bcprov \
+                    port:commons-lang3
+
+use_configure       no
+
+post-configure {
+    file mkdir ${worksrcpath}/lib
+    ln -s ${prefix}/share/java/bcprov/bcprov.jar ${worksrcpath}/lib/
+    ln -s ${prefix}/share/java/commons-lang3.jar ${worksrcpath}/lib/
+}
+
+build.cmd           ant
+build.target        jar
+
+destroot {
+    set javadir ${destroot}${prefix}/share/java
+    xinstall -d -m 0755 -d ${javadir}/${name}
+    xinstall -m 0644 ${worksrcpath}/build/jar/pdftk.jar ${javadir}/${name}/
+
+    xinstall -m 0755 ${filespath}/pdftk-java.in ${destroot}${prefix}/bin/${name}
+    reinplace "s|@PREFIX@|${prefix}|g" ${destroot}${prefix}/bin/${name}
+
+    ln -s ${name} ${destroot}${prefix}/bin/pdftk
+}

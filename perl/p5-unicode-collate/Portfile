@@ -1,0 +1,19 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Unicode-Collate 1.30
+platforms           darwin
+maintainers         nomaintainer
+license             {Artistic-1 GPL}
+description         Unicode Collation Algorithm
+
+long_description    This module is an implementation of Unicode Technical \
+                    Standard #10 (a.k.a. UTS #10) - Unicode Collation Algorithm \
+                    (a.k.a. UCA).
+
+checksums           rmd160  d47bb475b962483c3386cf9d38e35ff89c466793 \
+                    sha256  4edf71f87a2da5135ffd60c0f1476aa2e6174db836a88c45cf27455b4c4ea414 \
+                    size    926090

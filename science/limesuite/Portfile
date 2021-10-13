@@ -1,0 +1,98 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+PortGroup           wxWidgets 1.0
+PortGroup           app 1.0
+
+name                limesuite
+categories          science comms
+platforms           darwin macosx
+license             Apache-2
+maintainers         {ra1nb0w @ra1nb0w} {michaelld @michaelld} openmaintainer
+description         provides drivers and SDR application support for the LMS7002M RFIC
+long_description    Lime Suite is a collection of software supporting several hardware \
+    platforms including the LimeSDR, drivers for the LMS7002M transceiver RFIC, and other \
+    tools for developing with LMS7-based hardware.
+homepage            https://myriadrf.org/projects/lime-suite/
+
+subport limesuite-devel {}
+if {[string first "-devel" $subport] > 0} {
+
+    github.setup    myriadrf LimeSuite a45e482dad28508d8787e0fdc5168d45ac877ab5
+    version         20210127-[string range ${github.version} 0 7]
+    checksums       rmd160  86a85fbcfc69425b79908fab7a454e83e0bc62ac \
+                    sha256  28e9f7f6b4c1b2379d217e617fca192f9a866dcfdaff14b1fd5fef7f79b5f77f \
+                    size    5422180
+    revision        2
+
+    name            limesuite-devel
+    long_description ${long_description} This port is kept up with the LimeSuite \
+        GIT 'master' branch, is typically updated weekly to monthly.
+    conflicts       limesuite
+
+} else {
+
+    github.setup    myriadrf LimeSuite 20.10.0 v
+    checksums       rmd160  060622844755ce2c6dbc4f6a26ef834d01f00c50 \
+                    sha256  d7d97474e7a5417f492aacb697f231334eda994cf8130dd420754eeb3a623866 \
+                    size    5422362
+    revision        2
+
+    conflicts       limesuite-devel
+    configure.args-append -DLIME_SUITE_EXTVER=release
+
+}
+
+compiler.cxx_standard 2011
+
+# fix where CMake files are installed; in MacPorts we strive for
+# "$PREFIX/share/cmake/$PROJECT_NAME", not "$PREFIX/lib/cmake/$PROJECT_NAME".
+patchfiles-append patch-src_CMakeLists.txt.diff
+
+depends_build-append \
+    port:pkgconfig
+
+depends_lib-append \
+    path:lib/libusb.dylib:libusb \
+    port:sqlite3
+
+configure.args-append \
+    -DDOWNLOAD_IMAGES=ON \
+    -DENABLE_STREAM=ON \
+    -DENABLE_GUI=OFF \
+    -DENABLE_NOVENARF7=OFF \
+    -DENABLE_SOAPY_LMS7=OFF\
+    -DENABLE_OCTAVE=OFF
+
+app.create no
+
+# needs wxWidgets-3.2 to enable dark mode in mojave
+variant wxgui description {Enable wxWidgets LimeSuiteGUI} {
+    wxWidgets.use           wxWidgets-3.2
+    depends_lib-append      port:${wxWidgets.port}
+    configure.args-delete   -DENABLE_GUI=OFF
+    configure.args-append   -DENABLE_GUI=ON \
+        -DwxWidgets_CONFIG_EXECUTABLE=${wxWidgets.wxconfig}
+    app.create yes
+    app.name LimeSuiteGUI
+    app.executable LimeSuiteGUI
+    app.icon ${filespath}/limesuitegui.icns
+    app.retina yes
+}
+
+variant soapy description {Add Soapy support} {
+    depends_lib-append      port:SoapySDR
+    configure.args-delete   -DENABLE_SOAPY_LMS7=OFF
+    configure.args-append   -DENABLE_SOAPY_LMS7=ON
+}
+
+variant octave description {Enable Octave support} {
+    depends_lib-append      path:bin/octave:octave
+    depends_skip_archcheck  octave octave-devel
+    configure.args-delete  -DENABLE_OCTAVE=OFF
+    configure.args-append  -DENABLE_OCTAVE=ON
+}
+
+default_variants +wxgui +soapy

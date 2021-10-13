@@ -1,0 +1,28 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Geo-WebService-Elevation-USGS 0.117
+license             {Artistic-1 GPL}
+maintainers         {devans @dbevans} openmaintainer
+description         Geo::WebService::Elevation::USGS - Elevation queries against USGS web services.
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  744033c9c0315629f840a47c53548324ef3b2a1f \
+                    sha256  b13338be67b957e32efa31e25d36bbf6b202f912dbfaae925b9778a94b574489 \
+                    size    37351
+
+if {${perl5.major} != ""} {
+    depends_lib-append \
+                    port:p${perl5.major}-http-message \
+                    port:p${perl5.major}-json \
+                    port:p${perl5.major}-libwww-perl \
+                    port:p${perl5.major}-lwp-protocol-https
+
+    perl5.use_module_build
+    supported_archs noarch
+}

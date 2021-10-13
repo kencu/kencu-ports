@@ -1,0 +1,75 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-xarray
+version             0.18.0
+revision            0
+
+categories-append   science math
+platforms           darwin
+supported_archs     noarch
+license             Apache-2
+maintainers         {petr @petrrr} openmaintainer
+
+description         Provides N-D labeled arrays and datasets in Python
+long_description    \
+    xarray (formerly xray) is an open source project and Python package that \
+    aims to bring the labeled data power of pandas to the physical sciences, \
+    by providing N-dimensional variants of the core pandas data structures.
+
+homepage            https://github.com/pydata/xarray
+
+checksums           rmd160  0cded616dc32ca5668cae5c7a77b433094429370 \
+                    sha256  c0b0d24ee43db2bec14a95503266c81181586174004d1b60860c1091e4f74ac8 \
+                    size    2843270
+
+python.versions     27 35 36 37 38 39
+
+if {${name} ne ${subport}} {
+    if {${python.version} eq 35} {
+        version     0.13.0
+        revision    0
+        distname    ${python.rootname}-${version}
+        checksums   rmd160  ac1dd2421efed8f0a4ef0ab2c4e7f30551ef2e88 \
+                    sha256  80e5746ffdebb96b997dba0430ff02d98028ef3828e6db6106cbbd6d62e32825 \
+                    size    1821280
+    } elseif {${python.version} eq 36} {
+        version     0.16.2
+        revision    0
+        distname    ${python.rootname}-${version}
+        checksums   rmd160  75ad8a248d99913e1e150f9d09830ab3fe98bcba \
+                    sha256  38e8439d6c91bcd5b7c0fca349daf8e0643ac68850c987262d53526e9d7d01e4 \
+                    size    2018053
+    } elseif {${python.version} eq 27} {
+        version     0.11.3
+        revision    0
+        epoch       1
+        distname    ${python.rootname}-${version}
+        checksums   rmd160  647d3ff71ea80ec48935d3c6375c060bbd66e457 \
+                    sha256  cc3dceb680d67746168c46771e4aa7d2624519a7faf120421f16d6ddfdb984dd \
+                    size    1720693
+
+        depends_test-append \
+                    port:py${python.version}-mock
+    } else {
+        depends_build-append \
+                    port:py${python.version}-setuptools_scm
+    }
+
+    depends_lib-append \
+                    port:py${python.version}-numpy \
+                    port:py${python.version}-pandas \
+                    port:py${python.version}-setuptools
+
+    depends_test-append \
+                    port:py${python.version}-pytest
+
+    test.run        yes
+    test.cmd        py.test-${python.branch}
+    test.target
+    test.env        PYTHONPATH=${worksrcpath}/build/lib
+
+    livecheck.type  none
+}

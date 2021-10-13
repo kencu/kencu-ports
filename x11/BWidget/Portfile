@@ -1,0 +1,41 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                BWidget
+set lcname          [string tolower ${name}]
+version             1.9.14
+categories          x11
+license             Tcl/Tk
+platforms           darwin
+supported_archs     noarch
+installs_libs       no
+maintainers         nomaintainer
+
+description         The BWidget Toolkit is a high-level Widget Set for Tcl/Tk
+long_description \
+    The BWidget Toolkit is a high-level Widget Set for Tcl/Tk built using native Tcl/Tk 8.x namespaces.\
+    The BWidgets have a professional look&feel as in other well known \
+    Toolkits (Tix or Incr Widgets), but the concept is radically different \
+    because everything is pure Tcl/Tk.  No platform dependencies, and no \
+    compiling required.  The code is 100% Pure Tcl/Tk.
+
+homepage            https://sourceforge.net/projects/tcllib/files/${name}/
+
+master_sites        sourceforge:project/tcllib/${name}/${version}
+distname            ${lcname}-${version}
+
+checksums           rmd160  cfc2dd9d31df5fc1b08a696163e9efdfed9b4b54 \
+                    sha256  8e9692140167161877601445e7a5b9da5bb738ce8d08ee99b016629bc784a672 \
+                    size    261654
+
+depends_lib         port:tk
+
+use_configure       no
+build               {}
+
+destroot {
+    copy ${worksrcpath} ${destroot}${prefix}/lib/${name}
+}
+
+livecheck.regex      bwidget-(\\d+(?:\\.\\d+)*)

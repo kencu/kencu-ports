@@ -1,0 +1,121 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                cabal
+version             3.6.0.0
+revision            0
+categories          lang haskell devel
+platforms           darwin
+license             BSD
+maintainers         {ieee.org:s.t.smith @essandess} openmaintainer
+
+description         Haskell Cabal: Common Architecture for \
+                    Building Applications and Libraries
+
+long_description    Cabal is a system for building and packaging \
+                    Haskell libraries and programs. It defines a \
+                    common interface for package authors and \
+                    distributors to easily build their applications in \
+                    a portable way. Cabal is part of a larger \
+                    infrastructure for distributing, organizing, and \
+                    cataloging Haskell libraries and programs.
+
+homepage            https://www.haskell.org/cabal
+
+# Bootstrapped cabal is the default build
+variant prebuilt \
+    description {Do not bootstrap cabal; install the pre-built binary.} {}
+
+master_sites        https://downloads.haskell.org/~${name}/${name}-install-${version}/:haskell
+set distfile_haskell \
+                    ${name}-install-${version}-x86_64-darwin.tar.xz
+distfiles           ${distfile_haskell}:haskell
+
+checksums           ${distfile_haskell} \
+                    rmd160  d9b62d8025add33febcd74877efaa560c2a8b567 \
+                    sha256  8e1367a4a1fc86ff0fd82ee057320a7b974595ba7999457b42035467ba06190c \
+                    size    5380080
+
+extract.only        ${distfile_haskell}
+
+supported_archs     x86_64
+
+use_configure       no
+
+# cabal must bootstrap itself
+pre-build {
+    # binary extract to ${workpath}/${name}
+    xinstall -W ${workpath} -d ./bin
+    xinstall -m 0755 -W ${workpath} ./${name} ./bin
+}
+
+if {${os.platform} eq "darwin" && ${os.major} < 16} {
+    known_fail  yes
+    pre-fetch {
+        ui_error "${name} @${version} requires macOS 10.12 or later."
+        return -code error "incompatible macOS version"
+    }
+}
+
+if { [variant_isset "prebuilt"] } {
+    build {}
+} else {
+    set distfile_github \
+                    [string totitle ${name}]-v${version}.tar.gz
+    master_sites-append \
+                    https://github.com/haskell/${name}/archive/refs/tags:github
+    distfiles-append \
+                    ${distfile_github}:github
+    checksums-append \
+                    ${distfile_github} \
+                    rmd160  7723b09b8f4b1bd76223d200b8c562a2eeec38c6 \
+                    sha256  b189c16a2e0cf2052be1c645441df7adc04836741dab9f8b410bc6552542891d \
+                    size    2105850
+
+    # See ${prefix}/var/macports/sources/rsync.macports.org/macports/release/tarballs/ports/_resources/port1.0/group/python-1.0.tcl
+    set python_version  39
+    set python_branch   [string index ${python_version} 0].[string range ${python_version} 1 end]
+    set python_prefix   ${frameworks_dir}/Python.framework/Versions/${python_branch}
+    set python_bin      ${python_prefix}/bin/python${python_branch}
+
+    depends_build-append  \
+                    port:ghc \
+                    port:python${python_version}
+
+    extract.only-append \
+                    ${distfile_github}
+    worksrcdir      ${name}-install-${version}
+
+    post-patch {
+        reinplace -E "1s|^(#!)/usr/bin/env\[\[:space:]]+python3\[\[:space:]]*$|\\1${python_bin}|" \
+                    ${worksrcpath}/bootstrap/bootstrap.py
+    }
+    
+    # bootstrap instructions:
+    # https://github.com/haskell/cabal/blob/master/bootstrap/README.md
+    build {
+        # build cabal and overwrite ${workpath}/bin/${name}
+        set ghc_version [exec sh -c "ghc --version | sed -E 's|^.+version (\[\[:digit:]])|\\1|'"]
+        system -W ${worksrcpath} \
+            "${workpath}/bin/cabal update"
+        system -W ${worksrcpath} \
+            "${workpath}/bin/cabal v2-build --with-compiler=${prefix}/bin/ghc --dry-run cabal-install:exe:cabal"
+        xinstall -m 0644 -W ${worksrcpath} \
+            ./dist-newstyle/cache/plan.json \
+            ./bootstrap/${platforms}-${ghc_version}.plan.json
+        system -W ${worksrcpath} \
+            "${workpath}/bin/cabal v2-build --builddir=dist-newstyle-bootstrap --project=cabal.project.bootstrap cabal-bootstrap-gen"
+        system -W ${worksrcpath} \
+            "${workpath}/bin/cabal v2-run -vnormal+stderr --builddir=dist-newstyle-bootstrap --project=cabal.project.bootstrap cabal-bootstrap-gen -- bootstrap/${platforms}-${ghc_version}.plan.json | tee bootstrap/${platforms}-${ghc_version}.json"
+        system -W ${worksrcpath} \
+            "bootstrap/bootstrap.py -d bootstrap/${platforms}-${ghc_version}.json -w ${prefix}/bin/ghc"
+        
+        delete ${workpath}/bin/${name}
+        xinstall -m 0755 -W ${worksrcpath}/_build/bin ${name} ${workpath}/bin/${name}
+    }
+}
+
+destroot {
+    xinstall -m 0755 -W ${workpath} ./bin/${name} ${destroot}${prefix}/bin
+}

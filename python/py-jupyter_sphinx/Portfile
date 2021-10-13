@@ -1,0 +1,46 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-jupyter_sphinx
+version             0.3.2
+revision            0
+
+categories-append   textproc devel
+platforms           darwin
+supported_archs     noarch
+license             BSD
+maintainers         {reneeotten @reneeotten} openmaintainer
+
+description         Jupyter Sphinx Extensions
+long_description    ${description}
+
+homepage            https://github.com/jupyter/jupyter-sphinx/
+
+checksums           sha256  37fc9408385c45326ac79ca0452fbd7ae2bf0e97842d626d2844d4830e30aaf2 \
+                    rmd160  aa1169c32c3835cea9a461083370b894820460dd \
+                    size    16880
+
+python.versions     37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    depends_lib-append \
+                    port:py${python.version}-ipython \
+                    port:py${python.version}-ipywidgets \
+                    port:py${python.version}-nbconvert \
+                    port:py${python.version}-nbformat \
+                    port:py${python.version}-sphinx
+
+    post-destroot {
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath} README.md LICENSE \
+            ${destroot}${docdir}
+    }
+
+    livecheck.type  none
+}

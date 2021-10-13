@@ -1,0 +1,26 @@
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+github.setup        ianare exif-py 2.3.1
+name                py-exifread
+revision            0
+license             BSD
+platforms           darwin
+supported_archs     noarch
+maintainers         {gmx.us:chrischavez @chrstphrchvz} openmaintainer
+description         EXIF.py - Python interface to the EXIF meta-data
+long_description    Exchangeable Image File Format for Digital Still \
+                    Cameras is a meta-information tag that can be embedded \
+                    in tiff or jpeg image files. EXIF.py is a Python \
+                    interface to this data.
+
+checksums           rmd160  d47d8ac3ff153761b228eb74d162b1a94150ab71 \
+                    sha256  055901f9412bf5215dc994966b0b290430cd8b30c103abea4def2d21f0d0f643 \
+                    size    42608
+
+python.versions     27 37 38
+
+if {${name} ne ${subport}} {
+    depends_build-append    port:py${python.version}-setuptools
+}

@@ -1,0 +1,57 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup python    1.0
+PortGroup github    1.0
+
+github.setup        RDFLib rdflib 5.0.0
+name                py-rdflib
+
+categories-append   textproc
+license             BSD
+platforms           darwin
+maintainers         nomaintainer
+
+description         Python library for working with RDF
+long_description    RDFLib is a Python library for working with RDF, a \
+                    simple yet powerful language for representing \
+                    information. The library contains an RDF/XML \
+                    parser/serializer, a TripleStore, an InformationStore \
+                    and various store backends (InMemory, SleepyCat BTree, \
+                    ZODB BTree).
+
+checksums           rmd160  187ed1354b06e7d9c1b77e1645a0f343fddec8b5 \
+                    sha256  be14852861a1be33ec72462c6a1609a00a61db02cbf9627033e6682f0070049a \
+                    size    843850
+
+python.versions     27 35 36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    depends_lib-append \
+                    port:py${python.version}-html5lib \
+                    port:py${python.version}-isodate \
+                    port:py${python.version}-parsing \
+                    port:py${python.version}-requests \
+                    port:py${python.version}-six
+
+    depends_test-append \
+                    port:py${python.version}-networkx \
+                    port:py${python.version}-nose \
+                    port:py${python.version}-doctest-ignore-unicode
+
+    test.run        yes
+    test.cmd        ${python.bin} run_tests.py
+    test.target
+
+    post-destroot {
+        xinstall -m 644 -W ${worksrcpath} CHANGELOG.md LICENSE \
+            README.md ${destroot}${prefix}/share/doc/${subport}
+        xinstall -m 644 {*}[glob ${worksrcpath}/examples/*] \
+            ${destroot}${prefix}/share/doc/${subport}/examples
+    }
+
+    livecheck.type  none
+}

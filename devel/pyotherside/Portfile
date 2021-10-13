@@ -1,0 +1,34 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           qmake5 1.0
+PortGroup           github 1.0
+
+qt5.depends_component qtdeclarative
+
+github.setup        thp pyotherside 1.5.9
+revision            2
+categories          devel qt5
+platforms           darwin
+license             ISC
+maintainers         {amake @amake} openmaintainer
+
+description         Asynchronous Python 3 Bindings for Qt 5
+long_description    A Qt 5 QML Plugin that provides access to a Python 3 interpreter from QML.
+
+homepage            https://thp.io/2011/pyotherside/
+
+checksums           rmd160  ec121ed89fc3b16c208cf65fbca4fd6a75214c29 \
+                    sha256  41d17354dcab44dbc721e777cdc52a9bfc0d72916bbcbb5d014eed5a74013f7a \
+                    size    185258
+
+set python.branch   3.9
+set python.version  [join [split ${python.branch} "."] ""]
+
+depends_lib-append  port:python${python.version}
+
+configure.args-append \
+    PYTHON_CONFIG=${prefix}/bin/python${python.branch}-config
+
+compiler.cxx_standard  2011
+configure.cxxflags-append  -std=c++11

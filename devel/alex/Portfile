@@ -1,0 +1,70 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           haskell_stack 1.0
+
+name                alex
+version             3.2.6
+revision            0
+categories          devel haskell
+maintainers         nomaintainer
+license             GPL-3
+platforms           macosx
+homepage            https://www.haskell.org/alex/
+
+description         A tool for generating lexical analysers in Haskell
+long_description    Alex is a tool for generating lexical analysers in\
+                    Haskell.  It takes a description of tokens based\
+                    on regular expressions and generates a Haskell\
+                    module containing code for scanning text\
+                    efficiently. It is similar to the tool lex or flex\
+                    for C/C++.
+
+master_sites        https://hackage.haskell.org/package/${name}-${version}
+
+checksums           rmd160  ee6959ee67aa39beca1c8b82cc5cbb70fdfc2f6d \
+                    sha256  91aa08c1d3312125fbf4284815189299bbb0be34421ab963b1f2ae06eccc5410 \
+                    size    108832
+
+# relative paths to ${prefix}
+set alex_datadir    share/${name}
+
+post-extract {
+    if {[geteuid] == 0} {
+        xinstall -o ${macportsuser} -d \
+            "[option haskell_stack.stack_root]" \
+            ${destroot}${prefix}/${alex_datadir}
+    } else {
+        xinstall -d \
+            "[option haskell_stack.stack_root]" \
+            ${destroot}${prefix}/${alex_datadir}
+    }
+
+    # Fix for cabal data-files hardcoded path in binary
+    # See:
+    # https://github.com/commercialhaskell/stack/issues/848
+    # https://github.com/commercialhaskell/stack/issues/4857
+    # https://github.com/haskell/cabal/issues/462
+    # https://github.com/haskell/cabal/issues/3586
+    xinstall -m 0644 -W ${worksrcpath} \
+        ${filespath}/Paths_NAME.hs ./src/Paths_${name}.hs
+
+    reinplace "s|@PREFIX@|${prefix}|g" \
+        ${worksrcpath}/src/Paths_${name}.hs
+    reinplace "s|@NAME@|${name}|g" \
+        ${worksrcpath}/src/Paths_${name}.hs
+    reinplace -E "s|(Version\[\[:space:\]\]+)\\\[\[\[:digit:\]\]+(,\[\[:digit:\]\]+){1,4}\\\]|\\1\[[join [split ${version} .] ,]\]|" \
+        ${worksrcpath}/src/Paths_${name}.hs
+}
+
+post-destroot {
+    # install cabal data-files
+    fs-traverse f ${worksrcpath}/.stack-work {
+        if { [file isdirectory ${f}]
+            && [file tail ${f}] eq "${name}-${version}" } {
+            set stack_alex_datadir ${f}
+            xinstall -m 0644 {*}[glob ${stack_alex_datadir}/*] \
+                ${destroot}${prefix}/${alex_datadir}
+        }
+    }
+}

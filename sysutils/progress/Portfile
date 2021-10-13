@@ -1,0 +1,39 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        Xfennec progress 0.16 v
+revision            0
+
+description         Tool to show progress for cp, mv, dd, ... (formerly known \
+                    as cv)
+
+long_description    This tool can be described as a Tiny, Dirty, \
+                    Linux-and-OSX-Only C command that looks for coreutils \
+                    basic commands (cp, mv, dd, tar, gzip/gunzip, cat, etc.) \
+                    currently running on your system and displays the \
+                    percentage of copied data. It can also show estimated \
+                    time and throughput, and provides a "top-like" mode \
+                    (monitoring).
+
+platforms           darwin
+categories          sysutils
+license             GPL-3
+
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+
+github.tarball_from archive
+
+checksums           rmd160  e99f05498a359284aab2fc0433bf45505efbcc06 \
+                    sha256  59944ee35f8ae6d62ed4f9b643eee2ae6d03825da288d9779dc43de41164c834 \
+                    size    59982
+
+build.args-append   CC=${configure.cc}
+build.target
+destroot.args       PREFIX=${prefix}
+use_configure       no
+use_parallel_build  no
+
+universal_variant   no

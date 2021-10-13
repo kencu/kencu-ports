@@ -1,0 +1,21 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8::et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                datamash
+version             1.5
+maintainers         {g5pw @g5pw} openmaintainer
+categories          textproc
+description         Datamash is a command-line statistical tool.
+long_description    GNU datamash is a command-line program which performs \
+                    basic numeric,textual and statistical operations on input \
+                    textual data files.
+platforms           darwin
+license             GPL-3+
+homepage            https://www.gnu.org/software/${name}/
+
+master_sites        gnu
+
+checksums           rmd160  2024731570f8a697b5db77036e2df8d9043949ef \
+                    sha256  226249d5fe54024f96404798778f45963a3041714229d4225cd5d9acdaba21ad \
+                    size 2086985

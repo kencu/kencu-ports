@@ -1,0 +1,269 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               select 1.0
+PortGroup               legacysupport 1.1
+
+name                    kubectl
+categories              sysutils
+platforms               darwin
+license                 Apache-2
+homepage                https://kubectl.docs.kubernetes.io/
+installs_libs           no
+
+maintainers             {@patarra gmail.com:patarra} \
+                        {lbschenkel @lbschenkel} \
+                        @pedrohdz \
+                        {gmail.com:herby.gillot @herbygillot} \
+                        openmaintainer
+
+subport kubectl_select {}
+
+set source_build        no
+
+# *NOTE* Remember to update `latestVersion` on a version upgrade.
+set latestVersion       kubectl-1.22
+
+# When source_build is yes, the checksum should be the one for the
+# kubernetes source tarball, instead of the zipped pre-built binary.
+
+subport kubectl-1.22 {
+    set source_build    yes
+    supported_archs     x86_64 arm64
+
+    set patchNumber     2
+    revision            0
+
+    checksums           rmd160  d2bbc34d9640bfaf67b1fa82d38e4c7ef2fafe89 \
+                        sha256  ad0a9184843265e71b8b4222d970dcafe938bbe3b312b88301ca2f048b0ce250 \
+                        size    35997127
+}
+
+subport kubectl-1.21 {
+    set source_build    yes
+    supported_archs     x86_64 arm64
+
+    set patchNumber     5
+    revision            0
+
+    # because source_build is yes, this is the checksum of the kubernetes
+    # source tarball
+    checksums           rmd160  62c0b6aa235d85cce7200e206c02a7e4fd54da5b \
+                        sha256  aee40c2be173987ac98212097756f79e310e44d8faa69473b71cc7219ca4e734 \
+                        size    36128382
+}
+
+subport kubectl-1.20 {
+    set source_build    yes
+    supported_archs     x86_64
+
+    set patchNumber     11
+    revision            0
+
+    # because source_build is yes, this is the checksum of the kubernetes
+    # source tarball
+    checksums           rmd160  d1f94f8be029f8ee67b0d4acfd426e5531aa4bdf \
+                        sha256  5028f534836cce172ecae3bc89bdfcda67c664a308174d73ab215344e3595db6 \
+                        size    34514143
+}
+
+subport kubectl-1.19 {
+    set source_build    yes
+    supported_archs     x86_64
+
+    set patchNumber     15
+    revision            0
+
+    # because source_build is yes, this is the checksum of the kubernetes
+    # source tarball
+    checksums           rmd160  3e28922ebbfa8eb10e9afd0efa1bfc28651f74d6 \
+                        sha256  4bb3b1349f48f8a53fc8ac20f82700e8f74bff1231600788324b56ac00dfa0cc \
+                        size    33569852
+}
+
+subport kubectl-1.18 {
+    set patchNumber     20
+    revision            0
+    checksums           rmd160  8f4313fecacbb6169305754538a06c61423227f7 \
+                        sha256  bc709378c27da458b31395787a74cd9ac58dce7dbe2a7ba92f8bc2221eeed0be \
+                        size    50095696
+}
+
+subport kubectl-1.17 {
+    set patchNumber     17
+    revision            0
+    checksums           rmd160  4710ba1c832cd9ac6917600bcd54c70eb2b46666 \
+                        sha256  e76b57bbed823a8572f7ccbf9caae56855048434d818dc13559e89ead5f91578 \
+                        size    49542736
+}
+
+subport kubectl-1.16 {
+    set patchNumber     15
+    checksums           rmd160  7450d9abe9aa07c1929b39e96b9e1995257b42ae \
+                        sha256  aff54bfaaed905813f61a2d0ca039176d6d309e59f92ebdb297c7da1df105485 \
+                        size    48907792
+}
+
+subport kubectl-1.15 {
+    set patchNumber     12
+    checksums           rmd160  879ef587b357fa4108ca239527e8dd51186ad65d \
+                        sha256  1b06cab9ee7988f8e71c48dd1d9379aa7c14123cbbc63e12ab5342c3e9130972 \
+                        size    48668112
+}
+
+subport kubectl-1.14 {
+    set patchNumber     10
+    checksums           rmd160  10bdebc38c14482972e0c344d349a6d450c8d182 \
+                        sha256  43d2c24eafb2ef09a6ac77c2b99070668e83edaa325a16a362e304ba578fdc48 \
+                        size    48716328
+}
+
+subport kubectl-1.13 {
+    set patchNumber     12
+    checksums           rmd160  fdbdf38601ed7767793a4e8540e8454d43c8e91c \
+                        sha256  ddbdc7591569f321b8b0a01dcbd679f6b0a7756f1427a51a39eadfce8d34bea7 \
+                        size    44353656
+}
+
+subport kubectl-1.12 {
+    set patchNumber     10
+    checksums           rmd160  4212a9f7709ef6a7d36f3ebd477140a7d0ef8e50 \
+                        sha256  67acf17bf77b0a9729d17ad5c058a358c0cbd12dbf46478c37111cdd97a0828c \
+                        size    56860112
+}
+
+subport kubectl-1.11 {
+    set patchNumber     10
+    checksums           rmd160  8c3f3121088f745bb9eb279f5531b8b61ff84bc7 \
+                        sha256  cf27dd3e8d5a13439de2214b7a07e2371cdbeaf151ee4c7d63e7e7c34ebbf117 \
+                        size    54985744
+}
+
+subport kubectl-1.10 {
+    set patchNumber     13
+    checksums           rmd160  fe455ab0eb7c862c8dbce970632a9e66c8987cb1 \
+                        sha256  94ec5409ac6715dfec11309795da9b30254b9d818f8b1d38d1ca2e914945868d \
+                        size    54670032
+}
+
+if {${subport} == ${name}} {
+    PortGroup           obsolete 1.0
+
+    replaced_by         ${latestVersion}
+    version             1.16.0
+    revision            2
+
+} elseif {${subport} == "kubectl_select"} {
+    version             0.0.0
+    revision            0
+    supported_archs     noarch
+
+    description         Common files for selecting the default kubectl version
+    long_description    This port installs files that allow 'port select' \
+                        to create links to the preferred default version \
+                        of kubectl.
+    homepage            https://www.macports.org/
+
+    distfiles
+    use_configure       no
+    build {}
+
+    destroot {
+        xinstall -d ${destroot}${prefix}/share/bash-completion/completions
+        select::install kubectl ${filespath}/base
+        select::install kubectl ${filespath}/none
+    }
+
+    livecheck.type     none
+
+} else {
+
+    set baseVersion     [lindex [split ${subport} "-"] 1]
+    set patchVersion    ${baseVersion}.${patchNumber}
+    set baseName        kubectl${baseVersion}
+
+    if ${source_build} {
+        # Build kubectl from source
+
+        PortGroup           golang 1.0
+
+        go.setup            github.com/kubernetes/kubernetes ${patchVersion} v
+        go.package          k8s.io/kubernetes
+
+        build.cmd           make
+        build.target        kubectl
+
+        github.tarball_from archive
+
+        use_parallel_build  no
+
+        depends_build-append \
+                            port:bash
+
+        destroot {
+            xinstall ${worksrcpath}/_output/bin/kubectl \
+                ${destroot}${prefix}/bin/kubectl${baseVersion}
+        }
+    } else {
+        # Use Darwin amd64 pre-built binary
+
+        PortGroup           github 1.0
+
+        github.setup        kubernetes kubectl ${patchVersion}
+        supported_archs     x86_64
+
+        master_sites        https://storage.googleapis.com/kubernetes-release/release/v${version}/bin/darwin/amd64
+        distname            kubectl
+        dist_subdir         ${name}/${version}
+        extract.suffix
+        extract.only
+
+        use_configure       no
+
+        build {}
+
+        destroot {
+            xinstall ${distpath}/kubectl \
+                ${destroot}${prefix}/bin/kubectl${baseVersion}
+
+            # legacysupport tweaks don't work, since the install here is from
+            # a binary tarball ... have to tweak the binary to use the legacy
+            # support library, which in turn uses the System.B library.
+            legacysupport::relink_libSystem ${destroot}${prefix}/bin/kubectl${baseVersion}
+        }
+    }
+
+    depends_run         port:kubectl_select
+
+    description         Kubernetes cluster CLI
+    long_description    Command line interface for running commands against \
+                        Kubernetes clusters
+
+    post-build {
+        file copy ${filespath}/kubectlX.YY.template ${workpath}/${baseName}
+        reinplace "s|@@BASE_VERSION@@|${baseVersion}|g" ${workpath}/${baseName}
+        reinplace "s|@@PORT_NAME@@|${subport}|g" ${workpath}/${baseName}
+    }
+
+    post-destroot {
+        set completionsPath ${destroot}${prefix}/share/${subport}/completion
+        xinstall -d ${completionsPath}
+        exec ${destroot}${prefix}/bin/kubectl${baseVersion} completion bash \
+            > ${completionsPath}/${name}.bash
+    }
+
+    # Skip -rc and other pre-release tags
+    set regexVersionPart [string map {. {\.}} $baseVersion]
+    livecheck.type      regex
+    livecheck.url       https://api.github.com/repos/kubernetes/kubernetes/releases?per_page=100
+    livecheck.regex     \".+releases/tag/v(${regexVersionPart}\\.\\d+)\"
+
+    # Generate select file
+    select.group        kubectl
+    select.file         ${workpath}/${baseName}
+
+    notes "
+    To make this the default kubectl run:
+        sudo port select --set kubectl ${baseName}
+    "
+}

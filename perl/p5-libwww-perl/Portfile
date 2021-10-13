@@ -1,0 +1,63 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         libwww-perl 6.56 ../../authors/id/O/OA/OALDERS
+revision            0
+maintainers         nomaintainer
+license             {Artistic-1 GPL}
+supported_archs     noarch
+
+homepage            https://metacpan.org/release/${perl5.module}
+
+description         The World-Wide Web library for Perl
+long_description    The libwww-perl collection is a set of Perl \
+                    modules which provides a simple and consistent \
+                    application programming interface to the \
+                    World-Wide Web.  The main focus of the library \
+                    is to provide classes and functions that allow \
+                    you to write WWW clients. The library also \
+                    contain modules that are of more general use \
+                    and even classes that help you implement \
+                    simple HTTP servers.
+
+checksums           rmd160  dd0cdda2ac2527682689964e7018f726bf7d97fb \
+                    sha256  94362e68e5c6782f3987a9dec6adc409d20e28665dbf28ff47d1d701443ce7ce \
+                    size    178647
+
+platforms           darwin
+
+if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-test-fatal \
+                    port:p${perl5.major}-test-leaktrace \
+                    port:p${perl5.major}-test-needs \
+                    port:p${perl5.major}-test-requiresinternet
+                    
+    depends_lib-append \
+                    port:p${perl5.major}-data-dump \
+                    port:p${perl5.major}-encode-locale \
+                    port:p${perl5.major}-file-listing \
+                    port:p${perl5.major}-html-form \
+                    port:p${perl5.major}-html-parser \
+                    port:p${perl5.major}-http-cookies \
+                    port:p${perl5.major}-http-daemon \
+                    port:p${perl5.major}-http-date \
+                    port:p${perl5.major}-http-message \
+                    port:p${perl5.major}-http-negotiate \
+                    port:p${perl5.major}-lwp-mediatypes \
+                    port:p${perl5.major}-net-http \
+                    port:p${perl5.major}-try-tiny \
+                    port:p${perl5.major}-uri \
+                    port:p${perl5.major}-www-robotrules
+
+    post-destroot {
+        # Install miscellaneous doc files
+        file mkdir ${destroot}${prefix}/share/doc/${subport}
+        file copy ${worksrcpath}/Changes \
+            ${worksrcpath}/README.SSL \
+            ${destroot}${prefix}/share/doc/${subport}
+    }
+}

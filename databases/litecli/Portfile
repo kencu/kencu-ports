@@ -1,0 +1,53 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+github.setup        dbcli litecli 1.5.0 v
+revision            1
+
+categories          databases python
+maintainers         {@xeron gmail.com:xeron.oskom} openmaintainer
+license             BSD
+platforms           darwin
+supported_archs     noarch
+description         CLI for SQLite Databases with auto-completion and syntax highlighting
+long_description    {*}${description}
+
+homepage            https://litecli.com/
+
+checksums           rmd160  fc623625bea97a53577fd8a42cad009a25c67de6 \
+                    sha256  c5661611610d3225b5c3da254b88935f721f9d62ae4c69fda3fbf96cf6965c7e \
+                    size    884350
+
+variant python36 conflicts python37 python38 python39 description "Use Python 3.6" {}
+variant python37 conflicts python36 python38 python39 description "Use Python 3.7" {}
+variant python38 conflicts python36 python37 python39 description "Use Python 3.8" {}
+variant python39 conflicts python36 python37 python38 description "Use Python 3.9" {}
+
+if {[variant_isset python36]} {
+    python.default_version 36
+} elseif {[variant_isset python37]} {
+    python.default_version 37
+} elseif {[variant_isset python38]} {
+    python.default_version 38
+} else {
+    default_variants +python39
+    python.default_version 39
+}
+
+depends_lib-append  port:py${python.version}-cli-helpers \
+                    port:py${python.version}-click \
+                    port:py${python.version}-configobj \
+                    port:py${python.version}-prompt_toolkit \
+                    port:py${python.version}-pygments \
+                    port:py${python.version}-setuptools \
+                    port:py${python.version}-sqlparse
+
+post-destroot {
+    set docdir ${prefix}/share/doc/${subport}
+    xinstall -d ${destroot}${docdir}
+    xinstall -m 0644 -W ${worksrcpath} CHANGELOG.md README.md \
+        LICENSE CONTRIBUTING.md ${destroot}${docdir}
+}

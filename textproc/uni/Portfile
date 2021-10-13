@@ -1,0 +1,58 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/arp242/uni 2.3.0 v
+go.package          arp242.net/uni
+github.tarball_from archive
+revision            0
+
+description         uni queries the Unicode database from the commandline.
+
+long_description    Query the Unicode database from the commandline, with \
+                    good support for emojis. Includes full support for \
+                    Unicode 13.1 (June 2021) with full Emoji support (a \
+                    surprisingly large amount of emoji pickers don't deal \
+                    with emoji sequences very well).
+
+categories          textproc
+installs_libs       no
+license             MIT
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+
+build.pre_args-append \
+                    -ldflags \"-X main.version=${version}\"
+
+destroot {
+    xinstall -m 755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
+}
+
+checksums           ${distname}${extract.suffix} \
+                        rmd160  39b8feef656040dc1355efb7b287cd4f61ca10a7 \
+                        sha256  2786c0e7ebe138de3a05320525eba4d4b718d36ea7557a9b0e2009f18b59a43b \
+                        size    470079
+
+go.vendors          zgo.at/zstd \
+                        repo    github.com/zgoat/zstd \
+                        lock    ca7824321150 \
+                        rmd160  5c63ae751c81e9bfa15b00ec54cc88e8ef287d78 \
+                        sha256  238fa381f0cdaac5a2e32aa11212be4f43c66e1724998ad5c97e85055199bef1 \
+                        size    62725 \
+                    zgo.at/zli \
+                        repo    github.com/zgoat/zli \
+                        lock    b5f2a73532d6 \
+                        rmd160  ca1d0a1bf1cd57c1e8aaa4b16d89488e19a119a7 \
+                        sha256  7815a1bee234b3da897a7c5c74c8948bfff2f44b56a4a61607997fd08d5eca0f \
+                        size    25092 \
+                    golang.org/x/term \
+                        lock    de623e64d2a6 \
+                        rmd160  8f8c61baa39ab9af01714065975f9c1b41c3baf5 \
+                        sha256  ea781a5a35d70ed6f86287db5296e3b438625120be22bd9e208432dca8fd8f18 \
+                        size    15357 \
+                    golang.org/x/sys \
+                        lock    c6e025ad8005 \
+                        rmd160  c6170c603e83c00396099fd59881ac07692d4ed2 \
+                        sha256  3cae17fdc4bc6f93b585eb125fc8597eb4ffbc421a4157751359723a9fb992ce \
+                        size    1217647

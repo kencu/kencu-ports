@@ -1,0 +1,29 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        ethereum go-ethereum 1.9.10 v
+
+categories          finance
+platforms           darwin
+license             GPL-3+ LGPL-3+
+maintainers         {umeshksingla @umeshksingla} openmaintainer
+description         Official Go implementation of the Ethereum protocol
+long_description    Ethereum is a public, blockchain-based distributed \
+                    computing platform and operating system that runs \
+                    smart contracts. Go Ethereum is one of the three \
+                    original implementations of the Ethereum protocol.
+homepage            https://geth.ethereum.org/
+
+checksums           rmd160  59e4eaa79b7d45f3656826edf59ffd7556b14b09 \
+                    sha256  349c427acf89c3227824906f677d4921b7b2f28619c72a097452de32d3f09ff3 \
+                    size    8651901
+
+depends_build       port:go
+
+use_configure       no
+
+destroot {
+    xinstall -W ${worksrcpath}/build/bin evm geth rlpdump puppeth ${destroot}${prefix}/bin
+}

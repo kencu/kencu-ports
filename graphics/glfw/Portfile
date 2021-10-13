@@ -1,0 +1,144 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+name                glfw
+categories          graphics
+maintainers         {michaelld @michaelld} openmaintainer
+description         GLFW is a free, open-source, portable library for OpenGL and OpenGL ES application development
+license             zlib
+platforms           darwin macosx
+
+# glfw does not build on Mac OS X 10.5 or prior due to CoreGraphics
+# references that are 10.6+.
+if {${os.platform} eq "darwin" && ${os.major} < 10} {
+    known_fail      yes
+    pre-fetch {
+        ui_error "$name does not build on Mac OS X 10.5 'Leopard' or prior."
+        error "unsupported platform"
+    }
+}
+
+# special build on Mac OS X 10.6
+if {${os.platform} eq "darwin" && ${os.major} == 10} {
+
+    # Mac OS X 10.6: use the latest commit supporting this OS version
+    github.setup    glfw glfw a94a84b507b0d6d11e8a3f257cb21f4bd6553516
+    version         3.1.2-20151024
+    checksums       rmd160 1c07a75a88f272653ca246aa1212a208a83ecb30 \
+                    sha256 ff4745264f92b740c50ecc90370f102c86c439f2b6108f1495bd60c87e5d6a83
+    revision        0
+
+    # bump the epoch because I moved the version from 20151012 to 3.1.2
+
+    epoch           1
+
+    long_description ${description}. This version of GLFW is the latest to provide support for \
+        Mac OS X 10.6 and prior, and it will not be updated. It is provided in the \
+        hope that it allows ports depending on GLFW to build on these older Mac OS X installs.
+
+    # patch to fix install directory for cmake files and docs
+
+    patchfiles-append patch-CMakeLists.txt.legacy.diff
+
+} else {
+
+    # Mac OS X 10.7 and newer: release and devel
+
+    # requires c11 support as of 82ca58da (20190305) for
+    # <stdatomic.h>; 3.3 was released shortly after this change, so
+    # this requirement is now for all modern GLFW.
+    compiler.c_standard   2011
+    # <stdatomic.h> support was introduced in Xcode 7.0
+    PortGroup compiler_blacklist_versions 1.0
+    compiler.blacklist-append {clang < 700}
+
+    compiler.cxx_standard 2011
+
+    configure.args-append -DCMAKE_C_STANDARD=11 -DCMAKE_C_EXTENSIONS=OFF
+
+    subport glfw-devel {}
+
+    if {${subport} eq ${name}} {
+
+        # release
+
+        github.setup glfw glfw 3.3.4
+        checksums   rmd160  87c35b8aa8162bc2af6e643ac2e1153d15a7b518 \
+                    sha256  9d4cc392dc7c90e9501db1456de115c723287f1b9847ac59c3334772d7240fcf \
+                    size    762985
+        revision    0
+
+        # bump the epoch because I moved the version from 20151012 to 3.1.2
+
+        epoch           1
+
+        conflicts       glfw-devel
+        long_description ${description}: \
+            This port follows the release version of GLFW, which is typically updated every 6 months. If for some reason this port does not build or function as desired, try the ${name}-devel port.
+
+        # patch to fix install directory for cmake files and docs
+
+        patchfiles-append patch-CMakeLists.txt.release.diff
+
+    } else {
+
+        # devel
+
+        github.setup glfw glfw 6ed5294223fec513c3b1e95f1857b3104e2e9b86
+        version     20210912-[string range ${github.version} 0 7]
+        checksums   rmd160  b0019b889c7d1b7b26b6af71211d9cc9603f3d7e \
+                    sha256  645ea893f1905660b9432016045425cf4dc8571763ef89ee90d710436b90c58a \
+                    size    814813
+        revision    0
+
+        conflicts   glfw
+        long_description ${description}: \
+            This port follows the GIT master version of GLFW, which is typically updated every few days to weeks.
+
+        # patch to fix install directory for cmake files and docs
+
+        patchfiles-append patch-CMakeLists.txt.devel.diff
+
+        # because I messed up a version as "202105623-52d8347d_0", which
+        # because of the messed up date is always greater than a correctly
+        # formatted date, which means livecheck will never show a newer version.
+
+        epoch           1
+
+    }
+}
+
+# use the real home page, not github's
+
+homepage            https://www.glfw.org
+
+# do VPATH (out of source tree) build
+
+cmake.out_of_source yes
+
+# configuration arguments for MacPorts build
+
+configure.args-append \
+    -DBUILD_SHARED_LIBS=on \
+    -DGLFW_BUILD_EXAMPLES=off \
+    -DGLFW_BUILD_TESTS=off \
+    -DGLFW_CMAKE_CONFIG_PATH=share
+
+# remove top-level library path, such that internal libraries are used
+# instead of any already-installed ones.
+
+configure.ldflags-delete -L${prefix}/lib
+
+variant docs description {build documentation} {}
+
+default_variants    +docs
+
+if {[variant_isset docs]} {
+    depends_build-append  port:doxygen
+    configure.args-append -DDOXYGEN_EXECUTABLE=${prefix}/bin/doxygen
+} else {
+    configure.args-append -DDOXYGEN_EXECUTABLE=
+}

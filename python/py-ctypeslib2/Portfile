@@ -1,0 +1,51 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               python 1.0
+PortGroup               github 1.0
+
+github.setup            trolldbois ctypeslib 2.3.2
+name                    py-ctypeslib2
+revision                1
+python.versions         37 38 39
+python.default_version  39
+platforms               darwin
+license                 MIT
+maintainers             {eborisch @eborisch} \
+                        openmaintainer
+supported_archs         noarch
+
+description             Generate python ctypes classes from C headers.
+
+long_description        This fork of ctypeslib is mainly about using the \
+                        libclang >= 3.7 python bindings to generate python \
+                        code from C source code, instead of gccxml.
+
+checksums \
+    rmd160  938436348701b2bf6b4da0bced28c037f4e38204 \
+    sha256  934ddbc6c7b4277a059ea89427ffa715ebb921f2fd71e2b7ad765ea1e9eaa913 \
+    size    86918
+
+if {${name} ne ${subport}} {
+    depends_build-append    port:py${python.version}-setuptools
+    depends_lib-append      port:py${python.version}-clang
+
+    # Use the libclang that is provided by pyXX-clang (via its +clangY variant)
+    patchfiles              init_py.patch
+
+    post-destroot {
+        set DOCDIR ${destroot}${prefix}/share/doc/${subport}
+        xinstall -d ${DOCDIR}
+        foreach dfile {CHANGES.md LICENSE.txt README.md docs} {
+            file copy ${worksrcpath}/${dfile} ${DOCDIR}
+        }
+    }
+}
+
+foreach {old} {27 34 35 36} {
+    subport py${old}-${python.rootname} "
+        replaced_by py${python.default_version}-${python.rootname}
+        PortGroup obsolete 1.0
+
+    "
+}

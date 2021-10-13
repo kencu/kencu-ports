@@ -1,0 +1,44 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                libgeotiff
+version             1.7.0
+revision            0
+categories          graphics
+platforms           darwin
+license             X11
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         Library and tools for dealing with GeoTIFF
+
+long_description    This software provides support for the Tag Image File \
+                    Format (TIFF) Geo extensions.
+
+homepage            http://geotiff.osgeo.org/
+master_sites        http://download.osgeo.org/geotiff/libgeotiff/
+
+checksums           rmd160  7b030773a86f9784d9efa59edf8a5bd671764c75 \
+                    sha256  fc304d8839ca5947cfbeb63adb9d1aa47acef38fc6d6689e622926e672a99a7e \
+                    size    541931
+
+variant proj7 description {use proj7 instead of proj8} { }
+
+if {[variant_isset proj7]} {set projversion 7} else {set projversion 8}
+
+depends_lib         port:tiff \
+                    port:zlib \
+                    path:include/turbojpeg.h:libjpeg-turbo \
+                    port:proj${projversion}
+
+configure.args-append \
+                    --with-zip=${prefix} \
+                    --with-jpeg=${prefix} \
+                    --with-proj=${prefix}/lib/proj${projversion}
+
+use_parallel_build  no
+
+livecheck.type      regex
+livecheck.url       [lindex ${master_sites} 0]
+livecheck.regex     ${name}-(\[0-9.\]+)\\.\[tz\]

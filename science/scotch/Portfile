@@ -1,0 +1,120 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem                  1.0
+PortGroup                   mpi 1.0
+PortGroup                   muniversal 1.0
+PortGroup                   makefile 1.0
+
+name                        scotch
+version                     6.0.9
+revision                    1
+
+categories                  science
+maintainers                 {mcalhoun @MarcusCalhoun-Lopez} openmaintainer
+platforms                   darwin
+license                     CeCILL-C
+
+description                 a software package for graph and mesh/hypergraph \
+                            partitioning and sparse matrix ordering
+long_description            Scotch is ${description}.
+
+homepage                    http://gforge.inria.fr/projects/scotch
+master_sites                https://gforge.inria.fr/frs/download.php/latestfile/298
+distname                    scotch_${version}
+
+configure.dir               ${worksrcpath}/src
+build.dir                   ${configure.dir}
+destroot.dir                ${configure.dir}
+
+checksums                   rmd160  ee66679b59dfd5d8b5e4533b96680645267c224b \
+                            sha256  622b4143cf01c480bb15708b3651b29c25e4aeb00c8c6447ff196aca2eca5c93 \
+                            size    6246692
+
+compilers.choose            cc
+mpi.setup                   require
+
+patchfiles                  patch-libscotch-shared.diff \
+                            patch-libscotchmetis-shared.diff \
+                            patch-esmumps-shared.diff \
+                            patch-Makefile-shared.diff
+
+depends_build-append        port:bison \
+                            port:flex
+depends_skip_archcheck-append \
+                            bison \
+                            flex
+
+depends_lib-append          port:bzip2 \
+                            port:xz \
+                            port:zlib
+
+# scotch and ptscotch MUST be built sequentially according to scotch's INSTALL.txt
+use_parallel_build          no
+
+makefile.override           CFLAGS \
+                            LDFLAGS
+
+makefile.prefix_name        prefix
+makefile.has_destdir        no
+
+# set serial compiler
+build.args-append           CCS=${configure.cc}
+pre-build {
+    # set parallel compiler
+    build.args-append       CCP=${configure.cc} \
+                            CCD=${configure.cc}
+}
+
+# default values
+# see ${worksrcpath}/src/Make.inc/Makefile.inc.i686_mac_darwin10
+configure.optflags          -O3
+configure.cflags-append     -fPIC \
+                            -Drestrict=__restrict \
+                            -DCOMMON_FILE_COMPRESS_GZ \
+                            -DCOMMON_PTHREAD \
+                            -DCOMMON_PTHREAD_BARRIER \
+                            -DCOMMON_RANDOM_FIXED_SEED \
+                            -DCOMMON_TIMING_OLD \
+                            -DSCOTCH_PTHREAD \
+                            -DSCOTCH_RENAME
+configure.ldflags-append    -lz \
+                            -lm \
+                            -lpthread
+
+# MPI implementation is not threadsafe, do not use DSCOTCH_PTHREAD
+configure.cflags-delete     -DSCOTCH_PTHREAD
+
+# allow more type of compression
+configure.cflags-append     -DCOMMON_FILE_COMPRESS_BZ2 \
+                            -DCOMMON_FILE_COMPRESS_LZMA
+configure.ldflags-append    -lbz2 \
+                            -llzma
+
+post-extract {
+    copy                    ${configure.dir}/Make.inc/Makefile.inc.i686_mac_darwin8 \
+                            ${configure.dir}/Makefile.inc
+}
+
+build.target                scotch \
+                            ptscotch \
+                            esmumps \
+                            ptesmumps
+
+if {[variant_isset universal]} {
+    merger-post-destroot {
+        foreach arch ${configure.universal_archs} {
+            if {${arch} ne ${build_arch}} {
+                xinstall -d -m 0755 ${destroot}-${arch}${prefix}/include/${arch}
+                foreach hfile {scotchf.h ptscotchf.h} {
+                    if {[file exists ${destroot}-${arch}${prefix}/include/${hfile}]} {
+                        move ${destroot}-${arch}${prefix}/include/${hfile} ${destroot}-${arch}${prefix}/include/${arch}
+                    }
+                }
+            }
+        }
+    }
+}
+
+livecheck.type              regex
+livecheck.url               https://gforge.inria.fr/frs/?group_id=248
+livecheck.regex             {scotch-(\d+\.\d+\.\d+[a-zA-Z]?)}

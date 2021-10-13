@@ -1,0 +1,74 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           python 1.0
+PortGroup           select 1.0
+
+github.setup        ioflo ioflo 2.0.0 v
+name                py-ioflo
+revision            0
+
+categories-append   lang
+platforms           darwin
+supported_archs     noarch
+license             Apache-2
+maintainers         nomaintainer
+
+description         ioflo is a framework and DSL for building reasoning \
+                    automation systems.
+long_description    IoFlo is a magically powerful open interoperable software \
+                    framework that enables non experts to intelligently \
+                    automate their own programmable world. IoFlo has its roots \
+                    in the research and development of autonomous underwater \
+                    vehicles, autonomic ships, and automated buildings. These \
+                    are cool applications that can be scarily complex. That \
+                    complexity was the prime motivation for IoFlo and its \
+                    ancestors, to make programming autonomous/autonomic systems \
+                    easy even for people without PhDs.
+
+homepage            https://ioflo.com
+
+checksums           rmd160  a3c4948c9ae62d9956f7eb73fb45394925bd8c21 \
+                    sha256  4ba451321756ee4428dda53fd01b337f410ded3e6dce25e01005777eda23efb0 \
+                    size    838273
+
+python.versions     27 35 36 37 38
+
+if {${name} ne ${subport}} {
+    if {${python.version} in "27 35 36"} {
+        github.setup    ioflo ioflo 1.7.8 v
+        revision        0
+        checksums       rmd160  e2b01a2a71b69864b421480918c937c41ac19c87 \
+                        sha256  bf20d176de0a7f36d06f69490a0198e9c57e76a0511f4a5fbf9ac629bcc512ff \
+                        size    838992
+    }
+
+    depends_build-append  \
+                    port:py${python.version}-setuptools \
+                    port:py${python.version}-setuptools-git
+
+    depends_run     port:ioflo_select
+
+    post-destroot {
+        delete ${destroot}${prefix}/bin/ioflo[string index ${python.version} 0]-${python.branch}
+        delete ${destroot}${prefix}/bin/ioflo${python.branch}-${python.branch}
+
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath} README.txt LICENSE \
+            LICENSE-2.0.txt ChangeLog.md LEGAL ${destroot}${docdir}
+    }
+
+    select.group    ${python.rootname}
+    select.file     ${filespath}/${python.rootname}${python.version}
+
+    notes "
+    To make the Python ${python.branch} version of ioflo the one that is run \
+    when you execute the commands without a version suffix, e.g. 'ioflo', run:
+
+    sudo port select --set ${select.group} [file tail ${select.file}]
+    "
+
+    livecheck.type  none
+}

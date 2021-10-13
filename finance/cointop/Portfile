@@ -1,0 +1,39 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/miguelmota/cointop 1.6.8 v
+revision            0
+
+homepage            https://cointop.sh
+
+description         A fast and lightweight interactive terminal based UI \
+                    application for tracking cryptocurrencies in realtime.
+
+long_description    {*}${description} The interface is inspired \
+                    by htop, and shortcut keys inspired by vim.
+
+categories          finance
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+license             Apache-2.0
+installs_libs       no
+
+checksums           rmd160  0f7e8c34c8801a295b578f0a392e600e2ee7a9d6 \
+                    sha256  ffbec93e12d62172c9859e673e7a4e49068c893450193cdea5c1f5f4a724c9f3 \
+                    size    6329544
+
+github.tarball_from archive
+
+build.cmd           make
+build.pre_args-append \
+                    VERSION=${version}
+build.args          build
+
+test.run            yes
+test.cmd            ./bin/cointop test
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/bin/${name} ${destroot}${prefix}/bin/
+}

@@ -1,0 +1,38 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           php 1.1
+
+name                php-igbinary
+categories-append   net devel
+license             BSD PHP-3.01
+platforms           darwin freebsd openbsd
+maintainers         {ryandesign @ryandesign} openmaintainer
+
+php.branches        5.3 5.4 5.5 5.6 7.0 7.1 7.2 7.3 7.4 8.0
+php.pecl            yes
+
+if {[vercmp ${php.branch} 7.0] >= 0} {
+    version         3.2.6
+    revision        0
+    checksums       rmd160  2b4bc4cffbfc41358e8f0fc057d092c093493da3 \
+                    sha256  ca32e395ecdb4447a69d5ea51b35feb19c3bc5759b46896fef6f7e2ca41a8e43 \
+                    size    95839
+} elseif {[vercmp ${php.branch} 5.2] >= 0} {
+    version         2.0.8
+    revision        0
+    checksums       rmd160  ea29b28150104df01f26557c0465af4bf2819ece \
+                    sha256  bacbab1172e073b1857dc07a486bfdaca6d60fbed678ce0f4b37cd018ef5b680 \
+                    size    76708
+}
+
+description         PHP serializer.
+
+long_description    Igbinary is a drop in replacement for the standard PHP \
+                    serializer. Instead of time and space consuming textual \
+                    representation, igbinary stores PHP data structures in \
+                    a compact binary form. Savings are significant when \
+                    using memcached or similar memory based storages for \
+                    serialized data.
+
+test.run            yes

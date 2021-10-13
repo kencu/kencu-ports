@@ -1,0 +1,33 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Text-CSV_XS 1.45
+maintainers         oaf.dk:mni openmaintainer
+
+description         Perl module containing comma-separated values manipulation routines
+
+long_description    Text::CSV_XS provides facilities for the composition and decomposition of \
+                    comma-separated values. An instance of the Text::CSV_XS class can combine \
+                    fields into a CSV string and parse a CSV string into fields.
+
+platforms           darwin
+license             {Artistic-1 GPL}
+
+checksums           rmd160  ed3dd2f885d4d090e2a12178f5a9e6f82be610b1 \
+                    sha256  128a66c946a0d9d439cbb74212b3dced8dcdb5bd0e1b78d98cfb87059f4a416f \
+                    size    255592
+
+extract.suffix      .tgz
+
+# recommends Encode 3.08
+# perl 5.26.3 core is 2.88
+# perl 5.28.3 core is 2.97
+# perl 5.30.3 core is 3.01
+# perl 5.32.0 core is 3.06
+if {${perl5.major} != ""} {
+    depends_lib-append \
+                    port:p${perl5.major}-encode
+}

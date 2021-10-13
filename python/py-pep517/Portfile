@@ -1,0 +1,33 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-pep517
+version             0.11.0
+platforms           darwin
+supported_archs     noarch
+maintainers         {jmr @jmroot} openmaintainer
+license             MIT
+
+description         API to call PEP 517 hooks
+
+long_description    {*}${description}
+
+homepage            https://pypi.python.org/pypi/pep517/
+
+checksums           md5 c412659ae0697473417a5d2640b6e639 \
+                    rmd160 fa76323f1b3a29c975e701eacd4fc39aef9dd1d6 \
+                    sha256 e1ba5dffa3a131387979a68ff3e391ac7d645be409216b961bc2efe6468ab0b2
+
+python.versions     36 37 38 39
+
+if {$subport ne $name} {
+    depends_lib-append  port:py${python.version}-tomli
+    if {${python.version} < 38} {
+        depends_lib-append  port:py${python.version}-importlib-metadata \
+                            port:py${python.version}-zipp
+    }
+    patchfiles      no-deps-option.diff
+    livecheck.type  none
+}

@@ -1,0 +1,51 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/naggie/dstask 0.25 v
+revision            0
+
+description         Single binary terminal-based TODO manager with git-based \
+                    sync + markdown notes per task
+
+long_description    {*}${description}. Dstask is a personal task tracker \
+                    designed to help you focus. It is similar to taskwarrior \
+                    but uses git to synchronise instead of a special protocol.
+
+categories          office
+license             MIT
+
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+
+checksums           rmd160  e9ffcccbb91dd2ca52d0038e9b111914b995983d \
+                    sha256  7a8b4e9d2d3ce6a59551fa181201148a008c35505d43593f80b1fe80493fdb8c \
+                    size    3296406
+
+build.cmd           make
+build.args          dist/dstask
+
+installs_libs       no
+use_parallel_build  no
+
+test.run            yes
+test.cmd            ${worksrcpath}/dist/dstask help
+
+github.tarball_from archive
+
+patch {
+    reinplace "s|go build|go build -ldflags \\\"-X github.com/naggie/dstask.VERSION=${version}\\\"|" \
+        ${worksrcpath}/Makefile
+}
+
+# Enable Go modules. GOPROXY=off is still present to disable fetching
+# dependencies at build time, but we must re-enable Go modules in order
+# to enable building vendored dependencies (-mod=vendor).
+build.env-delete    GO111MODULE=off
+
+destroot {
+    foreach dstask_bin [glob ${worksrcpath}/dist/*] {
+        xinstall -m 755 ${dstask_bin} ${destroot}${prefix}/bin/
+    }
+}

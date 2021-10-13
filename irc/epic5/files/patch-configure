@@ -1,0 +1,17 @@
+--- configure.orig	2021-03-25 19:54:54.000000000 -0700
++++ configure	2021-03-25 20:03:08.000000000 -0700
+@@ -3363,14 +3363,6 @@
+ fi
+ 
+ 
+-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for Macintosh OS X" >&5
+-$as_echo_n "checking for Macintosh OS X... " >&6; }
+-( $CC --version 2>&1 | grep 'apple-darwin' > /dev/null ) && \
+-       apple_compiler="yes" \
+-       perl_arch_flags="$(perl -MExtUtils::Embed -e 'ccopts;print "\n"; ldopts' | grep -o -- '-arch -_0-9a-zA-Z*' | sort -u)" \
+-       CFLAGS="$CFLAGS $perl_arch_flags"
+-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: ok" >&5
+-$as_echo "ok" >&6; }
+ 
+ 
+ 

@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Alien-libuuid 0.04
+license             {Artistic-1 GPL}
+maintainers         {devans @dbevans} openmaintainer
+description         Alien::libuuid - Find or download and install libuuid
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  6f4d16e099ed2857e93acf234bec130df5e6bb14 \
+                    sha256  a485fa60dbaed6011f47796d7345f6cdeefcb108f1024a708d7ab71d3d15ca6f \
+                    size    15894
+
+if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-ffi-platypus \
+                    port:p${perl5.major}-test2-suite \
+                    port:pkgconfig
+
+# doesn't build with ossp-libuuid due to its restricted API
+    depends_lib-append \
+                    port:p${perl5.major}-alien-build \
+                    port:libuuid
+
+    supported_archs noarch
+}

@@ -1,0 +1,30 @@
+# -*- coding: utf-8; mode: _tcl; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- vim:fenc=utf-8:ft=tcl:et:sw=2:ts=2:sts=2
+
+PortSystem              1.0
+PortGroup               github 1.0
+PortGroup               makefile 1.0
+
+github.setup            hashcat hashcat 6.2.4 v
+github.tarball_from     archive
+
+categories              security
+license                 MIT
+platforms               darwin
+maintainers             @gaming-hacker openmaintainer
+
+description             World's fastest and most advanced password recovery utility.
+
+long_description        hashcat is the world's fastest and most advanced \
+                        password recovery utility, supporting five unique modes \
+                        of attack for over 200 highly-optimized hashing algorithms. \
+                        hashcat currently supports CPUs, GPUs, and other hardware \
+                        accelerators on Linux, Windows, and macOS, and has \
+                        facilities to help enable distributed password cracking
+
+homepage                https://hashcat.net/hashcat/
+
+build.target            {}
+
+checksums               rmd160  4ae3b29b580b8949458a6fb0e26f93a6238162a9 \
+                        sha256  9020396ff933693e310b479b641e86f1783d9819d60d1d907752ad8d24a60c31 \
+                        size    6269444

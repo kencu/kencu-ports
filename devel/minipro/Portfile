@@ -1,0 +1,35 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           gitlab 1.0
+
+gitlab.setup        DavidGriffith minipro 0.5
+revision            0
+checksums           rmd160  99b73fa0e04c71cce43b01a050fc6db656dbdfcb \
+                    sha256  34285cd786d645b2ed8fe6dfebaa04fbb904165d7060e15231aaa3d106c7f19a \
+                    size    246205
+
+categories          devel
+maintainers         openmaintainer {krischik @krischik}
+platforms           darwin
+license             GPL-3
+description         Utility for the MiniPRO TL866CS and TL866A universal programmers
+long_description    Opensource tool that aims to create a complete cross-platform \
+                    replacement for the proprietary utility from autoelectric.cn. \
+                    Currently it supports more than 13000 of target devices including \
+                    AVRs, PICs as well as a huge number of other microcontrollers and \
+                    various BIOSes.
+
+depends_build       port:pkgconfig
+
+depends_lib         port:libusb
+
+depends_run         port:srecord
+
+use_configure       no
+
+variant universal   {}
+
+build.args-append   PREFIX=${prefix} CC="${configure.cc} [get_canonical_archflags cc]"
+
+destroot.args       PREFIX=${prefix}

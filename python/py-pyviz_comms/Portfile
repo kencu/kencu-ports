@@ -1,0 +1,37 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-pyviz_comms
+version             2.1.0
+revision            0
+categories-append   devel
+license             BSD
+maintainers         {mps @Schamschula} openmaintainer
+description         Offers a simple bidirectional communication architecture for PyViz \
+                    tools including support for Jupyter comms in both the classic \
+                    notebook and Jupyterlab.
+long_description    {*}${description}
+platforms           darwin
+homepage            https://github.com/holoviz/pyviz_comms
+
+checksums           rmd160  4b7a9ef06cf0d955ca681643de20b7c58c48e135 \
+                    sha256  f4a7126f318fb6b964fef3f92fa55bc46b9218f62a8464a8b18e968b3087dbc0 \
+                    size    31140
+
+python.versions     36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:git \
+                    port:py${python.version}-jupyter_packaging
+
+    depends_lib-append  \
+                    port:py${python.version}-numpy \
+                    port:py${python.version}-param \
+                    port:py${python.version}-pyobjc \
+                    port:py${python.version}-setuptools
+
+    livecheck.type  none
+}

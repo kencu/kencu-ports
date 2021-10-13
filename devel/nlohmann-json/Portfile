@@ -1,0 +1,37 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem                      1.0
+
+PortGroup                       github 1.0
+PortGroup                       cmake 1.1
+
+github.setup                    nlohmann json 3.10.2 v
+github.tarball_from             archive
+revision                        0
+name                            nlohmann-json
+categories                      devel
+platforms                       darwin
+supported_archs                 noarch
+license                         MIT
+maintainers                     {gmail.com:g.litenstein @Lord-Kamina} {ra1nb0w @ra1nb0w} openmaintainer
+description                     Nlohmann JSON for modern C++.
+long_description                Nlohmann is a header-only (and optionally single-header) JSON library \
+                                written in vanilla C++11. Has Unicode support\; DOM and SAX parsers, among other features.
+
+checksums                       rmd160  a6cf74d89edbd7d10d794cf8f106c854c0c44f6a \
+                                sha256  081ed0f9f89805c2d96335c3acfa993b39a0a5b4b4cef7edb68dd2210a13458c \
+                                size    7054440
+
+compiler.cxx_standard           2011
+
+configure.ccache                no
+configure.args-append           -DBUILD_TESTING=OFF -DJSON_BuildTests=OFF
+
+pre-test {
+    configure.args-replace      -DBUILD_TESTING=OFF -DBUILD_TESTING=ON
+    configure.args-replace      -DJSON_BuildTests=OFF -DJSON_BuildTests=ON
+    portconfigure::configure_main
+    portbuild::build_main
+}
+
+test.run                        yes

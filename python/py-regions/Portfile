@@ -1,0 +1,43 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-regions
+version             0.4
+revision            0
+
+categories-append   science
+platforms           darwin
+license             BSD
+maintainers         nomaintainer
+
+description         Astropy affilated package for region handling
+long_description    ${description}
+
+homepage            https://github.com/astropy/regions
+
+checksums           rmd160  4b9bae962a32ce36d59f4ba825d7caf6d3c99729 \
+                    sha256  cc301146ac975cc91577c8fbf8c8ceb60c3011e09607f0f1e65b7e1fdd6534bd \
+                    size    1108822
+
+python.versions     37 38 39
+
+if {${name} ne ${subport}} {
+    # By default, astropy downloads an astropy-helpers package for setup.py.
+    # The --offline and --no-git flags prevent this and use a bundled version.
+    build.args-append   --offline --no-git
+    destroot.args-append    --offline --no-git
+
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    depends_lib-append \
+                    port:py${python.version}-numpy
+
+    depends_run-append \
+                    port:py${python.version}-astropy \
+                    port:py${python.version}-six
+
+    livecheck.type  none
+}

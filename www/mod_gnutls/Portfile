@@ -1,0 +1,91 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           compiler_blacklist_versions 1.0
+
+
+name                mod_gnutls
+version             0.12.0
+revision            0
+categories          www security crypto
+license             Apache-2
+platforms           darwin
+maintainers         {mps @Schamschula} openmaintainer
+
+description         \
+    mod_gnutls is an extension for Apache's httpd uses the GnuTLS library to \
+    provide HTTPS.
+
+long_description    \
+    mod_gnutls uses the GnuTLS library to provide SSL 3.0, TLS 1.0 and TLS 1.1 \
+    encryption for Apache HTTPD. It is similar to mod_ssl in purpose, but does \
+    not use OpenSSL.
+
+homepage            https://mod.gnutls.org
+master_sites        ${homepage}/downloads/
+
+checksums           rmd160  d3a38d7647f6cfabe4d99cca109f3f69a206cefa \
+                    sha256  d986ff68de94b80e505f8b6bd68bd1ba146bf234b40d1f519695fe15592e995b \
+                    size    461643
+
+use_bzip2           yes
+
+variant python37 conflicts python38 description {Build using Python 3.7} {
+    configure.env   PYTHON=${prefix}/bin/python3.7
+    depends_lib-append \
+                    port:python37 \
+                    port:py37-yaml
+}
+
+variant python38 conflicts python37 description {Build using Python 3.8} {
+    configure.env   PYTHON=${prefix}/bin/python3.8
+    depends_lib-append \
+                    port:python38 \
+                    port:py38-yaml
+}
+
+if {![variant_isset python37] && ![variant_isset python38]} {
+    default_variants    +python38
+}
+
+depends_build       port:pkgconfig
+
+depends_lib         port:apache2 \
+                    port:gnutls
+
+use_autoreconf      yes
+
+patchfiles          patch-src-gnutls_sni.c.diff
+
+set apxs            ${prefix}/bin/apxs
+set httpd_conf      ${prefix}/etc/apache2/httpd.conf
+set mdir            ${destroot}${prefix}/lib/apache2/modules/
+
+configure.args      --disable-silent-rules \
+                    --with-apxs=${apxs} \
+                    --disable-strict
+
+compiler.blacklist-append {clang < 800}
+
+pre-destroot {
+    xinstall -m 755 -d ${mdir}
+}
+
+post-destroot {
+    xinstall -m 755 -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 644 -W ${worksrcpath} LICENSE NOTICE README \
+        ${destroot}${prefix}/share/doc/${name}
+}
+
+variant memcache description {Distributed SSL Session Cache support} {
+    depends_lib-append      port:apr_memcache
+    configure.args-append   --with-apr-memcache-prefix=${prefix}
+}
+
+livecheck.regex     ${name}-(\[0-9.\]+)${extract.suffix}
+
+notes "
+To enable ${name}, add
+    LoadModule gnutls_module modules/mod_gnutls.so
+to your ${httpd_conf} file.
+"

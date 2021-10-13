@@ -1,0 +1,28 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           haskell_stack 1.0
+
+github.setup        BurntSushi erd 0.2.1.0 v
+
+checksums           rmd160  f4534d46435982ffa28263897ccc21115a5b5d50 \
+                    sha256  96b325b47ab24053797576989e47154e2f20a0cc59c32e0c901f97e1ec8d01ab \
+                    size    27515
+
+categories          textproc graphics haskell
+platforms           darwin
+license             public-domain
+maintainers         {amake @amake} openmaintainer
+
+description         Entity-relationship diagram generator
+long_description    \
+    This utility takes a plain text description of entities, their attributes \
+    and the relationships between entities and produces a visual diagram \
+    modeling the description.
+
+depends_run-append  path:bin/dot:graphviz
+
+test.run            yes
+
+github.livecheck.regex  {([0-9.]+)}

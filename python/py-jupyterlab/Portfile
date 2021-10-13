@@ -1,0 +1,66 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim: fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-jupyterlab
+version             3.0.13
+revision            0
+categories-append   devel
+platforms           darwin
+license             BSD
+supported_archs     noarch
+
+python.versions     36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         Next-generation web-based notebook environment for \
+                    interactive computing.
+long_description    JupyterLab enables you to work with documents and \
+                    activities such as Jupyter notebooks, text editors, \
+                    terminals, and custom components in a flexible, \
+                    integrated, and extensible manner.
+
+homepage            https://jupyter.org/
+
+checksums           rmd160  60908e7b6ec964f1c9a159f8423837b0297cef7d \
+                    sha256  6aefaf11251309ffdd66ef20025f5165aeec26d59a83c76e4d02cc8f593bc9dc \
+                    size    9843200
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                        port:py${python.version}-jupyter_packaging
+    depends_lib-append  port:py${python.version}-setuptools \
+                        port:py${python.version}-ipython \
+                        port:py${python.version}-packaging \
+                        port:py${python.version}-tornado \
+                        port:py${python.version}-jupyter_core \
+                        port:py${python.version}-jupyter_packaging \
+                        port:py${python.version}-jupyterlab_server \
+                        port:py${python.version}-jupyter_server \
+                        port:py${python.version}-nbclassic \
+                        port:py${python.version}-jinja2
+
+    post-patch {
+        # relax package requirements
+        reinplace "s|jupyter_packaging~=0.7.3|jupyter_packaging|" ${worksrcpath}/setup.py
+        reinplace "s|jupyterlab_server~=2.3|jupyterlab_server|" ${worksrcpath}/setup.py
+        reinplace "s|jupyter_server~=1.4|jupyter_server|" ${worksrcpath}/setup.py
+        reinplace "s|nbclassic~=0.2|nbclassic|" ${worksrcpath}/setup.py
+    }
+
+    build.args-append   --skip-npm
+
+    destroot.args-append \
+                        --skip-npm
+
+    livecheck.type      none
+}
+
+foreach {old new} {27 38 35 38} {
+    subport py${old}-${python.rootname} "
+        replaced_by py${new}-${python.rootname}
+        PortGroup obsolete 1.0
+    "
+}

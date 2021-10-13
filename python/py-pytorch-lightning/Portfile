@@ -1,0 +1,40 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-pytorch-lightning
+version             1.2.10
+revision            0
+platforms           darwin
+license             Apache-2
+maintainers         nomaintainer
+
+description         The lightweight PyTorch wrapper for high-performance \
+                    AI research.
+long_description    Lightning disentangles PyTorch code to decouple the \
+                    science from the engineering.
+
+homepage            https://github.com/PyTorchLightning/pytorch-lightning
+
+checksums           rmd160  827370ff3f84d46057703a835f59b9520d349a3a \
+                    sha256  2d8365e30ded0c20e73ce6e5b6028478ae460b8fd33727df2275666df005a301 \
+                    size    1965254
+
+python.versions     37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+     depends_run-append \
+                    port:py${python.version}-fsspec \
+                    port:py${python.version}-future \
+                    port:py${python.version}-numpy \
+                    port:py${python.version}-pytorch \
+                    port:py${python.version}-tensorboard \
+                    port:py${python.version}-tqdm \
+                    port:py${python.version}-yaml
+
+    livecheck.type  none
+}

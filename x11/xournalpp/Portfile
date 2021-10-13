@@ -1,0 +1,55 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           cmake 1.0
+
+github.setup        xournalpp xournalpp 1.0.20-hotfix
+categories          x11
+platforms           darwin
+maintainers         nomaintainer
+license             GPL-2
+
+description         A hand note taking software
+
+long_description    Xournal++ is a hand note taking software written in C++ \
+                    with the target of flexibility, functionality and speed.
+
+checksums           rmd160  58010bdc60112f2f6f693163a7d997c329814ed8 \
+                    sha256  1f6a297665ba9200d35bef9e03c480c0fe69036e71502674134d0a59b404d671 \
+                    size    14896961
+
+depends_build       port:pkgconfig \
+                    port:gtk-mac-bundler
+
+depends_lib         port:gtk3 \
+                    port:poppler \
+                    port:portaudio \
+                    port:zlib \
+                    port:libzip \
+                    port:libsndfile \
+                    port:adwaita-icon-theme \
+                    port:lua
+
+set appName         Xournal++.app
+
+post-build {
+    # Do not clutter $HOME/.local
+    reinplace "s|\$1/inst|${prefix}|g;s/make install/#make install/" ${worksrcpath}/mac-setup/build-app.sh
+
+    reinplace "s|<main-binary>\${prefix}/bin/|<main-binary dest=\"\${bundle}/foobar\">${worksrcpath}/src/|;s|<launcher-script></launcher-script >|<!-- <launcher-script></launcher-script > -->|" ${worksrcpath}/mac-setup/xournalpp.bundle
+    system -W ${worksrcpath} "./mac-setup/build-app.sh ${prefix}"
+    reinplace "s/export DYLD_LIBRARY_PATH/#export DYLD_LIBRARY_PATH/" ${worksrcpath}/mac-setup/${appName}/Contents/MacOS/xournalpp
+}
+
+post-destroot {
+    set docdir ${prefix}/share/doc/${subport}
+    xinstall -d ${destroot}${docdir}
+    xinstall -m 0644 -W ${worksrcpath} AUTHORS LICENSE CHANGELOG.md README.md ${destroot}${docdir}
+
+    copy ${worksrcpath}/mac-setup/${appName} ${destroot}${applications_dir}
+
+    # Xournal++ is intended to be used through ${appName}, binary in
+    # $prefix/bin won't work properly
+    delete ${destroot}${prefix}/bin/xournalpp
+}

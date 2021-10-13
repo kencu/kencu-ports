@@ -1,0 +1,67 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                fossil
+version             2.15.2
+revision            0
+epoch               20110901182519
+categories          devel
+platforms           darwin
+license             BSD
+maintainers         {ciserlohn @ci42}
+
+description         Simple, high-reliability, distributed software configuration management
+
+long_description    Fossil is a distributed software configuration management which supports \
+                    distributed version control, distributed bug tracking, distributed wiki, \
+                    and a distributed blog mechanism all in single integrated package. It provides \
+                    an easy-to-use web interface to access and administrate projects over the \
+                    built-in webserver or CGI.
+
+homepage            https://fossil-scm.org/home/
+
+master_sites        ${homepage}tarball/version-${version}/
+
+checksums           rmd160  cbdbc3f64904bb424b3370d15ad54e989cc79f9c \
+                    sha256  39f5a3960ebaa4984fcc953c3307ead5c0f21da4f66ecad516872f89843fcf79 \
+                    size    6223232
+
+test.run            yes
+
+depends_lib         port:tcl \
+                    port:zlib \
+                    path:lib/libssl.dylib:openssl \
+                    port:libiconv
+
+configure.args-append       --with-tcl=${prefix}/lib \
+                            --with-th1-docs \
+                            --with-th1-hooks \
+                            --with-exec-rel-paths \
+                            --json
+
+configure.env-append "CC_FOR_BUILD=${configure.cc} [get_canonical_archflags]"
+
+configure.ldflags-append    -liconv
+
+post-destroot {
+    set docdir ${destroot}${prefix}/share/doc/${name}
+    xinstall -d ${docdir}
+    xinstall -m 644 -W ${worksrcpath} \
+        COPYRIGHT-BSD2.txt \
+        ${docdir}
+}
+
+notes "
+It is recommended to rebuild repositories created with earlier versions of\
+fossil. To rebuild a repository run:
+
+fossil rebuild /<path>/<to>/<repository>
+
+Rebuilding a repository is a safe operation\; executing it more then once will\
+not harm the integrity of a repository.
+"
+
+livecheck.type      regex
+livecheck.url       ${homepage}
+livecheck.regex     {Latest Release: ([\d.]+)}

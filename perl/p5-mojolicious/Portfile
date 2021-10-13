@@ -1,0 +1,28 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+
+perl5.setup         Mojolicious 8.70 ../../authors/id/S/SR/SRI
+epoch               2
+categories-append   www
+platforms           darwin
+maintainers         nomaintainer
+license             Artistic-2
+homepage            https://mojolicious.org/
+
+description         A real-time MVC web framework emphasizing minimalism and simplicity
+long_description    ${description}
+
+checksums           rmd160  3929bc25d56e10bb4997c22f8310f6af48ab1455 \
+                    sha256  6b186fdcc49c56521ddbf954a68a8a688cde712a7573281480a8740c206c77cb \
+                    size    2190081
+
+if {${perl5.major} != ""} {
+    depends_lib-append \
+                    port:p${perl5.major}-io-socket-ip
+
+    supported_archs noarch
+}

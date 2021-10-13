@@ -1,0 +1,38 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-geographiclib
+version             1.50
+revision            0
+
+categories-append   devel gis
+platforms           darwin
+supported_archs     noarch
+license             MIT
+maintainers         {petr @petrrr} openmaintainer
+
+description         The geodesic routines from GeographicLib
+long_description    The module implements algorithms for geodesics \
+                    \(Karney, 2013\) for solving the direct and inverse \
+                    problems for an ellipsoid of revolution.
+
+homepage            https://sourceforge.net/projects/geographiclib/
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+distname            ${python.rootname}-${version}
+
+checksums           rmd160  209b98a6197abd2f2804c4af9f577aa285798d0f \
+                    sha256  12bd46ee7ec25b291ea139b17aa991e7ef373e21abd053949b75c0e9ca55c632 \
+                    size    33532
+
+python.versions     27 35 36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    test.run        yes
+
+    livecheck.type  none
+}

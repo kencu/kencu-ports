@@ -1,0 +1,42 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                libsigsegv
+version             2.13
+revision            0
+categories          devel
+platforms           darwin
+license             GPL-2+
+maintainers         nomaintainer
+
+description         Library for handling page faults in user mode.
+long_description    GNU libsigsegv is a library for handling page \
+                    faults in user mode. A page fault occurs when \
+                    a program tries to access to a region of memory \
+                    that is currently not available. Catching and \
+                    handling a page fault is a useful technique for \
+                    implementing pageable virtual memory, \
+                    memory-mapped access to persistent databases, \
+                    generational garbage collectors, stack overflow \
+                    handlers, distributed shared memory, etc.
+homepage            https://www.gnu.org/software/libsigsegv
+master_sites        gnu:libsigsegv
+
+checksums           rmd160  d62dabed3d85a7a66c4ce25887b335f805e45b27 \
+                    sha256  be78ee4176b05f7c75ff03298d84874db90f4b6c9d5503f0da1226b3a3c48119 \
+                    size    460736
+
+configure.args      --enable-shared \
+                    --mandir=${prefix}/share/man
+
+test.run            yes
+test.target         check
+
+post-destroot {
+    set docdir ${prefix}/share/doc/${name}
+    xinstall -m 755 -d ${destroot}$docdir
+    xinstall -m 644 -W ${worksrcpath} \
+            AUTHORS COPYING ChangeLog NEWS PORTING README \
+            ${destroot}$docdir
+}

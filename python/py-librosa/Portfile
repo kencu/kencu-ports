@@ -1,0 +1,65 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           python 1.0
+
+github.setup        librosa librosa 0.8.0
+revision            0
+name                py-${github.project}
+
+categories-append   audio
+platforms           darwin
+supported_archs     noarch
+license             ISC
+maintainers         nomaintainer
+
+description         A python package for music and audio analysis.
+long_description    {*}${description}
+
+checksums           rmd160  eb0af487a176a8c7f89d7fb9a58e707ef0e05ab5 \
+                    sha256  4f7421f91a6049483e4cdd567e2c308e4c7673720cd619ae8565e3395b0a6627 \
+                    size    4708361
+
+python.versions     37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    depends_run-append \
+                    port:py${python.version}-audioread \
+                    port:py${python.version}-contextlib2 \
+                    port:py${python.version}-decorator \
+                    port:py${python.version}-joblib \
+                    port:py${python.version}-matplotlib \
+                    port:py${python.version}-numba \
+                    port:py${python.version}-numpy \
+                    port:py${python.version}-pooch \
+                    port:py${python.version}-resampy \
+                    port:py${python.version}-scikit-learn \
+                    port:py${python.version}-scipy \
+                    port:py${python.version}-six \
+                    port:py${python.version}-soundfile \
+                    port:py${python.version}-threadpoolctl
+
+    depends_test-append \
+                    port:py${python.version}-pytest \
+                    port:py${python.version}-pytest-mpl \
+                    port:py${python.version}-samplerate
+
+    test.run        yes
+    test.cmd        py.test-${python.branch}
+    test.target
+    test.env-append \
+                    PYTHONPATH=${worksrcpath}/build/lib
+
+    post-destroot {
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath} LICENSE.md README.md \
+            ${destroot}${docdir}
+    }
+
+    livecheck.type  none
+}

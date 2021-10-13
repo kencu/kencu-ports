@@ -1,0 +1,54 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/hashicorp/waypoint 0.5.2 v
+revision            0
+
+homepage            https://www.waypointproject.io
+
+description         A tool to build, deploy, and release any application on \
+                    any platform
+
+long_description    Waypoint allows developers to define their application \
+                    build, deploy, and release lifecycle as code, reducing \
+                    the time to deliver deployments through a consistent and \
+                    repeatable workflow.  Waypoint supports a number of build \
+                    methods and target platforms out of the box and more can \
+                    be easily added via plugins: Cloud Native Buildpacks, \
+                    Docker, Kubernetes, AWS EC2 and ECS, Azure Container \
+                    Instances, Google Cloud Run, Netlify, and many more...
+
+categories          devel
+license             MPL-2
+
+checksums           rmd160  c4bd8ef8e85dd2a727e723ec07242eb4643861d5 \
+                    sha256  13979764fbf25f89260b7a824a9e44c60b7236595f6381521dc83b444cab205a \
+                    size    9341494
+
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+
+# Do not restrict Go from downloading dependencies at build time.
+build.env-delete    GOPROXY=off GO111MODULE=off
+
+depends_build-append port:go-bindata
+
+build.cmd           make
+build.target        bin
+
+installs_libs       no
+use_parallel_build  no
+
+patch {
+    reinplace -E {s/GOOS=(linux|windows)//g} ${worksrcpath}/Makefile
+    reinplace {s|GOARCH=amd64||g} ${worksrcpath}/Makefile
+}
+
+destroot {
+    xinstall -m 755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
+}
+
+github.livecheck.regex  {([0-9.]+)}
+github.tarball_from     archive

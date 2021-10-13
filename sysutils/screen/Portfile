@@ -1,0 +1,82 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                screen
+version             4.8.0
+revision            1
+homepage            https://www.gnu.org/software/screen/
+description         Screen manager with VT100/ANSI terminal emulation
+long_description    \
+    Screen is a full-screen window manager that multiplexes a physical \
+    terminal between several processes (typically interactive shells). \
+    Each virtual terminal provides the functions of a DEC VT100 terminal \
+    and, in addition, several control functions from the ANSI X3.64 (ISO \
+    6429) and ISO 2022 standards (e.g. insert/delete line and support for \
+    multiple character sets). There is a scrollback history buffer for each \
+    virtual terminal and a copy-and-paste mechanism that allows moving text \
+    regions between windows.
+categories          sysutils
+license             GPL-3+
+platforms           darwin
+maintainers         {gmail.com:davidgilman1 @dgilman} openmaintainer
+master_sites        gnu:${name} \
+                    http://www.ryandesign.com/macports/distfiles/screen/:encoding \
+                    http://www.ryandesign.com/macports/distfiles/screen/r23776/:launchd_priv_header
+
+# The file '18' above is a fix for UTF8-to-Big5HKSCS encoding translation.
+# Reference: http://freebsd.sinica.edu.tw/~statue/index.php?file=20020513
+distfiles-append    18:encoding
+
+checksums           ${distname}${extract.suffix} \
+                    rmd160  43888fa00f708a8a9aa226e0df39abd7181b15ae \
+                    sha256  6e11b13d8489925fde25dfb0935bf6ed71f9eb47eff233a181e078fde5655aa1 \
+                    size    854854 \
+                    18 \
+                    rmd160  bd143058417e1d4c040a2589fdfbf8f9203f0b4c \
+                    sha256  4d4b674a61dab6bac9b4207307c5f020fa670fc3948c39e7ea93c7fb9dfb5174 \
+                    size    54746 \
+                    vproc_priv.h \
+                    rmd160  ea1fb112d58a168c581ee58e761c26f7caed40ec \
+                    sha256  dcd2786d82865fb10542c20e97d7052110f7ca9a551f2ab5628c607f20e2bb2f \
+                    size    4883
+
+patchfiles          patch-apple.diff \
+                    patch-acconfig.h.diff \
+                    patch-configure_no_implicit_defs.diff \
+                    patch-xcode-12-implicit-function-fixes.diff
+depends_lib         port:ncurses
+
+extract.only        ${distname}${extract.suffix}
+post-extract {
+    file copy ${distpath}/18 ${workpath}
+}
+
+use_autoconf    yes
+
+configure.args      --mandir=${prefix}/share/man \
+                    --infodir=${prefix}/share/info \
+                    --enable-telnet \
+                    --enable-colors256 \
+                    --enable-rxvt_osc
+configure.cflags-append -DRUN_LOGIN
+
+post-destroot {
+    xinstall -m 644 ${workpath}/18 ${destroot}${prefix}/share/${name}/utf8encodings
+    xinstall -m 644 ${worksrcpath}/etc/etcscreenrc ${destroot}${prefix}/etc/screenrc
+    xinstall -m 644 ${worksrcpath}/terminfo/screencap ${destroot}${prefix}/etc/termcap
+    system "tic ${worksrcpath}/terminfo/screeninfo.src"
+}
+
+platform darwin {
+    # The vproc_priv.h is the private header from launchd
+    # We copied the header file from http://launchd.macosforge.org/trac/browser/trunk/launchd/src/vproc_priv.h, r23776
+    distfiles-append    vproc_priv.h:launchd_priv_header
+    post-extract {
+        file copy ${distpath}/vproc_priv.h ${worksrcpath}
+    }
+}
+
+notes "
+Any screens running before upgrading, will not be available, post-install.
+"

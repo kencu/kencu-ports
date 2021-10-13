@@ -1,0 +1,53 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+
+name                    matio
+version                 1.5.21
+revision                1
+set branch              [join [lrange [split ${version} .] 0 1] .]
+maintainers             {mps @Schamschula} openmaintainer
+license                 LGPL-2.1
+categories              math
+platforms               darwin
+
+description             Matio is a library for working with Matlab save files
+
+long_description        Matio is a library for reading and writing Matlab \
+                        save files. It is used by scientific data processing \
+                        programs.
+
+homepage                http://sourceforge.net/projects/matio
+master_sites            sourceforge:project/matio/matio/${version}/
+
+checksums               rmd160  77cc52f1495a4778ff4144edc8e695f6dc53d362 \
+                        sha256  21809177e55839e7c94dada744ee55c1dea7d757ddaab89605776d50122fb065 \
+                        size    10110430
+
+depends_lib             path:lib/libhdf5.dylib:hdf5 \
+                        port:zlib
+
+use_autoreconf          yes
+
+configure.args          --enable-shared
+
+configure.cflags        -DH5_USE_18_API
+
+pre-destroot {
+    system "cd ${worksrcpath}/config && chmod a+x install-sh"
+}
+
+post-destroot {
+    set docdir ${destroot}${prefix}/share/doc/${name}
+    xinstall -d ${docdir}
+    xinstall -m 644 -W ${worksrcpath} \
+        COPYING \
+        NEWS \
+        README \
+        ${docdir}
+}
+
+test.run                yes
+test.target             check
+
+livecheck.regex     ${name}-(\\d+\\.\\d+\\.\\d+)${extract.suffix}

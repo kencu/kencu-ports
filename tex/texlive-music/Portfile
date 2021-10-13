@@ -1,0 +1,37 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           texlive 1.0
+
+name                texlive-music
+version             58418
+revision            0
+
+categories          tex
+maintainers         {dports @drkp}
+license             Copyleft Permissive
+description         TeX Live: Music packages
+long_description    Music-related fonts and packages.
+
+checksums           texlive-music-58418-run.tar.xz \
+                    rmd160  495dd525527ed095de49e1a6ce3545bf6d45e306 \
+                    sha256  71e921d8d70ff0ae18dbe6aa5d9bed79119cc94d5f72b34f74c6cc79c18217c2 \
+                    size    62703944 \
+                    texlive-music-58418-doc.tar.xz \
+                    rmd160  5004af5af3ab19a9508ed0ced3026f9563b093e7 \
+                    sha256  38a2eb048de4cabb71d89c395853e183fbf5d308235d0e7b6753540376544190 \
+                    size    16388456 \
+                    texlive-music-58418-src.tar.xz \
+                    rmd160  07b11fd31bd915800b7b029c515b2bf9b06a355e \
+                    sha256  2bb53852461f028a3dca2c00b624d390e24be85a16c505d47690e6dc47aa15f5 \
+                    size    24275452
+
+depends_lib         port:texlive-latex
+
+texlive.maps      \
+    {MixedMap musix.map}
+
+texlive.binaries    autosp gregorio lily-glyph-commands lily-image-commands lily-rebuild-pdfs m-tx msxlint musixflx musixtex pmxab pmxchords prepmx scor2prt tex2aspc xml2pmx
+
+
+texlive.texmfport

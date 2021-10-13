@@ -1,0 +1,66 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           legacysupport 1.1
+
+legacysupport.newest_darwin_requires_legacy 9
+legacysupport.redirect_bins pstoedit
+
+name                pstoedit
+version             3.75
+revision            2
+categories          graphics
+platforms           darwin
+maintainers         nomaintainer
+license             GPL-2+
+
+description         Translate PostScript and PDF to other vector formats
+
+long_description    pstoedit converts PostScript™ and PDF files to other \
+                    vector graphic formats so that they can be edited \
+                    graphically.
+
+homepage            http://www.pstoedit.net/
+master_sites        sourceforge:project/pstoedit/pstoedit/${version}
+
+checksums           rmd160  f3c23a0d478009f956217a60f50d49bfc558aba3 \
+                    sha256  b7b5d8510b40a5b148f7751268712fcfd0c1ed2bb46f359f655b6fcdc53364cf \
+                    size    1290057
+
+depends_build       port:pkgconfig \
+                    bin:latex2man:texlive-bin-extra \
+                    bin:pdflatex:texlive-latex
+
+depends_lib         port:ImageMagick \
+                    port:libzip \
+                    port:plotutils
+
+depends_run         port:ghostscript
+
+patchfiles          patch-config-pstoedit.pc.in.diff \
+                    patch-configure.ac.diff \
+                    patch-src-cppcomp.h.diff
+
+use_autoreconf      yes
+
+configure.args      --without-emf \
+                    --without-swf
+
+configure.cppflags-append   -Wno-long-long
+
+# drvpdf.cpp:46:14: warning: variable declaration in a constexpr function is a C++14 extension [-Wc++14-extensions]
+# although clangs up to clang-9 let this through with a warning,
+# gcc generates an error and will not build unless proper std=c++14 is set
+compiler.cxx_standard   2014
+configure.cxxflags-append   -std=c++14
+
+use_parallel_build  no
+
+post-destroot {
+    xinstall -m 755 -d ${destroot}${prefix}/share/man/man1 \
+        ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 644 -W ${worksrcpath}/doc pstoedit.1 \
+        ${destroot}${prefix}/share/man/man1
+    xinstall -m 644 {*}[glob -directory ${worksrcpath}/doc *.htm *.tex *.txt] \
+        ${destroot}${prefix}/share/doc/${name}
+}

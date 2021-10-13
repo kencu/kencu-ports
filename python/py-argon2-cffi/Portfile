@@ -1,0 +1,32 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim: fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-argon2-cffi
+version             21.1.0
+revision            0
+categories-append   devel
+platforms           darwin
+license             MIT
+
+python.versions     35 36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         Argon2 is a secure password hashing algorithm.
+long_description    ${description}
+
+homepage            https://argon2-cffi.readthedocs.io/
+
+checksums           rmd160  58f74b8d74a77689de248a4fc658e57f69e215de \
+                    sha256  f710b61103d1a1f692ca3ecbd1373e28aa5e545ac625ba067ff2feca1b2bb870 \
+                    size    1807800
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                        port:py${python.version}-setuptools
+    depends_lib-append  port:py${python.version}-cffi
+
+    livecheck.type      none
+}

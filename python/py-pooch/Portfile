@@ -1,0 +1,35 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-pooch
+version             1.5.1
+revision            0
+platforms           darwin
+license             BSD
+maintainers         {mps @Schamschula} openmaintainer
+
+description         Pooch manages your Python library's sample data files it \
+                    automatically downloads and stores them in a local directory with \
+                    support for versioning and corruption checks.
+long_description    {*}${description}
+
+homepage            https://github.com/fatiando/pooch
+
+checksums           rmd160  2f0b8cd143ae15b5db4a011a54b256167550e79e \
+                    sha256  57ab0c43e9c5bd81227b08b9931435d71c118cd53339cc5925123a740f40b312 \
+                    size    61699
+
+python.versions     37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools_scm
+
+    depends_lib     port:py${python.version}-appdirs \
+                    port:py${python.version}-requests \
+                    port:py${python.version}-packaging
+
+    livecheck.type  none
+}

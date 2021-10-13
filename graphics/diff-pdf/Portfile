@@ -1,0 +1,44 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+PortGroup           github 1.0
+PortGroup           wxWidgets 1.0
+
+github.setup        vslavik diff-pdf 0.5 v
+github.tarball_from releases
+revision            0
+
+wxWidgets.use       wxWidgets-3.0
+
+categories          graphics
+maintainers         {@pietvo vanoostrum.org:pieter} openmaintainer
+platforms           darwin
+installs_libs       no
+license             GPL-2+
+
+description         diff-pdf is a tool for visually comparing two PDFs.
+long_description \
+    It takes two PDF files as arguments. By default, its only output is \
+    its return code, which is 0 if there are no differences and 1 if the \
+    two PDFs differ. If given the `--output-diff` option, it produces a \
+    PDF file with visually highlighted differences. \
+    With the `--view` argument it opens a window that lets you view the \
+    files' pages and zoom in on details.
+
+homepage            https://vslavik.github.io/diff-pdf
+
+checksums           rmd160  ee2e4302130a6db08cf032d80155dfd757dbea72 \
+                    sha256  e7b8414ed68c838ddf6269d11abccdb1085d73aa08299c287a374d93041f172e \
+                    size    135755
+
+depends_lib         path:lib/libcairo.dylib:cairo \
+                    path:lib/pkgconfig/glib-2.0.pc:glib2 \
+                    port:poppler \
+                    port:${wxWidgets.port}
+
+depends_build       port:pkgconfig
+
+use_autoconf        yes
+
+configure.args      --with-wxdir=${wxWidgets.wxdir}

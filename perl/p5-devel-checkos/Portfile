@@ -1,0 +1,24 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Devel-CheckOS 1.85 ../../authors/id/D/DC/DCANTRELL
+license             {Artistic-1 GPL}
+maintainers         nomaintainer
+description         Devel::CheckOS - check what OS we're running on
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  39dc1986cfa623e09f6f5cdcce4bbdaf4cc72d75 \
+                    sha256  6f43a9da1dc6fafdaac9b61b83cd02d883bf62aef151c93986bef98a7ae658ca \
+                    size    33262
+
+if {${perl5.major} != ""} {
+    depends_lib-append \
+                    port:p${perl5.major}-file-find-rule
+
+    supported_archs noarch
+}

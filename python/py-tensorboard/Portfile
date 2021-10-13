@@ -1,0 +1,66 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-tensorboard
+version             2.6.0
+revision            0
+platforms           darwin
+supported_archs     noarch
+license             Apache-2
+maintainers         {emcrisostomo @emcrisostomo} {jonesc @cjones051073} openmaintainer
+
+description         TensorFlow's Visualization Toolkit
+long_description    TensorBoard is a suite of web applications for inspecting \
+                    and understanding your TensorFlow runs and graphs.
+
+homepage            https://github.com/tensorflow/tensorboard
+
+master_sites        https://files.pythonhosted.org/packages/a0/20/a59a30c32330e4ff704faa4273b251db042d495e0c367bcdf045c6fe26e9/
+
+distname            tensorboard-${version}-py3-none-any
+
+checksums           rmd160  443b3900cad5c26fb17098ebcb4abc9083c1a687 \
+                    sha256  f7dac4cdfb52d14c9e3f74585ce2aaf8e6203620a864e51faf84988b09f7bbdb \
+                    size    5550212
+
+livecheck.url       https://pypi.org/project/tensorboard/
+livecheck.type      regex
+livecheck.regex     /project/tensorboard/(\\d+(\\.\\d+)+)/
+
+extract.suffix      .whl
+extract.only
+
+python.versions     37 38 39
+
+if {${name} ne ${subport}} {
+    conflicts   py${python.version}-tensorboard1
+
+    depends_build-append \
+        port:py${python.version}-pip
+
+    depends_lib-append \
+        port:py${python.version}-absl \
+        port:py${python.version}-grpcio \
+        port:py${python.version}-markdown \
+        port:py${python.version}-numpy \
+        port:py${python.version}-protobuf3 \
+        port:py${python.version}-six \
+        port:py${python.version}-werkzeug \
+        port:py${python.version}-wheel
+
+    build {
+    }
+
+    destroot.cmd        pip-${python.branch}
+    destroot.args       \
+        --ignore-installed \
+        --no-cache-dir \
+        --no-dependencies \
+        --root ${destroot} \
+        ${distpath}/${distfiles}
+    destroot.post_args
+
+    livecheck.type      none
+}

@@ -1,0 +1,43 @@
+diff --git src/players.cpp src/players.cpp
+index 21afed2..4b46c04 100644
+--- src/players.cpp
++++ src/players.cpp
+@@ -105,10 +105,10 @@ Players::Players() {
+ 		 << Player("SMPlayer (audio)", "smplayer.exe", "%u -media-title %t", true, false, Player::Audio)
+ 		 << Player("SMPlayer (add to playlist)", "smplayer.exe", "-add-to-playlist %u", true, true, Player::VideoAudio);
+ #else
+-	list << Player("SMPlayer", "smplayer", "%u", true, true, Player::Video)
++	list << Player("MPlayer", "@@PREFIX@@/bin/mplayer", "%u -title %t", false, false, Player::Video)
++         << Player("SMPlayer", "smplayer", "%u", true, true, Player::Video)
+ 		 << Player("SMPlayer (audio)", "smplayer", "%u -media-title %t", true, false, Player::Audio)
+ 		 << Player("SMPlayer (add to playlist)", "smplayer", "-add-to-playlist %u", true, true, Player::VideoAudio)
+-		 << Player("MPlayer", "mplayer", "%u -title %t", false, false, Player::Video)
+ 		 << Player("VLC", "vlc", "%u --meta-title=%t", false, true, Player::VideoAudio)
+ 		 << Player("Dragon Player", "dragon", "%u", false, false, Player::VideoAudio)
+ 		 << Player("Totem", "totem", "%u", false, false, Player::VideoAudio)
+diff --git src/retrieveyoutubeurl.cpp src/retrieveyoutubeurl.cpp
+index 416956c..e2196cd 100644
+--- src/retrieveyoutubeurl.cpp
++++ src/retrieveyoutubeurl.cpp
+@@ -70,7 +70,7 @@ QString RetrieveYoutubeUrl::ytdlBin() {
+ #ifdef Q_OS_WIN
+ 	return "mpv/youtube-dl.exe";
+ #else
+-	QString bin = QDir::homePath() + "/bin/youtube-dl";
++	QString bin = "@@PREFIX@@/bin/youtube-dl";
+ 	QFileInfo fi(bin);
+ 	if (!fi.exists() || !fi.isExecutable()) {
+ 		bin = "youtube-dl";
+diff --git src/smtube.pro src/smtube.pro
+index 00b84bf..f82a352 100644
+--- src/smtube.pro
++++ src/smtube.pro
+@@ -91,6 +91,8 @@ unix {
+ 	DEFINES += TRANSLATION_PATH=$(TRANSLATION_PATH)
+ }
+ 
++ICON = smtube.icns
++
+ win32 {
+ 	RC_FILE = smtube.rc
+ 	CONFIG(debug, debug|release) {

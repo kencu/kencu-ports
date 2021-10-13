@@ -1,0 +1,52 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-pygresql
+version             5.1
+revision            0
+
+categories-append   databases
+platforms           darwin
+license             Permissive
+maintainers         nomaintainer
+
+description         Python module that interfaces to a PostgreSQL database
+long_description    PyGreSQL is an open-source Python module that \
+                    interfaces to a PostgreSQL database. It embeds the \
+                    PostgreSQL query library to allow easy use of the \
+                    powerful PostgreSQL features from a Python script.
+
+homepage            http://www.pygresql.org/
+master_sites        ${homepage}files/ freebsd
+distname            PyGreSQL-${version}
+
+checksums           rmd160  84524821437536849cb748f99791db528fa68571 \
+                    sha256  ac4aacd22df95b2a76de2c2b9fca0265f67135c6e2f6d9a7adfea2ab7c842a0d \
+                    size    642216
+
+python.versions     27 37
+
+if {${name} ne ${subport}} {
+    depends_lib-append  \
+                    port:postgresql92
+
+    post-patch {
+        reinplace "s|\'pg_config|\'${prefix}/lib/postgresql92/bin/pg_config|g" \
+            ${worksrcpath}/setup.py
+    }
+
+    post-destroot {
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        file copy ${worksrcpath}/docs ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath} LICENSE.txt README.rst ${destroot}${docdir}
+    }
+
+    livecheck.type  none
+} else {
+    livecheck.type  regex
+    livecheck.url   ${homepage}announce.html
+    livecheck.regex Release (\[0-9\.\]+) of PyGreSQL
+}

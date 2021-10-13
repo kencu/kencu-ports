@@ -1,0 +1,11 @@
+--- src/GUI/app.cpp.orig	2020-12-29 04:24:02.000000000 +0300
++++ src/GUI/app.cpp	2020-12-29 04:24:21.000000000 +0300
+@@ -35,7 +35,7 @@
+ 		installTranslator(gpxsee);
+ 
+ 	QTranslator *qt = new QTranslator(this);
+-#if defined(Q_OS_WIN32) || defined(Q_OS_MAC)
++#if defined(Q_OS_WIN32)
+ 	if (qt->load(QLocale::system(), "qt", "_", ProgramPaths::translationsDir()))
+ #else // Q_OS_WIN32 || Q_OS_MAC
+ 	if (qt->load(QLocale::system(), "qt", "_", QLibraryInfo::location(

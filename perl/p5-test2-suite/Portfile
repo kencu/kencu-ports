@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Test2-Suite 0.000139 ../../authors/id/E/EX/EXODIST
+license             {Artistic-1 GPL}
+maintainers         {devans @dbevans} openmaintainer
+description         Test2::Suite - Distribution with a rich set of tools built upon the Test2 framework.
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  edaf6acb6017ff131018ff1fe8e6394254d38f7b \
+                    sha256  559b474012ec34cb88d717240f6cfb7a86c49ce124c9941ccc60318b11079743 \
+                    size    227324
+
+if {${perl5.major} != ""} {
+    depends_lib-append \
+                    port:p${perl5.major}-data-dumper \
+                    port:p${perl5.major}-importer \
+                    port:p${perl5.major}-module-pluggable \
+                    port:p${perl5.major}-scope-guard \
+                    port:p${perl5.major}-sub-info \
+                    port:p${perl5.major}-term-table \
+                    port:p${perl5.major}-test-simple \
+                    port:p${perl5.major}-time-hires
+
+    supported_archs noarch
+}

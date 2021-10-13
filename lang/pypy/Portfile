@@ -1,0 +1,328 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           gitlab 1.0
+PortGroup           select 1.0
+
+gitlab.instance     https://foss.heptapod.net
+gitlab.setup        pypy pypy 7.3.3
+revision            1
+
+categories          lang python devel
+license             MIT PSF
+maintainers         {danchr @danchr} openmaintainer
+
+platforms           darwin
+
+homepage            https://www.pypy.org/
+master_sites        https://downloads.python.org/${name}
+
+depends_build       port:pkgconfig \
+                    port:py27-docutils
+depends_lib         port:libffi \
+                    port:sqlite3 \
+                    port:bzip2 \
+                    path:lib/libssl.dylib:openssl \
+                    port:gettext \
+                    port:gdbm \
+                    port:expat \
+                    port:ncurses
+depends_run         port:python_select
+select.entries      [list python python-$subport $subport]
+
+patchfiles          make_output.diff \
+                    patch-no-cffi-at-build.diff \
+                    ffiplatform.py.diff \
+                    paths.diff
+
+use_configure       no
+
+# no effort has been made to get the JIT working anywhere but x86-64,
+# and without that, PyPy has little or no benefit over CPython; if
+# you're looking for support for Apple Silicon - or ARM64 - see
+# https://morepypy.blogspot.com/2020/12/mac-meets-arm64.html
+supported_archs     x86_64
+
+# a simple mapping from scripts to modules -- ideally, upstream
+# provided these
+array set module_scripts {
+    pydoc pydoc
+    2to3 lib2to3
+    smtpd.py smtpd
+}
+
+subport pypy3 {
+    # remove after 20210925
+    replaced_by    pypy36
+
+    set python.branch 3.6
+}
+
+subport pypy36 {
+    set python.branch 3.6
+
+    set module_scripts(venv) venv
+    set module_scripts(idle) idlelib
+
+    depends_lib-append port:xz
+
+    depends_run-append port:python3_select
+    select.entries-append [list python3 python3-$subport $subport]
+}
+
+subport pypy37 {
+    set python.branch 3.7
+
+    set module_scripts(venv) venv
+    set module_scripts(idle) idlelib
+
+    depends_lib-append port:xz
+
+    depends_run-append port:python3_select
+    select.entries-append [list python3 python3-$subport $subport]
+}
+
+
+subport pypy-tkinter {
+    set python.branch   2.7
+}
+
+subport pypy3-tkinter {
+    # remove after 20210925
+    replaced_by         pypy36-tkinter
+
+    set python.branch 3.6
+}
+
+subport pypy36-tkinter {
+    set python.branch   3.6
+}
+
+subport pypy37-tkinter {
+    set python.branch   3.7
+}
+
+if {$subport == ${name}} {
+    set python.branch 2.7
+
+    depends_run-append port:python2_select
+    select.entries-append [list python2 python2-$subport $subport]
+}
+
+# delayed until ${python.branch} is set
+set gitlab.tag_prefix   release-pypy${python.branch}-v
+distname                ${name}${python.branch}-v${version}-src
+
+if {${python.branch} == 2.7} {
+    patchfiles-append   pypy2-darwin.py.diff
+
+    checksums           rmd160  d96834cd5b4db84ce9ecf79543478934ad25481d \
+                        sha256  f63488051ba877fd65840bf8d53822a9c6423d947839023b8720139f4b6e2336 \
+                        size    20881821
+} elseif {${python.branch} == 3.6} {
+    patchfiles-append   pypy3-darwin.py.diff
+
+    checksums           rmd160  02e9c76e0b381d1bb7ea2f828f221a4d7cdd403a \
+                        sha256  a23d21ca0de0f613732af4b4abb0b0db1cc56134b5bf0e33614eca87ab8805af \
+                        size    22484684
+} elseif {${python.branch} == 3.7} {
+    patchfiles-append   pypy3-darwin.py.diff
+
+    checksums           rmd160  2bdde7c11bee2ce9736effbc327abea22c410f46 \
+                        sha256  f6c96401f76331e474cca2d14437eb3b2f68a0f27220a6dcbc537445fe9d5b78 \
+                        size    24633503
+}
+
+description         A fast interpreter for Python ${python.branch}
+long_description \
+    PyPy is a replacement for CPython ${python.branch}. The main reason to use it \
+    instead of CPython is speed, as it runs generally faster.
+
+build.env           PYPY_USESSION_DIR=${workpath} PYPY_LOCALBASE=${prefix} \
+                    PYPY_NO_EMBED_DEPENDENCIES=1 \
+                    "CFLAGS=${configure.cc_archflags} ${configure.cppflags}" \
+                    "LDFLAGS=${configure.ld_archflags} ${configure.ldflags}"
+
+build.dir           ${worksrcpath}/pypy/goal
+build.args          --batch --verbose \
+                    --cc=${configure.cc} --opt=jit --lto --compile \
+                    --make-jobs=${build.jobs}
+build.target        ../../rpython/bin/rpython
+build.post_args     targetpypystandalone
+
+destroot.env        {*}${build.env}
+destroot.env-append CC=${configure.cc} \
+                    "LDSHARED=${configure.cc} -pthread -shared -undefined dynamic_lookup"
+
+destroot.dir        ${worksrcpath}/pypy/tool/release
+destroot.args       --builddir ${destroot}${prefix}/lib \
+                    --archive-name ${subport} \
+                    --without-_tkinter --no-embedded-dependencies
+destroot.target     package.py
+destroot.post_args
+
+post-patch {
+    if {[info exists replaced_by]} {
+        # remove after 20210925
+        return
+    }
+
+    # sanity check, useful when upgrading, as upstream tends to move these around
+    if { ![catch {exec grep --exclude "*.orig" -Ilwre /sw -e ${prefix} ${worksrcpath}} result] } {
+        ui_warn "patching potentially didn't catch all references to /sw and ${prefix}:\n$result"
+    }
+
+    reinplace "s|__PREFIX__|${prefix}|" \
+        ${worksrcpath}/extra_tests/ctypes_tests/conftest.py \
+        ${worksrcpath}/pypy/tool/cpyext/extbuild.py \
+        ${worksrcpath}/lib_pypy/cffi/ffiplatform.py \
+        ${worksrcpath}/lib_pypy/_tkinter/tklib_build.py
+
+    if {${python.branch} == "2.7"} {
+        reinplace "/MACOSX_DEPLOYMENT_TARGET/s/10\\.\\(\[0-9\]*\\)/${macosx_deployment_target}/" \
+            lib-python/2.7/distutils/sysconfig_pypy.py
+    }
+
+    # sanity check, likewise
+    if { ![catch {exec grep --exclude "*.orig" -lIwre __PREFIX__ ${worksrcpath}} result] } {
+        ui_warn "patching potentially didn't catch all references to __PREFIX__:\n$result"
+    }
+}
+
+# Which Python binary should we use? Building PyPy is _very_ resource
+# intensive, and one of the best cases for using PyPy itself over
+# CPython.
+if {$subport ne $name} {
+    # just use our own pypy2 for building pypy3
+    depends_build-append port:pypy
+    build.cmd       ${prefix}/lib/pypy/bin/pypy
+} else {
+    if {${os.platform} eq "darwin" && ${os.major} < 20} {
+        # use a binary distribution of pypy itself
+        depends_build-append port:pypy-bootstrap
+        build.cmd       ${prefix}/lib/pypy-bootstrap/bin/pypy
+    } else {
+        # fall back to good old CPython...
+        depends_build-append port:python27 port:py27-pycparser port:py27-cffi
+        build.cmd       ${prefix}/bin/python2.7
+    }
+}
+
+if {${os.platform} eq "darwin" && ${os.major} >= 20} {
+    if {${python.branch} == 2.7} {
+        patchfiles-append patch-big-sur-pypy27.diff
+    } elseif {${python.branch} == 3.6} {
+        patchfiles-append patch-big-sur-pypy36.diff
+    } else {
+        patchfiles-append patch-big-sur-pypy37.diff
+    }
+}
+
+# a lot of memory is used before the C compiler even runs, so limit build.jobs
+# according to available memory more tightly than the default
+if {![catch {sysctl hw.memsize} memsize]} {
+    incr memsize -4000000000
+    if {$memsize <= 0} {
+        build.jobs 1
+    } elseif {${build.jobs} > $memsize / 1000000000 + 1} {
+        build.jobs [expr {$memsize / 1000000000 + 1}]
+    }
+}
+
+# memory usage bug in gcc 4.2 on x86_64
+compiler.blacklist gcc-4.2
+
+platform darwin {
+    # use arch -foo if available
+    if {${os.major} >= 9} {
+        build.cmd arch -${build_arch} ${build.cmd}
+    }
+
+    # LTO causes the the buildbots to time out on older releases
+    if {${os.major} < 15} {
+        build.args-delete --lto
+    } else {
+        # speed up the build by using thin LTO
+        patchfiles-append patch-lto-thin.diff
+    }
+}
+
+# Install support files, but only if not in a proper subport
+if {![regexp \- $subport]} {
+    post-destroot {
+        file delete ${destroot}${prefix}/lib/${subport}.tar.bz2
+        ln -s ../lib/${subport}/bin/${name} ${destroot}${prefix}/bin/${subport}
+        ln -s ../lib/${subport}/bin/${name} ${destroot}${prefix}/bin/${name}-${python.branch}
+
+        xinstall -d ${destroot}${prefix}/share/man/man1
+        system -W ${worksrcpath}/pypy/doc/man \
+            "rst2man-2.7.py pypy.1.rst ${destroot}${prefix}/share/man/man1/${subport}.1"
+        system -W ${worksrcpath}/pypy/doc/man \
+            "rst2man-2.7.py pypy.1.rst ${destroot}${prefix}/share/man/man1/${name}-${python.branch}.1"
+
+        foreach script [array names module_scripts] {
+            set module $module_scripts($script)
+            set scriptpath "${destroot}${prefix}/lib/${subport}/bin/${script}"
+
+            xinstall -m 755 ${filespath}/module-script.sh $scriptpath
+            reinplace "s+__PYPY__+${prefix}/bin/${subport}+" $scriptpath
+            reinplace "s+__MODULE__+${module}+" $scriptpath
+        }
+    }
+}
+
+# Factor Tk into a separate subport, like CPython
+if {[string match "pypy*-tkinter" ${subport}]} {
+    set pypy_version    [string range ${subport} 0 [string first "-" ${subport}]-1]
+    set pypy_root       ${prefix}/lib/${pypy_version}
+
+    description         PyPy bindings for Python ${python.branch} to the Tk widget set
+    long_description    ${description}
+    categories          lang python graphics
+
+    depends_build       port:pkgconfig \
+                        port:tcl
+    depends_lib         port:${pypy_version} \
+                        port:tk
+
+    build.dir           ${worksrcpath}
+    build.cmd           ${prefix}/bin/${pypy_version}
+    build.args          lib_pypy/_tkinter/tklib_build.py
+    build.target
+    build.post_args
+    build.env-append    CC=${configure.cc} \
+                        "LDSHARED=${configure.cc} -pthread -shared -undefined dynamic_lookup"
+
+    select.entries
+
+    destroot {
+        xinstall -m 755 -d ${destroot}${pypy_root}/lib_pypy/_tkinter
+        xinstall -m 755 \
+            [glob -directory ${worksrcpath}/lib_pypy/_tkinter tklib_cffi.*.so] \
+            ${destroot}${pypy_root}/lib_pypy/_tkinter
+    }
+
+    post-destroot { }
+}
+
+if {${os.major} < 11 && ${os.platform} eq "darwin"} {
+    known_fail yes
+
+    # https://trac.macports.org/ticket/59191
+    pre-fetch {
+        ui_error "${name} ${version} requires macOS 10.7 or newer."
+        return -code error "incompatible macOS version"
+    }
+}
+
+# delayed until after all of the above; remove after 20210925
+if {[info exists replaced_by]} {
+    PortGroup           obsolete 1.0
+}
+
+gitlab.livecheck.regex (\[0-9.]+)
+
+if {[regexp \- $subport]} {
+    # don't check the tkinter subports
+    livecheck.type none
+}

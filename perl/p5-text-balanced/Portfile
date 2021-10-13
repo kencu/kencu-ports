@@ -1,0 +1,19 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Text-Balanced 2.04
+license             {Artistic-1 GPL}
+maintainers         nomaintainer
+description         Extract delimited text sequences from strings
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  32d7c16706f0b68d005a987305f162b61b958390 \
+                    sha256  f49c408b85c80ba762785428a87599bed22dc0fd6bb765c9fa6ddfaa32e4e7e2 \
+                    size    41631
+
+supported_archs     noarch

@@ -1,0 +1,84 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           xcodeversion 1.0
+
+
+if {${os.major} > 17} {
+    version             3.4.10
+    revision            0
+    checksums           rmd160  f4e82a97655deabca04fc0c4e62c4428c32803b3 \
+                        sha256  f53da2b261738013964377c38459de2f392b8ca1301f27b481d326209edb50ed \
+                        size    28935594
+    patchfiles          patch-Makefile-XC10.diff \
+                        patch-remove-sparkle-3.4.diff \
+                        patch-nsur.diff
+} elseif {${os.major} > 16} {
+    version             3.3.12
+    revision            1
+    checksums           rmd160  37d4204f97ac42431c5774a943ca0ab8f9a4c669 \
+                        sha256  6eeeb3215d6725aa789d39108a8ebedbe1aa9f6d058dd33056d72471ecd02e14 \
+                        size    20602868
+    patchfiles          patch-Makefile-XC10.diff \
+                        patch-remove-sparkle.diff \
+                        patch-nsur.diff
+} else {
+    version             3.2.0
+    revision            0
+    checksums           rmd160  07915ff5db0545c0c059f47e7f71761e023a26e1 \
+                        sha256  017aff348352369abcc994caaca0f6112e1f17c4d65041acdb9f19830b2b96bd \
+                        size    11969144
+    patchfiles          patch-Makefile.diff \
+                        patch-nsur.diff
+}
+
+github.setup        gnachman iTerm2 ${version} v
+categories          aqua shells
+platforms           darwin
+maintainers         {mark @markemer} openmaintainer
+license             GPL-2+
+supported_archs     x86_64
+use_xcode           yes
+
+description         Enhanced terminal emulator program, successor to iTerm
+long_description    \
+    iTerm2 is a replacement for Terminal and the successor to iTerm. Its focus is on \
+    performance, internationalization, and supporting innovative features \
+    that make your life better.
+
+homepage            https://iterm2.com/
+
+
+github.livecheck.regex {(\d+(?:\.\d+)*)}
+
+
+post-patch {
+    reinplace "s|CODE_SIGN_IDENTITY = \".*\";|CODE_SIGN_IDENTITY = \"\";|g" ${worksrcpath}/iTerm2.xcodeproj/project.pbxproj
+}
+
+compiler.cpath
+compiler.library_path
+
+use_configure       no
+
+build.target        prod
+
+destroot.destdir    APPS=${destroot}${applications_dir}
+
+post-destroot {
+    # Fix version number; see iTerm2/tools/updateVersion.py for version keys
+    foreach {key} {CFBundleGetInfoString CFBundleShortVersionString CFBundleVersion} {
+        system "/usr/libexec/PlistBuddy -c \"Set :${key} ${version}\" ${destroot}${applications_dir}/iTerm2.app/Contents/Info.plist"
+    }
+}
+
+minimum_xcodeversions {16 9.0 17 10.0 18 11.0}
+
+if {${os.platform} eq "darwin" && ${os.major} < 16} {
+    known_fail      yes
+    pre-fetch {
+        ui_error "${subport} @${version} requires macOS 10.12 or newer"
+        return -code error "unsupported OS X version"
+    }
+}

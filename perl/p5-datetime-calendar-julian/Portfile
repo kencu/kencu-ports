@@ -1,0 +1,24 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         DateTime-Calendar-Julian 0.103
+license             {Artistic-1 GPL}
+maintainers         {devans @dbevans} openmaintainer
+description         DateTime::Calendar::Julian - Dates in the Julian calendar
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  76ecfd7cf558960cb59c38d1b59e5e35e4e2a22e \
+                    sha256  34c0654e5de764e24be3640d6d53019619242c7f6b4791bce9ac3d1dad85c7fd \
+                    size    17730
+
+if {${perl5.major} != ""} {
+    depends_lib-append \
+                    port:p${perl5.major}-datetime
+
+    supported_archs noarch
+}

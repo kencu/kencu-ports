@@ -1,0 +1,75 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               cmake 1.1
+PortGroup               github 1.0
+PortGroup               boost 1.0
+
+github.setup            SuperTux supertux 0.6.2 v
+revision                6
+
+github.tarball_from     releases
+distname                SuperTux-v${version}-Source
+
+checksums               rmd160  6ccc18343f32e41f832c96141bd26d0d19f11e95 \
+                        sha256  26a9e56ea2d284148849f3239177d777dda5b675a10ab2d76ee65854c91ff598 \
+                        size    174295862
+
+categories              games
+license                 GPL-3+
+platforms               darwin
+maintainers             nomaintainer
+
+description             classic 2D jump'n run sidescroller game
+long_description        ${name} is an open-source ${description} in a style similar\
+                        to the original Super Mario games.
+
+homepage                http://supertux.org/
+
+# squirrel tries to use the C linker for code that uses c++ libraries
+patchfiles              patch-supertux-squirrel-linkagefix.diff
+
+cmake.build_type        Release
+cmake.install_prefix    ${applications_dir}
+compiler.cxx_standard   2014
+
+# don't use cpack -- this works better with MacPorts
+configure.args-append   -DDISABLE_CPACK_BUNDLING=ON
+
+depends_build-append    port:pkgconfig
+
+# also uses libsdl2_ttf, but insists on building it's own copy
+# upstream needs to accomodate a system version of this
+
+depends_lib-append      port:curl       \
+                        port:freetype   \
+                        port:fribidi    \
+                        port:glew       \
+                        path:lib/pkgconfig/harfbuzz.pc:harfbuzz   \
+                        path:include/turbojpeg.h:libjpeg-turbo       \
+                        port:libogg     \
+                        port:libpng     \
+                        port:libraqm    \
+                        port:libsdl2    \
+                        port:libsdl2_image \
+                        port:libvorbis  \
+                        port:physfs     \
+                        port:zlib
+
+post-patch {
+    # fix clash with boost's version file, on case-insensitive filesystems
+    set ver_file ${worksrcpath}/external/findlocale/VERSION
+    move ${ver_file} ${ver_file}.txt
+}
+
+post-destroot {
+    # fix case of icons file -- use the system command as much shorter
+    system -W ${destroot}${applications_dir}/SuperTux.app/Contents/Resources "mv supertux.icns SuperTux.icns"
+
+    # move the original binary out of the way so we can use a launch script
+    # this is needed to set an env var to the location of the datadir
+    system -W ${destroot}${applications_dir}/SuperTux.app/Contents/MacOS "mv supertux2 supertux2-bin"
+    xinstall -m 755 ${filespath}/supertux2 ${destroot}${applications_dir}/SuperTux.app/Contents/MacOS/
+
+    delete ${destroot}${applications_dir}/share
+}

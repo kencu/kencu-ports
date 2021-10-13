@@ -1,0 +1,73 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                itstool
+epoch               1
+version             2.0.7
+license             GPL-3+
+set branch          [join [lrange [split ${version} .] 0 1] .]
+
+description         ITS Tool allows you to translate your XML documents with PO files, \
+                    using rules from the W3C Internationalization Tag Set.
+
+long_description    ${description}
+
+maintainers         {devans @dbevans} openmaintainer
+categories          textproc
+platforms           darwin
+homepage            http://itstool.org/
+master_sites        http://files.itstool.org/${name}
+
+use_bzip2           yes
+
+checksums           rmd160  a19767226488d512d63c0a240f01fba57d73ca30 \
+                    sha256  6b9a7cd29a12bb95598f5750e8763cee78836a1a207f85b74d8b3275b27e87ca \
+                    size    104648
+
+supported_archs     noarch
+installs_libs       no
+
+depends_build       port:gawk
+
+patchfiles          patch-configure.diff
+
+variant python27 conflicts python37 python38 python39 description {Use Python 2.7} {
+    configure.python \
+                    ${prefix}/bin/python2.7
+
+    depends_lib-append \
+                    port:py27-libxml2
+}
+
+variant python37 conflicts python27 python38 python39 description {Use Python 3.7} {
+    configure.python \
+                    ${prefix}/bin/python3.7
+    
+    depends_lib-append \
+                    port:py37-libxml2
+}
+
+variant python38 conflicts python27 python37 python39 description {Use Python 3.8} {
+    configure.python \
+                    ${prefix}/bin/python3.8
+
+    depends_lib-append \
+                    port:py38-libxml2
+}
+
+variant python39 conflicts python27 python37 python38 description {Use Python 3.9} {
+    configure.python \
+                    ${prefix}/bin/python3.9
+
+    depends_lib-append \
+                    port:py39-libxml2
+}
+
+if {![variant_isset python27] && ![variant_isset python37] && ![variant_isset python38] && ![variant_isset python39]} {
+    default_variants +python39
+}
+
+livecheck.type      regex
+livecheck.url       http://itstool.org/download/
+livecheck.regex     "${name}-(\\d+(?:\\.\\d+)*)${extract.suffix}"

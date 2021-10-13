@@ -1,0 +1,22 @@
+--- configure.orig	2021-06-29 02:52:10.000000000 +1000
++++ configure	2021-07-03 17:56:25.000000000 +1000
+@@ -3183,6 +3183,8 @@
+ 			;;
+ 		esac
+ 
++		FRAMEWORKINSTALLAPPSPREFIX="@@APPLICATIONS_DIR@@"
++
+ 		prefix=$PYTHONFRAMEWORKINSTALLDIR/Versions/$VERSION
+ 
+ 		# Add files for Mac specific code to the list of output
+@@ -7482,6 +7484,10 @@
+                ;;
+             esac
+ 
++            UNIVERSAL_ARCH_FLAGS="@@UNIVERSAL_ARCH_FLAGS@@"
++            LIPO_32BIT_FLAGS="@@LIPO_32BIT_FLAGS@@"
++            ARCH_RUN_32BIT="@@ARCH_RUN_32BIT@@"
++
+             if test "${UNIVERSALSDK}" != "/"
+             then
+                 CFLAGS="${UNIVERSAL_ARCH_FLAGS} -isysroot ${UNIVERSALSDK} ${CFLAGS}"

@@ -1,0 +1,67 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           java 1.0
+
+github.setup        dbeaver dbeaver 21.2.1
+github.tarball_from releases
+revision            0
+name                dbeaver-community
+
+categories          databases
+platforms           darwin
+supported_archs     x86_64 arm64
+license             Apache-2
+
+maintainers         {outlook.de:judaew @judaew} openmaintainer
+
+description         Free multi-platform database tool for developers, SQL \
+                    programmers, database administrators and analysts.
+long_description    \
+    {*}${description} Supports any database which has JDBC driver (which \
+    basically means - ANY database). Has a lot of features including metadata \
+    editor, SQL editor, rich data editor, ERD, data export/import/migration, \
+    SQL execution plans, etc. Uses plugins architecture and provides \
+    additional functionality for the following databases: MySQL/MariaDB, \
+    PostgreSQL, Greenplum, Oracle, DB2 LUW, Exasol, SQL Server, Sybase/SAP \
+    ASE, SQLite, Firebird, H2, HSQLDB, Derby, Teradata, Vertica, Netezza, \
+    Informix, etc.
+homepage            https://dbeaver.io/
+
+set arch ${build_arch}
+
+if {${build_arch} eq "arm64"} {
+    set arch "aarch64"
+
+    notes "
+        The arm64 version for ${name} still running in Intel architecture and\
+        requires Rosetta 2.
+    "
+}
+# uncommnet for update checksums
+# set arch "aarch64"
+
+distname            dbeaver-ce-${version}-macosx.cocoa.${arch}
+
+checksums           dbeaver-ce-${version}-macosx.cocoa.x86_64${extract.suffix} \
+                        rmd160  24fac79ac048e5d09623be148bdd4ec97d88046e \
+                        sha256  5570f73139cdaf740b166c81f33746a7be3441adad60e7f09cee93d32252ef01 \
+                        size    101474923 \
+                    dbeaver-ce-${version}-macosx.cocoa.aarch64${extract.suffix} \
+                        rmd160  819ebfa7e170692b71effee88c36a2a582eb708a \
+                        sha256  d4e1deed746aec2e67c63fb5e20f85b22d7b20ba8dbf32eeb6dd39b0cef390f7 \
+                        size    103700103
+
+extract.mkdir       yes
+
+java.version        11+
+java.fallback       openjdk11
+
+use_configure       no
+
+build {}
+
+destroot {
+    copy ${worksrcpath}/DBeaver.app ${destroot}${applications_dir}
+}

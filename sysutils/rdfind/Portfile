@@ -1,0 +1,40 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        pauldreik rdfind 1.4.1 releases/
+
+revision            0
+categories          sysutils
+license             GPL-2
+maintainers         nomaintainer
+description         duplicate file finder
+long_description    finds and optionally deletes, or symlinks equal files \
+                    on a filesystem
+homepage            https://rdfind.pauldreik.se
+platforms           darwin
+
+checksums           rmd160  014778800de9e36ae116d09b5bceb47d4cb98c2e \
+                    sha256  b3e2beeef30b623d75f8b054a514b32183c3ad919f582b23a45506b53095a51e \
+                    size    53719
+
+use_automake        yes
+automake.cmd        ./bootstrap.sh
+automake.args
+
+depends_build-append \
+                    port:automake \
+                    port:autoconf \
+                    port:autoconf-archive
+
+depends_lib         port:nettle
+
+post-extract {
+    # Avoid conflict with C++20 version header.
+    # https://github.com/pauldreik/rdfind/issues/77
+    move ${worksrcpath}/VERSION ${worksrcpath}/VERSION.txt
+}
+
+configure.args      CPPFLAGS=-I${prefix}/include/ \
+                    LDFLAGS=-L${prefix}/lib

@@ -1,0 +1,84 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/dominikh/go-tools 2021.1.1
+name                staticcheck
+revision            1
+
+homepage            https://staticcheck.io
+
+description         Staticcheck - The advanced Go linter
+
+long_description    Staticcheck is a state of the art linter for the Go \
+                    programming language. Using static analysis, it finds \
+                    bugs and performance issues, offers simplifications, and \
+                    enforces style rules.  Each of the 100+ checks has been \
+                    designed to be fast, precise and useful. When Staticcheck \
+                    flags code, you can be sure that it isn't wasting your \
+                    time with unactionable warnings. While checks have been \
+                    designed to be useful out of the box, they still provide \
+                    configuration where necessary, to fine-tune to your \
+                    needs, without overwhelming you with hundreds of options. \
+                    Included with Staticcheck is a collection of tools for \
+                    working with Go code, including linters and static \
+                    analysis.
+
+categories          devel
+license             MIT
+
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+
+installs_libs       no
+
+go.package          honnef.co/go/tools
+
+build.env-append    CGO_ENABLED=0
+
+set _build_path     ${worksrcpath}/build
+
+build.pre_args      -trimpath -o ${_build_path}
+build.args          ./cmd/...
+
+pre-build {
+    file mkdir ${_build_path}
+}
+
+destroot {
+    xinstall -m 755 {*}[glob ${_build_path}/*] ${destroot}${prefix}/bin/
+}
+
+github.tarball_from archive
+
+checksums           ${distname}${extract.suffix} \
+                        rmd160  3093c9286b850ade78a5ca1a20df3e11aafe390f \
+                        sha256  25e87964e818adf05c3654079a73adf91457a176a75f92bb282158d0a9994bfe \
+                        size    508131
+
+go.vendors          golang.org/x/xerrors \
+                        lock    5ec99f83aff1 \
+                        rmd160  6e8267f353e153297f205e4be219236d6ae43880 \
+                        sha256  9a500a49d83a09e7de6c71b215d1c14b81e315d26884530ef327c95ddf1f2d28 \
+                        size    13667 \
+                    golang.org/x/tools \
+                        lock    v0.1.0 \
+                        rmd160  ed8549ff61216e862597412cca9a2f3cd3448147 \
+                        sha256  7ee4ceea7cc41925aa41c185d17886694bcd611cb9896be15e578a491c8594c0 \
+                        size    2683296 \
+                    golang.org/x/sys \
+                        lock    b64e53b001e4 \
+                        rmd160  eb9c17a2964f138171e208deb3c3ebc8a9f8ff02 \
+                        sha256  5bc19a2c586a4703fcd4bca3fe19d093dd9bd614527cfb96c3845dcd1b49a6f9 \
+                        size    1103887 \
+                    golang.org/x/mod \
+                        lock    v0.3.0 \
+                        rmd160  0f19d3d89a7745c9877e5095399e24bdb2a79908 \
+                        sha256  d4e740958a7d07574b73c6b6a5ab717cd0bc219416e47c5950fe3cefab414f92 \
+                        size    93933 \
+                    github.com/BurntSushi/toml \
+                        lock    v0.3.1 \
+                        rmd160  fb9650e2d16525153645e5547626f242f3800149 \
+                        sha256  8cc9e5dc68e247554227973d0b4e023b27bbd9ba5a26e4fb40f44743afcb35f1 \
+                        size    42087

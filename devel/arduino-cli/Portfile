@@ -1,0 +1,55 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+# commit with fix for the golang.org/x/sys package
+go.setup            github.com/arduino/arduino-cli dedb99b8a5fd76fd08e0b1054a62015eae80727e
+version             0.19.0
+revision            0
+
+categories          devel electronics
+license             GPL-3
+maintainers         {outlook.de:judaew @judaew} openmaintainer
+
+description         Arduino command line tool
+long_description    \
+    Arduino CLI is an all-in-one solution that provides Boards/Library \
+    Managers, sketch builder, board detection, uploader, and many other tools \
+    needed to use any Arduino compatible board and platform.
+homepage            https://arduino.github.io/arduino-cli
+
+checksums           rmd160  59a7329ad8f2545bf3bb2490e0c5eb2bc766301b \
+                    sha256  f33754d50668b72e9585bde5301d2ad7dcb24dac46ada12962dab36c5f8d502d \
+                    size    7157901
+
+set date_build      [clock format [clock seconds] -format %Y-%m-%d]
+
+# FIXME: This port currently can't be built without allowing go mod to fetch
+build.env-delete    GOPROXY=off GO111MODULE=off
+
+build.pre_args      -ldflags \
+    \'-X ${go.package}/version.versionString=${version} \
+    -X ${go.package}/version.commit=macports-build \
+    -X ${go.package}/version.date=${date_build}\'
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
+
+    set bash_completion ${prefix}/share/bash-completion/completions
+    xinstall -d ${destroot}${bash_completion}
+    exec ${destroot}${prefix}/bin/${name} completion bash >> \
+        ${destroot}${bash_completion}/${name}
+
+    set zsh_completion ${prefix}/share/zsh/site-functions
+    xinstall -d ${destroot}${zsh_completion}
+    exec ${destroot}${prefix}/bin/${name} completion zsh >> \
+        ${destroot}${zsh_completion}/_${name}
+
+    set fish_completion ${prefix}/share/fish/vendor_completions.d
+    xinstall -d ${destroot}${fish_completion}
+    exec ${destroot}${prefix}/bin/${name} completion fish >> \
+        ${destroot}${fish_completion}/${name}.fish
+}
+
+github.livecheck.regex {([0-9.-]+)}

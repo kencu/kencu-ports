@@ -1,0 +1,101 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               github 1.0
+PortGroup               cmake 1.1
+PortGroup               active_variants 1.1
+PortGroup               compiler_blacklist_versions 1.0
+PortGroup               boost 1.0
+
+github.setup            AcademySoftwareFoundation openvdb 7.2.3 v
+revision                1
+homepage                https://www.openvdb.org/
+categories              graphics
+license                 {MPL-2 LGPL-2.1+}
+maintainers             {mcalhoun @MarcusCalhoun-Lopez} openmaintainer
+description             sparse volume data structure and tools
+long_description        OpenVDB is an open source C++ library comprising a novel hierarchical data structure \
+                        and a large suite of tools for the efficient storage and manipulation of \
+                        sparse volumetric data discretized on three-dimensional grids.
+platforms               darwin
+
+checksums               rmd160  b85de208ed29ab1675956f78fd867eeaaecc591d \
+                        sha256  1e929a7614e7b47d9b51c56c5e76c89cb3fef572d6a6affb89b45af2c81a297c \
+                        size    2289366
+
+compiler.cxx_standard   2014
+# error: cannot refer to variable template 'Contains' without a template argument list
+#     static_assert(NodeChainType::template Contains<NonConstNodeType>,
+#                   ~~~~~~~~~~~~~~~         ^
+compiler.blacklist-append {clang < 800}
+
+# Find correct Python version
+patchfiles-append       patch-python_version.diff
+
+configure.env-append    BLOSC_ROOT=${prefix} \
+                        TBB_ROOT=${prefix} \
+                        GLFW3_ROOT=${prefix} \
+                        ILMBASE_ROOT=${prefix} \
+                        OPENEXR_ROOT=${prefix} \
+                        ZLIB_ROOT=${prefix}
+
+depends_build-append    port:pkgconfig
+
+depends_lib-append      port:zlib \
+                        port:blosc \
+                        port:tbb \
+                        path:lib/pkgconfig/glfw3.pc:glfw \
+                        port:ilmbase \
+                        port:openexr
+
+# avoid
+#    ccache: error: Failed to create directory ${prefix}/var/macports/build/.ccache/tmp: Operation not permitted
+# use latest ABI version (default is 3)
+configure.args-append   -DUSE_CCACHE=OFF \
+                        -DOPENVDB_ABI_VERSION_NUMBER=[lindex [split ${version} .] 0] \
+                        -DOPENVDB_BUILD_VDB_LOD=ON \
+                        -DOPENVDB_BUILD_VDB_RENDER=ON \
+                        -DOPENVDB_BUILD_VDB_VIEW=ON
+
+# do not "Build the OpenVDB unit tests" (avoid dependency on GoogleTest)
+configure.args-append   -DOPENVDB_BUILD_UNITTESTS=OFF
+
+set pythons_suffixes    {27 36 37 38 39}
+
+set pythons_ports       {}
+foreach s ${pythons_suffixes} {
+    lappend pythons_ports python${s}
+}
+
+foreach s ${pythons_suffixes} {
+    set p python${s}
+    set v [string index ${s} 0].[string index ${s} 1]
+    set i [lsearch -exact ${pythons_ports} ${p}]
+    set c [lreplace ${pythons_ports} ${i} ${i}]
+    variant ${p} description "Build the Python ${v} bindings" conflicts {*}${c} "
+        depends_lib-append      port:${p} \
+                                port:py${s}-numpy
+        boost.require_numpy yes
+
+        configure.args-append   -DOPENVDB_BUILD_PYTHON_MODULE=ON \
+                                -DUSE_NUMPY=ON
+
+    post-patch {
+            reinplace s|__MACPORTS_PYTHON_VERSION__|${v}|g ${worksrcpath}/openvdb/openvdb/python/CMakeLists.txt
+    }
+
+        require_active_variants [boost::depends_portname]       ${p}
+        require_active_variants [boost::depends_portname]-numpy ${p}
+    "
+}
+
+set set_python_default  yes
+foreach s ${pythons_suffixes} {
+    if {[variant_isset python${s}]} {
+        set set_python_default  no
+    }
+}
+# this default version should stay synchronized with default boost python variant
+if {${set_python_default}} {
+    default_variants        +python39
+}

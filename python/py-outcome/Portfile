@@ -1,0 +1,43 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-outcome
+version             1.1.0
+categories-append   devel
+platforms           darwin
+supported_archs     noarch
+license             {Apache-2 MIT}
+
+python.versions     36 37 38 39
+
+maintainers         {@jandemter demter.de:jan} openmaintainer
+
+description         Capture the outcome of Python function calls
+long_description    Capture the outcome of Python function calls. Extracted \
+                    from the Trio project.
+
+homepage            https://github.com/python-trio/outcome
+master_sites        pypi:o/outcome
+
+distname            outcome-${version}
+
+checksums           rmd160  4913b8bb101cb26474607864d8d44343c9410daf \
+                    sha256  e862f01d4e626e63e8f92c38d1f8d5546d3f9cce989263c521b2e7990d186967 \
+                    size    18164
+
+if {${name} ne ${subport}} {
+    depends_build-append    port:py${python.version}-setuptools
+    depends_run-append      port:py${python.version}-attrs
+    depends_test-append     port:py${python.version}-pytest \
+                            port:py${python.version}-async_generator \
+                            port:py${python.version}-pytest-asyncio
+
+    test.run            yes
+    test.cmd            py.test-${python.branch}
+    test.target
+    test.env            PYTHONPATH=${worksrcpath}/build/lib
+
+    livecheck.type      none
+}

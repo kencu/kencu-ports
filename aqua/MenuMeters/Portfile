@@ -1,0 +1,42 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+PortGroup           github 1.0
+PortGroup           xcode 1.0
+
+github.setup        yujitach MenuMeters 2.1.4
+categories          aqua sysutils
+platforms           macosx
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+license             GPL-2
+supported_archs     i386 arm64 x86_64
+
+description         Set of CPU, memory, disk, and network monitoring tools
+long_description    The MenuMeters monitors are true SystemUIServer plugins     \
+                    (also known as Menu Extras). This means they can be reordered   \
+                    using command-drag and remember their positions in the menubar  \
+                    across logins and restarts.
+
+checksums           rmd160  95123bd87719211a3d0ccf8280876c56efda2f0b \
+                    sha256  974c85630828c262da4385acdf420953adfda56ddb375edd50aac075475cc270 \
+                    size    1541206
+
+xcode.configuration Release
+xcode.target        "${name} No Sparkle"
+xcode.destroot.settings \
+    CODE_SIGN_IDENTITY=- \
+    CODE_SIGN_STYLE=Manual \
+    ENABLE_HARDENED_RUNTIME=NO
+
+# Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
+build {}
+
+pre-fetch {
+    if {${os.major} < 15} {
+        pre-fetch {
+            ui_error "${name} @${version} requires OS X 10.11 or later."
+            return -code error "incompatible OS X version"
+        }
+    }
+}

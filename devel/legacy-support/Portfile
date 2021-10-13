@@ -1,0 +1,136 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           clang_dependency 1.0
+PortGroup           muniversal 1.0
+
+name                legacy-support
+categories          devel
+platforms           darwin
+
+maintainers         {jonesc @cjones051073} {kencu @kencu} openmaintainer
+license             MIT
+
+description         Installs wrapper headers to add missing functionality to legacy OSX versions.
+long_description    {*}${description}
+
+# Primary release version
+set release_ver     1.0.3
+
+# Binary compatibility version
+set compat_ver      1.0.0
+
+subport ${name} {
+    conflicts           ${name}-devel
+    github.setup        macports macports-legacy-support ${release_ver} v
+    revision            0
+    checksums           rmd160  c502c96596151d053d575554012ceb4a916a24c3 \
+                        sha256  86cda7390f9deb5aef8496fbd7853ce7dc146bbaeb66d92d6cca4ebef41c0b92 \
+                        size    48787
+}
+
+subport ${name}-devel {
+    conflicts           ${name}
+    github.setup        macports macports-legacy-support 291c6bbe9df5e7075900ffe9a1ef081bec8ba961
+    version             20210917
+    revision            0
+    livecheck.type      none
+    checksums           rmd160  ac9d2cab1809dc715ee7c2301c4f42dca9090d98 \
+                        sha256  cfb2016bc8048965920c5dfa5a9eca11be31d928f7e8cf7af4a907e385646843 \
+                        size    50482
+    set v_split         [split ${release_ver} .]
+    set release_ver     [lindex ${v_split} 0].[lindex ${v_split} 1].99
+}
+
+use_configure       no
+
+# Until this can be fixed disable parallel builds...
+# https://build.macports.org/builders/ports-10.10_x86_64-builder/builds/141962/steps/install-port/logs/stdio
+use_parallel_build  no
+
+set max_darwin_reexport 19
+
+build.env-append    CXX=${configure.cxx} \
+                    CC=${configure.cc} \
+                    PREFIX=${prefix} \
+                    "LIPO=/usr/bin/lipo" \
+                    PLATFORM=${os.major} \
+                    MAX_DARWIN_REEXPORT=${max_darwin_reexport} \
+                    SOCURVERSION=${release_ver} \
+                    SOCOMPATVERSION=${compat_ver}
+
+destroot.env        PREFIX=${prefix}
+
+if {![info exists universal_possible]} {
+    set universal_possible [expr {${os.universal_supported} && [llength ${configure.universal_archs}] >= 2}]
+}
+if {${universal_possible} && [variant_isset universal]} {
+    foreach arch ${universal_archs_supported} {
+        lappend merger_build_env(${arch})   "CXXFLAGS=${configure.cxxflags} [muniversal_get_arch_flag ${arch}]" \
+                                            "CFLAGS=${configure.cflags} [muniversal_get_arch_flag ${arch}]" \
+                                            "LDFLAGS=${configure.ldflags} [muniversal_get_arch_flag ${arch}]" \
+                                            "FORCE_ARCH=${arch}"
+    }
+} else {
+    build.env-append                        "CXXFLAGS=${configure.cxxflags} [get_canonical_archflags cxx]" \
+                                            "CFLAGS=${configure.cflags} [get_canonical_archflags cc]" \
+                                            "LDFLAGS=${configure.ldflags} [get_canonical_archflags ld]" \
+                                            "FORCE_ARCH=${build_arch}"
+}
+
+test.env            {*}${build.env}
+test.run            yes
+test.target         test
+
+platform darwin 8 {
+    post-destroot {
+
+        # install Tiger-specific fixes
+
+        # slightly modified which command to match behaviour of 10.5+
+        copy ${worksrcpath}/tiger_only/bin/which ${destroot}${prefix}/bin/which
+
+    # NB: these copied-in headers for Tiger will overwrite any similarly-named headers
+    # that we add to the include folder in legacysupport. We will have to watch for that.
+
+        # add suitable Availability*.h headers for Tiger
+        copy ${worksrcpath}/tiger_only/include/Availability.h         ${destroot}${prefix}/include/LegacySupport/
+        copy ${worksrcpath}/tiger_only/include/AvailabilityInternal.h ${destroot}${prefix}/include/LegacySupport/
+
+    if {${subport} eq "${name}-devel"} {
+        # copyfile exists in libSystem, just needs the header from 10.5 to work
+        copy ${worksrcpath}/tiger_only/include/copyfile.h             ${destroot}${prefix}/include/LegacySupport/
+    }
+
+    }
+}
+
+# The legacy-support build cannot create the LegacySupportSystem library directly
+# on newer systems as the reexport link option to /usr/lib/libSystem.B.dylib
+# does not work, due to the file system library cache added in macOS11.
+# Fallback to using optool here. Optool also currently not working on arm.
+if { ${build_arch} ne "arm64" && ${os.major} > ${max_darwin_reexport} } {
+    depends_build-append port:optool
+    post-destroot {
+        set legSupp   ${prefix}/lib/libMacportsLegacySupport.dylib
+        set legSystem ${prefix}/lib/libMacportsLegacySystem.B.dylib
+        if {![file exists ${destroot}${legSystem}]} {
+            copy ${destroot}${legSupp} ${destroot}${legSystem}
+            system "${prefix}/bin/optool install -c reexport -p /usr/lib/libSystem.B.dylib -t ${destroot}${legSystem}"
+        } else {
+            ui_warn "${destroot}${legSystem} already exists."
+        }
+    }
+}
+
+if {![file exists ${prefix}/libexec/mpstats]} {
+    notes "
+    To help make sure your system continues to be well represented by MacPorts, especially\
+    if your system is not one of the latest macOS releases, please consider installing mpstats.\
+    It will periodically send an anonymous synopsis of your OS settings and installed ports.\
+    The information provided by this is useful to help determine how resources are allocated.
+
+    You can install mpstats like this:    sudo port install mpstats
+    "
+}

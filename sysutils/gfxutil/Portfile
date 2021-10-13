@@ -1,0 +1,45 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:et:sw=4:ts=4:sts=4
+
+PortSystem      1.0
+PortGroup       github 1.0
+PortGroup       xcode 1.0
+
+github.setup    acidanthera gfxutil 1.81b
+revision        0
+categories      sysutils
+maintainers     {i0ntempest @i0ntempest} openmaintainer
+license         BSD
+installs_libs   no
+
+set edk_commit          ef91b07388e1c0a50c604e5350eeda98428ccea6
+set edk_distfile        ${edk_commit}.tar.gz
+set gfxutil_distfile    ${distfiles}
+master_sites-append     https://github.com/acidanthera/audk/archive/:edk
+distfiles-append        ${edk_distfile}:edk
+
+description     Device Properties conversion tool
+long_description \
+                A tool to work with Device Properties commonly found in Apple Mac \
+                firmwares by mcmatrix.
+
+checksums       ${gfxutil_distfile} \
+                rmd160  ec0a99ca6c6305ffe35271f0d1c6b9231e26ef89 \
+                sha256  c8fe09ab4a3efdb4a343da652e6fb7b1c13004857a676f18ea944d3f8ae939f7 \
+                size    32675 \
+                ${edk_distfile} \
+                rmd160  1f3d7691ad0ea3f863e46224e1ce24771456d519 \
+                sha256  5fb4a625dafc23ec2512e96159de98ca75649ed016ee52916a1bae29722a0787 \
+                size    13617279
+
+post-configure {
+    ln -s audk-${edk_commit} ${workpath}/edk2
+}
+
+platforms       macosx
+
+xcode.target            gfxutil
+xcode.configuration     Release
+
+destroot {
+    xinstall -m 755 ${worksrcpath}/build/${xcode.configuration}/gfxutil ${destroot}${prefix}/bin
+}

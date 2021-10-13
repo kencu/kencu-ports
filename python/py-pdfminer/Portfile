@@ -1,0 +1,50 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+github.setup        pdfminer pdfminer.six 20201018
+revision            2
+name                py-pdfminer
+
+python.versions     37 38 39
+
+platforms           darwin
+supported_archs     noarch
+license             MIT
+maintainers         {eborisch @eborisch} \
+                    openmaintainer
+description         Python pdf extraction package
+
+long_description    \
+                    Pdfminer.six is a community maintained fork of the \
+                    original PDFMiner. It is a tool for extracting \
+                    information from PDF documents. It focuses on getting \
+                    and analyzing text data. Pdfminer.six extracts the text \
+                    from a page directly from the sourcecode of the PDF. It \
+                    can also be used to get the exact location, font or \
+                    color of the text.  It is built in a modular way such \
+                    that each component of pdfminer.six can be replaced \
+                    easily. You can implement your own interpreter or \
+                    rendering device to use the power of pdfminer.six for \
+                    other purposes that text analysis.
+
+checksums \
+    rmd160  ea5f421edce0ef9b5273ad064e1c1ae8435785f1 \
+    sha256  170e812dc84e2665f461bbb68249479a03986930c777969ccdf84551385179ae \
+    size    10256584
+
+if {${name} ne ${subport}} {
+    depends_build-append    port:py${python.version}-setuptools
+    livecheck.type          none
+
+    post-destroot {
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath} \
+            LICENSE \
+            cmaprsrc/README.txt \
+            README.md \
+            ${destroot}${docdir}
+    }
+}

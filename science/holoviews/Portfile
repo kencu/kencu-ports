@@ -1,0 +1,49 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           python 1.0
+
+github.setup        pyviz holoviews 1.14.6 v
+revision            0
+categories-prepend  science
+license             BSD
+maintainers         {mps @Schamschula} openmaintainer
+description         HoloViews is an open-source Python library designed to make data \
+                    analysis and visualization seamless and simple.
+long_description    {*}${description} With HoloViews, you can usually express what you \
+                    want to do in very few lines of code, letting you focus on what you \
+                    are trying to explore and convey, not on the process of plotting.
+platforms           darwin
+
+checksums           rmd160  f6d8e47cebf66674af886fa3aa202aa53f046d93 \
+                    sha256  98017e2145a3a92d9f39d6d3af0bf4838a06ca191236119009db4b048244f008 \
+                    size    4791668
+
+variant python36 conflicts python37 python38 python39 description {Use Python 3.6} {}
+variant python37 conflicts python36 python38 python39 description {Use Python 3.7} {}
+variant python38 conflicts python36 python37 python39 description {Use Python 3.8} {}
+variant python39 conflicts python36 python37 python38 description {Use Python 3.9} {}
+
+if {![variant_isset python36] && ![variant_isset python37] \
+    && ![variant_isset python38] && ![variant_isset python39]} {
+    default_variants +python39
+}
+
+foreach pv {39 38 37 36} {
+    if {[variant_isset python${pv}]} {
+        python.default_version ${pv}
+        break
+    }
+}
+
+depends_build-append \
+                    port:py${python.version}-setuptools
+
+depends_lib-append  port:py${python.version}-matplotlib \
+                    port:py${python.version}-notebook \
+                    port:py${python.version}-param \
+                    port:py${python.version}-pyct \
+                    port:py${python.version}-pyviz_comms
+
+github.livecheck.regex  {(\d\.\d+(\.\d+)?(?!a))}

@@ -1,0 +1,29 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         MCE-Shared 1.873 ../../authors/id/M/MA/MARIOROY
+license             {Artistic-1 GPL}
+maintainers         {devans @dbevans} openmaintainer
+description         MCE::Shared - MCE extension for sharing data supporting threads and processes
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  251db0908a0f556e6cd62171c195ca6ae42846e9 \
+                    sha256  b39e5b9689952f6c513c8dfdc6cb8e26376df354fe751d29a1da3eb1c768205b \
+                    size    154075
+
+if {${perl5.major} != ""} {
+    depends_lib-append \
+                    port:p${perl5.major}-io-fdpass \
+                    port:p${perl5.major}-mce \
+                    port:p${perl5.major}-scalar-list-utils \
+                    port:p${perl5.major}-sereal-decoder \
+                    port:p${perl5.major}-sereal-encoder \
+                    port:p${perl5.major}-time-hires
+
+    supported_archs noarch
+}

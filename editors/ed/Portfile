@@ -1,0 +1,46 @@
+PortSystem      1.0
+
+name            ed
+version         1.17
+revision        0
+categories      editors
+license         GPL-3+
+maintainers     nomaintainer
+platforms       darwin
+description     ed is a line-oriented text editor.
+
+long_description \
+    ed is a line-oriented text editor. It is used to create, display, \
+    modify and otherwise manipulate text files, both interactively and via \
+    shell scripts. A restricted version of ed, red, can only edit files in \
+    the current directory and cannot execute shell commands. ed is the \
+    standard text editor in the sense that it is the original editor for \
+    Unix, and thus widely available. For most purposes, however, it is \
+    superseded by full-screen editors such as Emacs.
+
+homepage        https://www.gnu.org/software/ed/
+master_sites    gnu
+
+use_lzip        yes
+
+checksums       rmd160  ed9898a1ee5dee80e577d85f11fcc086ef083938 \
+                sha256  71de39883c25b6fab44add80635382a10c9bf154515b94729f4a6529ddcc5e54 \
+                size    67914
+
+configure.args-append       \
+    CC=\"\$CC\"             \
+    CPPFLAGS=\"\$CPPFLAGS\" \
+    CFLAGS=\"\$CFLAGS\"     \
+    LDFLAGS=\"\$LDFLAGS\"
+
+# argument results int "WARNING: unrecognized option"
+configure.universal_args-delete --disable-dependency-tracking
+
+test.run        yes
+test.target     check
+
+destroot.target-append  install-man
+
+livecheck.type  regex
+livecheck.url   https://ftp.gnu.org/gnu/${name}/?C=M&O=D
+livecheck.regex ${name}-(\\d+(?:\\.\\d+)+)

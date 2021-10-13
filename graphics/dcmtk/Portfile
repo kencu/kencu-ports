@@ -1,0 +1,160 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               active_variants 1.1
+PortGroup               muniversal 1.0
+PortGroup               cmake 1.1
+PortGroup               github 1.0
+
+github.setup            DCMTK dcmtk 3.6.6 DCMTK-
+
+revision                0
+set unpatched_version   [lindex [split ${version} _] 0]
+set stripped_version    [string map {. ""} ${unpatched_version}]
+categories              graphics
+platforms               darwin
+license                 {BSD Apache-2}
+
+maintainers             {eborisch @eborisch} \
+                        openmaintainer
+
+description             The DICOM Toolkit.
+long_description        DCMTK is a collection of libraries and applications    \
+                        implementing large parts the DICOM standard. It        \
+                        includes software for examining, constructing and      \
+                        converting DICOM image files, handling offline media,  \
+                        sending and receiving images over a network connection,\
+                        as well as demonstrative image storage and worklist    \
+                        servers. DCMTK is is written in a mixture of ANSI C    \
+                        and C++. It comes in complete source code and is made  \
+                        available as "open source" software.
+
+homepage                https://dicom.offis.de/dcmtk
+
+checksums \
+    rmd160  1b146dd976ef31e7779d7b481fd947f31860c57e \
+    sha256  204d8b4e99c71a3239453a127ccb65e35bf49c1ae46af65d1bc019e960911c40 \
+    size    6512834
+
+compiler.cxx_standard   2011
+
+# avoid self-conflict
+configure.cppflags-replace -I${prefix}/include -isystem${prefix}/include
+
+
+depends_lib             path:include/turbojpeg.h:libjpeg-turbo \
+                        port:libiconv \
+                        port:libxml2 \
+                        port:libpng \
+                        port:tcp_wrappers \
+                        port:tiff \
+                        port:zlib
+
+depends_build-append    port:pkgconfig
+
+configure.args-append   -DDCMTK_WITH_TIFF=ON \
+                        -DDCMTK_WITH_OPENJPEG=OFF \
+                        -DDCMTK_WITH_PNG=ON \
+                        -DDCMTK_WITH_OPENSSL=OFF \
+                        -DDCMTK_WITH_XML=ON \
+                        -DDCMTK_WITH_ICONV=ON \
+                        -DDCMTK_ENABLE_PRIVATE_TAGS=OFF \
+                        -DDCMTK_WITH_DOXYGEN=OFF \
+                        -DDCMTK_WITH_SNDFILE=OFF \
+                        -DDCMTK_WITH_WRAP=ON \
+                        -DCMAKE_CXX_STANDARD=11 \
+                        -DDCMTK_ENABLE_STL=ON
+
+subport                 dcmtk-static {}
+
+if {${name} ne ${subport}} {
+    depends_run-append      port:dcmtk
+    configure.args-append   -DBUILD_SHARED_LIBS=OFF
+    long_description        Libraries to enable static-linking to dcmtk.
+
+    set actvar              ""
+    set inactvar            ""
+
+    pre-configure {
+        foreach variant {private sound ssl universal} {
+            if {[variant_isset ${variant}]} {
+                append actvar " " ${variant}
+            } else {
+                append inactvar " " ${variant}
+            }
+        }
+
+        if {![active_variants port:dcmtk "${actvar}" "${inactvar}"]} {
+            ui_error {dcmtk and dcmtk-static must have matching variants!}
+            return -code error
+        }
+    }
+
+    destroot {
+        xinstall -m 644 {*}[glob -directory ${cmake.build_dir}/lib/ *.a] \
+            ${destroot}${prefix}/lib/
+    }
+} else {
+    configure.args-append   -DBUILD_SHARED_LIBS=ON
+
+    post-configure {
+        # 7921b2e in base creates symlinks, bypassing the github portgroup's move
+        # which would be OK, except Doxygen doesn't seem to like being pointed to a
+        # symlink as the base of the directories to search for sources. However,
+        # adding a '/.' to the end of the INPUT line makes it happy again, so...
+        # https://github.com/doxygen/doxygen/issues/3518
+        reinplace -E "s|^(INPUT .*)\"|\\1/.\"|" doxygen/htmldocs.cfg
+    }
+
+    variant doc description "Install documentation" {
+        depends_build-append    port:doxygen
+        build.target-append     DOXYGEN
+        configure.args-delete   -DDCMTK_WITH_DOXYGEN=OFF
+        configure.args-append   -DDCMTK_WITH_DOXYGEN=ON
+    }
+
+    if {[variant_isset doc]} {
+        post-destroot {
+            # Don't really want these man pages.
+            system -W ${destroot}${prefix}/share/man/man1 "rm -f *_${distname}_*"
+        }
+        set DOCDIR          file://${prefix}/share/doc/dcmtk/html/index.html
+        notes               "DCMTK documentation available at:\n  ${DOCDIR}"
+    }
+
+    destroot.args           docdir=${prefix}/share/doc/${name}
+
+    post-destroot {
+        # avoid conflict with other MacPorts libraries
+        foreach lib {charls} {
+            delete ${destroot}${prefix}/lib/lib${lib}.dylib
+        }
+    }
+}
+
+variant private description "Install private tags dictionary" {
+    configure.args-delete   -DDCMTK_ENABLE_PRIVATE_TAGS=OFF
+    configure.args-append   -DDCMTK_ENABLE_PRIVATE_TAGS=ON
+}
+
+variant sound description "Enable sndfile support" {
+    depends_lib-append      port:libsndfile
+    configure.args-delete   -DDCMTK_WITH_SNDFILE=OFF
+    configure.args-append   -DDCMTK_WITH_SNDFILE=ON
+}
+
+variant ssl description "Enable openssl support" {
+    depends_lib-append      path:lib/libssl.dylib:openssl
+    configure.args-delete   -DDCMTK_WITH_OPENSSL=OFF
+    configure.args-append   -DDCMTK_WITH_OPENSSL=ON
+}
+
+default_variants        +ssl
+
+test.run                yes
+test.cmd                env DYLD_LIBRARY_PATH=${cmake.build_dir}/lib make
+test.target             -j 1 test
+
+livecheck.type          regex
+livecheck.url           https://dicom.offis.de/dcmtk.php.en
+livecheck.regex         ${name}-(\[0-9._\]+)${extract.suffix}

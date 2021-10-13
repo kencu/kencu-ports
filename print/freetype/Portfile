@@ -1,0 +1,119 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               muniversal 1.0
+
+name                    freetype
+version                 2.11.0
+revision                0
+set docdistname         ${name}-doc-${version}
+use_xz                  yes
+checksums               ${distname}${extract.suffix} \
+                        rmd160  a4270c6e21801015a895ca9827abb03597bcd0cd \
+                        sha256  8bee39bd3968c4804b70614a0a3ad597299ad0e824bc8aad5ce8aaf48067bde7 \
+                        size    2256640 \
+                        ${docdistname}${extract.suffix} \
+                        rmd160  e8c47a676daca4ef51e72c172d20272fa3d41ba1 \
+                        sha256  5b0b5f504f3547ab6123049917b36cfe6944837eaa7baa86ae742a596b5c206c \
+                        size    2070604
+
+categories              print graphics
+maintainers             {ryandesign @ryandesign}
+license                 {FreeType GPL-2}
+homepage                https://www.freetype.org
+platforms               darwin
+use_parallel_build      yes
+
+description \
+    A software font engine
+
+long_description \
+    FreeType2 is a software font engine that is designed to \
+    be small, efficient, highly customizable and portable while \
+    capable of producing high-quality output (glyph images). \
+    It can be used in graphics libraries, display servers, font \
+    conversion tools, text image generation tools, and many \
+    other products as well.
+
+master_sites            sourceforge:project/freetype/freetype2/${version}:source \
+                        sourceforge:project/freetype/freetype-docs/${version}:docs \
+                        https://download.savannah.gnu.org/releases/freetype/
+
+distfiles               ${distname}${extract.suffix}:source \
+                        ${docdistname}${extract.suffix}:docs
+
+patchfiles \
+    freetype-config-no-pkg-config.patch \
+    patch-src_base_ftrfork.c.diff \
+    patch-modules.cfg.diff
+
+depends_build           port:pkgconfig
+
+depends_lib             port:brotli \
+                        port:bzip2 \
+                        port:libpng \
+                        port:zlib
+
+# See http://trac.macports.org/ticket/18232
+configure.cppflags-replace  -I${prefix}/include -isystem${prefix}/include
+
+configure.args          --with-brotli \
+                        --with-bzip2 \
+                        --with-png \
+                        --with-zlib \
+                        --without-harfbuzz \
+                        ac_cv_prog_AWK=/usr/bin/awk
+
+variant no_freetype_config description {Don't install the freetype-config script} {}
+if {![variant_isset no_freetype_config]} {
+    configure.args-append --enable-freetype-config
+}
+
+configure.universal_args-delete --disable-dependency-tracking
+
+platform macosx {
+    if {${os.major} < 9} {
+        configure.args-append \
+            --with-old-mac-fonts
+    }
+}
+
+set docdir              ${prefix}/share/doc/${name}
+
+post-destroot {
+    xinstall -m 0755 -d ${destroot}${docdir}
+    
+    xinstall -m 0644 -W ${worksrcpath} \
+        ChangeLog \
+        LICENSE.TXT \
+        README \
+        ${destroot}${docdir}
+    xinstall -m 0644 -W ${worksrcpath}/docs \
+        CHANGES \
+        FTL.TXT \
+        GPLv2.TXT \
+        PROBLEMS \
+        TODO \
+        formats.txt \
+        raster.txt \
+        ${destroot}${docdir}
+    
+    xinstall -m 0755 -d ${destroot}${docdir}/html
+    xinstall -m 0644 -W ${worksrcpath}/docs ft2faq.html ${destroot}${docdir}/html
+    foreach dir {design glyphs reference tutorial} {
+        copy ${worksrcpath}/docs/${dir} ${destroot}${docdir}/html
+    }
+}
+
+if {${os.arch} eq "i386"} {
+    if { ${os.major}>=10 } {
+        set merger_configure_env(ppc) CC_BUILD=${configure.cc}
+    }
+    set merger_configure_env(ppc64)   CC_BUILD=${configure.cc}
+} else {
+    set merger_configure_env(i386)    CC_BUILD=${configure.cc}
+    set merger_configure_env(x86_64)  CC_BUILD=${configure.cc}
+}
+
+livecheck.type          sourceforge
+livecheck.regex         {/freetype2/([0-9.]+)/}

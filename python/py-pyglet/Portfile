@@ -1,0 +1,42 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-pyglet
+version             1.5.21
+revision            0
+categories-append   devel graphics
+platforms           darwin
+license             BSD
+
+python.versions     27 35 36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         A cross-platform windowing and multimedia library for Python.
+long_description    ${description}
+
+homepage            https://pyglet.readthedocs.org/
+
+use_zip             yes
+
+checksums           rmd160  47241a770707db6ae1e3671626f8c9c439e736d9 \
+                    sha256  5aaaddb06dc4b6f9ba08254d8d806a2bd2406925a9caf3a51fdffbd5d09728e2 \
+                    size    6971519
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                        port:py${python.version}-setuptools
+
+    if {${python.version} <= 35} {
+        version             1.4.10
+        revision            0
+        distname            ${python.rootname}-${version}
+        checksums           rmd160  7bb3f66eafcfafe00d83a2c556c699b0eb1d81e9 \
+                            sha256  c57e3e18246f45e4d6bb3d29e39d128d6e72b05f4212b10353adc3ba260ceb65 \
+                            size    5121084
+    }
+
+    livecheck.type      none
+}

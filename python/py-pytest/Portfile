@@ -1,0 +1,89 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           select 1.0
+
+name                py-pytest
+version             6.2.5
+revision            0
+
+categories-append   devel
+platforms           darwin
+license             MIT
+supported_archs     noarch
+
+python.versions     27 35 36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         py.test: simple powerful testing with Python
+
+long_description    The pytest framework makes it easy to write small tests, \
+                    yet scales to support complex functional testing \
+                    for applications and libraries.
+
+homepage            https://pytest.org
+
+checksums           rmd160  e426e585ff11f53d0523aa001a76eb7be7df6dc2 \
+                    sha256  131b36680866a76e6781d13f101efb86cf674ebb9762eb70d3082b6f29889e89 \
+                    size    1118720
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                        port:py${python.version}-setuptools_scm
+
+    depends_lib-append  port:py${python.version}-setuptools \
+                        port:py${python.version}-attrs \
+                        port:py${python.version}-iniconfig \
+                        port:py${python.version}-packaging \
+                        port:py${python.version}-pluggy \
+                        port:py${python.version}-py \
+                        port:py${python.version}-toml
+
+    if {${python.version} < 38} {
+        depends_lib-append port:py${python.version}-importlib-metadata
+    }
+
+    depends_run         port:pytest_select
+
+    if {${python.version} eq 27} {
+        version             4.6.3
+        revision            2
+        distname            ${python.rootname}-${version}
+        checksums           rmd160  5d88707bd2fc29ee675087b24461a9ca8cbe1ffb \
+                            sha256  4a784f1d4f2ef198fe9b7aef793e9fa1a3b2f84e822d9b3a64a181293a572d45 \
+                            size    949947
+
+        depends_lib-append  port:py${python.version}-atomicwrites \
+                            port:py${python.version}-six \
+                            port:py${python.version}-funcsigs \
+                            port:py${python.version}-more-itertools
+    } elseif {${python.version} eq 35} {
+        version             5.4.3
+        revision            0
+        distname            ${python.rootname}-${version}
+        checksums           rmd160  c846ffd08e49fe6742a97b6606aebcf4a2761f01 \
+                            sha256  7979331bfcba207414f5e1263b5a0f8f521d0f457318836a7355531ed1a4c7d8 \
+                            size    1022353
+        depends_lib-append  port:py${python.version}-more-itertools
+    }
+
+    if {${python.version} <= 35} {
+        depends_lib-append  port:py${python.version}-wcwidth \
+                            port:py${python.version}-pathlib2
+        depends_lib-delete  port:py${python.version}-iniconfig \
+                            port:py${python.version}-toml
+    }
+
+    select.group        pytest
+    select.file         ${filespath}/pytest${python.version}
+    notes-append "
+To make the Python ${python.branch} version of pytest the one that is run\
+when you execute the commands without a version suffix, e.g. 'pytest', run:
+
+sudo port select --set ${select.group} [file tail ${select.file}]
+"
+
+    livecheck.type      none
+}

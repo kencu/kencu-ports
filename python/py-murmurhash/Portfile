@@ -1,0 +1,49 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem                           1.0
+PortGroup           python           1.0
+PortGroup           github           1.0
+
+name                py-murmurhash
+# Don't upgrade past py-spaCy's highest supported version.
+version             1.0.5
+revision            0
+github.setup        explosion murmurhash ${version} v
+
+checksums           rmd160  2d23bd2fcde0b5dbee75b51d39ea934a777c36ce \
+                    sha256  35e25436a5c991c033cb2d31974fde40e88c3b44a07f252f06346eeb6c328720 \
+                    size    14486
+
+platforms           darwin
+supported_archs     x86_64
+
+license             MIT
+
+maintainers         {jonesc @cjones051073} openmaintainer
+
+description         Cython bindings for MurmurHash2
+long_description    ${description}
+
+# Exclude anything with non-numbers
+github.livecheck.regex {([0-9.]+)}
+
+# Support python versions
+python.versions     27 35 36 37 38 39
+python.default_version 38
+
+if {${name} ne ${subport}} {
+
+    depends_build-append \
+        port:py${python.version}-pip \
+        port:py${python.version}-setuptools \
+        port:py${python.version}-wheel
+
+    depends_lib-append \
+        port:py${python.version}-cython
+
+    depends_test-append \
+        port:py${python.version}-pytest
+    
+    livecheck.type none
+    
+}

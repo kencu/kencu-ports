@@ -1,0 +1,30 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Pod-Markdown 3.300 ../../authors/id/R/RW/RWSTAUNER
+license             {Artistic-1 GPL}
+maintainers         nomaintainer
+description         Pod::Markdown - Convert POD to Markdown
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  f4af4f03a31d8e3c8f3138edb1c1b70be89f738d \
+                    sha256  ec79e9908a3605749c4feb5054763eb6812dd33b54ce85a51339aa7cf9991b79 \
+                    size    59370
+
+if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-test-differences
+
+    depends_lib-append \
+                    port:p${perl5.major}-encode \
+                    port:p${perl5.major}-html-parser \
+                    port:p${perl5.major}-pod-simple \
+                    port:p${perl5.major}-uri
+
+    supported_archs noarch
+}

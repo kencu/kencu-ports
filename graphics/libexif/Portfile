@@ -1,0 +1,47 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+set real_version    0.6.23
+set VMINOR          [lindex [split ${real_version} .] 1]
+set VPATCH          [lindex [split ${real_version} .] 2]
+
+github.setup        libexif libexif 0_${VMINOR}_${VPATCH}-release libexif-
+version             ${real_version}
+epoch               1
+revision            1
+categories          graphics
+license             LGPL-2+
+maintainers         nomaintainer
+description         EXIF parsing library
+
+long_description    Most digital cameras produce EXIF files, which are JPEG files \
+                    with extra tags that contain information about the image. The \
+                    EXIF library allows you to parse an EXIF file and read the \
+                    data from those tags.
+
+platforms           darwin
+
+checksums           rmd160  bbe4909af38272b626725190f7d896b704111484 \
+                    sha256  45f56d057f1d93705e22e0f680429f736122b47cd4994da9dafe7713397f7c29 \
+                    size    1120400
+
+depends_build       port:pkgconfig
+depends_lib         port:gettext \
+                    port:libiconv
+
+use_autoreconf      yes
+autoreconf.args     -fvi
+
+configure.args      --with-doc-dir=${prefix}/share/doc/${name}-${version} \
+                    --disable-docs
+
+test.run            yes
+test.target         check
+
+variant doc description {Install extra documentation} {
+    depends_build-append    port:doxygen \
+                            path:bin/dot:graphviz
+    configure.args-delete   --disable-docs
+}

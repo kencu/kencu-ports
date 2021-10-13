@@ -1,0 +1,89 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup python    1.0
+
+name                py-pysvn
+version             1.9.15
+revision            0
+
+categories-append   devel
+platforms           darwin
+license             Apache-1.1
+maintainers         nomaintainer
+
+description         Python Subversion Extension (pysvn)
+long_description    The pysvn module is a python interface to the Subversion version \
+                    control system. This API exposes client interfaces for managing a \
+                    working copy, querying a repository, and synchronizing the two.
+
+homepage            https://pysvn.sourceforge.io/
+
+master_sites        sourceforge:pysvn
+
+checksums           rmd160  11086a08131edba961e0a2416c8227d1ac0a1bbe \
+                    sha256  4a9ad698ab123c5946f4ea778e6cdecabc8985997bf77b8e128b809aa9bfba61 \
+                    size    667161
+
+python.versions     27 36 37 38 39
+
+set cxx_stdlibflags {}
+if {[string match *clang* ${configure.cxx}]} {
+    set cxx_stdlibflags -stdlib=${configure.cxx_stdlib}
+}
+
+if {${name} ne ${subport}} {
+    depends_lib-append \
+                    port:apr \
+                    port:subversion
+
+    patch.dir       ${worksrcpath}
+    patchfiles      patch-Source_setup_configure.py.diff
+
+    worksrcdir      ${worksrcdir}/Source
+
+    use_configure   yes
+
+    pre-configure {
+        reinplace "s|'gcc|'${configure.cc}|g" \
+            ${worksrcpath}/setup_configure.py
+        reinplace "s|'g\+\+|'${configure.cxx} ${cxx_stdlibflags}|g" \
+            ${worksrcpath}/setup_configure.py
+    }
+
+    configure.cmd   ${python.bin} setup.py configure
+    configure.pre_args
+    configure.args  --apr-inc-dir=${prefix}/include/apr-1 \
+                    --apu-inc-dir=${prefix}/include/apr-1 \
+                    --apr-lib-dir=${prefix}/lib \
+                    --svn-bin-dir=${prefix}/bin \
+                    --svn-inc-dir=${prefix}/include/subversion-1 \
+                    --svn-lib-dir=${prefix}/lib \
+                    --link-python-framework-via-dynamic-lookup \
+                    --pycxx-dir=${worksrcpath}/../Import/pycxx-7.1.5
+    configure.universal_args-delete --disable-dependency-tracking
+
+    post-configure {
+        reinplace "s|^\t@|\t|" ${worksrcpath}/Makefile
+    }
+
+    build.cmd       make
+    build.target
+
+    destroot {
+        file mkdir ${destroot}${python.pkgd}
+        file copy ${worksrcpath}/pysvn ${destroot}${python.pkgd}
+
+        file copy {*}[glob ${worksrcpath}/../Examples/*] \
+            ${destroot}${prefix}/share/doc/${subport}/examples
+        file copy {*}[glob ${worksrcpath}/../Docs/*] \
+            ${destroot}${prefix}/share/doc/${subport}
+    }
+
+    test.run        yes
+    test.dir        ${worksrcpath}/../Tests
+    test.cmd        make
+    test.target
+
+    livecheck.type  none
+}

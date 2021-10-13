@@ -1,0 +1,37 @@
+--- SConstruct.orig	2014-12-16 14:53:37.000000000 -0600
++++ SConstruct	2020-02-08 03:35:01.000000000 -0600
+@@ -48,6 +48,14 @@
+ # opts.Add(BoolVariable('style', 'Check style', "no"))
+ 
+ env = Environment(options=opts, CXXFLAGS=["${opt}","${warn}"])
++env.Append( CPPPATH=["@@PREFIX@@/include"] )
++env.Append( LIBPATH=["@@PREFIX@@/lib/"] )
++env["CC"] = os.getenv("CC")
++env["CFLAGS"] = Split(os.getenv("CFLAGS"))
++env["CXX"] = os.getenv("CXX")
++env["CXXFLAGS"] = Split(os.getenv("CXXFLAGS"))
++env["LINKFLAGS"] = Split(os.getenv("LINKFLAGS"))
++
+ Help(opts.GenerateHelpText(env))
+ 
+ conf = Configure(env)
+@@ -118,6 +126,7 @@
+ else:
+     sources += ["utils/dgraphics_nosdl.cc"]
+ 
++env.Append(SHLINKFLAGS = '-dynamiclib -install_name "@@PREFIX@@/lib/libiulib.dylib"')
+ libiulib = env.SharedLibrary('libiulib',sources)
+ 
+ env.Append(CXXFLAGS=['-g','-fPIC'])
+@@ -146,8 +155,10 @@
+ progs.Append(BUILDERS={'Test':test_builder})
+ 
+ if env["test"]:
++    progs.Prepend(ENV = {'DYLD_LIBRARY_PATH': '.'})
+     for file in glob.glob("*/test-*.cc") + glob.glob("*/*/test-*.cc"):
+-        if not file.startswith('vidio'):
++        #Jason C - I exclude test-pbmpng because it depends on convert from ImageMagick
++        if not (file.startswith('vidio') or file.startswith('imgio/tests/test-pbmpng')):
+             progs.Program(file[:-3],file)
+             progs.Test(file[:-3])
+             progs.Alias("test",file[:-3]+".passed")

@@ -1,0 +1,72 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           legacysupport 1.0
+
+github.setup        profanity-im profanity 0.11.1
+revision            0
+
+categories          net
+platforms           darwin
+maintainers         nomaintainer
+description         A console-based XMPP client written in C using ncurses
+long_description    Profanity is a console based XMPP client written in C using \
+                    ncurses and libstrophe, inspired by Irssi.
+homepage            https://profanity-im.github.io
+license             {GPL-3+ OpenSSLException}
+
+checksums           rmd160  54bb3854a69b8fefa704acc841aa9c1ecfb04c70 \
+                    sha256  af11726b05622569c043be66f4f303a020428eaa1f3be5018d218ad569e3a1b1 \
+                    size    542665
+
+depends_build-append \
+                    port:pkgconfig \
+                    port:libtool \
+                    port:autoconf-archive
+
+# test dependencies checked at configure
+depends_build-append \
+                    port:cmocka
+
+depends_lib-append  path:lib/pkgconfig/glib-2.0.pc:glib2 \
+                    port:curl \
+                    port:expat \
+                    port:gpgme \
+                    port:libassuan \
+                    port:libgcrypt \
+                    port:libgpg-error \
+                    port:libotr \
+                    port:libsignal-protocol-c \
+                    port:libstrophe \
+                    port:ncurses \
+                    port:python39 \
+                    port:readline
+
+# allow build to find libreadline
+patchfiles-append   patch-configure-macports-path.diff
+
+use_autoreconf      yes
+use_automake        yes
+
+post-patch {
+    reinplace "s|@@PREFIX@@|${prefix}|g" ${worksrcpath}/configure.ac
+}
+
+configure.args      --disable-silent-rules \
+                    --enable-omemo \
+                    --enable-pgp \
+                    --enable-otr \
+                    --enable-plugins \
+                    --enable-c-plugins \
+                    --enable-python-plugins
+
+# specify a python version
+configure.args-append  \
+                    PYTHON_FRAMEWORK=${frameworks_dir}/Python.framework \
+                    PYTHON=${prefix}/bin/python3.9
+
+variant notifications description {Enable terminal-notifier for notifications} {
+    depends_lib-append     port:terminal-notifier
+    configure.args-append  --enable-notifications
+}

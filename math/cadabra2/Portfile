@@ -1,0 +1,62 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+PortGroup           boost 1.0
+
+github.setup        kpeeters cadabra2 2.3.6.8
+revision            1
+
+categories          math
+platforms           darwin
+license             GPL-3+
+maintainers         nomaintainer
+
+description         A field theory approach to symbolic computer algebra
+long_description    Cadabra is a computer algebra system for the \
+                    manipulation of what could loosely be called \
+                    tensorial expressions. It is aimed at, though not \
+                    necessarily restricted to, theoretical high energy \
+                    physicists. Because of its target audience, the \
+                    program's interface, storage system and underlying \
+                    philosophy differ substantially from other computer \
+                    algebra systems.
+
+homepage            http://cadabra.phi-sci.com/
+
+checksums           rmd160  6e70234f824c4704dfcea694d797447517a4200d \
+                    sha256  9ea365d3a0df6caa88f0cf823cd95d1417c9d243c42856186d2cbcea39f2878a \
+                    size    24544641
+
+compiler.cxx_standard 2017
+
+set python.version  39
+
+depends_build-append \
+                    port:pkgconfig \
+                    port:pcrexx
+
+depends_lib-append  port:adwaita-icon-theme \
+                    port:dvipng \
+                    port:gmp \
+                    port:gtkmm3 \
+                    port:pcre \
+                    port:py${python.version}-sympy \
+                    port:sqlite3 \
+                    port:texlive-basic \
+                    port:texlive-latex \
+                    port:texlive-latex-recommended
+
+configure.args      -DENABLE_MATHEMATICA=OFF \
+                    -DSQLITE3_INCLUDE_DIR=${prefix}/include
+
+cmake.out_of_source yes
+
+post-activate {
+    system "${prefix}/bin/texhash"
+}
+
+variant texmacs description {install TeXmacs front end} {
+    depends_run-append      port:TeXmacs
+}

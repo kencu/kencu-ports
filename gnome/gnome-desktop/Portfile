@@ -1,0 +1,77 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           active_variants 1.1
+PortGroup           meson 1.0
+
+name                gnome-desktop
+version             3.38.1
+set branch          [join [lrange [split ${version} .] 0 1] .]
+maintainers         {devans @dbevans} openmaintainer
+categories          gnome
+license             LGPL-2+
+platforms           darwin
+description         gnome-desktop contains the libgnome-desktop library as well as a data \
+                    file that exports the GNOME version to the Settings Details panel.
+
+long_description    ${description} The libgnome-desktop library provides API shared \
+                    by several applications on the desktop, but that cannot live \
+                    in the platform for various reasons. Documentation for the API \
+                    is available with gtk-doc.
+
+homepage            https://www.gnome.org/
+master_sites        gnome:sources/${name}/${branch}/
+
+use_xz              yes
+
+checksums           rmd160  2b43a70d3255fb9400300a90f03f12cc174e0c12 \
+                    sha256  17903513fed60814e967512dd892751cb6a1d2716136232884bc65bd53cc3be0 \
+                    size    745400
+
+depends_build-append \
+                    port:pkgconfig \
+                    port:itstool \
+                    port:gtk-doc
+
+depends_lib         port:desktop-file-utils \
+                    port:fontconfig \
+                    port:gobject-introspection \
+                    port:gsettings-desktop-schemas \
+                    port:gtk3 \
+                    port:iso-codes \
+                    port:xorg-libX11 \
+                    port:xorg-libXext \
+                    port:xorg-libXrandr \
+                    port:xkeyboard-config
+
+patchfiles          patch-disable-broken-tests.diff
+
+#  portions of this port are strictly X11 specific
+#  so a +quartz build is not possible (fails in configure if X11 is absent)
+require_active_variants port:gtk3 x11
+
+configure.args      -Dgnome_distributor=MacPorts \
+                    -Dudev=disabled \
+                    -Dsystemd=disabled \
+                    -Ddesktop_docs=true \
+                    -Dgtk_doc=true
+
+if {![info exists universal_possible]} {
+    set universal_possible [expr {${os.universal_supported} && [llength ${configure.universal_archs}] >= 2}]
+}
+# uses g-ir-scanner, which uses $CC from env
+if {${universal_possible} && [variant_isset universal]} {
+    foreach arch ${configure.universal_archs} {
+        lappend merger_build_env(${arch})  "CC=${configure.cc} -arch ${arch}"
+        lappend merger_destroot_env(${arch})  "CC=${configure.cc} -arch ${arch}"
+    }
+} else {
+    build.env-append       "CC=${configure.cc} ${configure.cc_archflags}"
+    destroot.env-append    "CC=${configure.cc} ${configure.cc_archflags}"
+}
+
+post-activate {
+    system "${prefix}/bin/update-desktop-database ${prefix}/share/applications"
+}
+
+livecheck.type      gnome

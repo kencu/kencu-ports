@@ -1,0 +1,77 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               github 1.0
+PortGroup               python 1.0
+PortGroup               mpi 1.0
+
+github.setup            h5py h5py 3.4.0
+name                    py-h5py
+
+# h5py needs to be re-built after hdf5 upgrades
+revision                0
+
+checksums \
+    rmd160  d09ea866640ba1fce9f7436194a2fefebcef6bec \
+    sha256  4620d4fae6e700fd4b07571cca2b4e42db8205cf663d73bacfe97eb02a9bf8ea \
+    size    395295
+
+platforms               darwin
+license                 BSD
+maintainers             {eborisch @eborisch} openmaintainer
+
+description             Read and write HDF5 files from Python
+
+long_description  \
+    The h5py package provides both a high- and low-level interface to the \
+    HDF5 library from Python. The low-level interface is intended to be a \
+    complete wrapping of the HDF5 API, while the high-level component \
+    supports  access to HDF5 files, datasets and groups using established \
+    Python and NumPy concepts. \
+    \n\nA strong emphasis on automatic conversion between Python (Numpy) \
+    datatypes and data structures and their HDF5 equivalents vastly \
+    simplifies the process of reading and writing data from Python.
+
+homepage                https://www.h5py.org
+
+python.versions         37 38 39
+
+# Only check against releases.
+github.livecheck.regex      {([0-9.]+)}
+
+if {${name} ne ${subport}} {
+    depends_build-append    port:py${python.version}-cython
+
+    depends_lib-append      port:py${python.version}-cached-property \
+                            port:py${python.version}-numpy \
+                            port:py${python.version}-six \
+                            port:py${python.version}-pkgconfig \
+                            port:hdf5
+
+    build.env-append        HDF5_DIR=${prefix}
+    destroot.env-append     HDF5_DIR=${prefix}
+
+    post-patch {
+        reinplace "/=={np_min}/s/==/>=/" setup.py
+    }
+
+    post-destroot {
+        xinstall -d ${destroot}${prefix}/share/doc/${subport}
+        copy ${worksrcpath}/lzf/LICENSE.txt \
+            ${destroot}${prefix}/share/doc/${subport}
+    }
+
+    # Add MPI support
+    mpi.setup
+    if {[mpi_variant_isset]} {
+        build.env-append        DISTUTILS_DEBUG=1
+        depends_lib-append      port:py${python.version}-mpi4py
+        mpi.enforce_variant     hdf5 \
+                                py${python.version}-mpi4py
+
+        build.env-append        HDF5_MPI=ON
+        destroot.env-append     HDF5_MPI=ON
+    }
+
+    livecheck.type          none
+}

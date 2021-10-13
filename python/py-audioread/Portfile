@@ -1,0 +1,52 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           python 1.0
+
+github.setup        beetbox audioread 2.1.9 v
+revision            0
+name                py-${github.project}
+
+categories-append   audio
+platforms           darwin
+supported_archs     noarch
+license             MIT
+maintainers         nomaintainer
+
+description         cross-library (GStreamer + Core Audio + MAD + FFmpeg)\
+                    audio decoding for Python.
+long_description    ${description} Decode audio files using whichever\
+                    backend is available. The library currently\
+                    supports: Gstreamer via PyGObject\; Core Audio on\
+                    Mac OS X via ctypes (PyObjC not required)\; MAD via\
+                    the pymad bindings\; FFmpeg or Libav via its\
+                    command-line interface\; The standard library wave,\
+                    aifc, and sunau modules (for uncompressed audio\
+                    formats).
+
+checksums           rmd160  a04cd24d3250b85d752dd559d7ef044b718e8d64 \
+                    sha256  31106314b4953eb931ccf1dce747e72afd30f39fb638ecf388f4674e353785c3 \
+                    size    111815
+
+python.versions     37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-pytest-runner \
+                    port:py${python.version}-setuptools
+
+    depends_test-append \
+                    port:py${python.version}-pytest
+
+    post-destroot {
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath} LICENSE README.rst \
+            ${destroot}${docdir}
+    }
+
+    test.run        yes
+
+    livecheck.type  none
+}

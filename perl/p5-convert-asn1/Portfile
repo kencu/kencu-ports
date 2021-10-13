@@ -1,0 +1,20 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Convert-ASN1 0.31
+license             {Artistic-1 GPL}
+maintainers         nomaintainer
+description         ASN1 Encode / Decode Library
+long_description    Encodes and decodes ASN.1 data structures using \
+                    BER/DER rules
+
+platforms           darwin
+
+checksums           rmd160  40f8afcb54256552651c1c980abb28e830866a08 \
+                    sha256  6fe4c1ba744c3a8212bf2c9b2703d93530acc153435cf2f93633540b439fbbeb \
+                    size    79188
+
+supported_archs     noarch

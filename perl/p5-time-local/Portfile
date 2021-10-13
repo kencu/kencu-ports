@@ -1,0 +1,19 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Time-Local 1.30
+license             {Artistic-1 GPL}
+maintainers         {devans @dbevans} openmaintainer
+description         Time::Local - Efficiently compute time from local and GMT time
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  239311caf9c44804315bc1bd968c9263f932a7d8 \
+                    sha256  c7744f6b2986b946d3e2cf034df371bee16cdbafe53e945abb1a542c4f8920cb \
+                    size    42925
+
+supported_archs     noarch

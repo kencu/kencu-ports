@@ -1,0 +1,69 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           debug 1.0
+
+name                spatialite
+version             5.0.1
+revision            2
+categories          databases gis
+platforms           darwin
+license             {MPL-1.1 GPL-2+ LGPL-2.1+}
+maintainers         nomaintainer
+
+description         Spatial extensions for SQLite 3
+
+long_description    SpatiaLite is a library for geographic information \
+                    systems (GIS) that implements the core OpenGIS \
+                    specification. It provides SQLite with basic support \
+                    for spatial data is intended for lightweight GIS \
+                    projects.
+
+homepage            https://www.gaia-gis.it/fossil/libspatialite/index
+master_sites        http://www.gaia-gis.it/gaia-sins
+distname            libspatialite-${version}
+
+checksums           rmd160  b308c62df01a47286d7e2ff56c6992d537c5c8cd \
+                    sha256  eecbc94311c78012d059ebc0fae86ea5ef6eecb13303e6e82b3753c1b3409e98 \
+                    size    6372753
+
+depends_build       port:pkgconfig
+depends_lib         port:geos \
+                    port:librttopo \
+                    port:libxml2 \
+                    port:minizip \
+                    port:zlib \
+                    port:sqlite3
+
+configure.args-append \
+                    --enable-rttopo \
+                    --enable-libxml2 \
+                    --disable-freexl
+
+configure.cppflags-delete   -I${prefix}/include
+
+variant proj8 description {Build with Proj 8} conflicts proj6 proj7 {
+    depends_lib-append          port:proj8
+    configure.cppflags-append   -I${prefix}/lib/proj8/include
+    configure.ldflags-append    -L${prefix}/lib/proj8/lib
+}
+
+variant proj6 description {Build with Proj 6} conflicts proj8 proj7 {
+    depends_lib-append          port:proj6
+    configure.cppflags-append   -I${prefix}/lib/proj6/include
+    configure.ldflags-append    -L${prefix}/lib/proj6/lib
+}
+
+variant proj7 description {Build with Proj 7} conflicts proj8 proj6 {
+    depends_lib-append          port:proj7
+    configure.cppflags-append   -I${prefix}/lib/proj7/include
+    configure.ldflags-append    -L${prefix}/lib/proj7/lib
+}
+
+if {![variant_isset proj8] && ![variant_isset proj6] && ![variant_isset proj7]} {
+    default_variants +proj8
+}
+
+livecheck.type      regex
+livecheck.url       ${homepage}
+livecheck.regex     {current version is <b>(\d+\.\d+\.\d+)}

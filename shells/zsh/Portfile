@@ -1,0 +1,96 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+
+name                    zsh
+version                 5.8
+revision                1
+categories              shells
+platforms               darwin
+license                 Permissive
+maintainers             {larryv @larryv}
+
+description             The Z shell
+long_description    {*}{Zsh is a shell designed for interactive use,
+                        although it is also a powerful scripting
+                        language. Many of the useful features of bash,
+                        ksh, and tcsh were incorporated into zsh;
+                        many original features were added.}
+homepage                https://www.zsh.org
+
+depends_lib             port:gdbm \
+                        port:libiconv \
+                        port:ncurses \
+                        port:pcre
+
+master_sites            sourceforge:project/zsh/zsh/${version}:src \
+                        sourceforge:project/zsh/zsh-doc/${version}:doc
+foreach mirror {        https://www.zsh.org/pub
+                        ftp://ftp.zsh.org/pub
+                        ftp://ftp.fu-berlin.de/unix/shells/zsh
+                        ftp://ftp.funet.fi/pub/unix/shells/zsh
+                        ftp://ftp.icm.edu.pl/vol/rzm4/zsh
+                        ftp://sunsite.icm.edu.pl/pub/unix/shells/zsh
+} {
+    master_sites-append ${mirror}:src ${mirror}:doc
+}
+
+use_xz                  yes
+distfiles               ${distname}${extract.suffix}:src \
+                        ${distname}-doc${extract.suffix}:doc
+
+checksums               ${distname}${extract.suffix} \
+                            rmd160  4d387cbdaf9db52e24678871cd399c3bd5564429 \
+                            sha256  dcc4b54cc5565670a65581760261c163d720991f0d06486da61f8d839b52de27 \
+                            size    3193284 \
+                        ${distname}-doc${extract.suffix} \
+                            rmd160  a36bd8e8294a1ce8e008a8e12b3ea7a27c24c516 \
+                            sha256  9b4e939593cb5a76564d2be2e2bfbb6242509c0c56fd9ba52f5dba6cf06fdcc4 \
+                            size    3088696
+
+patchfiles              prevent-doc-regeneration.patch \
+                        explicit-declarations.patch
+
+post-patch {
+    # Don't run autoheader after patching the configure script.
+    touch stamp-h.in
+}
+
+set docdir ${prefix}/share/doc/${name}
+
+configure.args          --enable-cap \
+                        --enable-pcre \
+                        --htmldir='${docdir}/html' \
+                        --with-tcsetpgrp
+
+# NOTE: The zpty tests can't open pseudoterminals from "port test".
+test.run                yes
+test.target             check
+
+destroot.target-append  install.html install.info
+
+post-destroot {
+    # zshall(1) includes every other zsh manpage, but its .so groff
+    # directives fail because we compress manpages.
+    set man ${destroot}${prefix}/share/man
+    system -W ${man} "soelim man1/zshall.1 >zshall.1.soelim"
+    move -force ${man}/zshall.1.soelim ${man}/man1/zshall.1
+
+    # Install neglected documentation.
+    xinstall -m 0644 -W ${worksrcpath} \
+        FEATURES LICENCE META-FAQ NEWS README ${destroot}${docdir}
+    xinstall -d ${destroot}${docdir}/pdf
+    xinstall -m 0644 -W ${worksrcpath}/Doc \
+        intro.a4.pdf intro.us.pdf zsh.pdf ${destroot}${docdir}/pdf
+}
+
+notes "
+To set MacPorts' ${name} as default login shell, run:
+
+    sudo chpass -s '${prefix}/bin/${name}' \$USER
+
+To be able to switch default shells to or from ${name} without superuser\
+privileges, add it to /etc/shells:
+
+    sudo sh -c 'echo ${prefix}/bin/${name} >>/etc/shells'
+"

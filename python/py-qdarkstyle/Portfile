@@ -1,0 +1,44 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-qdarkstyle
+python.rootname     QDarkStyle
+version             3.0.2
+revision            0
+
+categories-append   devel
+platforms           darwin
+supported_archs     noarch
+license             MIT
+maintainers         {petr @petrrr} openmaintainer
+
+description         A dark stylesheet for Python and Qt applications
+long_description    This package provides a dark style sheet for \
+                    PySide/PyQt4/PyQt5 applications.
+
+homepage            https://github.com/ColinDuquesnoy/QDarkStyleSheet
+
+checksums           sha256  55d149cf5f40ee297397f1818e091118cefb855a4a9c5c38566c47acd2d8c7ae \
+                    rmd160  c69617a56b2aec0d0d2cec89a19cde4badafe13a \
+                    size    433187
+
+python.versions     27 35 36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_lib-append \
+                    port:py${python.version}-helpdev \
+                    port:py${python.version}-qtpy \
+                    port:py${python.version}-qtsass \
+                    port:py${python.version}-setuptools
+
+    post-destroot {
+        set dest_doc ${destroot}${prefix}/share/doc/${subport}
+        xinstall -d ${dest_doc}
+        xinstall -m 0644 -W ${worksrcpath} AUTHORS.rst CHANGES.rst \
+            LICENSE.rst CONTRIBUTING.rst README.rst ${dest_doc}
+    }
+
+    livecheck.type  none
+}

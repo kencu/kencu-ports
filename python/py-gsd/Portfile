@@ -1,0 +1,54 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim: fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+github.setup        glotzerlab gsd 2.1.2 v
+name                py-gsd
+categories-append   science
+platforms           darwin
+license             BSD
+
+python.versions     27 36 37 38
+
+maintainers         {gmail.com:giovanni.bussi @GiovanniBussi} openmaintainer
+
+description         GSD (General Simulation Data) is a file format specification and a library to read and write it.
+long_description    ${description} \
+                    The package also contains a python module that reads and writes hoomd schema gsd files with an easy to use syntax.
+
+homepage            https://gsd.readthedocs.io/
+
+checksums           rmd160  3b89819e0cfaed67750ede558e160a24248ad736 \
+                    sha256  634355d2fe1e78c1b312cc31233ef869cddf030929cd378dc4e71506c2e71744 \
+                    size    108759
+
+if {${name} ne ${subport}} {
+    depends_build-append    port:py${python.version}-cython \
+                            port:py${python.version}-setuptools
+    depends_lib-append      port:py${python.version}-numpy
+
+    depends_test-append     port:py${python.version}-pytest
+
+    if {${python.version} ne 27} {
+        pre-test {
+            test.env        PYTHONPATH=[glob -nocomplain ${worksrcpath}/build/lib*]
+        }
+        test.run            yes
+        test.cmd            py.test-${python.branch}
+        test.target
+    } else {
+        version             1.7.0
+        master_sites        https://github.com/glotzerlab/gsd/archive/
+        distname            v1.7.0
+        worksrcdir          gsd-1.7.0
+        checksums           rmd160  ec92677fb4ed0321205e238c06c8f58ad5054be4 \
+                            sha256  2e6e8d7cd6e9786b3d0594318fc665ab11cd5963d5bac115081eb46a3f4acca7 \
+                            size    247039
+
+        test.run            no
+    }
+
+    livecheck.type      none
+}

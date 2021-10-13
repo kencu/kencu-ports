@@ -1,0 +1,175 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           compiler_blacklist_versions 1.0
+PortGroup           github 1.0
+PortGroup           mpi 1.0
+PortGroup           python 1.0
+
+name                py-pytorch
+version             1.8.1
+revision            1
+github.setup        pytorch pytorch ${version} v
+fetch.type          git
+
+platforms           darwin
+supported_archs     x86_64
+
+license             BSD
+
+maintainers         nomaintainer
+
+description         Tensors and dynamic neural networks in Python\
+                    with strong GPU acceleration
+
+long_description    PyTorch is a Python package that provides two\
+                    high-level features: Tensor computation (like\
+                    NumPy) with strong GPU acceleration\; Deep neural\
+                    networks built on a tape-based autograd\
+                    system. You can reuse your favorite Python\
+                    packages such as NumPy, SciPy and Cython to extend\
+                    PyTorch when needed.
+
+homepage            https://pytorch.org/
+
+python.versions     37 38 39
+
+patch.pre_args      -p1
+
+mpi.setup
+
+# Compiler selection
+compiler.cxx_standard 2017
+
+compiler.blacklist-append *gcc* {clang < 800} {macports-clang-3.[0-9]} macports-clang-4.0
+
+variant mkl description {Enable Intel Math Kernel Library support} { }
+default_variants-append +mkl
+
+if {${os.platform} eq "darwin" && ${os.major} <= 15} {
+    known_fail yes
+    pre-fetch {
+        ui_error "$subport is not supported on OS X 10.11 and older."
+        return -code error "unsupported platform"
+    }
+}
+
+if {${name} ne ${subport}} {
+
+    depends_build-append \
+        port:git \
+        port:doxygen \
+        port:cctools \
+        path:bin/cmake:cmake \
+        port:py${python.version}-setuptools
+
+    depends_lib-append \
+        port:eigen3 \
+        port:gmp \
+        port:mpfr \
+        port:OpenBLAS \
+        port:opencv4 \
+        port:zmq \
+        port:zstd \
+        port:tbb \
+        port:google-glog \
+        port:gflags \
+        port:leveldb \
+        port:lmdb \
+        port:libomp \
+        port:py${python.version}-click \
+        port:py${python.version}-cffi \
+        port:py${python.version}-future \
+        port:py${python.version}-gmpy \
+        port:py${python.version}-numpy \
+        port:py${python.version}-pybind11 \
+        port:py${python.version}-typing_extensions \
+        port:py${python.version}-yaml 
+
+    if { ${python.version} < 37 } {
+        depends_lib-append  port:py${python.version}-dataclasses
+    }
+    
+    depends_run-append \
+        port:py${python.version}-onnx
+
+    post-fetch {
+        system -W ${worksrcpath} "git submodule update --init --recursive"
+    }
+
+    # Use Intel Math kernel Library
+    if {[variant_isset mkl]} {
+        patchfiles-append FindMKL-OMP.patch
+        pre-build {
+            # Hacks to get search paths into builds
+            reinplace "s|/opt/intel/mkl|${python.prefix}|g" \
+                cmake/Modules/FindMKL.cmake
+            reinplace "s|mklvers \"intel64\"|mklvers \"\"|g" \
+                cmake/Modules/FindMKL.cmake
+            reinplace "s|MACPORTS_PREFIX|${prefix}|g" \
+                cmake/Modules/FindMKL.cmake
+        }
+        depends_lib-append   port:py${python.version}-mkl
+        depends_build-append port:py${python.version}-mkl-include
+    }
+    
+    # ZSTD support broke with 1.2.0-1.3.1. Check with future releases.
+    build.env-append \
+        CMAKE_LIBRARY_PATH=${prefix}/lib:${prefix}/lib/libomp \
+        LIBRARY_PATH=${prefix}/lib:${prefix}/lib/libomp \
+        OpenCV_DIR=${prefix}/libexec/opencv4/cmake \
+        USE_CUDA=OFF \
+        USE_GFLAGS=ON \
+        USE_GLOG=ON \
+        USE_LEVELDB=ON \
+        USE_LITE_PROTO=ON \
+        USE_LMDB=ON \
+        USE_METAL=ON \
+        USE_NCCL=ON \
+        USE_OPENCV=ON \
+        USE_OPENMP=ON \
+        USE_ROCM=ON \
+        USE_TBB=ON \
+        USE_ZMQ=ON \
+        USE_ZSTD=OFF
+
+    build.dir       ${worksrcpath}
+    build.post_args
+
+    destroot.dir    ${worksrcpath}
+    destroot.target install
+
+    post-destroot {
+        set py_torch_root ${python.pkgd}/torch
+        foreach slib [glob -directory ${destroot}${py_torch_root} *.so] {
+            system "install_name_tool -add_rpath ${py_torch_root}/lib ${slib}"
+        }
+
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath} LICENSE README.md \
+            ${destroot}${docdir}
+    }
+
+    # pytorch's tests all use GPU compilation
+    if { [lsearch build.env {USE_CUDA=OFF}] != -1 } {
+        depends_test-append \
+                    port:py${python.version}-pytest
+        pre-test {
+            test.env \
+                    PYTHONPATH=[glob -nocomplain ${worksrcpath}/build/lib*]
+        }
+        test.run    yes
+        test.cmd    py.test-${python.branch}
+        test.target test/run_test.py
+    }
+    
+    livecheck.type  none
+
+} else {
+
+    # overload the github livecheck regex to look for versions that
+    # are just numbers and '.', no letters (e.g., "3.7.3_rc2").
+    github.livecheck.regex  {([0-9.]+)}
+
+}

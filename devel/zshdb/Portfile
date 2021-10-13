@@ -1,0 +1,30 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=portfile:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        rocky zshdb 1.1.2
+
+maintainers         {g5pw @g5pw} openmaintainer
+
+categories          devel
+license             GPL-3
+
+description         GDB-like debugger for zsh scripts.
+long_description    {*}${description} Zshdb can run your script, stop it on \
+                    specified conditions, help you examine what has happened \
+                    when it has stopped, and allow you to modify parts of your \
+                    script so that you can experiment with your code and fix \
+                    problems once they are identified.
+
+platforms           darwin
+supported_archs     noarch
+
+depends_lib         port:zsh
+
+checksums           rmd160  1d30265e89b2e5b740240f6477030fad63f15a2d \
+                    sha256  e774af35fdad380c4d5f6d1868ea30cd5e9b78a6e5c8eb82d9cb689a7b50edd9 \
+                    size    212511
+
+use_autoreconf      yes
+

@@ -1,0 +1,33 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                lowdown
+categories          textproc
+version             0.9.1
+revision            0
+license             BSD
+
+description         simple markdown translator
+long_description    lowdown translates markdown to either HTML \
+                    or a roff document using either -man or -ms
+homepage            https://kristaps.bsd.lv/lowdown/
+master_sites        ${homepage}/snapshots/
+maintainers         {outlook.de:judaew @judaew} openmaintainer
+platforms           darwin
+
+description         simple markdown translator
+long_description    lowdown translates markdown to either HTML \
+                    or a roff document using either -man or -ms
+homepage            https://kristaps.bsd.lv/lowdown/
+master_sites        https://kristaps.bsd.lv/lowdown/snapshots/
+maintainers         {outlook.de:judaew @juaew} openmaintainer
+platforms           darwin
+
+checksums           rmd160 7a83aa3a4e651a67a9d85eee3a09549def941b68 \
+                    sha256 f481052000e9b893199945a452711dd57ea4b66e1971b7fbb1c94b8f2f0f0cda \
+                    size   214367
+
+configure.universal_args
+configure.pre_args      PREFIX=${prefix}
+configure.args          MANDIR=${prefix}/share/man

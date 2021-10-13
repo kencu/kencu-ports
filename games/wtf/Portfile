@@ -1,0 +1,37 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem 1.0
+
+name        wtf
+version     20200208
+categories  games
+license     public-domain
+maintainers nomaintainer
+description translates common Internet acronyms
+long_description    ${description}
+platforms   darwin freebsd
+supported_archs noarch
+
+homepage    http://cvsweb.netbsd.org/bsdweb.cgi/src/games/wtf/
+master_sites     sourceforge:project/bsdwtf
+
+checksums           rmd160  04ed920f494cadb76e4ec6da9e6603a64caa6ff4 \
+                    sha256  a5f9c8b4e7ec2b997ae6dc0c482f270a0482a3e9f3da385e98693cf63aaad97a \
+                    size    30052
+
+use_configure	no
+
+build {
+    reinplace "s|/usr|${prefix}|g" ${worksrcpath}/wtf ${worksrcpath}/wtf.6
+}
+
+destroot {
+    xinstall ${worksrcpath}/wtf ${destroot}${prefix}/bin
+    xinstall -m 444 ${worksrcpath}/wtf.6 ${destroot}${prefix}/share/man/man6
+
+    xinstall -d ${destroot}${prefix}/share/misc
+    xinstall -m 444 -W ${worksrcpath} acronyms acronyms.comp ${destroot}${prefix}/share/misc
+    xinstall -m 444 -W ${worksrcpath} acronyms-o.real ${destroot}${prefix}/share/misc/acronyms-o
+}
+
+livecheck.regex ${name}-(\\d{8})${extract.suffix}

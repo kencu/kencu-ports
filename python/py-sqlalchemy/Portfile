@@ -1,0 +1,62 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-sqlalchemy
+python.rootname     SQLAlchemy
+version             1.4.25
+revision            0
+categories-append   databases
+platforms           darwin
+license             MIT
+
+python.versions     27 35 36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         Python SQL ORM
+
+long_description    SQLAlchemy is the Python SQL toolkit and Object \
+                    Relational Mapper that gives application developers \
+                    the full power and flexibility of SQL.
+
+homepage            http://www.sqlalchemy.org/
+
+checksums           rmd160  1bbcdb016e29f4900d76563dd75502830b3377bc \
+                    sha256  1adf3d25e2e33afbcd48cfad8076f9378793be43e7fec3e4334306cac6bec138 \
+                    size    7776002
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                        port:py${python.version}-setuptools
+
+    if {${python.version} eq 35} {
+        version             1.3.23
+        revision            0
+        distname            ${python.rootname}-${version}
+        checksums           rmd160  edd24330178b399aa5061b8eedb5ddb61d75c82d \
+                            sha256  6fca33672578666f657c131552c4ef8979c1606e494f78cd5199742dfb26918b \
+                            size    6313652
+    } else {
+        if {${python.version} < 38} {
+            depends_lib-append  port:py${python.version}-importlib-metadata
+        }
+        if {${python.version} >= 36} {
+            depends_lib-append  port:py${python.version}-greenlet
+        }
+    }
+
+    post-destroot {
+        # Install example files not installed by the Makefile
+        xinstall -m 755 -d ${destroot}${python.prefix}/share/doc/sqlalchemy/examples
+        foreach f [glob -directory ${worksrcpath}/doc *] {
+            copy $f ${destroot}${python.prefix}/share/doc/sqlalchemy/[file tail $f]
+        }
+        foreach f [glob -directory ${worksrcpath}/examples *] {
+            copy $f ${destroot}${python.prefix}/share/doc/sqlalchemy/examples/[file tail $f]
+        }
+    }
+
+    livecheck.type      none
+}

@@ -1,0 +1,49 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-mako
+python.rootname     Mako
+version             1.1.5
+revision            0
+categories-append   www
+platforms           darwin
+license             MIT
+supported_archs     noarch
+
+python.versions     27 35 36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         A super-fast templating language that borrows \
+                    the best ideas from the existing templating \
+                    languages.
+
+long_description    Mako is a template library written in Python. \
+                    It provides a familiar, non-XML syntax which \
+                    compiles into Python modules for maximum \
+                    performance. Mako's syntax and API borrows from \
+                    the best ideas of many others, including Django \
+                    templates, Cheetah, Myghty, and Genshi. Conceptually, \
+                    Mako is an embedded Python (i.e. Python Server Page) \
+                    language, which refines the familiar ideas of \
+                    componentized layout and inheritance to produce one \
+                    of the most straightforward and flexible models \
+                    available, while also maintaining close ties to \
+                    Python calling and scoping semantics.
+
+homepage            https://www.makotemplates.org/
+
+checksums           rmd160  8c1ff0963041c288d8d5c46488d07b4c91181666 \
+                    sha256  169fa52af22a91900d852e937400e79f535496191c63712e3b9fda5a9bed6fc3 \
+                    size    494647
+
+if {${name} ne ${subport}} {
+    # Mako depends on pkg_resources from setuptools
+    depends_lib-append  port:py${python.version}-setuptools \
+                        port:py${python.version}-beaker \
+                        port:py${python.version}-markupsafe
+
+    livecheck.type      none
+}

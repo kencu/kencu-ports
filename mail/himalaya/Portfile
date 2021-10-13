@@ -1,0 +1,52 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           cargo 1.0
+
+github.setup        soywod himalaya 0.4.0 v
+revision            0
+
+description         Minimalist CLI email client, written in Rust
+
+long_description    {*}${description}. Bringing emails to the terminal is a \
+                    pain. The mainstream TUI, (neo)mutt, takes time to \
+                    configure. The default mapping is not intuitive when \
+                    coming from the Vim environment. It is even scary to use \
+                    at the beginning, since you are dealing with sensitive \
+                    data! The aim of Himalaya is to extract the email logic \
+                    into a simple (yet solid) CLI API that can be used either \
+                    directly from the terminal or UIs. It gives users more \
+                    flexibility. Himalaya installs a Vim-based termainal UI \
+                    by default.
+
+categories          mail
+platforms           darwin
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+license             BSD
+installs_libs       no
+
+build.pre_args      --release -v -j${build.jobs}
+
+checksums           rmd160  5b42645383cbcdc078c8b2d9deba1b0f1b620331 \
+                    sha256  07359cc9827ecda8052a23428f642e06da5a899c40fe887acc5a880c76676131 \
+                    size    49693
+
+set vimfiles_path   ${prefix}/share/vim/vimfiles
+
+depends_run         path:bin/vim:vim
+
+github.tarball_from archive
+
+destroot {
+    xinstall -m 755 \
+        ${worksrcpath}/target/[cargo.rust_platform]/release/${name} \
+        ${destroot}${prefix}/bin/
+
+    xinstall -d ${destroot}${vimfiles_path}
+
+    foreach vimdir {autoload doc ftplugin lua plugin syntax} {
+        copy ${worksrcpath}/vim/${vimdir} ${destroot}${vimfiles_path}/
+    }
+}

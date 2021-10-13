@@ -1,0 +1,43 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           php 1.1
+
+name                php-vld
+categories          php devel
+platforms           darwin
+maintainers         {ryandesign @ryandesign} openmaintainer
+license             BSD
+
+php.branches        5.3 5.4 5.5 5.6 7.0 7.1 7.2 7.3 7.4 8.0
+php.pecl            yes
+php.pecl.prerelease yes
+
+if {[vercmp ${php.branch} 7.0] >= 0} {
+    version         0.17.1
+    revision        0
+    checksums       rmd160  6a370daf03583395965e4fcc8bb963a73089b504 \
+                    sha256  664476029df359ed4fd2f2eb2f6fc5131dc705f358345b42e5b052a8960d9de0 \
+                    size    21628
+
+} elseif {[vercmp ${php.branch} 5.4] >= 0} {
+    version         0.14.0
+    revision        0
+    checksums       rmd160  fc7847e434cb44c0372dee024469b6f46ef3a2eb \
+                    sha256  9703a9913a301fcb1c39a547740d07fb36d205d7c2eac01acb8a3aff74a0aea5
+} else {
+    # https://bugs.php.net/73791
+    version         0.13.0
+    revision        0
+    checksums       rmd160  c5d5760fa7f4e9b1af8e2087327ce504e1c6ac9f \
+                    sha256  f61fe6501b6f30cf5628b7fd0e2c41185bb9bfac96b765c8b967a8ba01f7bf8b
+}
+
+description         Dump the internal representation of PHP scripts
+
+long_description    The Vulcan Logic Disassembler hooks into the Zend Engine and \
+                    dumps all the opcodes (execution units) of a script.
+
+configure.args-append --enable-vld
+
+use_parallel_build  yes

@@ -1,0 +1,62 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup python    1.0
+PortGroup github    1.0
+
+github.setup        pyca pyopenssl 19.1.0
+revision            1
+name                py-openssl
+categories-append   devel security
+license             Apache-2
+maintainers         {mcalhoun @MarcusCalhoun-Lopez} openmaintainer
+platforms           darwin freebsd
+
+description         python wrapper around the OpenSSL library
+long_description    \
+    This python module is a rather thin wrapper around (a subset of) the \
+    OpenSSL library. With thin wrapper a lot of the object methods do \
+    nothing more than calling a corresponding function in the OpenSSL library.
+homepage            https://pyopenssl.org/
+supported_archs     noarch
+installs_libs       no
+
+checksums           rmd160  174a362b5fc78abda9cb2efa96a088c116895d96 \
+                    sha256  14af660e869ca14ac6dedcbfb0b9f261822c9795c49454d954af9cddd21e7510 \
+                    size    165329
+
+python.versions     27 36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append    port:py${python.version}-setuptools
+
+    depends_lib-append      path:lib/libssl.dylib:openssl \
+                            port:py${python.version}-cryptography \
+                            port:py${python.version}-six
+
+    post-destroot {
+        xinstall -m 644 -W ${worksrcpath} \
+            CHANGELOG.rst \
+            CODE_OF_CONDUCT.rst \
+            CONTRIBUTING.rst \
+            INSTALL.rst \
+            README.rst \
+            LICENSE \
+                ${destroot}${prefix}/share/doc/${subport}
+    }
+
+    variant docs description {build html documentation} {
+        depends_build-append    port:py${python.version}-sphinx \
+                                port:py${python.version}-sphinx_rtd_theme
+
+        post-build {
+            system -W ${worksrcpath}/doc "/usr/bin/make SPHINXBUILD=${prefix}/bin/sphinx-build-${python.branch} html"
+        }
+
+        post-destroot {
+            copy ${worksrcpath}/doc/_build/html ${destroot}${prefix}/share/doc/${subport}
+        }
+    }
+
+    livecheck.type      none
+}

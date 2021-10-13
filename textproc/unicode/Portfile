@@ -1,0 +1,73 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                unicode
+version             2.8
+checksums           rmd160  58ab4399a11b81c7d0e75121a21b50af4b1e17df \
+                    sha256  949276c2ed37acde17ed0a49ab50b254146520c2f5a69cde2ad6fcf82b2d0ef6 \
+                    size    20931
+
+categories          textproc
+platforms           darwin
+maintainers         {ryandesign @ryandesign} openmaintainer
+license             GPL-3
+supported_archs     noarch
+
+homepage            http://kassiopeia.juls.savba.sk/~garabik/software/unicode/
+master_sites        ${homepage} \
+                    ${homepage}old/
+distfiles           ${name}_${version}.orig${extract.suffix}
+
+worksrcdir          ${name}
+
+depends_run         port:python39
+
+configure.python    ${prefix}/bin/python3.9
+
+use_configure       no
+
+build {
+    reinplace -E "s|#!/usr/bin/python3?|#!${configure.python}|g" ${worksrcpath}/${subport}
+}
+
+set docdir ${prefix}/share/doc/${subport}
+destroot {
+    xinstall ${worksrcpath}/${subport} ${destroot}${prefix}/bin
+    xinstall -m 0644 ${worksrcpath}/${subport}.1 ${destroot}${prefix}/share/man/man1
+    xinstall -d ${destroot}${docdir}
+    xinstall -m 0644 ${worksrcpath}/${readmefile} ${destroot}${docdir}/README
+}
+
+if {${name} eq ${subport}} {
+    revision            1
+
+    description         displays properties for a given Unicode character \
+                        or searches for a given character name
+
+    long_description    ${subport} is a command line utility that ${description}.
+
+    set readmefile      README
+
+    livecheck.type  regex
+    livecheck.regex ${name}_(\[0-9.\]+)\.orig${extract.suffix}
+} else {
+    livecheck.type  none
+}
+
+subport paracode {
+    revision            1
+
+    description         converts UTF-8 input to use different codepoints
+
+    long_description    ${subport} exploits the full power of the Unicode \
+                        standard to convert text into a visually similar \
+                        stream of glyphs, while using completely different \
+                        codepoints. It is an excellent didactic tool \
+                        demonstrating the principles and advanced use of the \
+                        Unicode standard. ${subport} is a command line tool \
+                        working as a filter, reading standard input in UTF-8 \
+                        encoding and writing to standard output.
+
+    set readmefile      README-${subport}
+}

@@ -1,0 +1,39 @@
+--- configure.orig	2021-10-02 15:22:53.135895187 -0400
++++ configure	2021-10-02 15:25:39.486362292 -0400
+Remove pointless configure output and delays.
+@@ -28696,23 +28696,6 @@
+ fi
+ 
+ 
+-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking in" >&5
+-$as_echo_n "checking in... " >&6; }
+-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: and out again" >&5
+-$as_echo "and out again" >&6; }
+-
+-echo $ECHO_N "ordering CD from https://tobi.oetiker.ch/wish $ECHO_C" 1>&6
+-sleep 1
+-echo $ECHO_N ".$ECHO_C" 1>&6
+-sleep 1
+-echo $ECHO_N ".$ECHO_C" 1>&6
+-sleep 1
+-echo $ECHO_N ".$ECHO_C" 1>&6
+-sleep 1
+-echo $ECHO_N ".$ECHO_C" 1>&6
+-sleep 1
+-{ $as_echo "$as_me:${as_lineno-$LINENO}: result:  just kidding ;-)" >&5
+-$as_echo " just kidding ;-)" >&6; }
+ echo
+ echo "----------------------------------------------------------------"
+ echo "Config is DONE!"
+@@ -28760,9 +28743,8 @@
+ echo "Type 'make etc-install' to install systemd support for rrdcached"
+ fi
+ echo
+-echo "       ... that wishlist is NO JOKE. If you find RRDtool useful"
+-echo "make me happy. Go to https://tobi.oetiker.ch/wish and"
+-echo "place an order."
++echo "If you find RRDtool useful make me happy. Go to"
++echo "https://tobi.oetiker.ch/wish and place an order."
+ echo
+ echo "                               -- Tobi Oetiker <tobi@oetiker.ch>"
+ echo "----------------------------------------------------------------"

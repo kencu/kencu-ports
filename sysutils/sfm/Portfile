@@ -1,0 +1,18 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               github 1.0
+PortGroup               makefile 1.0
+PortGroup               legacysupport 1.0
+
+github.setup            afify sfm 0.3 v
+categories              sysutils
+license                 ISC
+maintainers             {@sikmir gmail.com:sikmir} openmaintainer
+platforms               darwin
+description             Simple file manager
+long_description        ${name} is a simple file manager for unix-like systems.
+
+checksums               rmd160  ca4363a24c14035b432d6034852ca311dae1c89b \
+                        sha256  b4f2abb8ffd94159f2e2944d7889ddcb16ce36727ffc92a721939703d00ab344 \
+                        size    28320

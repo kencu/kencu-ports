@@ -1,0 +1,27 @@
+PortSystem 1.0
+
+name                    diffstat
+version                 1.64
+categories              devel
+maintainers             {toby @tobypeterson}
+description             Make histogram from diff-output
+long_description        diffstat reads the output of diff and displays a histogram\
+                        of the insertions, deletions, and modifications per-file.\
+                        It is useful for reviewing large, complex patch files.
+homepage                https://invisible-island.net/diffstat/
+platforms               darwin
+master_sites            ftp://ftp.invisible-island.net/pub/diffstat/ \
+                        https://invisible-mirror.net/archives/diffstat/
+extract.suffix          .tgz
+checksums               rmd160 2e212599a50aa0dce86ac9022d41acc6e85f71b2 \
+                        sha256 b8aee38d9d2e1d05926e6b55810a9d2c2dd407f24d6a267387563a4436e3f7fc \
+                        size 278873
+
+configure.args          --mandir=${prefix}/share/man
+
+test.run                yes
+test.target             check
+
+livecheck.type          regex
+livecheck.url           [lindex ${master_sites} 0]
+livecheck.regex         diffstat-(\[0-9\]+\.\[0-9\]+)

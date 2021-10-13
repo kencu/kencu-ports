@@ -1,0 +1,27 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                vulture
+version             2.3
+categories          devel python
+platforms           darwin
+license             MIT
+maintainers         {gmail.com:davide.liessi @dliessi} openmaintainer
+
+description         Find dead Python code
+long_description    {*}${description}
+
+homepage            https://github.com/jendrikseipp/${name}
+
+checksums           rmd160  3ee33534b63f40e95b098d74c34f39e9ef936c91 \
+                    sha256  03d5a62bcbe9ceb9a9b0575f42d71a2d414070229f2e6f95fa6e7c71aaaed967 \
+                    size    51630
+
+python.default_version  39
+
+depends_build-append    port:py${python.version}-setuptools
+depends_run-append      port:py${python.version}-toml
+
+livecheck.type      pypi

@@ -1,0 +1,77 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/elves/elvish 0.16.3 v
+go.package          src.elv.sh
+revision            0
+
+homepage            https://elv.sh
+
+description         Elvish = Expressive Programming Language + Versatile \
+                    Interactive Shell
+
+long_description    Elvish is a friendly interactive shell and an expressive \
+                    programming language. It runs on Linux, BSDs, macOS and \
+                    Windows.
+
+categories          shells
+installs_libs       no
+license             BSD
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+
+build.cmd           make
+build.target        get
+
+use_parallel_build  no
+
+variant plugin_support description {Enable experimental plugin support} {
+    # elvish implements plugins using Cgo. Enabling plugin support will
+    # build elvish with Cgo enabled, but when built this way, elvish
+    # will no longer be marked as being a reproducible build.
+    build.args-append   ELVISH_PLUGIN_SUPPORT=1
+}
+
+post-patch {
+    # The Makefile tries to call `git rev-parse` to determine the
+    # VersionSuffix.  Since this is not a checked-out git repository, doing
+    # that will fail.  Patch the Makefile to manually set the VersionSuffix:
+    reinplace -E {s|.VersionSuffix=.*|.VersionSuffix=-dev.macports\ \\|} \
+        ${worksrcpath}/Makefile
+}
+
+destroot {
+    xinstall -m 755 ${gopath}/bin/${name} ${destroot}${prefix}/bin/
+}
+
+github.livecheck.regex  {([0-9.]+)}
+github.tarball_from     archive
+
+checksums           ${distname}${extract.suffix} \
+                        rmd160  bdaa5829fccd4a59333a1c030b9507a9983611d3 \
+                        sha256  ea9d594070cff58ed9caedf4619ee195bfce179f79b9a8d5e7a635ce5cbba551 \
+                        size    663170
+
+go.vendors          golang.org/x/sys \
+                        lock    41cdb8703e55 \
+                        rmd160  1b61146b9b05b2065b2e3faf7267b938f220f11b \
+                        sha256  8c7729f6f4c4e0649a75eb973d95c8e5ac3bf5df5660ecfe14d8b49e0d8a46ce \
+                        size    1210583 \
+                    go.etcd.io/bbolt \
+                        repo    github.com/etcd-io/bbolt \
+                        lock    v1.3.5 \
+                        rmd160  95dffb4bbbeec637c46a4ddd0ee218fa2fa4c3c8 \
+                        sha256  ca218846d724343915b264d1c246c34eb39e81ed14535931f370c2db838d4d99 \
+                        size    96543 \
+                    github.com/mattn/go-isatty \
+                        lock    v0.0.12 \
+                        rmd160  4f55aecbddbee6089cbac8456d2932bce2cb57e7 \
+                        sha256  d4d1912998d401389e06ee1dbed06e32a8db95350416f227fbe6a59ac84f0651 \
+                        size    4549 \
+                    github.com/creack/pty \
+                        lock    v1.1.11 \
+                        rmd160  59af3958845963790280e10bb0ff275e202406c5 \
+                        sha256  648758575d338a1abcc7f3f3cbc9c138f079355d4defe709949ecd7e639c48a2 \
+                        size    8407

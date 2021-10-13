@@ -1,0 +1,48 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-tz
+python.rootname     pytz
+version             2021.3
+revision            0
+
+categories-append   devel
+platforms           darwin
+supported_archs     noarch
+license             MIT
+maintainers         nomaintainer
+
+description         World Timezone Definitions for Python
+long_description    pytz brings the Olson tz database into Python. This library allows \
+                    accurate and cross platform timezone calculations.
+
+homepage            https://pypi.python.org/pypi/pytz
+
+checksums           rmd160  01bf711ede0e704ff5bf0d63145e647dcdae0c6d \
+                    sha256  acad2d8b20a1af07d4e4c9d2e9285c5ed9104354062f275f3fcd88dcef4f1326 \
+                    size    320512
+
+python.versions     27 35 36 37 38 39
+
+if {${name} ne ${subport}} {
+    if {${python.version} in "27 35 36"} {
+        conflicts   py${python.version}-tz-gae
+    }
+
+    test.run        yes
+    test.dir        ${build.dir}/pytz/tests
+    test.cmd        ${python.bin} test_lazy.py && ${python.bin} test_tzinfo.py
+    test.target
+    test.env        PYTHONPATH=${worksrcpath}/build/lib
+
+    post-destroot {
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 0644 -W $worksrcpath LICENSE.txt README.rst \
+            ${destroot}${docdir}
+    }
+
+    livecheck.type  none
+}

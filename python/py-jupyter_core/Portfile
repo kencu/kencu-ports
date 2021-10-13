@@ -1,0 +1,47 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim: fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-jupyter_core
+version             4.7.1
+revision            0
+platforms           darwin
+license             BSD
+supported_archs     noarch
+
+python.versions     27 35 36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         Jupyter core package.
+long_description    ${description}
+
+homepage            https://jupyter.org
+
+checksums           rmd160  3e116affa674c6ea0c147182d2897f4918f10af3 \
+                    sha256  79025cb3225efcd36847d0840f3fc672c0abd7afd0de83ba8a1d3837619122b4 \
+                    size    68886
+
+if {${name} ne ${subport}} {
+    depends_lib-append  port:py${python.version}-setuptools \
+                        port:py${python.version}-traitlets
+
+    if {${python.version} < 36} {
+        version             4.6.3
+        revision            0
+        distname            ${python.rootname}-${version}
+        checksums           rmd160  fa1a486598dff9f52fe205aebcb1b47b5b5274b3 \
+                            sha256  394fd5dd787e7c8861741880bdf8a00ce39f95de5d18e579c74b882522219e7e \
+                            size    67305
+    }
+
+    patchfiles-append   patch-jupyter_core-paths.py.diff
+
+    post-patch {
+        reinplace "s|%PREFIX%|${prefix}|" \
+        ${worksrcpath}/jupyter_core/paths.py
+    }
+
+    livecheck.type      none
+}

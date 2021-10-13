@@ -1,0 +1,36 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem 1.0
+
+name                tcl-tls
+version             1.7.21
+revision            0
+categories          devel
+license             Tcl/Tk
+platforms           darwin
+maintainers         nomaintainer
+
+description         TLS OpenSSL extension to TCL.
+long_description \
+    TLS is an OpenSSL / RSA-bsafe Tcl extension that provides secure \
+    connections on top of the Tcl socket mechanism.
+
+homepage            https://core.tcl-lang.org/tcltls/
+master_sites        ${homepage}uv/
+distname            tcltls-${version}
+
+checksums           rmd160  0c3d483dd70b1cca4dc230fee03423ed985d1b04 \
+                    sha256  806ae405250810f8d57a8ca6fce01d8ae40e72443728d1569069126bb5cbc175 \
+                    sha1    55d24a0c11d001bea23eb1c02bfcb20bf8f47d1b \
+                    size    165139
+
+depends_lib         path:lib/libssl.dylib:openssl port:tcl
+
+worksrcdir          tls${version}
+
+configure.args      --exec-prefix=${prefix} \
+                    --with-ssl-dir=${prefix} \
+                    --with-tcl=${prefix}/lib
+
+livecheck.url       ${homepage}uvlist?byage=1
+livecheck.regex     tcltls-(\[\\d\\.\]+\\d+)

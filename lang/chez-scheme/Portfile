@@ -1,0 +1,49 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        cisco ChezScheme 9.5.4 v
+name                chez-scheme
+categories          lang
+platforms           darwin
+supported_archs     i386 x86_64
+license             Apache-2
+maintainers         {outlook.com:mohd.akram @mohd-akram} \
+                    openmaintainer
+
+description         Chez Scheme
+
+long_description    Chez Scheme is both a programming language and an \
+                    implementation of that language, with supporting tools \
+                    and documentation.
+
+homepage            https://cisco.github.io/ChezScheme/
+
+checksums           rmd160  dbf1b94d361d99355b080514193892f3724957d7 \
+                    sha256  1dd8dccfb47e9017dfb2a950b74a49a8bd6bd456acc7d645948b779e4dcfe88d \
+                    size    30671465
+
+depends_build       port:nanopass-scheme
+depends_lib         port:zlib \
+                    port:lz4 \
+                    port:ncurses \
+                    port:libiconv \
+                    port:xorg-libX11
+
+post-extract {
+    copy \
+        ${prefix}/share/scheme/r6rs/nanopass \
+        ${prefix}/share/scheme/r6rs/nanopass.ss \
+        ${worksrcpath}/nanopass
+    touch ${worksrcpath}/stex/Mf-stex
+}
+
+configure.pre_args  --installprefix=${prefix}
+configure.args      --temproot=${destroot} \
+                    --threads \
+                    --libkernel \
+                    LZ4=-llz4 \
+                    ZLIB=-lz
+
+build.target

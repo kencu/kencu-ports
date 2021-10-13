@@ -1,0 +1,112 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           python 1.0
+PortGroup           gpg_verify 1.0
+
+github.setup        kovidgoyal kitty 0.23.1 v
+github.tarball_from releases
+revision            0
+
+categories          aqua
+platforms           macosx
+license             GPL-3
+maintainers         {outlook.de:judaew @judaew} openmaintainer
+
+description         A cross-platform, fast, feature full, GPU based terminal emulator
+long_description    ${description}
+homepage            https://sw.kovidgoyal.net/kitty/
+
+if {${os.major} <= 15} {
+    # https://github.com/kovidgoyal/kitty/issues/2700
+    known_fail      yes
+    pre-fetch {
+        ui_error "${name} @${version} requires macOS 10.12 or later."
+        return -code error "incompatible OS X version"
+    }
+}
+
+use_xz              yes
+
+checksums           ${distfiles} \
+                    rmd160  07e2b8aea27c843bea97dd686e5214843b1114b3 \
+                    sha256  5190f5eeb4653ac2ca02885623fd3aa10da1c82260c5b9866614ef4fd7427856 \
+                    size    4444184
+
+# To verify the signature during the update, set it to "yes" and then reset
+# the value to "no" back.
+gpg_verify.use_gpg_verification \
+                    no
+
+if {[option gpg_verify.use_gpg_verification]} {
+    extract.only    ${distfiles}
+
+    distfiles-append \
+                    ${name}-${version}${extract.suffix}.sig
+
+    checksums-append \
+                    ${name}-${version}${extract.suffix}.sig \
+                    size 566
+
+    post-checksum {
+        set gpg_keyid 06BC317B515ACE7C
+
+        gpg_verify.verify_gpg_signature \
+            ${filespath}/keyid-${name}.txt \
+            ${distpath}/${name}-${version}${extract.suffix}.sig \
+            ${distpath}/${name}-${version}${extract.suffix}
+    }
+}
+
+patchfiles-append   patch-kitty-no-deprecated-declarations.diff
+
+python.default_version \
+                    39
+
+depends_build-append \
+                    port:lcms2 \
+                    port:librsvg \
+                    port:ncurses \
+                    port:optipng \
+                    port:pkgconfig
+
+depends_lib-append  path:lib/pkgconfig/harfbuzz.pc:harfbuzz
+
+build.cmd           "${python.bin} setup.py"
+build.target        kitty.app
+build.args-append   --ignore-compiler-warnings \
+                    --update-check-interval=0 --verbose
+
+compiler.c_standard 2011
+
+pre-build {
+    system -W ${worksrcpath} "${python.bin} logo/make.py"
+}
+
+destroot {
+    copy ${worksrcpath}/kitty.app ${destroot}${applications_dir}
+
+    # Add terminfo to $prefix for is handled correctly when executing
+    # commands with sudo.
+    set terminfo_path ${prefix}/share/terminfo/78
+    xinstall -d ${destroot}${terminfo_path}
+    xinstall -m 0644 ${worksrcpath}/terminfo/x/xterm-kitty \
+        ${destroot}${terminfo_path}
+
+    # add shell completion files
+    set bash_complete ${prefix}/share/bash-completion/completions
+    xinstall -d ${destroot}${bash_complete}
+    exec ${python.bin} ${worksrcpath}/__main__.py + complete setup bash >> \
+        ${destroot}${bash_complete}/kitty
+
+    set zsh_complete ${prefix}/share/zsh/site-functions
+    xinstall -d ${destroot}${zsh_complete}
+    exec ${python.bin} ${worksrcpath}/__main__.py + complete setup zsh >> \
+        ${destroot}${zsh_complete}/_kitty
+
+    set fish_complete ${prefix}/share/fish/vendor_completions.d
+    xinstall -d ${destroot}${fish_complete}
+    exec ${python.bin} ${worksrcpath}/__main__.py + complete setup fish >> \
+        ${destroot}${fish_complete}/kitty.fish
+}

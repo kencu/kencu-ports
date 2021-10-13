@@ -1,0 +1,66 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        denoland deno 1.14.3 v
+revision            0
+
+homepage            https://deno.land
+
+description         Deno is a simple, modern and secure runtime for \
+                    JavaScript and TypeScript that uses V8 and is built in \
+                    Rust.
+
+long_description    Deno is a secure runtime for JavaScript and TypeScript. \
+                    It is secure by default, performs no file, network, or \
+                    environment access, unless explicitly enabled, and \
+                    supports TypeScript out of the box. Deno has built-in \
+                    utilities like a dependency inspector (deno info) and a \
+                    code formatter (deno fmt), with a set of reviewed \
+                    (audited) standard modules that are guaranteed to work \
+                    with Deno.
+
+categories          devel
+license             MIT
+platforms           darwin
+supported_archs     arm64 x86_64
+
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+
+checksums           ${name}-x86_64-apple-darwin.zip \
+                    rmd160  2b04c56e1f1dc471b00c28df687d5a79f35dbb75 \
+                    sha256  3b1a43def350a723a15f60e03cd532ff1ab340578b7f5694be18d9794bc5c2a6 \
+                    size    29906009 \
+                    ${name}-aarch64-apple-darwin.zip \
+                    rmd160  74ba96f8e27423ebdb6728185be4bb5faebcc472 \
+                    sha256  6bf8c067d3becd967ff89bd05666864eebcf6d6841e3d1ab9beea9d4979aabf3 \
+                    size    28718918
+
+if {${build_arch} eq "arm64"} {
+    set release_arch aarch64
+} else {
+    set release_arch x86_64
+}
+
+github.tarball_from releases
+distname            ${name}-${release_arch}-apple-darwin
+dist_subdir         ${name}/${version}
+extract.mkdir       yes
+
+installs_libs       no
+use_configure       no
+use_zip             yes
+
+# No build process as we are currently using the pre-built binary for now.
+#
+# To build from source, we'll need the 3rd-party and typescript repos as
+# submodules, and we'll also need V8 (requiring Python2):
+#
+# - https://deno.land/manual/contributing/building_from_source
+build               {}
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/deno ${destroot}${prefix}/bin/
+}

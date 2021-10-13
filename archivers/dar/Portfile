@@ -1,0 +1,51 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                dar
+version             2.7.2
+revision            0
+checksums           rmd160  0a39355abc53699f54c6d49ea81d24302b4364f7 \
+                    sha256  973fa977c19b32b1f9ecb62153c810ba8696f644eca048f214c77ad0e8eca255 \
+                    size    2294187
+
+categories          archivers
+platforms           darwin
+maintainers         {ryandesign @ryandesign} openmaintainer
+license             GPL-2+
+
+description         Disk Archiver
+
+long_description    dar is a shell command that backs up directory trees \
+                    and files.
+
+homepage            https://dar.sourceforge.io
+master_sites        sourceforge:project/dar/dar/${version}
+
+depends_build       port:doxygen \
+                    port:pkgconfig
+
+depends_lib         port:argon2 \
+                    port:bzip2 \
+                    port:curl \
+                    port:gettext \
+                    port:gpgme \
+                    port:libgcrypt \
+                    port:libiconv \
+                    port:lzo2 \
+                    path:lib/libssl.dylib:openssl \
+                    port:xz \
+                    port:zlib
+
+patchfiles          dynamic_lookup-11.patch
+
+compiler.cxx_standard 2014
+compiler.thread_local_storage yes
+
+# https://github.com/Edrusb/DAR/issues/29
+configure.cxxflags-append -std=c++14
+
+universal_variant   no
+
+# don't opportunistically try to build Python bindings
+configure.args      --disable-python-binding

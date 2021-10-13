@@ -1,0 +1,41 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           compiler_blacklist_versions 1.0
+PortGroup           boost 1.0
+
+github.setup        lballabio QuantLib 1.23 QuantLib-v
+revision            0
+checksums           rmd160  c5cff95fa9e77612f9a242fc2d161fde6424a962 \
+                    sha256  f6c648dd0f8989e9afde31587bca7b04680fba78d692e626227047c6868420d8 \
+                    size    9277653
+
+categories          finance
+platforms           darwin
+maintainers         {ryandesign @ryandesign} openmaintainer
+license             BSD
+
+description         software framework for quantitative finance
+
+long_description    The QuantLib project is aimed at providing a \
+                    comprehensive software framework for quantitative \
+                    finance. QuantLib is a library for modeling, trading, \
+                    and risk management in real-life.
+
+homepage            https://www.quantlib.org
+github.tarball_from releases
+
+compiler.cxx_standard \
+                    2011
+
+# https://github.com/lballabio/QuantLib/issues/1090
+configure.cxxflags-append \
+                    -std=c++11
+
+# https://github.com/lballabio/QuantLib/issues/1091
+# error: default initialization of an object of const type 'const ext::function<Real (Real)>' (aka 'const function<double (double)>') without a user-provided default constructor
+compiler.blacklist-append {clang < 900}
+
+configure.args      --with-boost-include=[boost::include_dir] \
+                    --with-boost-lib=[boost::lib_dir]

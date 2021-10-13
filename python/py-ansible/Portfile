@@ -1,0 +1,53 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           select 1.0
+
+name                py-ansible
+version             3.4.0
+license             GPL-3+
+
+categories-append   sysutils
+platforms           darwin
+supported_archs     noarch
+
+maintainers         {adfernandes @adfernandes} {gmail.com:pedro.salgado @steenzout} openmaintainer
+
+master_sites        pypi:a/ansible
+homepage            https://github.com/ansible/ansible
+description         SSH-based configuration management and deployment system
+
+distname            ansible-${version}
+checksums           rmd160  f0ef9c911603cac7e3f8523abf75bfcd51f96ba9 \
+                    sha256  ca34e2c0c3f92cad5e528c94c133e620845feb11cc62f42e98d28271fe5bd924 \
+                    size    31898355
+
+conflicts           ansible
+
+long_description \
+    Ansible is a radically simple model-driven configuration \
+    management, multi-node deployment, and remote task execution \
+    system.  Ansible works over SSH and does not require any software \
+    or daemons to be installed on remote nodes.  Extension modules can \
+    be written in any language and are transferred to managed machines \
+    automatically.
+
+python.versions 27 36 37 38 39
+
+if {${name} ne ${subport}} {
+    patch {
+        # This is a little ugly, but it works, and it is over 10x faster on
+        # systems with anti-virus than using a foreach (even a foreach limited
+        # to matching files).
+        system -W ${worksrcpath} \
+            "find -E . -type f -regex '.*\.(py|ya?ml)' \
+                  -exec egrep -l '(/etc|/usr/share)/ansible' '{}' '+' |
+             xargs sed -i '' -e 's^/etc/ansible^${prefix}/etc/ansible^g' \
+                       -e 's^/usr/share/ansible^${prefix}/share/ansible^g'"
+    }
+    depends_lib-append  port:py${python.version}-ansible-base
+    livecheck.type  none
+} else {
+    livecheck.name  ansible
+}

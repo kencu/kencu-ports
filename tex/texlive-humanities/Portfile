@@ -1,0 +1,34 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           texlive 1.0
+
+name                texlive-humanities
+version             58589
+revision            0
+
+categories          tex
+maintainers         {dports @drkp}
+license             Copyleft Permissive
+description         TeX Live: Humanities packages
+long_description    Packages for law, linguistics, social sciences, humanities, etc.
+
+checksums           texlive-humanities-58589-run.tar.xz \
+                    rmd160  987d5f6100f8da7c494bf2a7084be10fc254dfc4 \
+                    sha256  3bb6fcea2d4496ecd6111f973c5e16550ec9d4b8ca69d33a305c5d16a934cec2 \
+                    size    27754296 \
+                    texlive-humanities-58589-doc.tar.xz \
+                    rmd160  eb6cbad820b7ce786bfc5afca9cdf001c23cdbaa \
+                    sha256  3e2b26433becad15550ce19b7dc31832cd985bf90316cb19e6207ea2d9326e06 \
+                    size    26933088 \
+                    texlive-humanities-58589-src.tar.xz \
+                    rmd160  ed14efa835e79a6caaf0f3c3904bcc3bbeeaf54b \
+                    sha256  d2fddb7f3f6d3a367f2f61872627bf340fa1b0a4722de53b619eeb64e4594a08 \
+                    size    644164
+
+depends_lib         port:texlive-latex
+
+texlive.binaries    diadia
+
+
+texlive.texmfport

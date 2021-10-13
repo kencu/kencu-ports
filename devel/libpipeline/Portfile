@@ -1,0 +1,22 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                libpipeline
+version             1.5.3
+categories          devel
+platforms           darwin linux
+license             GPL-3+
+maintainers         {@ylluminarious orbitalimpact.com:georgedp} openmaintainer
+description         C library for manipulating pipelines of subprocesses.
+homepage            http://libpipeline.nongnu.org
+master_sites        nongnu
+
+long_description    libpipeline is a C library for manipulating pipelines of \
+    subprocesses in a flexible and convenient way. It is available in at least \
+    the following Linux distributions: Arch, Debian, Dragora, Fedora, Gentoo,  \
+    and Ubuntu.
+
+checksums           rmd160   e98387c86a4574ca303908d7b3361f7aa1859ee6 \
+                    sha256   5dbf08faf50fad853754293e57fd4e6c69bb8e486f176596d682c67e02a0adb0 \
+                    size     994663

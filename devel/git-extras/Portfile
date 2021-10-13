@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               github 1.0
+
+github.setup            tj git-extras 6.2.0
+
+checksums               rmd160  20136226ef7ed65176e6a3b3cc78927aebbc1997 \
+                        sha256  6a1083be771ee794b303ce0bea8eafce2202e98472a13bdf7996148dbb369fa7 \
+                        size    156743
+
+maintainers             {grimreaper @grimreaper} openmaintainer
+platforms               darwin
+categories              devel
+supported_archs         noarch
+
+description             Git utilities
+long_description        ${description} -- repo summary, repl, changelog population, author \
+                        commit percentages and more
+license                 MIT
+
+use_configure           no
+
+build {}
+
+destroot.destdir        PREFIX=${destroot}${prefix}
+post-destroot {
+    set docdir ${destroot}${prefix}/share/doc/${subport}
+    xinstall -d ${docdir}
+    xinstall -m 644 {*}[glob ${worksrcpath}/man/*.html] ${docdir}
+}

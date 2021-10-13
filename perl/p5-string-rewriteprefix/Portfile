@@ -1,0 +1,28 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         String-RewritePrefix 0.008
+license             {Artistic-1 GPL}
+maintainers         nomaintainer
+description         rewrite strings based on a set of known prefixes
+long_description    This rewrites all the given strings using the rules \
+                    in %prefix. Its keys are known prefixes for which \
+                    its values will be substituted. This is performed \
+                    in longest-first order, and only one prefix will \
+                    be rewritten.
+
+platforms           darwin
+
+checksums           rmd160  7c4983820ab4c34a44412a3d326265e32c9732b3 \
+                    sha256  e45a31d6914e8f5fc722ef48d8819400dafc02105e0c61414aabbf01bce208eb \
+                    size    16528
+
+if {${perl5.major} != ""} {
+    depends_lib-append \
+                    port:p${perl5.major}-sub-exporter
+
+    supported_archs noarch
+}

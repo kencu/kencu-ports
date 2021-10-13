@@ -1,0 +1,61 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               compiler_blacklist_versions 1.0
+PortGroup               legacysupport 1.1
+
+name                    capnproto
+version                 0.9.1
+revision                0
+checksums               rmd160  575ba0e6b24f27f3435179fb685dde4077e1b650 \
+                        sha256  83680aaef8c192b884e38eab418b8482d321af6ae7ab7befa3a9370b8e716aad \
+                        size    1664913
+
+maintainers             {cal @neverpanic} openmaintainer
+platforms               darwin
+categories              devel
+
+homepage                https://capnproto.org/
+description             \
+    Cap’n Proto is an insanely fast data interchange format and \
+    capability-based RPC system. Think JSON, except binary. Or think Protocol \
+    Buffers, except faster.
+long_description        {*}${description}
+license                 BSD
+
+master_sites            ${homepage}
+distname                ${name}-c++-${version}
+
+use_autoreconf          yes
+
+compiler.cxx_standard   2014
+
+# clang 3.2 - clang-3.5 and all clangs from Xcode < 5 crash while compiling this.
+# see http://llvm.org/bugs/show_bug.cgi?id=18340
+compiler.blacklist-append \
+                        {clang < 500.2.75} \
+                        macports-clang-3.3 \
+                        macports-clang-3.4 \
+                        *gcc*
+# ./src/kj/time.h:48:31: error: invalid operands to binary expression ('int' and 'const Duration' (aka 'const Quantity<int64_t, _::NanosecondLabel>'))
+# constexpr Duration HOURS = 60 * MINUTES;
+#                            ~~ ^ ~~~~~~~
+compiler.blacklist-append {clang < 1000}
+
+configure.cppflags-replace \
+                        -I${prefix}/include "-isystem${prefix}/include"
+
+configure.cxx_stdlib    libc++
+if {[string match *clang* ${configure.cxx}]} {
+    configure.ldflags-append    -stdlib=libc++
+}
+
+default_variants            +openssl
+variant openssl description {Support TLS using the OpenSSL library} {
+    configure.args-append   --with-openssl=${prefix}
+    depends_lib-append      path:lib/libssl.dylib:openssl
+}
+
+livecheck.type              regex
+livecheck.url               https://capnproto.org/install.html
+livecheck.regex             "[quotemeta ${name}]-c\\+\\+-(\\d+(\\.\\d+)*)[quotemeta ${extract.suffix}]"

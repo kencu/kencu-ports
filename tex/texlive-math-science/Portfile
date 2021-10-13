@@ -1,0 +1,42 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           texlive 1.0
+
+name                texlive-math-science
+version             58667
+revision            0
+
+categories          tex
+maintainers         {dports @drkp}
+license             Copyleft Permissive
+description         TeX Live: Mathematics, natural sciences, computer science packages
+long_description    Mathematics, natural sciences, computer science packages
+
+checksums           texlive-math-science-58667-run.tar.xz \
+                    rmd160  369cad6fc52c18871b354e3bc9530ef6d73ede32 \
+                    sha256  0b38e0d824b04031a66b47737138ab60cf7709e6193006c638b665e78c2469a2 \
+                    size    74598464 \
+                    texlive-math-science-58667-doc.tar.xz \
+                    rmd160  2e343179c03111238cffe67cb9db194d6439aae0 \
+                    sha256  b08cd26b5800dc8c5b8e6d01aebf4029b299b3920b9c7e7033bfce88410c8e6b \
+                    size    69664536 \
+                    texlive-math-science-58667-src.tar.xz \
+                    rmd160  f50451c274a30bf7ccb0d392abfbe0620d4d0faa \
+                    sha256  c88de1a7e411a4a04e662138a21b678df121e5650082c04a07c086a78217eb60 \
+                    size    1649500
+
+depends_lib         port:texlive-fonts-recommended port:texlive-latex
+
+texlive.formats      \
+    {1 amstex pdftex - {-translate-file=cp227.tcx *amstex.ini}}
+
+texlive.maps      \
+    {Map chemarrow.map} \
+    {MixedMap stmaryrd.map} \
+    {MixedMap yhmath.map}
+
+texlive.binaries    amstex axohelp ulqda
+
+
+texlive.texmfport

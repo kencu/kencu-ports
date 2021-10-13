@@ -1,0 +1,52 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-pytest-cov
+version             3.0.0
+revision            0
+
+categories-append   devel
+platforms           darwin
+supported_archs     noarch
+license             MIT
+maintainers         {reneeotten @reneeotten} openmaintainer
+
+description         Pytest plugin for measuring coverage.
+long_description    ${description}
+
+homepage            https://github.com/pytest-dev/pytest-cov
+
+checksums           rmd160  6da1e0f7d78dcf161d31e52012fa14f94e6f857c \
+                    sha256  e7f0f5b1617d2210a2cabc266dfe2f4c75a8d32fb89eafb7ad9d06f6d076d470 \
+                    size    61440
+
+python.versions     27 35 36 37 38 39
+
+if {${name} ne ${subport}} {
+    if {${python.version} in "27 35"} {
+        version     2.12.1
+        revision    0
+        checksums   rmd160  bb56cc50c1244d00934b584f0b7b3a9270619c4d \
+                    sha256  261ceeb8c227b726249b376b8526b600f38667ee314f910353fa318caa01f4d7 \
+                    size    60395
+    }
+
+    depends_build-append \
+                    port:py${python.version}-setuptools \
+                    port:py${python.version}-toml
+
+    depends_lib-append \
+                    port:py${python.version}-coverage \
+                    port:py${python.version}-pytest
+
+    post-destroot {
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath} LICENSE CONTRIBUTING.rst \
+            AUTHORS.rst CHANGELOG.rst README.rst ${destroot}${docdir}
+    }
+
+    livecheck.type  none
+}

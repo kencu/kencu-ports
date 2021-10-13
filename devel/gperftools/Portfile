@@ -1,0 +1,22 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        gperftools gperftools 2.9.1 gperftools-
+categories          devel
+platforms           darwin
+license             BSD
+maintainers         nomaintainer
+description         high-performance multi-threaded malloc() and nifty performance analysis tools
+long_description    gperftools is a collection of a high-performance multi-threaded malloc() \
+                    implementation, plus some pretty nifty performance analysis tools.
+
+github.tarball_from releases
+
+checksums           rmd160  e2791edfb1da6f2ecbede519e9d36101046bdb7f \
+                    sha256  ea566e528605befb830671e359118c2da718f721c27225cbbc93858c7520fee3 \
+                    size    1581218
+
+compiler.cxx_standard \
+                    2011

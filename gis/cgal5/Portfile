@@ -1,0 +1,53 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               github  1.0
+PortGroup               cmake   1.0
+PortGroup               boost   1.0
+
+description             Computational Geometry Algorithm Library
+long_description        The goal of the ${description} is to provide easy access to\
+                        efficient and reliable geometric algorithms in the\
+                        form of a C++ library. CGAL is used in various areas\
+                        needing geometric computation, such as: computer\
+                        graphics, scientific visualization, computer aided\
+                        design and modeling, geographic information systems,\
+                        molecular biology, medical imaging, robotics and\
+                        motion planning, mesh generation, numerical methods...
+
+platforms               darwin
+
+github.setup            CGAL cgal 5.2.1 v
+revision                1
+conflicts               cgal4
+github.tarball_from     releases
+name                    cgal5
+license                 LGPL-3+ GPL-3+
+categories              gis science
+maintainers             {vince @Veence}
+use_xz                  yes
+# switch to this (and remove worksrcdir) with the next version update
+#distname                CGAL-${version}
+
+homepage                http://www.cgal.org/
+
+checksums               rmd160  58a1632cce68c0f06830434158d9d5e6af47b452 \
+                        sha256  7e80b710a2b05cf7c22ce6fd8000905957c2263ab0048185b5010172b5bc19e6 \
+                        size    23256952
+
+worksrcdir              CGAL-${version}
+depends_lib-append      port:mpfr \
+                        port:zlib \
+                        port:gmp \
+                        path:include/eigen3/Eigen/Eigen:eigen3
+
+compiler.cxx_standard   2014
+compiler.thread_local_storage yes
+
+configure.args-append   -DCGAL_HEADER_ONLY=OFF
+
+variant headers_only description "Install only the headers" {
+    configure.args-replace   -DCGAL_HEADER_ONLY=OFF -DCGAL_HEADER_ONLY=ON
+}
+
+github.livecheck.regex  {([0-9.]+)}

@@ -1,0 +1,56 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        crystal-lang shards 0.15.0 v
+
+categories          devel
+platforms           darwin
+license             Apache-2
+maintainers         {@conradwt gmail.com:conradwt} openmaintainer
+
+description         Crystal application dependency manager
+
+long_description    Shards is a dependency manager for the Crystal Programming Language.
+
+depends_lib         port:crystal
+
+# Update with shard.lock, see Makefile.
+set molinillo.version 0.2.0
+
+github.tarball_from archive
+master_sites        ${github.master_sites}:main \
+                    https://github.com/crystal-lang/crystal-molinillo/archive/v${molinillo.version}:molinillo
+
+distfiles           ${github.project}-${github.version}${extract.suffix}:main \
+                    crystal-molinillo-${molinillo.version}${extract.suffix}:molinillo
+
+checksums           shards-0.15.0.tar.gz \
+                    rmd160  ebcb7734773b3d2ae77f0b1180121c1c2f78437d \
+                    sha256  89ad7f7550a6036b376008c9e376a3b9fbf4aca9f7d2eae5086282122e92711a \
+                    size    62648 \
+                    crystal-molinillo-0.2.0.tar.gz \
+                    rmd160  6937976d1e249b1de948b8a88acc549b0f9f42ca \
+                    sha256  e231cf2411a6a11a1538983c7fb52b19e650acc3338bd3cdf6fdb13d6463861a \
+                    size    23959
+
+pre-fetch {
+  if {${os.major} < 16} {
+    ui_error "${name} @${version} requires macOS 10.12 or newer."
+    return -code error "incompatible macOS version"
+  }
+}
+
+post-patch {
+    xinstall -d ${worksrcpath}/lib
+    move ${workpath}/crystal-molinillo-${molinillo.version} ${worksrcpath}/lib/molinillo
+}
+
+use_configure       no
+
+build.args          CRFLAGS=--release
+
+destroot.args       PREFIX=${prefix}
+
+test.run            yes

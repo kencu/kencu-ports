@@ -1,0 +1,37 @@
+#-*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        leesavide abcm2ps 8.14.12 v
+revision            0
+checksums           rmd160  b07239af0397b819cc38ac3bc9d7b60a53df6fbf \
+                    sha256  f98701bc25f52e98a9283d0cef04591351b62ff8dc80fa54bb21467d60886feb \
+                    size    259618
+
+categories          print audio
+platforms           darwin
+maintainers         nomaintainer
+license             GPL-2+
+description         abcm2ps converts abc music tunes to PostScript
+long_description    abcm2ps is a package that converts music tunes from \
+                    ABC format to PostScript. It introduces many \
+                    extensions to the ABC language that make it suitable \
+                    for classical music.
+homepage            http://moinejf.free.fr/
+github.tarball_from archive
+
+depends_build       port:pkgconfig
+depends_lib         port:freetype \
+                    path:lib/pkgconfig/pango.pc:pango
+
+configure.args      --CC=${configure.cc} \
+                    --CFLAGS="\$CFLAGS" \
+                    --docdir=${prefix}/share/doc
+
+build.target
+
+installs_libs       no
+
+test.run            yes
+test.target         test

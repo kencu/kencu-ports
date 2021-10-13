@@ -1,0 +1,39 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           java 1.0
+PortGroup           github 1.0
+
+github.setup        reds-heig logisim-evolution 3.5.0 v
+revision            2
+
+categories          cad education java
+platforms           darwin
+supported_archs     noarch
+license             GPL-3
+maintainers         {@harens gmail.com:harensdeveloper} \
+                    openmaintainer
+
+description         Digital logic designer and simulator
+long_description    Logisim is an educational tool for designing and \
+                    simulating digital logic circuits.
+
+checksums           rmd160  87b24defcabd6ab81333bc1c52c76928a64bdab1 \
+                    sha256  8b52f1ce57205f68c396d12637ccb1d6955f631987c2e6b4247acce31116cbe4 \
+                    size    40050282
+
+java.version        14+
+java.fallback       openjdk17
+
+use_configure       no
+
+depends_build-append \
+                    port:gradle
+
+build.env-append    GRADLE_USER_HOME=${worksrcpath}/${name}
+build.cmd           ${prefix}/bin/gradle
+build.target        createApp
+
+destroot {
+    move "${worksrcpath}/build/dist/Logisim-evolution.app" ${destroot}${applications_dir}
+}

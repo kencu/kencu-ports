@@ -1,0 +1,59 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           meson 1.0
+PortGroup           compiler_blacklist_versions 1.0
+
+github.setup        Genymobile scrcpy 1.19 v
+revision            0
+
+categories          multimedia
+platforms           darwin
+license             Apache-2
+maintainers         {bochtler.io:macports @MarcelBochtler} \
+                    openmaintainer
+description         Display and control your Android device
+long_description    This application provides display and control of Android \
+                    devices connected on USB (or over TCP/IP). It does not \
+                    require any root access.
+
+# scrcpy-server is downloaded from github releases while the client is downloaded from the Github archive.
+master_sites-append https://github.com/Genymobile/${name}/releases/download/v${version}/:bootstrap
+extract.only        ${distfiles}
+distfiles-append    ${name}-server-v${version}:bootstrap
+
+checksums           ${distname}${extract.suffix} \
+                    rmd160  3749eb770bd0d19723f18ceb6c4633d90dc0de03 \
+                    sha256  72d6578eda2b191ecb5a020f03325b123b95aa0bfd0b1217dd3fd53b6840cd85 \
+                    size    314862 \
+                    ${name}-server-v${version} \
+                    rmd160  d4e7aeb896b768aa52afec55886d348afe39e146 \
+                    sha256  876f9322182e6aac6a58db1334f4225855ef3a17eaebc80aab6601d9d1ecb867 \
+                    size    37330
+
+depends_build-append \
+                    port:pkgconfig
+
+depends_lib-append  path:lib/libavcodec.dylib:ffmpeg \
+                    port:libsdl2
+
+depends_run-append  port:android-platform-tools
+
+configure.args-append \
+                    --buildtype release \
+                    --strip \
+                    -Db_lto=true \
+                    -Dprebuilt_server=${distpath}/${name}-server-v${version}
+
+compiler.c_standard 2011
+# Work around cfm: fatal error: 'stdatomic.h' file not found
+# https://trac.macports.org/ticket/60429
+compiler.blacklist-append {clang < 700}
+
+destroot {
+    xinstall -m 755 -d ${destroot}${prefix}/share/${name}
+
+    xinstall -m 644 ${workpath}/build/server/${name}-server ${destroot}${prefix}/share/${name}
+    xinstall -m 755 ${workpath}/build/app/${name} ${destroot}${prefix}/bin
+}

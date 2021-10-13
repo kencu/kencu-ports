@@ -1,0 +1,50 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/hashicorp/packer 1.7.6 v
+revision            0
+
+homepage            https://www.packer.io
+
+description         A tool for creating identical machine images for multiple \
+                    platforms from a single source configuration.
+
+long_description    ${description} \
+                    Packer is lightweight, runs on every major operating \
+                    system, and is highly performant, creating machine images \
+                    for multiple platforms in parallel. Packer comes out of \
+                    the box with support for many platforms, the full list of \
+                    which can be found at \
+                    https://www.packer.io/docs/builders/index.html.
+
+categories          sysutils
+license             MPL-2
+platforms           darwin
+installs_libs       no
+
+checksums           rmd160  d13007ba3f05d86ef5dad01ba7cd4a50c6ad8c5c \
+                    sha256  2e414c4c7ae930f3d2851de39f31f159eb1b073401956a6856bd89d592664b50 \
+                    size    2154410
+
+maintainers         {gmail.com:newtonne.github @newtonne} \
+                    {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+
+depends_build-append port:realpath
+
+# Allow deps to be fetched at runtime
+build.env-delete    GO111MODULE=off GOPROXY=off
+
+build.env-append    XC_ARCH=${goarch} \
+                    XC_OS=darwin
+
+build.cmd           make
+build.target        releasebin
+
+destroot {
+    xinstall -m 755 ${worksrcpath}/bin/${name} ${destroot}${prefix}/bin/${name}
+}
+
+github.tarball_from archive

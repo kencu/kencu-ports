@@ -1,0 +1,52 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-h2
+version             3.2.0
+revision            0
+
+categories-append   net www
+platforms           darwin
+supported_archs     noarch
+license             MIT
+maintainers         {petr @petrrr} openmaintainer
+
+description         Hyper-h2: A pure-Python HTTP/2 protocol stack
+long_description    \
+    Hyper-h2 is a HTTP/2 protocol stack, written entirely in Python. \
+    The goal of Hyper-h2 is to be a 100% RFC 7540 compatible implementation \
+    of a complete HTTP/2 protocol stack for the Python ecosystem, build on a \
+    set of finite state machines. It should be usable in all programs \
+    regardless of concurrency model or environment. To achieve this, Hyper-h2 \
+    is entirely self-contained: it does no I/O of any kind, leaving that up \
+    to a wrapper library to control. This ensures that it can seamlessly work \
+    in all kinds of environments, from single-threaded code to Twisted. Its \
+    secondary goals are to be fast, clear, and efficient.
+
+homepage            https://python-hyper.org/projects/${python.rootname}/
+distname            ${python.rootname}-${version}
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}/
+
+checksums           rmd160  21731cd61668464d4a69b39a5fad657bb760a83f \
+                    sha256  875f41ebd6f2c44781259005b157faed1a5031df3ae5aa7bcb4628a6c0782f14 \
+                    size    2215889
+
+python.versions     27 35 36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    depends_lib-append \
+                    port:py${python.version}-hpack \
+                    port:py${python.version}-hyperframe
+
+    if {${python.version} eq 27} {
+        depends_lib-append \
+                    port:py${python.version}-enum34
+    }
+
+    livecheck.type  none
+}

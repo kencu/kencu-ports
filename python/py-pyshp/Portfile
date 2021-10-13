@@ -1,0 +1,45 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-pyshp
+version             2.1.3
+revision            0
+
+categories-append   gis
+platforms           darwin
+supported_archs     noarch
+license             MIT
+maintainers         {petr @petrrr} openmaintainer
+
+description         Python Shapefile Library
+long_description    PyShp library provides read and write support for the \
+                    ESRI shapefile format in pure Python. This format is a \
+                    popular Geographic Information System vector data format \
+                    created by ESRI. You can read and write shp, shx, and dbf \
+                    files with all types of geometry. Everything in the \
+                    public ESRI shapefile specification is implemented.
+
+homepage            https://github.com/GeospatialPython/pyshp
+
+checksums           rmd160  d18430a59a2f68f6c1318a29ee8d9c4293ac7e53 \
+                    sha256  e32b4a6832a3b97986df442df63b4c4a7dcc846b326c903189530a5cc6df0260 \
+                    size    219626
+
+python.versions     27 35 36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+
+    post-destroot {
+        set dest_doc ${destroot}${prefix}/share/doc/${subport}
+        xinstall -d ${dest_doc}
+        xinstall -m 0644 -W ${worksrcpath} README.md \
+            LICENSE.TXT changelog.txt ${dest_doc}
+    }
+
+    livecheck.type  none
+}

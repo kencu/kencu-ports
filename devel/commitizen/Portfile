@@ -1,0 +1,56 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                commitizen
+version             2.19.0
+revision            0
+categories-prepend  devel
+platforms           darwin
+license             MIT
+supported_archs     noarch
+
+python.default_version \
+                    39
+
+maintainers         {@harens gmail.com:harensdeveloper} \
+                    openmaintainer
+
+description         Create committing rules for projects, auto bump versions, \
+                    and auto changelog generation
+long_description    Commitizen is a tool designed for teams. Its main purpose is to \
+                    define a standard way of committing rules and communicating it. \
+                    The reasoning behind it is that it is easier to read, and enforces \
+                    writing descriptive commits.
+
+homepage            https://${name}-tools.github.io/${name}/
+
+checksums           rmd160  f188af1708a1e87b81e3c8388ee60831c7ae5cf3 \
+                    sha256  cf5b8ad49624847e90e390b8604d439a27c84bff5a70aaf6a0da6dc35addbfc1 \
+                    size    31803
+
+depends_lib-append \
+    port:py${python.version}-setuptools
+
+depends_run-append \
+    port:py${python.version}-colorama \
+    port:py${python.version}-decli \
+    port:py${python.version}-jinja2 \
+    port:py${python.version}-packaging \
+    port:py${python.version}-questionary \
+    port:py${python.version}-termcolor \
+    port:py${python.version}-tomlkit \
+    port:py${python.version}-yaml
+
+default_variants    +bash
+
+variant bash description {Include Bash completion support} {
+    depends_run-append \
+        port:py${python.version}-argcomplete \
+        port:bash
+
+    notes-append "
+        To use bash completion, run the following:
+            register-python-argcomplete-${python.branch} cz >> ~/.bashrc"
+}

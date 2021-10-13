@@ -1,0 +1,41 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-olefile
+version             0.46
+revision            0
+categories-append   devel
+platforms           darwin
+license             BSD
+supported_archs     noarch
+
+python.versions     27 35 36 37 38 39
+
+maintainers         nomaintainer
+
+description         Python package to parse read and write Microsoft OLE2 files (Structured \
+                    Storage or Compound Document Microsoft Office) - Improved version of the \
+                    OleFileIO module from PIL, the Python Image Library.
+long_description    ${description}
+
+homepage            https://www.decalage.info/python/olefileio
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+
+distname            ${python.rootname}-${version}
+use_zip             yes
+
+checksums           rmd160  aa90d9d17668567a3d21d0e2c458dd772463fee4 \
+                    sha256  133b031eaf8fd2c9399b78b8bc5b8fcbe4c31e85295749bb17a87cba8f3c3964 \
+                    size    112226
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    test.run        yes
+    test.cmd        ${python.bin} setup.py
+
+    livecheck.type  none
+}

@@ -1,0 +1,38 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        bitwarden cli 1.18.1 v
+revision            0
+
+name                bitwarden-cli
+categories          security
+license             GPL-3
+maintainers         {bochtler.io:macports @MarcelBochtler} \
+                    openmaintainer
+platforms           darwin
+description         Bitwarden password manager CLI
+long_description    CLI implementation of the Bitwarden password manager.
+homepage            https://bitwarden.com
+
+checksums           rmd160  fb35af00304fa16b94906e858fc4135f6f393917 \
+                    sha256  b0726ccac9ed90ffbfef0c5acaef4f6bb85982860ea87e448f7f2c711632787a \
+                    size    19615266
+
+github.tarball_from releases
+distname            bw-macos-${version}
+use_zip             yes
+
+extract.mkdir       yes
+
+# Port installs a binary.
+supported_archs     x86_64
+
+use_configure       no
+
+build               {}
+
+destroot {
+    xinstall -m 755 ${worksrcpath}/bw ${destroot}${prefix}/bin
+}

@@ -1,0 +1,59 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           python 1.0
+
+github.setup        craffel mir_eval 576aad4e0b5931e7c697c078a1153c99b885c64f
+# version is from setup.py _dot_ date of commit
+version             0.6.20201030
+revision            0
+name                py-${github.project}
+categories-append   audio
+
+platforms           darwin
+license             MIT
+maintainers         nomaintainer
+
+description         Common metrics for common audio/music processing tasks.
+
+long_description    Python library for computing common heuristic\
+                    accuracy scores for various music/audio\
+                    information retrieval/signal processing tasks.
+
+homepage            https://craffel.github.io/mir_eval/
+distname            ${github.project}-${version}
+
+checksums           rmd160  df4c42b789bc66acdc76ad73aed3198db89ce088 \
+                    sha256  014939ae2e2e8a9b63145bc50437695e5a7213a0af5263b7aa1754e42041e9d9 \
+                    size    2605143
+
+python.versions     37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    depends_run-append \
+                    port:py${python.version}-numpy \
+                    port:py${python.version}-scipy \
+                    port:py${python.version}-six
+
+    depends_test-append \
+                    port:py${python.version}-pytest
+
+    test.run        yes
+    test.cmd        py.test-${python.branch}
+    test.target
+    test.env-append \
+                    PYTHONPATH=${worksrcpath}/build/lib
+
+    post-destroot {
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath} LICENSE.txt README.rst \
+            ${destroot}${docdir}
+    }
+
+    livecheck.type  none
+}

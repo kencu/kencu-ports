@@ -1,0 +1,50 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-curl
+python.rootname     pycurl
+version             7.44.1
+revision            0
+
+categories-append   net devel
+platforms           darwin
+license             {MIT LGPL}
+maintainers         nomaintainer
+
+description         Python interface to libcurl
+long_description    Python module interface to the cURL library which \
+                    is a tool for transferring files with URL syntax, \
+                    supporting many protocols.
+
+homepage            http://pycurl.io/
+
+checksums           rmd160  54ea1368a042470fb94f62e59eb6ba2a9cd3cf51 \
+                    sha256  5bcef4d988b74b99653602101e17d8401338d596b9234d263c728a0c3df003e8 \
+                    size    227562
+
+python.versions     27 37 38 39
+
+if {${name} ne ${subport}} {
+    if {${python.version} == 27} {
+        version     7.43.0.3
+        revision    1
+        checksums   rmd160  32673e8d1e9ed4872d9b9d5d8272963f7749cc74 \
+                    sha256  6f08330c5cf79fa8ef68b9912b9901db7ffd34b63e225dce74db56bb21deda8e \
+                    size    215003
+    }
+
+    depends_lib-append  port:curl \
+                        path:lib/libssl.dylib:openssl
+
+    pre-build {
+        system -W ${build.dir} "${python.bin} setup.py docstrings"
+    }
+
+    build.args      --curl-config=${prefix}/bin/curl-config
+
+    destroot.args   ${build.args}
+
+    livecheck.type  none
+}

@@ -1,0 +1,41 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                libwps
+version             0.4.11
+categories          textproc
+platforms           darwin
+maintainers         {devans @dbevans} openmaintainer
+license             LGPL-2
+
+description         C++ library for reading and parsing the Microsoft Works \
+                    document format
+
+long_description    ${name} a is ${description}.
+
+homepage            http://libwps.sourceforge.net/
+master_sites        sourceforge:project/libwps/libwps/libwps-${version}
+
+use_xz              yes
+
+checksums           rmd160  da040dcccbc4489bb41112ffdc152d7aa07fbb7d \
+                    sha256  a8fdaabc28654a975fa78c81873ac503ba18f0d1cdbb942f470a21d29284b4d1 \
+                    size    706000
+
+depends_build       port:pkgconfig
+
+depends_lib         port:librevenge
+
+compiler.cxx_standard 2011
+
+configure.args      --disable-silent-rules \
+                    --disable-werror \
+                    --without-docs
+
+variant docs description {Build API documentation} {
+    depends_build-append    port:doxygen
+    configure.args-delete   --without-docs
+}
+
+livecheck.regex     /${name}-(\[0-9.\]+)${extract.suffix}

@@ -1,0 +1,90 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-scikit-learn
+version             1.0
+revision            0
+categories-append   science
+platforms           darwin
+license             BSD
+
+python.versions     27 35 36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         Easy-to-use and general-purpose machine learning in Python
+
+long_description    Scikit-learn integrates machine learning algorithms \
+                    in the tightly-knit scientific Python world, building upon \
+                    numpy, scipy, and matplotlib. As a machine-learning module, \
+                    it provides versatile tools for data mining and analysis \
+                    in any field of science and engineering.
+
+homepage            https://scikit-learn.org/
+
+checksums           rmd160  efc3bf4f021495ebb90f86470c862709e2483825 \
+                    sha256  776800194e757cd212b47cd05907e0eb67a554ad333fe76776060dbb729e3427 \
+                    size    7838112
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                        port:py${python.version}-setuptools \
+                        port:py${python.version}-cython
+    depends_lib-append  port:py${python.version}-numpy \
+                        port:py${python.version}-scipy \
+                        port:py${python.version}-joblib \
+                        port:py${python.version}-threadpoolctl
+
+    if {${python.version} eq 27} {
+        version             0.20.4
+        revision            0
+        distname            ${python.rootname}-${version}
+        checksums           rmd160  44a29f1b23112f02b6c44fb8df4dc517714080cc \
+                            sha256  dfa8a3f33907614030cdfbc8b6f553dacbecaf09f922244f128af3060a137cfc \
+                            size    11684276
+
+        depends_lib-delete  port:py${python.version}-joblib \
+                            port:py${python.version}-threadpoolctl
+    } else {
+
+        if {${python.version} eq 35} {
+            version             0.22.2.post1
+            revision            0
+            distname            ${python.rootname}-${version}
+            checksums           rmd160  14d6a5df7c30fc17688f5b16079e405e615bce83 \
+                                sha256  57538d138ba54407d21e27c306735cbd42a6aae0df6a5a30c7a6edde46b0017d \
+                                size    6947787
+
+            depends_lib-delete  port:py${python.version}-threadpoolctl
+        } elseif {${python.version} eq 36} {
+            version             0.24.2
+            revision            0
+            distname            ${python.rootname}-${version}
+            checksums           rmd160  b93d0caf869e29f60bea722e2a86bd1fddc7a663 \
+                                sha256  d14701a12417930392cd3898e9646cf5670c190b933625ebe7511b1f7d7b8736 \
+                                size    7524030
+            # force cythonize
+            patchfiles-append   patch-sklearn__build_utils___init__.py.diff
+        }
+
+        compiler.openmp_version 2.5
+        depends_lib-append  port:libomp
+
+        python.add_archflags no
+
+        build.env-append    "CPPFLAGS=${configure.cppflags} -I${prefix}/include/libomp -Xpreprocessor -fopenmp" \
+                            "CFLAGS=${configure.cc_archflags} -I${prefix}/include/libomp" \
+                            "CXXFLAGS=${configure.cxx_archflags} -I${prefix}/include/libomp" \
+                            "LDFLAGS=${configure.ld_archflags} -L${prefix}/lib/libomp -lomp" \
+                            DYLD_LIBRARY_PATH=${prefix}/lib/libomp
+        destroot.env-append "CPPFLAGS=${configure.cppflags} -I${prefix}/include/libomp -Xpreprocessor -fopenmp" \
+                            "CFLAGS=${configure.cc_archflags} -I${prefix}/include/libomp" \
+                            "CXXFLAGS=${configure.cxx_archflags} -I${prefix}/include/libomp" \
+                            "LDFLAGS=${configure.ld_archflags} -L${prefix}/lib/libomp -lomp" \
+                            DYLD_LIBRARY_PATH=${prefix}/lib/libomp
+    }
+
+    livecheck.type      none
+}

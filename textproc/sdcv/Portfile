@@ -1,0 +1,46 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               cmake 1.1
+PortGroup               github 1.0
+
+epoch                   1
+github.setup            Dushistov sdcv 0.5.3 v
+revision                0
+checksums               rmd160  5bc798b097b8f2f4652a65bdce6e3b8e7764f0fe \
+                        sha256  75fb95b1607fdd2fb9f7795d3432d295904614150575ae539202f680499803c9 \
+                        size    62105
+
+categories              textproc
+platforms               darwin
+maintainers             {ryandesign @ryandesign} openmaintainer
+license                 GPL-2+
+
+description             console version of StarDict program
+
+long_description        ${name} is a console version of the StarDict program.
+
+homepage                https://dushistov.github.io/sdcv/
+github.tarball_from     archive
+
+depends_build-append    port:pkgconfig
+
+depends_lib             port:gettext \
+                        path:lib/pkgconfig/glib-2.0.pc:glib2 \
+                        port:readline \
+                        port:zlib
+
+compiler.cxx_standard   2011
+
+build.target-append     lang
+
+post-destroot {
+    set docdir ${prefix}/share/doc/${subport}
+    xinstall -d ${destroot}${docdir}
+    xinstall -m 0644 -W ${worksrcpath} \
+        AUTHORS \
+        LICENSE \
+        NEWS \
+        README.org \
+        ${destroot}${docdir}
+}

@@ -1,0 +1,35 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Specio 0.47 ../../authors/id/D/DR/DROLSKY
+license             Artistic-2
+maintainers         {devans @dbevans} openmaintainer
+description         Specio - Type constraints and coercions for Perl
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  d608e0bded08a45a6778558f11e1807d2c81509a \
+                    sha256  f41307f14444f8777e572f27eeb6a964084399e7e382c47c577827ad8a286a1c \
+                    size    108288
+
+if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-test-needs
+
+    depends_lib-append \
+                    port:p${perl5.major}-devel-stacktrace \
+                    port:p${perl5.major}-eval-closure \
+                    port:p${perl5.major}-module-runtime \
+                    port:p${perl5.major}-mro-compat \
+                    port:p${perl5.major}-ref-util \
+                    port:p${perl5.major}-role-tiny \
+                    port:p${perl5.major}-sub-quote \
+                    port:p${perl5.major}-test-fatal \
+                    port:p${perl5.major}-xstring
+
+    supported_archs noarch
+}

@@ -1,0 +1,52 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+github.setup        trentm python-markdown2 2.4.0
+revision            0
+name                py-markdown2
+
+categories-append   textproc
+platforms           darwin
+supported_archs     noarch
+license             MIT
+supported_archs     noarch
+maintainers         nomaintainer
+
+description         A fast and complete implementation of Markdown in Python
+long_description    {*}${description}. Markdown2 comes with a number of extensions \
+                    for things like syntax coloring, tables, header-ids.
+
+checksums           rmd160  20f4b789ec3d2942f0a7ec598ed727595c6e5ca8 \
+                    sha256  7390432aa051a674a3cb77cd1748c9bc4d0ffab3ce358331fe92a6727d245448 \
+                    size    1065930
+
+python.versions     27 35 36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    # Required for code highlighting and tests to pass
+    # See https://github.com/trentm/python-markdown2/issues/388#issuecomment-769236400
+    depends_run-append \
+                    port:py${python.version}-pygments
+
+    post-destroot {
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 644 -W ${worksrcpath} TODO.txt README.md \
+            LICENSE.txt CONTRIBUTORS.txt CHANGES.md \
+            ${destroot}${docdir}
+    }
+
+    test.run        yes
+    test.cmd        cd test && ${python.bin}
+    test.args       test.py -- -knownfailure
+    test.target
+    test.env        PYTHONPATH=${worksrcpath}/build/lib
+
+    livecheck.type  none
+}

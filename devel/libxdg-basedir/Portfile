@@ -1,0 +1,33 @@
+PortSystem      1.0
+PortGroup       github 1.0
+
+github.setup    davmac314 libxdg-basedir 1.2.2 v
+maintainers     nomaintainer
+categories      devel
+license         MIT
+platforms       darwin
+description     An implementation of the XDG Base Directory specification
+
+long_description \
+    This library implements functions to list the \
+    directories according to the specification and \
+    provides a few higher-level functions for use \
+    with the specification.
+
+checksums       rmd160  b81656222bed2090ca04a8e0788ef1e6ae6d5f7a \
+                sha256  fb95e36927dc34a04659935235d513baddd1a77c7898fe850475e32881b0b579 \
+                size    30882
+
+use_autoreconf  yes
+autoreconf.cmd  ./autogen.sh
+autoreconf.args
+
+configure.args  --disable-doxygen-doc \
+                --disable-doxygen-dot \
+                --disable-doxygen-html
+
+depends_build-append \
+                port:autoconf \
+                port:automake \
+                port:libtool \
+                port:pkgconfig

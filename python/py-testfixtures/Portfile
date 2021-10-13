@@ -1,0 +1,47 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-testfixtures
+version             6.18.1
+revision            0
+
+categories-append   devel
+platforms           darwin
+supported_archs     noarch
+license             MIT
+
+python.versions     27 36 37 38 39
+
+maintainers         {khindenburg @kurthindenburg} openmaintainer
+
+description         A collection of helpers and mock objects for tests
+long_description    ${description}
+
+homepage            https://pypi.python.org/pypi/${python.rootname}/
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+
+distname            ${python.rootname}-${version}
+
+checksums           rmd160  d8fdcb39fbb924cf68622c4a5072f39c3d4f2b53 \
+                    sha256  0a6422737f6d89b45cdef1e2df5576f52ad0f507956002ce1020daa9f44211d6 \
+                    size    121731
+
+if {${name} ne ${subport}} {
+    depends_build-append  port:py${python.version}-setuptools
+
+    post-extract {
+        copy -force ${filespath}/conftest.py ${worksrcpath}/testfixtures/tests/
+    }
+
+    # Run a few tests; a lot of the others require sybil
+    depends_test-append port:py${python.version}-pytest
+    test.run            yes
+    test.dir            "${worksrcpath}/build/lib/testfixtures/tests"
+    test.cmd            py.test-${python.branch} "test_compare.py test_comparison.py test_date.py test_datetime.py test_diff.py test_shouldwarn.py test_stringcomparison.py"
+    test.target
+    test.env            PYTHONPATH=${worksrcpath}/build/lib
+
+    livecheck.type      none
+}

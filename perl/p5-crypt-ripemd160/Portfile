@@ -1,0 +1,18 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Crypt-RIPEMD160 0.08
+license             {Artistic-1 GPL}
+maintainers         nomaintainer
+description         perl implementation of RIPEMD-160
+long_description    This is a Perl5 extension interface to the RIPEMD-160 \
+                    Message Digest algorithm.
+
+platforms           darwin
+
+checksums           rmd160  8516b1eceac6f0975a1228a6b8cc1f522e9c4125 \
+                    sha256  34d1c87607f6c9defab3741b76d31bccfbb6d4d201af80e0f6083c378130b232 \
+                    size    60041

@@ -1,0 +1,68 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           texlive 1.0
+
+name                texlive-lang-european
+version             58652
+revision            0
+
+categories          tex
+maintainers         {dports @drkp}
+license             Copyleft Permissive
+description         TeX Live: Other European languages
+long_description    Support for a number of European languages\; others (Greek, German, French, ...) have their own collections, depending simply on the size of the support.
+
+checksums           texlive-lang-european-58652-run.tar.xz \
+                    rmd160  9b0d221a6a76e0728858a5e42e1d5e0ede2e461c \
+                    sha256  aa12ec87cc2382cda7ca8d79469219d324b150bfaa542531000a834bf5aef3ba \
+                    size    14583652 \
+                    texlive-lang-european-58652-doc.tar.xz \
+                    rmd160  0cf0b8a57725ada964705a430bfaca70570b6c5a \
+                    sha256  750b378ad90dbafc8ad47664f56d9763ed7e248f50230baa158b3552584e4afc \
+                    size    12748632 \
+                    texlive-lang-european-58652-src.tar.xz \
+                    rmd160  5a00cac3bd0166e11082191f8f197b2771d4be42 \
+                    sha256  572d407c97370140e2f74a32faaefecd3c16068303957ff306b3d1ce713bae76 \
+                    size    144796
+
+depends_lib         port:texlive-basic
+
+texlive.languages      \
+    {croatian loadhyph-hr.tex 2 2 {} {hyph-hr.pat.txt} {} {} } \
+    {danish loadhyph-da.tex 2 2 {} {hyph-da.pat.txt} {} {} } \
+    {dutch loadhyph-nl.tex 2 2 {} {hyph-nl.pat.txt} {hyph-nl.hyp.txt} {} } \
+    {estonian loadhyph-et.tex 2 3 {} {hyph-et.pat.txt} {} {} } \
+    {finnish loadhyph-fi.tex 2 2 {} {hyph-fi.pat.txt} {} {} } \
+    {schoolfinnish loadhyph-fi-x-school.tex 1 1 {} {hyph-fi-x-school.pat.txt} {} {} } \
+    {friulan loadhyph-fur.tex 2 2 {} {hyph-fur.pat.txt} {} {} } \
+    {hungarian loadhyph-hu.tex 2 2 {} {hyph-hu.pat.txt} {} {} } \
+    {icelandic loadhyph-is.tex 2 2 {} {hyph-is.pat.txt} {} {} } \
+    {irish loadhyph-ga.tex 2 3 {} {hyph-ga.pat.txt} {hyph-ga.hyp.txt} {} } \
+    {kurmanji loadhyph-kmr.tex 2 2 {} {hyph-kmr.pat.txt} {} {} } \
+    {classiclatin loadhyph-la-x-classic.tex 2 2 {} {hyph-la-x-classic.pat.txt} {} {} } \
+    {latin loadhyph-la.tex 2 2 {} {hyph-la.pat.txt} {} {} } \
+    {liturgicallatin loadhyph-la-x-liturgic.tex 2 2 {} {hyph-la-x-liturgic.pat.txt} {} {} } \
+    {latvian loadhyph-lv.tex 2 2 {} {hyph-lv.pat.txt} {} {} } \
+    {lithuanian loadhyph-lt.tex 2 2 {} {hyph-lt.pat.txt} {} {} } \
+    {macedonian loadhyph-mk.tex 2 2 {} {hyph-mk.pat.txt} {} {} } \
+    {bokmal loadhyph-nb.tex 2 2 {norwegian norsk} {hyph-nb.pat.txt} {hyph-nb.hyp.txt} {} } \
+    {nynorsk loadhyph-nn.tex 2 2 {} {hyph-nn.pat.txt} {hyph-nn.hyp.txt} {} } \
+    {occitan loadhyph-oc.tex 2 2 {} {hyph-oc.pat.txt} {} {} } \
+    {piedmontese loadhyph-pms.tex 2 2 {} {hyph-pms.pat.txt} {} {} } \
+    {romanian loadhyph-ro.tex 2 2 {} {hyph-ro.pat.txt} {} {} } \
+    {romansh loadhyph-rm.tex 2 2 {} {hyph-rm.pat.txt} {} {} } \
+    {slovenian loadhyph-sl.tex 2 2 {slovene} {hyph-sl.pat.txt} {} {} } \
+    {swedish loadhyph-sv.tex 2 2 {} {hyph-sv.pat.txt} {} {} } \
+    {turkish loadhyph-tr.tex 2 2 {} {hyph-tr.pat.txt} {} {} } \
+    {uppersorbian loadhyph-hsb.tex 2 2 {} {hyph-hsb.pat.txt} {hyph-hsb.hyp.txt} {} } \
+    {welsh loadhyph-cy.tex 2 3 {} {hyph-cy.pat.txt} {} {} }
+
+texlive.maps      \
+    {MixedMap arss.map} \
+    {MixedMap artm.map} \
+    {Map l7x-urwvn.map} \
+    {Map rojud.map}
+
+
+texlive.texmfport

@@ -1,0 +1,43 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               python 1.0
+
+name                    py-astlib
+version                 0.10.1
+revision                0
+
+categories              python science
+platforms               darwin
+maintainers             {aronnax @lpsinger} openmaintainer
+license                 LGPL-2.1
+description             python modules for research astronomers
+long_description \
+    astLib is a set of python modules that provides some tools for research \
+    astronomers. It can be used for simple plots, statistics, common \
+    calculations, coordinate conversions, and manipulating FITS images with \
+    World Coordinate System (WCS) information.
+
+homepage                http://astlib.sourceforge.net
+master_sites            sourceforge:astlib
+distname                astLib-${version}
+
+checksums               rmd160  34e1f8148992cbd40fe224c8afa2130358b6fc5f \
+                        sha256  080a015f025623451d9429cc82ed33e7930099429064282027b5663438903982 \
+                        size    742043
+
+python.versions         37 38 39
+
+if {${name} ne ${subport}} {
+    depends_lib-append  port:py${python.version}-setuptools \
+                        port:py${python.version}-astropy \
+                        port:py${python.version}-numpy \
+                        port:py${python.version}-scipy \
+                        port:py${python.version}-matplotlib \
+                        path:${python.pkgd}/PIL:py${python.version}-Pillow
+
+    livecheck.type      none
+} else {
+    # Some version numbers were assigned out of order
+    livecheck.regex     {/astlib/0.15/|/astlib/0.17/|/astlib/0.17.1/|/astlib/([a-zA-Z0-9.]+\.[a-zA-Z0-9.]+)/}
+}

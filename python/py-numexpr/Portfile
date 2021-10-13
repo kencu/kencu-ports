@@ -1,0 +1,53 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-numexpr
+version             2.7.3
+revision            0
+categories-append   math
+platforms           darwin
+license             MIT
+
+python.versions     27 35 36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         Multiple-operator array expression evaluator
+long_description    The numexpr package evaluates multiple-operator array \
+                    expressions many times faster than NumPy can. It accepts \
+                    the expression as a string, analyzes it, rewrites it \
+                    more efficiently, and compiles it on the fly into code \
+                    for its internal virtual machine (VM). Due to its \
+                    integrated just-in-time (JIT) compiler, it does not \
+                    require a compiler at runtime.
+
+homepage            https://github.com/pydata/numexpr
+
+checksums           rmd160  1d49701c950cd8f202f02daf03bc4f570149f6f5 \
+                    sha256  43616529f9b7d1afc83386f943dc66c4da5e052f00217ba7e3ad8dd1b5f3a825 \
+                    size    97932
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                        port:py${python.version}-setuptools
+    depends_lib-append  port:py${python.version}-numpy
+
+    if {${python.version} <= 35} {
+        version             2.7.1
+        revision            0
+        distname            ${python.rootname}-${version}
+        checksums           rmd160  a2d301d01e5148b07eca9fa9e0650d0c986bde36 \
+                            sha256  b0d239d9827e1bcee08344fd05835823bc60aff97232e35a928214d03ff802b1 \
+                            size    99196
+    }
+
+    post-destroot {
+        xinstall -m 755 -d ${destroot}${prefix}/share/doc/${subport}
+        xinstall -m 644 -W ${worksrcpath} ANNOUNCE.rst LICENSE.txt README.rst \
+            RELEASE_NOTES.rst ${destroot}${prefix}/share/doc/${subport}
+    }
+
+    livecheck.type      none
+}

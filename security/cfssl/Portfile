@@ -1,0 +1,51 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/cloudflare/cfssl 1.6.1 v
+revision            0
+
+homepage            https://cfssl.org
+
+description         Cloudflare's PKI and TLS toolkit
+
+long_description    CFSSL is CloudFlare's PKI/TLS swiss army knife. It is \
+                    both a command line tool and an HTTP API server for \
+                    signing, verifying, and bundling TLS certificates. \
+                    CFSSL consists of: a set of packages useful for \
+                    building custom TLS PKI tools, the cfssl program - the \
+                    canonical command line utility using the CFSSL \
+                    packages, the multirootca program - a certificate \
+                    authority server that can use multiple signing keys, \
+                    the mkbundle program - used to build certificate pool \
+                    bundles, the cfssljson program - which takes the JSON \
+                    output from the cfssl and multirootca programs and writes \
+                    certificates, keys, CSRs, and bundles to disk.
+
+categories          security
+installs_libs       no
+license             BSD
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+
+# Dependencies are already vendored in source, go.vendors not needed
+checksums           rmd160  9d3074cd94acf1dc462a9236ddd071790afda4b0 \
+                    sha256  00f5316e8f065a48eeb02b7359aa67699a5c1362b09c6e8faa19d8f35451c1d8 \
+                    size    11853220
+
+github.tarball_from archive
+
+build.cmd           make
+build.pre_args      VERSION=${version}
+build.args          all
+
+destroot {
+    foreach cfssl_bin [glob ${worksrcpath}/bin/*] {
+        xinstall -m 755 ${cfssl_bin} ${destroot}${prefix}/bin/
+    }
+
+    # Build process builds rice which is used as part of the build process,
+    # but rice is not part of cfssl.
+    file delete ${destroot}${prefix}/bin/rice
+}

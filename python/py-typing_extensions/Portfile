@@ -1,0 +1,37 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem 1.0
+PortGroup python 1.0
+
+name                py-typing_extensions
+version             3.10.0.2
+license             PSF
+platforms           darwin
+maintainers         {toby @tobypeterson} openmaintainer
+description         Backported and Experimental Type Hints for Python
+long_description    The typing module was added to the standard library in Python 3.5 \
+                    on a provisional basis and will no longer be provisional in Python \
+                    3.7. However, this means users of Python 3.5 - 3.6 who are unable \
+                    to upgrade will not be able to take advantage of new types added \
+                    to the typing module, such as typing.Text or typing.Coroutine. \
+                    The typing_extensions module contains both backports of these \
+                    changes as well as experimental types that will eventually be \
+                    added to the typing module, such as Protocol or TypedDict.
+
+homepage            https://github.com/python/typing/blob/master/typing_extensions/README.rst
+master_sites        pypi:t/typing_extensions
+distname            typing_extensions-${version}
+
+checksums           rmd160  b9ba0200913df912b7cb026177a7dc428880b180 \
+                    sha256  49f75d16ff11f1cd258e1b988ccff82a3ca5570217d7ad8c5f48205dd99a677e \
+                    size    46048
+
+python.versions     36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append    port:py${python.version}-setuptools
+
+    livecheck.type          none
+} else {
+    livecheck.type          pypi
+}

@@ -1,0 +1,46 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-markdown
+python.rootname     Markdown
+version             3.3.4
+revision            0
+categories-append   textproc
+platforms           darwin
+license             BSD
+supported_archs     noarch
+
+python.versions     27 35 36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         Python implementation of Markdown
+
+long_description    This is a Python implementation of John Gruber’s \
+                    Markdown. It is almost completely compliant with \
+                    the reference implementation, though there are a \
+                    few very minor differences.
+
+homepage            https://python-markdown.github.io/
+
+checksums           rmd160  11b72409f11e3aa26f50d8ed25064eb219b8b82f \
+                    sha256  31b5b491868dcc87d6c24b7e3d19a0d730d59d3e46f4eea6430a321bed387a49 \
+                    size    322192
+
+if {${name} ne ${subport}} {
+
+    if {${python.version} <= 35} {
+        version             3.1.1
+        revision            0
+        distname            ${python.rootname}-${version}
+        checksums           rmd160  770c41f726e57b64e2c27266e6b0cf8b7bf895ab \
+                            sha256  2e50876bcdd74517e7b71f3e7a76102050edec255b3983403f1a63e7c8a41e7a \
+                            size    294136
+    }
+
+    depends_lib-append  port:py${python.version}-setuptools
+
+    livecheck.type      none
+}

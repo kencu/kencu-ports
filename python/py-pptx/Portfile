@@ -1,0 +1,47 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+github.setup        scanny python-pptx 0.6.21 v
+name                py-pptx
+python.versions     27 37 38 39
+platforms           darwin
+license             MIT
+maintainers         {eborisch @eborisch} \
+                    openmaintainer
+supported_archs     noarch
+
+description         Python module for creating and updating PowerPoint files.
+
+long_description    A typical use would be generating a customized PowerPoint \
+                    presentation from database content, downloadble by\
+                    clicking a link in a web application. Several developers\
+                    have used it to automate production of presentation-ready\
+                    engineering status reports based on information held in\
+                    their work management system. It could also be used for\
+                    making bulk updates to a library of presentations or\
+                    simply to automate the production of a slide or two that\
+                    would be tedious to get right by hand.
+
+
+checksums           rmd160  88a4dc2274fc115c7a49cc46051ee64683c1d8b0 \
+                    sha256  b883052e527be6439c1f1f66c154aaf0143ea07447999bba686c2f3bcb9c2b42 \
+                    size    50231576
+
+if {${name} ne ${subport}} {
+    depends_build-append    port:py${python.version}-setuptools
+    depends_lib-append      port:py${python.version}-lxml \
+                            port:py${python.version}-Pillow \
+                            port:py${python.version}-XlsxWriter
+
+    post-destroot {
+        set DOCDIR ${destroot}${prefix}/share/doc/${subport}
+        xinstall -d ${DOCDIR}
+        xinstall -m 0644 -W ${worksrcpath} HISTORY.rst \
+            LICENSE README.rst ${DOCDIR}
+    }
+
+    livecheck.type  none
+}

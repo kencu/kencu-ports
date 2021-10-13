@@ -1,0 +1,39 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+set real_name       zope.proxy
+name                py-zope-proxy
+version             4.4.0
+revision            0
+worksrcdir          ${real_name}-${version}
+distfiles           ${real_name}-${version}${extract.suffix}
+categories-append   zope
+license             ZPL-2.1
+maintainers         {mps @Schamschula} openmaintainer
+description         Proxies are special objects which serve as mostly-transparent \
+                    wrappers around another object, intervening in the apparent behavior \
+                    of the wrapped object only when necessary to apply the policy \
+                    (e.g., access checking, location brokering, etc.) for which the \
+                    proxy is responsible.
+long_description    {*}${description}
+platforms           darwin
+homepage            https://pypi.python.org/pypi/${real_name}
+master_sites        pypi:z/${real_name}
+
+python.versions     36 37 38 39
+
+checksums           rmd160  303bc645e8416c8557564cef5254f94c2dfe1941 \
+                    sha256  b244904c5148067c3f1899d29a2c1a28faca747b143192c0f825e6bf3170a347 \
+                    size    43726
+
+if {${name} ne ${subport}} {
+    depends_lib-append  \
+                     port:py${python.version}-setuptools
+
+    livecheck.type  none
+} else {
+    livecheck.type  regex
+    livecheck.regex ${real_name}-(\[0-9.\]+)${extract.suffix}
+}

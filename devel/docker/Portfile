@@ -1,0 +1,43 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/docker/cli 20.10.9 v
+revision            0
+name                docker
+categories          devel
+platforms           darwin
+license             Apache-2
+maintainers         {emcrisostomo @emcrisostomo} \
+                    openmaintainer
+description         The open-source application container engine
+long_description    Docker is an open source project to pack, ship \
+                    and run any application as a lightweight container.
+
+checksums           rmd160  d1ffa4d2d57c3623bc4f8ce7a5883c2aad8ec15a \
+                    sha256  450ac6203a07cf0ec8ca6c77cde303c3299b6f53fb877a36a252916853243151 \
+                    size    7527058
+
+build.target        github.com/docker/cli/cmd/docker
+
+pre-build {
+    set distfile_dirname [exec tar tzf ${distpath}/[lindex ${distfiles} 0] | sed -n 1p]
+    set docker_gitcommit [string map "${github.author}-${github.project}- {} / {}" ${distfile_dirname}]
+    if {![regexp -nocase -- {^[0-9a-f]{7}$} ${docker_gitcommit}]} {
+        return -code error "can't determine git commit"
+    }
+
+    set val [clock microseconds]
+    set seconds_precision [expr { $val / 1000000 }]
+    set build_time [clock format $seconds_precision -format "%a %b %d %H:%M:%S %Y"]
+
+    build.cmd ${go.bin} build -ldflags \
+        "\"-X github.com/docker/cli/cli/version.GitCommit=${docker_gitcommit} -X github.com/docker/cli/cli/version.Version=${version} -X \\\"github.com/docker/cli/cli/version.BuildTime=${build_time}\\\"\""
+}
+
+destroot {
+    xinstall -m 755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
+}
+
+github.livecheck.regex  {([^"r]+)}

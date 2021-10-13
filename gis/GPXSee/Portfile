@@ -1,0 +1,40 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           qmake5 1.0
+
+github.setup        tumic0 GPXSee 9.7
+revision            0
+
+checksums           rmd160  856d8318fb271703383e472e47cb5eaca8de5370 \
+                    sha256  482811da7abd71b0aac768ff2b1eb4e1e09ef4ab964dfd17fa4c01d98b9580fc \
+                    size    4732154
+
+categories          gis graphics
+platforms           darwin
+license             GPL-3
+maintainers         {@sikmir gmail.com:sikmir} openmaintainer
+
+description         GPS log file viewer and analyzer
+long_description    GPXSee is a Qt-based GPS log file viewer and analyzer \
+                    that supports all common GPS log file formats.
+
+homepage            https://www.gpxsee.org/
+
+patchfiles          patch-src_GUI_app_cpp.diff
+
+qt5.depends_build_component     qttools
+qt5.depends_runtime_component   qtimageformats qttranslations
+
+compiler.cxx_standard 2011
+
+depends_run-append  port:QtPBFImagePlugin
+
+post-configure {
+    system -W ${worksrcpath} "${qt_lrelease_cmd} gpxsee.pro"
+}
+
+destroot {
+    copy ${worksrcpath}/GPXSee.app ${destroot}${applications_dir}
+}

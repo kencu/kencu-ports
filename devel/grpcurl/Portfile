@@ -1,0 +1,46 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/fullstorydev/grpcurl 1.8.2 v
+revision            0
+
+categories          devel net
+license             MIT
+
+description         Like cURL, but for gRPC: Command-line tool for \
+                    interacting with gRPC servers
+
+long_description    {*}${description}. The main purpose for this tool is to \
+                    invoke RPC methods on a gRPC server from the \
+                    command-line. gRPC servers use a binary encoding on the \
+                    wire (protocol buffers, or "protobufs" for short). So \
+                    they are basically impossible to interact with using \
+                    regular curl (and older versions of curl that do not \
+                    support HTTP/2 are of course non-starters). This program \
+                    accepts messages using JSON encoding, which is much more \
+                    friendly for both humans and scripts.
+
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+
+checksums           rmd160  300a60204997f3a0ab0544350a44b6d55bb5ec21 \
+                    sha256  89e56bc6cdbf180068b02cc46078ebc3319010f2050f04247e1d535c7f9bf19b \
+                    size    138274
+
+build.pre_args      -ldflags \"-X 'main.version=${version}'\"
+build.args          ./cmd/grpcurl
+installs_libs       no
+
+# FIXME: This port currently can't be built without allowing go mod to fetch
+# dependencies during the build phase. See
+# https://trac.macports.org/ticket/61192
+build.env-delete    GOPROXY=off GO111MODULE=off
+
+destroot {
+    xinstall -m 755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
+}
+
+github.livecheck.regex  {([0-9.]+)}
+github.tarball_from     archive

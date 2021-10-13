@@ -1,0 +1,54 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           texlive 1.0
+
+name                texlive-latex
+version             58684
+revision            0
+
+categories          tex
+maintainers         {dports @drkp}
+license             Copyleft Permissive
+description         TeX Live: LaTeX fundamental packages
+long_description    These packages are either mandated by the core LaTeX team, or very widely used and strongly recommended in practice.
+
+checksums           texlive-latex-58684-run.tar.xz \
+                    rmd160  d2759e0f6c91eddf0571f73f8bc1d278d4ead866 \
+                    sha256  c5ef6b8084b667c0493c0e1c16e0e135cde4bbe86641b75d195d9ad0f07eaac1 \
+                    size    76257784 \
+                    texlive-latex-58684-doc.tar.xz \
+                    rmd160  26ce0e5b6a80371310f1bf9156a4c8d24ae31558 \
+                    sha256  aacf9ca0569eb1603cc085d368185b69435e3e3c29cad8b0b965fe4caebe3ba0 \
+                    size    71833844 \
+                    texlive-latex-58684-src.tar.xz \
+                    rmd160  39722768623c95aaa913647b04c2a64778879fa5 \
+                    sha256  a1460248fa7313488201e42ef97f94f509e7e5f9a808c080c8fe01b310c7ddf4 \
+                    size    3436756
+
+depends_lib         port:texlive-basic
+
+texlive.formats      \
+    {1 dvilualatex luatex language.dat,language.dat.lua {dvilualatex.ini}} \
+    {1 latex pdftex language.dat {-translate-file=cp227.tcx *latex.ini}} \
+    {1 lualatex luahbtex language.dat,language.dat.lua {lualatex.ini}} \
+    {1 pdflatex pdftex language.dat {-translate-file=cp227.tcx *pdflatex.ini}} \
+    {1 mptopdf pdftex - {-translate-file=cp227.tcx mptopdf.tex}}
+
+texlive.maps      \
+    {Map charter.map} \
+    {Map fpls.map} \
+    {Map pazo.map} \
+    {Map utopia.map}
+
+texlive.binaries    dvilualatex latex lualatex mptopdf pdflatex
+
+pre-activate {
+    # Handle conflicts for TL2021 upgrade
+    if { ![catch {set vers [lindex [registry_active texlive-latex-recommended] 0]}]
+         && ([vercmp [lindex $vers 1] 58666] < 0) } {
+        registry_deactivate_composite texlive-latex-recommended "" [list ports_nodepcheck 1]
+    }
+}
+
+texlive.texmfport

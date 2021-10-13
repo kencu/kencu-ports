@@ -1,0 +1,48 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+PortGroup           legacysupport 1.0
+PortGroup           compiler_blacklist_versions 1.0
+
+github.setup        Exiv2 exiv2 0.27.4 v
+revision            0
+checksums           rmd160  6d8321b959a701955284905a8e7b852cff09b377 \
+                    sha256  9fb2752c92f63c9853e0bef9768f21138eeac046280f40ded5f37d06a34880d9 \
+                    size    31786767
+
+categories          graphics
+platforms           darwin
+license             GPL-2+
+maintainers         {ryandesign @ryandesign} openmaintainer
+
+description         EXIF and IPTC metadata manipulation library and tools
+long_description    Exiv2 comprises of a C++ library and a command line utility \
+                    which allows you to manipulate EXIF and IPTC image metadata.
+
+homepage            https://www.exiv2.org
+github.tarball_from archive
+
+depends_build-append \
+                    port:gmake
+
+depends_lib-append  port:expat \
+                    port:gettext \
+                    port:libiconv \
+                    port:zlib
+
+compiler.cxx_standard 2011
+# error: use of undeclared identifier '__builtin_sadd_overflow'
+compiler.blacklist-append \
+                    { clang < 426 } \
+                    macports-clang-3.3
+
+patchfiles-append   patch-remove-no-format-overflow.diff
+
+configure.args-append \
+                    -DIconv_INCLUDE_DIR=${prefix}/include \
+                    -DIconv_LIBRARY=${prefix}/lib/libiconv.dylib \
+                    -DZLIB_ROOT=${prefix}
+
+github.livecheck.regex  {(\d+(?:\.\d+)+)}

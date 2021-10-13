@@ -1,0 +1,54 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-pluggy
+version             1.0.0
+revision            0
+
+categories-append   devel
+platforms           darwin
+supported_archs     noarch
+license             MIT
+maintainers         {gmail.com:pedro.salgado @steenzout} openmaintainer
+
+description         Plugin and hook calling mechanisms for Python
+long_description    This is the plugin manager as used by pytest but \
+                    stripped of pytest specific details.
+
+homepage            https://github.com/pytest-dev/pluggy
+
+checksums           rmd160  eb4afc0c0bf44b7a7b17eca1859d4e8fb2119ab0 \
+                    sha256  4224373bacce55f955a878bf9cfa763c1e360858e330072059e10bad68531159 \
+                    size    51510
+
+python.versions     27 35 36 37 38 39
+
+if {${name} ne ${subport}} {
+    if {${python.version} in "27 35"} {
+        version     0.13.0
+        revision    0
+        checksums   rmd160  29a71452c7299e6f832c095a8973e444e1be58ce \
+                    sha256  fa5fa1622fa6dd5c030e9cad086fa19ef6a0cf6d7a2d12318e10cb49d6d68f34 \
+                    size    57726
+    }
+
+    depends_build-append \
+                        port:py${python.version}-setuptools_scm
+
+    depends_lib-append  port:py${python.version}-py
+
+    if {${python.version} < 38} {
+        depends_lib-append port:py${python.version}-importlib-metadata
+    }
+
+    post-destroot {
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath} README.rst LICENSE \
+            CHANGELOG.rst ${destroot}${docdir}
+    }
+
+    livecheck.type      none
+}

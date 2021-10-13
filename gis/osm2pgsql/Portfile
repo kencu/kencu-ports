@@ -1,0 +1,87 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem                                      1.0
+PortGroup           cmake                       1.1
+PortGroup           github                      1.0
+PortGroup           active_variants             1.1
+PortGroup           boost                       1.0
+
+github.setup        openstreetmap osm2pgsql 1.4.1
+revision            2
+
+categories          gis
+maintainers         {vince @Veence} openmaintainer
+description         osm2pgsql is an OSM data injector for PostGIS
+long_description    osm2pgsql is a command line tool to import\
+                    Open Street Map (a.k.a OSM) data\
+                    into a PostGreSQL/PostGIS spatial database.
+
+platforms           darwin
+license             GPL-2+
+
+homepage            https://wiki.openstreetmap.org/wiki/Osm2pgsql
+
+checksums           rmd160  522b46ee33369bd0ac16d6935245cb23691935dd \
+                    sha256  9ba864584890e37cb813bbab1b3e360704cbaf25c394a0d213537debd8d9f923 \
+                    size    2463451
+
+compiler.cxx_standard 2011
+
+depends_lib-append  port:zlib\
+                    port:expat\
+                    port:proj8\
+                    port:bzip2\
+                    port:postgis3
+
+# Database variants (from the GDAL port)
+set postgresql_suffixes {12 13}
+
+set postgresql_variants {}
+foreach suffix ${postgresql_suffixes} {
+    lappend postgresql_variants postgresql${suffix}
+}
+
+foreach suffix ${postgresql_suffixes} {
+    set vrt     postgresql${suffix}
+    set index   [lsearch -exact ${postgresql_variants} ${vrt}]
+    set conf    [lreplace ${postgresql_variants} ${index} ${index}]
+
+    variant ${vrt} description "Use ${vrt}" conflicts {*}${conf} "
+        depends_lib-append      port:${vrt}
+        configure.args-append   -DPostgreSQL_INCLUDE_DIR=${prefix}/include/${vrt}
+        configure.args-append   -DPostgreSQL_TYPE_INCLUDE_DIR=${prefix}/include/${vrt}
+        configure.args-append   -DPostgreSQL_LIBRARY=${prefix}/lib/${vrt}/libpq.dylib
+    "
+
+    if {[variant_isset ${vrt}]} {
+        if {![catch {set result [active_variants postgis3 ${vrt}]}]} {
+            if {!$result} {
+                ui_msg "Error: postgis3 isn't installed on the required postgresql version!"
+                return -code error "Variant mismatch."
+            }
+        }
+    }
+}
+
+# postgresql default
+set pgdefault "if {"
+
+foreach suffix ${postgresql_suffixes} {
+    set pgdefault "${pgdefault}!\[variant_isset postgresql${suffix}\] && "
+}
+
+set pgdefault [string range ${pgdefault} 0 end-4]
+set pgdefault "${pgdefault}} { default_variants +postgresql${suffix} }"
+
+eval ${pgdefault}
+
+variant lua description {Build with support for Lua} {
+    depends_lib-append port:lua
+}
+
+configure.args-append   "-DPROJ6_INCLUDE_DIR=${prefix}/lib/proj8/include"
+configure.args-append   "-DPROJ_LIBRARY=${prefix}/lib/proj8/lib/libproj.dylib"
+
+if {(![variant_isset lua])} {
+    configure.args-append   "-DWITH_LUA=OFF"
+}

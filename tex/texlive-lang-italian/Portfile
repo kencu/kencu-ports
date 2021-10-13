@@ -1,0 +1,35 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           texlive 1.0
+
+name                texlive-lang-italian
+version             58653
+revision            0
+
+categories          tex
+maintainers         {dports @drkp}
+license             Copyleft Permissive
+description         TeX Live: Italian
+long_description    Support for Italian.
+
+checksums           texlive-lang-italian-58653-run.tar.xz \
+                    rmd160  f3359113f2c63a1d0b2856973d66335208167b61 \
+                    sha256  76312a40b44325c8a1d27d3950cb440339ced9611947bb69869d4416eca58355 \
+                    size    10720408 \
+                    texlive-lang-italian-58653-doc.tar.xz \
+                    rmd160  1b53b37bf0387f1cdfa33b5ffd7c2489535d412f \
+                    sha256  ec6afeec78b2bfd863acb8c23e206f58bec70d4ebe0990e2a402d95d748fc1c8 \
+                    size    10615584 \
+                    texlive-lang-italian-58653-src.tar.xz \
+                    rmd160  bf383d7113c7abd6a1f0d978f49e8c675d86192e \
+                    sha256  a9a01d4c4f5de5b3e11b8f215a33e6400ce3217d5c3d8a0d0d0b6a69792b5701 \
+                    size    99224
+
+depends_lib         port:texlive-basic
+
+texlive.languages      \
+    {italian loadhyph-it.tex 2 2 {} {hyph-it.pat.txt} {} {} }
+
+
+texlive.texmfport

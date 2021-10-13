@@ -1,0 +1,111 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; truncate-lines: t; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:et:sw=4:ts=4:sts=4
+
+PortSystem                  1.0
+
+name                        sane-backends
+version                     1.0.31
+revision                    1
+set upload_tag              8bf1cae2e1803aefab9e5331550e5d5d
+categories                  graphics
+platforms                   darwin
+# Some content is LGPL-2+ or public-domain, but the package as a whole is GPL-2+
+license                     GPL-2+
+maintainers                 nomaintainer
+homepage                    http://www.sane-project.org/
+
+description                 Backends for scanner access
+
+long_description            These are the backends for the Scanner Access Now \
+                            Easy project. They allow you to access various \
+                            scanners either locally or remotely using saned.
+
+master_sites                https://gitlab.com/sane-project/backends/uploads/${upload_tag}/
+
+checksums                   rmd160  a8b74418afc44513ec5e75e4f240448ad48ac59a \
+                            sha256  4a3b10fcb398ed854777d979498645edfe66fcac2f2fd2b9117a79ff45e2a5aa \
+                            size    7301484
+
+depends_build               port:pkgconfig
+
+depends_lib                 path:include/turbojpeg.h:libjpeg-turbo \
+                            port:libusb \
+                            port:net-snmp \
+                            port:tiff \
+                            port:zlib \
+                            port:libxml2
+
+# magicolor backend requires libcrypto from openssl
+depends_lib-append          path:lib/libcrypto.dylib:openssl
+
+patchfiles                  patch-configure.diff \
+                            patch-frontend-scanimage.c.diff
+
+# genesys backend now uses C++11
+compiler.cxx_standard       2011
+
+configure.cppflags-append   -fno-common
+
+configure.args              --without-avahi \
+                            --without-gphoto2 \
+                            --without-libcurl \
+                            --without-poppler-glib
+
+post-configure {
+    reinplace -E {s|-arch [a-z0-9_]+||g} \
+        ${worksrcpath}/tools/sane-backends.pc
+}
+
+build.env-append LC_CTYPE=C
+
+use_parallel_build          no
+
+pre-destroot {
+    xinstall -d -o root -g admin -m 0775 ${destroot}${prefix}/var/lock
+}
+
+destroot.keepdirs ${destroot}${prefix}/var/lock
+
+default_variants            +avahi
+
+variant no_local conflicts pnm gphoto2 description "turn off compilation of all backends but net" {
+    depends_lib-delete      port:libusb-compat
+    configure.args-append   --disable-local-backends --without-usb
+}
+
+variant pnm conflicts no_local description "enable the pnm backend for testing frontends (possible security risk, see PROBLEMS file)" {
+    configure.args-append   --enable-pnm-backend
+}
+
+variant gphoto2 conflicts no_local description "include the gphoto2 backend" {
+    depends_lib-append      port:libexif \
+                            port:libgphoto2 \
+                            port:pkgconfig
+    configure.args-delete   --without-gphoto2
+    configure.args-append   --with-gphoto2
+}
+
+variant avahi description "enable Avahi support for saned and the net backend" {
+    depends_lib-append      port:avahi
+    configure.args-delete   --without-avahi
+    configure.args-append   --with-avahi
+}
+
+variant escl requires avahi description "include the eSCL backend" {
+    depends_lib-append      port:curl \
+                            port:poppler
+    configure.args-delete   --without-libcurl \
+                            --without-poppler-glib
+    configure.args-append   --with-libcurl \
+                            --with-poppler-glib
+}
+
+# This project uses u_long *everywhere* and doesn't bother including sys/types.h
+configure.cppflags-append   -include sys/types.h
+
+livecheck.type              regex
+livecheck.url               https://gitlab.com/sane-project/backends/-/tags
+livecheck.regex             "backends-(\\d+(?:\\.\\d+)*)${extract.suffix}"
+
+notes "\
+    Edit ${prefix}/etc/sane.d/dll.conf to enable only\
+    specific backends for a noticeable performance gain."

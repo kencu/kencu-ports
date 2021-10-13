@@ -1,0 +1,115 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           legacysupport 1.0
+
+github.setup        karelzak util-linux 2.36.2 v
+revision            0
+set branch          [join [lrange [split ${version} .] 0 1] .]
+categories          devel
+platforms           darwin
+maintainers         {khindenburg @kurthindenburg} openmaintainer
+license             BSD GPL-2+ public-domain
+
+description         Linux utility programs
+
+long_description    ${name} contains miscellaneous utility programs \
+                    to handle file systems, consoles, partitions, \
+                    and messages. This port contains ONLY those parts \
+                    of ${name} that run on Darwin.
+
+# master_sites        https://www.kernel.org/pub/linux/utils/util-linux/v${branch}/
+# The above site redirects permanently (301) to mirrors.edge.kernel.org
+master_sites        https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v${branch}/
+
+# mirrors.edge.kernel.org doesn't work with some earlier Apple root CAs,
+# so we need to disable the certificate check.  This isn't much of a risk,
+# since the distfile has to pass the checksum/size checks, anyway.
+#
+# When updating the port to a new version, some extra manual checking
+# of the distfile would be desirable, by performing a certificate-validated
+# check and/or checking the PGP signature.  Note that the .sign file
+# applies to the uncompressed tarball in this case.
+fetch.ignore_sslcert    yes
+
+use_xz              yes
+
+checksums           rmd160  4ffc9ff97cca3b959163030a983ab6bd15b9f3ad \
+                    sha256  f7516ba9d8689343594356f0e5e1a5f0da34adfbc89023437735872bb5024c5f \
+                    size    5348032
+
+patchfiles          patch-includes.diff
+
+if { ${os.platform} eq "darwin" && ${os.major} < 9 } {
+    configure.cppflags-append -D__DARWIN_UNIX03
+}
+
+depends_lib-append  port:gettext \
+                    port:ncurses
+
+# --disable-all-programs doesn't work as there's no way to enable what we want
+configure.args      --disable-agetty \
+                    --disable-cramfs \
+                    --disable-eject \
+                    --disable-fallocate \
+                    --disable-fsck \
+                    --disable-kill \
+                    --disable-libblkid \
+                    --disable-libmount \
+                    --disable-libuuid \
+                    --disable-login \
+                    --disable-losetup \
+                    --disable-mount \
+                    --disable-mountpoint \
+                    --disable-partx \
+                    --disable-pg \
+                    --disable-pg-bell \
+                    --disable-pivot_root \
+                    --disable-schedutils \
+                    --disable-silent-rules \
+                    --disable-su \
+                    --disable-sulogin \
+                    --disable-switch_root \
+                    --disable-unshare \
+                    --disable-uuidd \
+                    --disable-wall \
+                    --enable-shared=no \
+                    --without-audit \
+                    --without-python
+
+# When adding new programs, check the .c file for license
+build.target        colcrt column hardlink look rename rev scriptreplay setsid
+
+destroot {
+    foreach path {
+            text-utils/colcrt
+            text-utils/column
+            misc-utils/hardlink
+            misc-utils/look
+            misc-utils/rename
+            text-utils/rev
+            term-utils/scriptreplay
+            sys-utils/setsid
+        } {
+        set file [lindex [split ${path} /] 1]
+        xinstall -m 755 ${worksrcpath}/${file} ${destroot}${prefix}/bin
+        xinstall -m 644 ${worksrcpath}/${path}.1 ${destroot}${prefix}/share/man/man1
+    }
+
+    set bash.d ${prefix}/etc/bash_completion.d
+    xinstall -m 755 -d ${destroot}${bash.d}
+
+    build.target-delete hardlink
+    foreach _target "${build.target}" {
+        xinstall -m 644 ${worksrcpath}/bash-completion/${_target} \
+                        ${destroot}${bash.d}
+    }
+
+    set docdir ${prefix}/share/doc/${name}
+    xinstall -m 755 -d ${destroot}${docdir}
+    xinstall -m 644 -W ${worksrcpath} README NEWS ChangeLog COPYING AUTHORS ABOUT-NLS \
+                       ${destroot}${docdir}
+}
+
+github.livecheck.regex  {([^"rc]+)}

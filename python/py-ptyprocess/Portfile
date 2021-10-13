@@ -1,0 +1,28 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-ptyprocess
+version             0.7.0
+revision            0
+categories-append   devel
+platforms           darwin
+license             ISC
+
+python.versions     27 35 36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         Run a subprocess in a pseudo terminal
+long_description    ${description}
+
+homepage            https://github.com/pexpect/ptyprocess
+
+checksums           rmd160  b82c884c8a66a9771b164ba2bf16549bb80b1395 \
+                    sha256  5c5d0a3b48ceee0b48485e0c26037c0acd7d29765ca3fbb5cb3831d347423220 \
+                    size    70762
+
+if {${name} ne ${subport}} {
+    livecheck.type      none
+}

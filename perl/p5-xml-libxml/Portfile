@@ -1,0 +1,33 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         XML-LibXML 2.0207 ../../authors/id/S/SH/SHLOMIF
+categories-append   textproc
+platforms           darwin
+maintainers         nomaintainer
+license             {Artistic-1 GPL}
+
+description         Perl interface to libxml2
+
+long_description    This module is an interface to libxml2, providing XML and HTML \
+                    parsers with DOM, SAX and XMLReader interfaces, a large subset \
+                    of DOM Layer 3 interface and a XML::XPath-like interface to XPath API of libxml2.
+
+checksums           rmd160  66533f72084ce50a63bcf9a133b61e4d3e7a8e9f \
+                    sha256  903436c9859875bef5593243aae85ced329ad0fb4b57bbf45975e32547c50c15 \
+                    size    462595
+
+if {${perl5.major} != ""} {
+    depends_build-append  \
+                    port:p${perl5.major}-alien-build \
+                    port:p${perl5.major}-alien-libxml2
+
+    depends_lib-append  \
+                    port:libxml2 \
+                    port:p${perl5.major}-encode \
+                    port:p${perl5.major}-xml-namespacesupport \
+                    port:p${perl5.major}-xml-sax
+}

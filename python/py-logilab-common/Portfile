@@ -1,0 +1,65 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-logilab-common
+version             1.8.1
+revision            0
+categories-append   devel
+platforms           darwin
+license             LGPL-2.1+
+supported_archs     noarch
+
+python.versions     27 35 36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         A number of modules used by various projects from Logilab
+long_description    ${description}
+
+homepage            http://www.logilab.org/project/logilab-common
+
+checksums           rmd160  513edb7be1975c2536e07c3e73ff0dbdc1a521ed \
+                    sha256  4a50659f6f952af58654f89f65136214025ca203406f3508642d5c2e1c83d30c \
+                    size    199196
+
+if {${name} ne ${subport}} {
+    depends_lib-append  port:py${python.version}-setuptools
+
+    if {${python.version} eq 27} {
+        version             1.4.4
+        revision            0
+        distname            ${python.rootname}-${version}
+        checksums           rmd160  7d8a73eda46a08132d83e41707fba15e945a4c4b \
+                            sha256  8c1bf26431a3b487940cd4a7c0eefde328f5ff7098222ee695805752dae94aa6 \
+                            size    177237
+        depends_lib-append  port:py${python.version}-six
+    } elseif {${python.version} eq 35} {
+        version             1.6.4
+        revision            0
+        distname            ${python.rootname}-${version}
+        checksums           rmd160  48e0a3b1573dfe1f967441de54a05fcf1b66c9d8 \
+                            sha256  05fd1cbb658d0c59854720338c32b17bd85fc7eca5e83d1070150caef2d277f5 \
+                            size    185220
+    }
+
+    # Fix permissions
+    post-extract {
+        fs-traverse item ${worksrcpath} {
+            if {[file isdirectory ${item}]} {
+                file attributes ${item} -permissions a+rx
+            } elseif {[file isfile ${item}]} {
+                file attributes ${item} -permissions a+r
+            }
+        }
+    }
+
+    post-destroot {
+        xinstall -m 755 -d ${destroot}${prefix}/share/doc/${subport}
+        xinstall -m 644 -W ${worksrcpath} ChangeLog README.rst \
+        ${destroot}${prefix}/share/doc/${subport}
+    }
+
+    livecheck.type      none
+}

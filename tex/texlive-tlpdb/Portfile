@@ -1,0 +1,46 @@
+
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           texlive 1.0
+
+name                texlive-tlpdb
+version             2021.58693
+
+categories          tex
+maintainers         {dports @drkp}
+description         TeX Live package database (for scripts)
+long_description    This port provides the TeX Live package database \
+                    to support scripts such as texdoc that require it
+
+homepage            http://www.tug.org/texlive/
+platforms           darwin
+supported_archs     noarch
+license             Permissive
+
+master_sites        https://www.ambulatoryclam.net/texlive/ \
+                    https://alpaca.cs.washington.edu/texlive/ \
+                    https://giraffe.cs.washington.edu/texlive/
+
+use_xz              yes
+
+checksums           rmd160  177fb5ecef7957ce606b8fbfc0242d33771b6c70 \
+                    sha256  3720ed9e051e95d066c6d69d96c7600c21b37ba0dd236a7cc97bc3975712490d \
+                    size    1317088
+
+livecheck.type  regex
+livecheck.url   [lindex ${master_sites} 0]
+livecheck.regex ${name}-(\[\\d-\]+(?:\\.\\d+)?)\\.tar
+
+
+use_configure   no
+
+build           { }
+
+destroot {
+    xinstall -d ${destroot}${prefix}/share/tlpkg
+    xinstall ${worksrcpath}/texlive.tlpdb ${destroot}${prefix}/share/tlpkg
+}
+
+livecheck.type none
+

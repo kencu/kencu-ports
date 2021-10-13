@@ -1,0 +1,47 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-sybil
+version             2.0.1
+revision            0
+maintainers         {khindenburg @kurthindenburg} openmaintainer
+platforms           darwin
+license             MIT
+
+description         Automated testing for the examples in your documentation.
+long_description    This library provides a way to test examples in your \
+                    documentation by parsing them from the documentation \
+                    source and evaluating the parsed examples as part of \
+                    your normal test run. Integration is provided for the \
+                    three main Python test runners.
+
+homepage            https://pypi.python.org/pypi/${python.rootname}
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}/
+distname            ${python.rootname}-${version}
+
+checksums           rmd160  5fa7b4e6b9fba4dd807bfbf4850b804be8caa016 \
+                    sha256  597d71e246690b9223c132f0ed7dcac470dcbe9ad022004a801e108a00dc3524 \
+                    size    29316
+
+python.versions     27 35 36 37 38
+
+if {${name} ne ${subport}} {
+    depends_build-append    port:py${python.version}-setuptools
+
+    depends_test-append \
+        port:py${python.version}-pytest \
+        port:py${python.version}-pytest-cov
+
+    set pyver [join [split ${python.version} {}] {.}]
+    test.run            yes
+    test.cmd            py.test-${pyver}
+    test.target
+    test.env            PYTHONPATH=${worksrcpath}/build/lib
+
+
+    livecheck.type          none
+} else {
+    livecheck.type          pypi
+}

@@ -1,0 +1,32 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         File-Rename 1.30
+maintainers         nomaintainer
+license             {Artistic-1 GPL}
+
+description         File::Rename - Perl extension for renaming multiple files
+long_description    ${description}
+
+checksums           rmd160  7530f3007ac2629547d94f6275416dc5908f46a0 \
+                    sha256  70f61bdd263448e40facafa31fafba6815a25ff7007e504f06bc9d58eb0459e0 \
+                    size    14695
+
+platforms           darwin
+
+if {$subport != $name} {
+    depends_build-append \
+                    port:p${perl5.major}-file-temp
+
+    depends_lib-append \
+                    port:p${perl5.major}-getopt-long \
+                    port:p${perl5.major}-io-stringy \
+                    port:p${perl5.major}-test-pod \
+                    port:p${perl5.major}-test-pod-coverage
+
+    perl5.use_module_build
+    supported_archs noarch
+}

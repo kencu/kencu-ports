@@ -1,0 +1,46 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-beancount
+categories-append   finance
+version             2.2.3
+checksums           rmd160  706810f10713aeb835266d11f05066b32805bb40 \
+                    sha256  1554adfd773d12cb88fd7f4da67fcb608665a9bdedc7e44834e059d1b3a08e5d \
+                    size    604034
+
+license             GPL-2
+platforms           darwin
+maintainers         {wholezero.org:macports @mrdomino} openmaintainer
+
+description         Double-entry plain text accounting system
+long_description    A double-entry bookkeeping computer language that lets \
+                    you define financial transaction records in a text file, \
+                    read them in memory, generate a variety of reports from  \
+                    them, and provides a basic web interface.
+homepage            http://furius.ca/beancount/
+
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+distname            ${python.rootname}-${version}
+
+python.versions     37 38
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    depends_lib-append \
+                    port:py${python.version}-beautifulsoup4 \
+                    port:py${python.version}-bottle \
+                    port:py${python.version}-dateutil \
+                    port:py${python.version}-google-api \
+                    port:py${python.version}-httplib2 \
+                    port:py${python.version}-lxml \
+                    port:py${python.version}-magic \
+                    port:py${python.version}-ply \
+                    port:py${python.version}-pytest \
+                    port:py${python.version}-requests
+
+    livecheck.type  none
+}

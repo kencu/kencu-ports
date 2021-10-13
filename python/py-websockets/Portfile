@@ -1,0 +1,29 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-websockets
+version             10.0
+license             BSD
+platforms           darwin
+maintainers         {toby @tobypeterson} openmaintainer
+description         WebSocket implementation in Python 3
+long_description    websockets is a library for building WebSocket servers and \
+                    clients in Python with a focus on correctness and simplicity. \
+                    Built on top of asyncio, Python's standard asynchronous I/O \
+                    framework, it provides an elegant coroutine-based API.
+
+homepage            https://github.com/aaugustin/websockets
+
+checksums           rmd160 75e254dc8bde6959cfcd91cca664c4a5b3a503a7 \
+                    sha256 c4fc9a1d242317892590abe5b61a9127f1a61740477bfb121743f290b8054002 \
+                    size 81838
+
+python.versions     37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build   port:py${python.version}-setuptools
+
+    livecheck.type  none
+}

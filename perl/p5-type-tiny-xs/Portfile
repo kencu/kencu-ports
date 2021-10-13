@@ -1,0 +1,19 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Type-Tiny-XS 0.022 ../../authors/id/T/TO/TOBYINK
+platforms           darwin
+maintainers         nomaintainer
+license             {Artistic-1 GPL}
+
+description         Type::Tiny::XS - provides an XS boost for some of \
+                    Type::Tiny's built-in type constraints
+long_description    This module is optionally used by Type::Tiny to provide \
+                    faster, C-based implementations of some type constraints.
+
+checksums           rmd160  b2e71a2efa8af4dde9dbf229b2761d107101c2e3 \
+                    sha256  bcc34a31f7dc1d30cc803889b5c8f90e4773b73b5becbdb3860f5abe7e22ff00 \
+                    size    81002

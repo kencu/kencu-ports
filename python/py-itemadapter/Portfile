@@ -1,0 +1,36 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-itemadapter
+version             0.4.0
+revision            0
+maintainers         {khindenburg @kurthindenburg} openmaintainer
+platforms           darwin
+license             BSD
+
+description         Common interface for data container classes
+long_description    The `ItemAdapter` class is a wrapper for data \
+                    container objects, providing a common interface \
+                    to handle objects of different types in an uniform \
+                    manner, regardless of their underlying implementation.
+
+
+homepage            https://pypi.python.org/pypi/${python.rootname}
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}/
+distname            ${python.rootname}-${version}
+
+checksums           rmd160  3d5733970cfa8af3111ad29b8f9b2f8246a3fafc \
+                    sha256  f05df8da52619da4b8c7f155d8a15af19083c0c7ad941d8c1de799560ad994ca \
+                    size    12834
+
+python.versions     36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append    port:py${python.version}-setuptools
+
+    livecheck.type          none
+} else {
+    livecheck.type          pypi
+}

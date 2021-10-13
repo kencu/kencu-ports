@@ -1,0 +1,28 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        postmodern ruby-install 0.8.1 v
+revision            0
+categories          ruby
+license             MIT
+platforms           darwin
+supported_archs     noarch
+
+maintainers         {catlett.info:chad @chadcatlett} \
+                    {hotmail.com:franklinyu @FranklinYu} \
+                    openmaintainer
+
+description         Installs Ruby, JRuby, Rubinius, TruffleRuby or mruby.
+long_description    ${description}
+
+checksums           rmd160  6495dc139c37f5426fa3dd15532faf2906647389 \
+                    sha256  e4fc28d7dd92795a3825e7102c3eb48bec20552adb56ffb031d809c57b974f44 \
+                    size    30953
+
+use_configure       no
+
+build               {}
+
+destroot.args       PREFIX=${prefix}

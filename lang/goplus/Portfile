@@ -1,0 +1,76 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/goplus/gop 1.0.12 v
+name                goplus
+revision            0
+
+homepage            https://goplus.org
+
+description         Go+: designed for data science
+
+long_description    Go+ is a statically-typed language designed for data \
+                    science. It is fully compatible with the Go language, but \
+                    has a more script-like style, being more readable code \
+                    for data science than Go.
+
+categories          lang devel
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+license             Apache-2
+installs_libs       no
+
+set gop_build_path  ${workpath}/build
+
+build.pre_args      -o ${gop_build_path} -v
+build.args          ./cmd/...
+
+github.tarball_from archive
+
+pre-build {
+    file mkdir ${gop_build_path}
+}
+
+destroot {
+    foreach gop_bin [glob ${gop_build_path}/*] {
+        xinstall -m 0755 ${gop_bin} ${destroot}${prefix}/bin/
+    }
+}
+
+checksums           ${distname}${extract.suffix} \
+                        rmd160  87d0e9c256d1c18e7c15528cf712d1fb235187e0 \
+                        sha256  9a3ae09336bd899ec3359bfbaf2661369dcd6ab603481c0fb1472679ca16289f \
+                        size    175497
+
+go.vendors          golang.org/x/xerrors \
+                        lock    5ec99f83aff1 \
+                        rmd160  6e8267f353e153297f205e4be219236d6ae43880 \
+                        sha256  9a500a49d83a09e7de6c71b215d1c14b81e315d26884530ef327c95ddf1f2d28 \
+                        size    13667 \
+                    golang.org/x/tools \
+                        lock    v0.1.7 \
+                        rmd160  8ae3eece96ce5d618f012a71e4603c4d7e5f0b1f \
+                        sha256  a4ad7b10e5f5d4de2628602b5998601547d386eca0444666b9220076f355a5ea \
+                        size    2884433 \
+                    golang.org/x/sys \
+                        lock    d867a43fc93e \
+                        rmd160  3168e52ecc2e2c567865a02b57453d64be2cdbd7 \
+                        sha256  ee62191bdeaa21020ed9d0f177d79e40f44f89620af1503c4d9247e2fe93d57e \
+                        size    1203249 \
+                    golang.org/x/mod \
+                        lock    v0.5.1 \
+                        rmd160  6aac73c99cc5111f9b4675fbfeee0871ecea71a7 \
+                        sha256  1c5e2438581c6755be6c984375c51f93cee56b00de0898cdd61ce3d64c938d38 \
+                        size    112675 \
+                    github.com/qiniu/x \
+                        lock    v1.11.5 \
+                        rmd160  8a1743f60b48101197fdfa827944ef4d2a0b2a2b \
+                        sha256  204c3f782cfacfe1da0b6669c1f2e1e0274bae2084f273a76dcc7d9b9844552e \
+                        size    35422 \
+                    github.com/goplus/gox \
+                        lock    v1.7.9 \
+                        rmd160  75683044ac9b510b79ffed4b50fe354431e62d28 \
+                        sha256  db9c29b14fae1996f7665fba7a4e043d3467ec2c7b151a64d8f2be0f8b33606a \
+                        size    120817

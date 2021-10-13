@@ -1,0 +1,116 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               python 1.0
+PortGroup               github 1.0
+
+github.setup            gramps-project gramps 5.1.4 v
+github.tarball_from     archive
+
+license                 GPL-2
+categories              genealogy python
+platforms               darwin
+supported_archs         noarch
+maintainers             {devans @dbevans} openmaintainer
+           
+description             Gramps is a genealogy program
+
+long_description        Gramps is a genealogy program to store, edit, \
+                        and research genealogical data.  It provides \
+                        advanced capabilities for research, analysis, and \
+                        correlation to potentially fill relationship gaps.
+
+homepage                https://www.gramps-project.org/
+
+checksums           rmd160  1f101d3305a8832f091e6d3c0e578e4fb0bb966b \
+                    sha256  6e64a5c1175a4897256ca9eb73a4b77c8e84ebff020b8668bdc527d6dcd14273 \
+                    size    17425713
+
+depends_build-append    port:intltool
+
+depends_lib-append      path:bin/dot:graphviz \
+                        port:desktop-file-utils \
+                        port:geocode-glib \
+                        port:gexiv2 \
+                        port:ghostscript \
+                        port:goocanvas2 \
+                        port:gtk3 \
+                        port:gtkspell3 \
+                        port:osm-gps-map \
+                        port:shared-mime-info \
+                        port:sqlite3
+
+depends_run             port:adwaita-icon-theme
+
+patchfiles              patch-gramps-gen-utils-resourcepath.py.diff
+
+variant python36 conflicts python37 python38 python39 description {Use Python 3.6} {
+    python.default_version  36
+    depends_lib-append  port:py36-bsddb3 \
+                        port:py36-gobject3 \
+                        port:py36-Pillow \
+                        port:py36-pyicu
+}
+
+variant python37 conflicts python36 python38 python39 description {Use Python 3.7} {
+    python.default_version  37
+    depends_lib-append  port:py37-bsddb3 \
+                        port:py37-gobject3 \
+                        port:py37-Pillow \
+                        port:py37-pyicu
+}
+
+variant python38 conflicts python36 python37 python39 description {Use Python 3.8} {
+    python.default_version  38
+    depends_lib-append  port:py38-bsddb3 \
+                        port:py38-gobject3 \
+                        port:py38-Pillow \
+                        port:py38-pyicu
+}
+
+variant python39 conflicts python36 python37 python38 description {Use Python 3.9} {
+    python.default_version  39
+    depends_lib-append  port:py39-bsddb3 \
+                        port:py39-gobject3 \
+                        port:py39-Pillow \
+                        port:py39-pyicu
+}
+
+if {![variant_isset python36] && \
+    ![variant_isset python37] && \
+    ![variant_isset python38] && \
+    ![variant_isset python39]} {
+    default_variants    +python39
+}
+
+post-destroot {
+    reinplace "s|${destroot}${python.prefix}|${prefix}|" ${destroot}${python.pkgd}/gramps/gen/utils/resource-path
+    delete ${destroot}${prefix}/share
+    move ${destroot}${python.prefix}/share ${destroot}${prefix}
+}
+
+post-activate {
+    system "${prefix}/bin/update-desktop-database ${prefix}/share/applications"
+    system "${prefix}/bin/update-mime-database ${prefix}/share/mime"
+}
+
+notes {
+
+When using Gramps, be sure to backup your data regularly! Gramps backups are in XML format.
+XML is machine- and human-readable. It is completely self-sufficient. It is also small.
+
+The following are good backup practices:
+
+    Backup to XML from time to time, especially after large edits.
+    Backup to XML before making big changes, such as importing new data into an existing database from e.g. GEDCOM,
+        merging records, running tools that may heavily modify the data, etc.
+    Backup to XML before upgrading Gramps to a newer version. Backup to XML with the old version before you install
+        the new one!
+    Backup to XML before upgrading your OS.
+
+Also, use XML format for any data migration. Moving to another machine, sending data to a family member,
+copying to another user on the same machine -- all of these cases should use XML.
+
+For detailed backup instructions, see the online Gramps documentation at https://www.gramps-project.org/wiki/index.php?title=How_to_make_a_backup
+
+}

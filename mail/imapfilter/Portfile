@@ -1,0 +1,31 @@
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        lefcha imapfilter 2.7.5 v
+revision            0
+categories          mail
+platforms           darwin
+maintainers         nomaintainer
+license             BSD
+description         IMAP message processor/filter
+long_description    IMAPFilter connects to remote IMAP mail servers and \
+                    processes messages according to defined filters (rules). \
+                    It is intended to be executed before a user accesses \
+                    his/her mailboxes.
+
+checksums           rmd160  0d1ebd47c9b001fe1d6902bb771c59a0e509bb45 \
+                    sha256  de7e003ff449eed5f9bc0b1439ac65a2d3576d87951d40aa854fe3c95d5c293e \
+                    size    59483
+
+depends_lib         port:lua path:lib/libssl.dylib:openssl port:pcre2 port:libiconv
+
+worksrcdir          ${workpath}/imapfilter-${version}/src
+use_configure       no
+
+build.args          PREFIX="${prefix}" \
+                    CC="${configure.cc}" \
+                    MYLDFLAGS="${configure.ldflags} [get_canonical_archflags ld]" \
+                    MYCFLAGS="${configure.cflags} [get_canonical_archflags cc]" \
+                    MYLIBS="-liconv" \
+                    INCDIRS="${configure.cppflags}"
+destroot.args       PREFIX="${prefix}" MANDIR="${prefix}/share/man"

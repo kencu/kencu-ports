@@ -1,0 +1,46 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        b4nst turbogit 3.0.0 v
+revision            1
+categories          devel
+platforms           darwin
+supported_archs     x86_64
+license             MIT
+maintainers         {b4nst @b4nst} openmaintainer
+
+description         Your git boat friend
+long_description    Opinionated cli enforcing clean git workflow without comprising UX
+
+github.tarball_from archive
+
+checksums           rmd160  605fc8dfc6c69da62860f4c462e305c64cb99bb0 \
+                    sha256  47f66d9e57a178f72bc4af016f2b5783b3556c384c68b80afc836ebeacdd7db1 \
+                    size    1153719
+
+use_configure       no
+installs_libs       no
+
+depends_build       port:go \
+                    port:pkgconfig
+depends_lib         port:libgit2
+
+build.target        build
+build.env-append    TUG_VERSION=${version}
+build.env-append    TUG_COMMIT=refs/tags/v${version}
+
+destroot {
+    xinstall -m 0755 -W ${worksrcpath} bin/tug ${destroot}${prefix}/bin
+
+    set docdir ${prefix}/share/${name}
+    xinstall -d ${destroot}${docdir}
+    xinstall -m 0644 -W ${worksrcpath} LICENSE ${destroot}${docdir}
+}
+
+notes "
+Thank you for using turbogit. To install shell completion for supported shells run:
+
+    tug completion <your_shell>
+"

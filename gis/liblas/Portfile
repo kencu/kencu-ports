@@ -1,0 +1,74 @@
+#-*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake   1.1
+PortGroup           github  1.0
+PortGroup           boost   1.0
+
+github.setup        libLAS libLAS e6a1aaed412d638687b8aec44f7b12df7ca2bbbb
+github.tarball_from archive
+version             1.8.1-20210819
+revision            0
+checksums           rmd160  2fca9309ae78305236b5ae9cfd732f5472c46bf5 \
+                    sha256  6ffb77728631d092656879c5bfb97a78a38b18a15d2dd7b53513135fd0c50287 \
+                    size    10742415
+
+name                liblas
+license             BSD
+categories          gis
+maintainers         nomaintainer
+platforms           darwin
+description         LAS 1.0/1.1/1.2 ASPRS LiDAR data translation toolset
+
+long_description \
+    libLAS is a C/C++ library for reading and writing the very common LAS \
+    LiDAR format. The ASPRS LAS format is a sequential binary format used to \
+    store data from LiDAR sensors and by LiDAR processing software for data \
+    interchange and archival.
+
+homepage            https://liblas.org/
+
+compiler.cxx_standard   2011
+
+patchfiles          patch-gt_wkt_srs_cpp.diff \
+                    patch-apps_CMakeLists.txt.diff
+
+configure.args-append \
+                    -DWITH_GEOTIFF=ON \
+                    -DWITH_GDAL=ON \
+                    -DWITH_LASZIP=OFF
+
+configure.env-append    GDAL_HOME=${prefix}
+
+variant proj6 conflicts proj7 proj8 description "Build with proj6" {
+    configure.args-append \
+                    -DPROJ4_INCLUDE_DIR=${prefix}/lib/proj6 \
+                    -DPROJ4_LIBRARY=${prefix}/lib/proj6
+    depends_lib-append  port:proj6
+}
+
+
+variant proj7 conflicts proj6 proj8 description "Build with proj7" {
+    configure.args-append \
+                    -DPROJ4_INCLUDE_DIR=${prefix}/lib/proj7 \
+                    -DPROJ4_LIBRARY=${prefix}/lib/proj7
+    depends_lib-append  port:proj7
+}
+
+variant proj8 conflicts proj6 proj7 description "Build with proj8" {
+    configure.args-append \
+                    -DPROJ4_INCLUDE_DIR=${prefix}/lib/proj8 \
+                    -DPROJ4_LIBRARY=${prefix}/lib/proj8
+    depends_lib-append  port:proj8
+}
+
+if {![variant_isset proj6] && ![variant_isset proj7] && ![variant_isset proj8]} {
+    default_variants +proj8
+}
+
+depends_lib-append  port:gdal \
+                    port:libgeotiff \
+                    port:tiff \
+                    path:include/turbojpeg.h:libjpeg-turbo \
+                    port:zlib \
+                    port:laszip

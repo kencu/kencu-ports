@@ -1,0 +1,49 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+github.setup        willthames ansible-lint 5.2.0 v
+revision            0
+
+categories          sysutils
+platforms           darwin
+supported_archs     noarch
+license             MIT
+maintainers         artisancomputer.com:zdw \
+                    {outlook.de:judaew @judaew} \
+                    openmaintainer
+
+description         Best practices checker for Ansible playbooks
+long_description \
+    ansible-lint checks playbooks for practices and behaviour that could potentially be improved
+
+checksums           rmd160  89faa5e3efeec36c87b8747677a63ce207f7ddf0 \
+                    sha256  c6c9352f9669dd8ebe2573c3a1f4912b070d5723ee13054cf6dc992e760c3af6 \
+                    size    342523
+
+python.default_version      39
+python.link_binaries_suffix
+
+depends_build-append \
+                    port:py${python.version}-setuptools_scm \
+                    port:py${python.version}-setuptools_scm_git_archive \
+                    port:py${python.version}-toml
+
+depends_run-append  port:py${python.version}-ansible
+depends_lib-append  port:py${python.version}-enrich \
+                    port:py${python.version}-packaging \
+                    port:py${python.version}-ruamel-yaml \
+                    port:py${python.version}-ruamel-yaml-clib \
+                    port:py${python.version}-tenacity \
+                    port:py${python.version}-wcmatch \
+                    port:py${python.version}-yaml
+
+github.livecheck.regex  {([^"r-]+)}
+
+notes "
+Before using ansible-lint need to select the Python version of Ansible:
+
+port select --set ansible py${python.version}-ansible
+"

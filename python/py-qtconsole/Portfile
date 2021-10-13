@@ -1,0 +1,58 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim: fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-qtconsole
+version             5.1.1
+revision            0
+
+categories-append   devel
+platforms           darwin
+license             BSD
+supported_archs     noarch
+
+python.versions     27 35 36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         Jupyter QtConsole
+long_description    ${description}
+
+homepage            https://jupyter.org
+
+checksums           rmd160  c667ddeb22faa64e63a58b17a1c750514bebb75d \
+                    sha256  bbc34bca14f65535afcb401bc74b752bac955e5313001ba640383f7e5857dc49 \
+                    size    428840
+
+if {${name} ne ${subport}} {
+    if {${python.version} in "27 35"} {
+        version     4.7.7
+        revision    1
+        checksums   rmd160  d1289312eb91b253a306aaae2644b0f4b3b4037b \
+                    sha256  f236ead8711dba0702507dd8fad473c7216a86eefa6098eff8ec4b54f57d7804 \
+                    size    425068
+    }
+
+    depends_lib-append  port:py${python.version}-setuptools \
+                        port:py${python.version}-traitlets \
+                        port:py${python.version}-ipython_genutils \
+                        port:py${python.version}-jupyter_core \
+                        port:py${python.version}-jupyter_client \
+                        port:py${python.version}-pygments \
+                        port:py${python.version}-ipykernel \
+                        port:py${python.version}-qtpy \
+                        port:py${python.version}-zmq
+
+    # Note: depends on one of py-pyqt4, py-pyqt5 or py-pyside (first available at runtime)
+    notes-append        "Please do not forget to install one of Qt backends: py${python.version}-pyside, py${python.version}-pyqt5 or py${python.version}-pyqt4."
+
+    post-destroot {
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath} CONTRIBUTING.md LICENSE \
+            README.md ${destroot}${docdir}
+    }
+
+    livecheck.type      none
+}

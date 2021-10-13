@@ -1,0 +1,27 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               php 1.1
+
+name                    php-psr
+platforms               darwin
+maintainers             {ryandesign @ryandesign} openmaintainer
+license                 BSD
+
+php.branches            7.2 7.3 7.4 8.0
+php.pecl                yes
+
+if {[vercmp ${php.branch} 7.0] >= 0} {
+    version             1.1.0
+    revision            0
+    checksums           rmd160  7aff462c8209f0c2d4557461c11b645e97b8b6a6 \
+                        sha256  4feb8eeea4237894bcab1ea064cefc3421c909778d39c977184c16e725cfbfb2 \
+                        size    28038
+}
+
+description             interfaces to PHP Standards Recommendations
+
+long_description        ${name} provides ${description} so they can be used \
+                        in an extension.
+
+configure.args-append   --enable-psr

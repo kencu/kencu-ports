@@ -1,0 +1,61 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        skvadrik re2c 2.2
+revision            0
+checksums           rmd160  af8b587423a704caddba04fbeb3fa118aade6e9a \
+                    sha256  0fc45e4130a8a555d68e230d1795de0216dfe99096b61b28e67c86dfd7d86bda \
+                    size    1460740
+
+# The datetime parsers in php must be generated with this version or older.
+subport ${name}-0.15 {
+    github.setup    ${github.author} ${github.project} 0.15.3
+    revision        0
+    checksums       rmd160  a8867ba92ad3a9712a814b15a0cc7b6d0b51e995 \
+                    sha256  f9d2a96c60a8c60d9c6c70e10590cbceaf0776d3115e7b3b35c7d7240cc1613b \
+                    size    4881197
+
+    configure.args-append \
+                    --program-suffix=-0.15
+}
+
+categories          devel
+platforms           darwin
+license             public-domain
+maintainers         {ryandesign @ryandesign} openmaintainer
+
+description         A tool for generating C-based recognizers from regular \
+                    expressions.
+
+long_description    re2c is a tool for generating C-based recognizers from \
+                    regular expressions. re2c-based scanners are efficient: an \
+                    re2c-based scanner is said to be typically almost twice as fast as \
+                    a flex-based scanner with little or no increase in size.
+
+homepage            http://re2c.org/
+github.tarball_from releases
+if {${subport} eq ${name}} {
+    use_xz          yes
+}
+
+depends_build       port:bison
+
+configure.args-append \
+                    --disable-silent-rules
+
+# If future versions exhibit compile errors like
+# "error: no match for 'operator!='" (gcc-4.2) or
+# "error: invalid operands to binary expression" (clang-3.4)
+# with regard to ".rend()" it can possibly be fixed. See
+# https://github.com/skvadrik/re2c/issues/198 for discussion and fix.
+
+test.run            yes
+test.target         check
+# make sed happy
+test.env            LANG=C
+
+if {${subport} ne ${name}} {
+    livecheck.type  none
+}

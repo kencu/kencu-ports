@@ -1,0 +1,34 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Const-Exporter v1.1.1 ../../authors/id/R/RR/RRWO
+license             Artistic-2
+maintainers         nomaintainer
+description         Const::Exporter - Declare constants for export
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  e449087beae95344c6c5346b66c754807f2ef818 \
+                    sha256  873c81c880beb239e621c841feadd890945c5a71a046dd6755e657e66c04f969 \
+                    size    20736
+
+if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-hash-objectify \
+                    port:p${perl5.major}-sub-identify \
+                    port:p${perl5.major}-test-most
+
+    depends_lib-append \
+                    port:p${perl5.major}-const-fast \
+                    port:p${perl5.major}-list-allutils \
+                    port:p${perl5.major}-package-stash \
+                    port:p${perl5.major}-package-stash-xs \
+                    port:p${perl5.major}-ref-util \
+                    port:p${perl5.major}-ref-util-xs
+
+    supported_archs noarch
+}

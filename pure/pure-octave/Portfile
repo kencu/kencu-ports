@@ -1,0 +1,27 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem                      1.0
+PortGroup                       pure 1.0
+
+pure.setup                      pure-octave 0.12
+revision                        1
+checksums                       rmd160  5b874fe5cc1e453b35a94c747f07741b622ac500 \
+                                sha256  99a140eba1f637cf96908fe66b39887a0fcc7e2366405fe58f5d06936020dc1c \
+                                size    41623
+
+categories-append               math science
+platforms                       darwin
+maintainers                     {ryandesign @ryandesign} {gmail.com:aggraef @agraef}
+license                         GPL-3+
+
+description                     an interface to run Octave commands from Pure
+
+long_description                ${name} is ${description}.
+
+depends_build-append            port:pkgconfig
+
+depends_lib-append              path:bin/octave:octave
+
+# Apparently the port group removes this for some reason, but we absolutely need this.
+configure.cxxflags-append       -std=gnu++11
+compiler.cxx_standard           2011

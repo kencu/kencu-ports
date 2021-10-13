@@ -1,0 +1,47 @@
+--- etc/freshclam.conf.macports
++++ etc/freshclam.conf.macports	2019-11-23 14:44:28.000000000 -0500
+@@ -5,7 +5,7 @@
+ 
+ 
+ # Comment or remove the line below.
+-Example
++#Example
+ 
+ # Path to the database directory.
+ # WARNING: It must match clamd.conf's directive!
+@@ -14,7 +14,7 @@
+ 
+ # Path to the log file (make sure it has proper permissions)
+ # Default: disabled
+-#UpdateLogFile /var/log/freshclam.log
++UpdateLogFile @PREFIX@/var/log/clamav/freshclam.log
+ 
+ # Maximum size of the log file.
+ # Value of 0 disables the limit.
+@@ -48,7 +48,7 @@
+ 
+ # This option allows you to save the process identifier of the daemon
+ # Default: disabled
+-#PidFile /var/run/freshclam.pid
++PidFile @PREFIX@/var/run/clamav/freshclam.pid
+ 
+ # By default when started freshclam drops privileges and switches to the
+ # "clamav" user. This directive allows you to change the database owner.
+@@ -142,7 +132,7 @@
+ 
+ # Send the RELOAD command to clamd.
+ # Default: no
+-#NotifyClamd /path/to/clamd.conf
++NotifyClamd @PREFIX@/etc/clamd.conf
+ 
+ # Run command after successful database update.
+ # Default: disabled
+@@ -159,7 +149,7 @@
+ 
+ # Don't fork into background.
+ # Default: no
+-#Foreground yes
++Foreground yes
+ 
+ # Enable debug messages in libclamav.
+ # Default: no

@@ -1,0 +1,58 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+epoch               1
+github.setup        google re2 2021-09-01
+revision            0
+categories          devel textproc
+maintainers         nomaintainer
+
+description         an efficient, principled regular expression library
+
+long_description    RE2 is a fast, safe, thread-friendly alternative to \
+                    backtracking regular expression engines like those \
+                    used in PCRE, Perl, and Python. It is a C++ library.
+
+platforms           darwin
+license             BSD
+
+checksums           rmd160  d79f9cd62813e6a3e463ae793ccbbbd8cf5948f7 \
+                    sha256  046fa59de337534bfa4b053242b34d32a226a3b79a327d1d4c927337477e665c \
+                    size    407612
+
+compiler.cxx_standard   2011
+
+configure.args-append \
+                    -DBUILD_SHARED_LIBS:BOOL=ON
+
+# Fix pkgconfig and shared library versioning; see:
+# https://bugs.archlinux.org/task/67739
+# https://gist.github.com/mtorromeo/1d48de16534dc8ee29cd872f94b070e5
+
+pre-configure {
+    reinplace s|@includedir@|${prefix}/include|g \
+        ${worksrcpath}/re2.pc
+    reinplace s|@libdir@|${prefix}/lib|g \
+        ${worksrcpath}/re2.pc
+    set somajor [exec /bin/sh -c "grep '^SONAME=' ${worksrcpath}/Makefile | cut -d= -f2"]
+    # append this line to CMakeLists.txt
+    reinplace "\$ a\\
+set_target_properties(re2 PROPERTIES VERSION ${somajor}.0.0 SOVERSION ${somajor})" \
+        ${worksrcpath}/CMakeLists.txt
+}
+
+post-destroot {
+    xinstall -d ${destroot}${prefix}/lib/pkgconfig
+    xinstall -m 644 -W ${worksrcpath} \
+        re2.pc \
+        ${destroot}${prefix}/lib/pkgconfig
+    # install additional documents.
+    set docdir ${prefix}/share/doc/re2
+    xinstall -d ${destroot}${docdir}
+    xinstall -m 644 -W ${worksrcpath} \
+        AUTHORS CONTRIBUTORS LICENSE README doc/syntax.html doc/syntax.txt \
+        ${destroot}${docdir}
+}

@@ -1,0 +1,218 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           haskell_stack 1.0
+
+name                adblock2privoxy
+version             2.0.2
+revision            0
+categories          www haskell
+maintainers         {ieee.org:s.t.smith @essandess} openmaintainer
+license             GPL-3
+platforms           macosx
+homepage            https://github.com/essandess/adblock2privoxy
+
+description         Convert adblock config files to privoxy format
+long_description    {*}${description}. \
+                    AdBlock Plus browser plugin has great block list \
+                    files provided by big community, but it is client \
+                    software and cannot work on a server as proxy. \
+                    Privoxy proxy has good potential to block ads at \
+                    server side, but it experiences acute shortage of \
+                    updated block lists.  This software converts \
+                    adblock lists to privoxy config files format. \
+                    Almost all adblock features are supported \
+                    including block/unblock requests (on privoxy) all \
+                    syntax features are supported except for regex \
+                    templates matching host name hide/unhide page \
+                    elements (via CSS) all syntax features are \
+                    supported all block request options except for \
+                    outdated ones: Supported: script, image, \
+                    stylesheet, object, xmlhttprequest, \
+                    object-subrequest, subdocument, document, \
+                    elemhide, other, popup, third-party, domain=..., \
+                    match-case, donottrack.
+
+master_sites        https://hackage.haskell.org/package/${name}-${version}
+
+checksums           rmd160  cd58a6b4603dcdce6b5e4014c4fcdd3d6c32753d \
+                    sha256  c3f90360945df6e2e1fd86b491f980b4621b114020ecfc2220e295db57069c4e \
+                    size    42133
+
+depends_run-append \
+                    port:nginx \
+                    port:privoxy \
+                    port:wget
+
+variant initialize_always \
+    description {Always initialize all configuration files. Intended \
+        for development and troubleshooting only. Working deployments \
+        must disable this variant to prevent configuration files \
+        being overwritten at the next upgrade. Existing configuration \
+        files are not overwritten by default.} {
+    ui_warn \
+        "
+\tAll configuration files will be initialized because
+\tthe variant +initialize_always is set. Please disable
+\tthis variant for working deployments.
+"
+}
+
+# relative paths to ${prefix}
+set ab2p_datadir    share/${name}
+
+pre-fetch {
+    # The way that startupitems values are quoted was changed in 2.6.3.
+    # This port now relies on those changes. See:
+    # https://github.com/macports/macports-base/pull/191
+    if {[vercmp [macports_version] 2.6.3] < 0} {
+        ui_error "${name} @${version} requires MacPorts 2.6.3 or later"
+        return -code error "incompatible MacPorts version"
+    }
+}
+
+post-extract {
+    # Fix for cabal data-files hardcoded path in binary
+    # See:
+    # https://github.com/commercialhaskell/stack/issues/848
+    # https://github.com/commercialhaskell/stack/issues/4857
+    # https://github.com/haskell/cabal/issues/462
+    # https://github.com/haskell/cabal/issues/3586
+    xinstall -m 0644 -W ${worksrcpath} \
+        ${filespath}/Paths_NAME.hs ./src/Paths_${name}.hs
+
+    reinplace "s|@PREFIX@|${prefix}|g" \
+        ${worksrcpath}/src/Paths_${name}.hs
+    reinplace "s|@NAME@|${name}|g" \
+        ${worksrcpath}/src/Paths_${name}.hs
+    reinplace -E "s|(Version\[\[:space:\]\]+)\\\[\[\[:digit:\]\]+(,\[\[:digit:\]\]+){1,4}\\\]|\\1\[[join [split ${version} .] ,]\]|" \
+        ${worksrcpath}/src/Paths_${name}.hs
+}
+
+post-destroot {
+    xinstall -m 0755 -d \
+        ${destroot}${prefix}/share/${name}/templates \
+        ${destroot}${prefix}/etc/${name} \
+        ${destroot}${prefix}/etc/${name}/privoxy \
+        ${destroot}${prefix}/etc/${name}/css
+
+    # cabal's data-files datadir: ${name}_datadir from Paths_${name}.hs
+    fs-traverse f ${worksrcpath}/.stack-work {
+        if { [string match "ab2p.system.*" [file tail ${f}]] } {
+            xinstall -m 0644 ${f} \
+                ${destroot}${prefix}/share/${name}/templates
+        }
+    }
+
+    xinstall -m 0644 -W ${filespath} \
+        adblock2privoxy_blocklist.txt \
+        ${destroot}${prefix}/etc/${name}/adblock2privoxy_blocklist.txt.macports
+    xinstall -m 0644 -W ${filespath} \
+        nginx.conf \
+        ${destroot}${prefix}/etc/${name}/nginx.conf.macports
+    xinstall -m 0644 -W ${filespath} \
+        default.html \
+        ${destroot}${prefix}/etc/${name}/css/default.html.macports
+    reinplace "s|@PREFIX@|${prefix}|g" \
+        ${destroot}${prefix}/etc/${name}/nginx.conf.macports
+}
+
+startupitem.create  yes
+startupitems \
+    name            ${name} \
+    start           "\"( IFS=\$'\\\\n' ADBLOCK2PRIVOXY_BLOCKLIST=(\$(grep -v -e '^ *#' < \${prefix}/etc/${name}/adblock2privoxy_blocklist.txt \\\\
+\t\t| while read -r t; do if wget --max-redirect=0 -S --spider \$t 2>&1 | grep -q 'HTTP/1.1 200 OK'; then echo \$t; fi done)); \\\\
+\t/bin/test -f \\\"\${prefix}/etc/adblock2privoxy/privoxy/ab2p.task\\\" \\\\
+\t&& \\\"\${prefix}/bin/adblock2privoxy\\\" -t \\\"\${prefix}/etc/adblock2privoxy/privoxy/ab2p.task\\\" \\\\
+\t|| \\\"\${prefix}/bin/adblock2privoxy\\\" -p \\\"\${prefix}/etc/adblock2privoxy/privoxy\\\" \\\\
+\t\t-w \\\"\${prefix}/etc/adblock2privoxy/css\\\" \\\\
+\t\t-d 127.0.0.1:8119 \\\\
+\t\t\\\"\${ADBLOCK2PRIVOXY_BLOCKLIST\[@]}\\\" \\\\
+\t) && \\\"\${prefix}/bin/port\\\" reload privoxy\"" \
+    stop            "\"/usr/bin/kill -SIGUSR1 \\\"\$(/usr/bin/pgrep -u root ${name})\\\" 2>/dev/null\"" \
+    pidfile         none
+
+startupitems-append \
+    name            ${name}-nginx \
+    init            "\"pidfile=\\\"\${prefix}/var/run/nginx/nginx-adblock2privoxy.pid\\\"\"" \
+    start           "\"\\\"\${prefix}/sbin/nginx\\\" \\\\
+\t\t-c \\\\
+\t\t\\\"\${prefix}/etc/${name}/nginx.conf\\\" \\\\
+\t\t-g \\\\
+\t\t\\\"daemon off;\\\"\"" \
+    stop            "\"if \[ -f \${pidfile} \]; then
+\t\t/usr/bin/kill \\\"\$(cat \${pidfile})\\\" \\\\
+\t\t\t&& /bin/rm -f \${pidfile} ;
+\telse
+\t\t/usr/bin/kill -SIGUSR1 \\\"\$(/usr/bin/pgrep -u root nginx)\\\" 2>/dev/null ;
+\tfi\""
+
+post-activate {
+    # org.macports.adblock2privoxy
+    reinplace \
+        "s|^<key>ProgramArguments</key>|<key>StartCalendarInterval</key>\\
+	<array>\\
+		<dict>\\
+			<key>Weekday</key>\\
+			<integer>7</integer>\\
+			<key>Hour</key>\\
+			<integer>1</integer>\\
+			<key>Minute</key>\\
+			<integer>30</integer>\\
+		</dict>\\
+	</array>\\
+&|" \
+        ${prefix}/etc/${startupitem.location}/org.macports.${name}/org.macports.${name}.plist
+
+    foreach f [list \
+        ${prefix}/etc/${name}/adblock2privoxy_blocklist.txt \
+        ${prefix}/etc/${name}/nginx.conf \
+        ${prefix}/etc/${name}/css/default.html \
+        ] {
+        if { [variant_isset "initialize_always"]
+             && [file exists ${f}]
+            } {
+            delete ${f}.previous
+            move \
+                ${f} \
+                ${f}.previous
+        }
+        if { [variant_isset "initialize_always"]
+             || ![file exists ${f}]
+            } {
+            if { [file isfile ${f}.macports] } {
+                xinstall -m 0644 \
+                    ${f}.macports \
+                    ${f}
+            }
+        }
+    }
+}
+
+notes "After initial installation, it is necessary to kickstart this launch daemon, \
+which does not run at load:
+
+sudo launchctl kickstart -k system/org.macports.adblock2privoxy
+
+The blocklist URLs are specified in the file
+${prefix}/etc/${name}/adblock2privoxy_blocklist.txt.
+
+Example production run:
+
+adblock2privoxy -p ${prefix}/etc/adblock2privoxy/privoxy -w ${prefix}/etc/adblock2privoxy/css -d 127.0.0.1:8119 \\
+  \$(< ${prefix}/etc/${name}/adblock2privoxy_blocklist.txt)
+
+Update run:
+
+adblock2privoxy -t ${prefix}/etc/adblock2privoxy/privoxy/ab2p.task"
+
+if { [variant_isset "initialize_always"] } {
+    if {[exists notes]} {
+        # leave a blank line after the existing notes
+        notes-append ""
+    }
+    notes-append \
+        "The variant +initialize_always is set, which initializes \
+        all configuration files. Please disable this variant for \
+        working deployments."
+}

@@ -1,0 +1,62 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/itchyny/mmv 0.1.3 v
+name                go-mmv
+revision            0
+
+description         rename multiple files with editor
+
+long_description    Rename multiple files using your \$EDITOR. The command \
+                    name is named after multi-mv.
+
+conflicts           mmv
+
+categories          sysutils
+license             MIT
+platforms           darwin
+
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+
+build.cmd           make
+build.pre_args      CURRENT_REVISION=v${version}
+build.args          build
+
+github.tarball_from archive
+
+patch {
+    reinplace {/GO111MODULE/ d} ${worksrcpath}/Makefile
+}
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/mmv ${destroot}${prefix}/bin/
+}
+
+checksums           ${distname}${extract.suffix} \
+                        rmd160  b581aeb9d0427f5b74db7e8fa7681ef159382e6c \
+                        sha256  782676aa5795ffa55c439eea1d8b3a49314266fc1bf50298fa18a474d8e100b6 \
+                        size    8627
+
+go.vendors          golang.org/x/sys \
+                        lock    0df2131ae363 \
+                        rmd160  ca4198344050e536ad5ff982e3f6a3a2a9a760dd \
+                        sha256  217406d3f4dd5e485bee53d4ea1f6bbed01e6ce55c6c0f8cd0c287d3b071b180 \
+                        size    1091583 \
+                    github.com/mattn/go-tty \
+                        lock    v0.0.3 \
+                        rmd160  a9e55e7400c71fbcee463f9bc0e649763b0c3d80 \
+                        sha256  7654b2a00f82d1828a6045bcc1f6f516e3f41cd3c73c4e38451d55f56672c247 \
+                        size    7799 \
+                    github.com/mattn/go-isatty \
+                        lock    v0.0.12 \
+                        rmd160  4f55aecbddbee6089cbac8456d2932bce2cb57e7 \
+                        sha256  d4d1912998d401389e06ee1dbed06e32a8db95350416f227fbe6a59ac84f0651 \
+                        size    4549 \
+                    github.com/mattn/getwild \
+                        lock    c2e221927ad6 \
+                        rmd160  8a1673876afb454ecd9ba9a44f44b9e86e51b492 \
+                        sha256  ee8a3788be7f4e94670c1091c26bb91ef8c48f3fc853d71c80f697aa70feb04b \
+                        size    1540

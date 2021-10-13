@@ -1,0 +1,38 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           texlive 1.0
+
+name                texlive-lang-korean
+version             58468
+revision            0
+
+categories          tex
+maintainers         {dports @drkp}
+license             Copyleft Permissive
+description         TeX Live: Korean
+long_description    Support for Korean\; additional packages in collection-langcjk.
+
+checksums           texlive-lang-korean-58468-run.tar.xz \
+                    rmd160  03201ce56f1227b6b190df3d3ad513e059e71214 \
+                    sha256  142f392cb782fc818505292d93850316323b42674eebc1776f561daabc0b780f \
+                    size    71451324 \
+                    texlive-lang-korean-58468-doc.tar.xz \
+                    rmd160  faaa64c93ca3ae77cd93b5c266309bf992d76d9c \
+                    sha256  c633a640f84c0f4ad0cf65e99edd1645fa13ee0aa13304d36793b3e7b9bf7418 \
+                    size    9553540 \
+                    texlive-lang-korean-58468-src.tar.xz \
+                    rmd160  ec14f72e48c544a8b9001af0d0e8c989e2b119f9 \
+                    sha256  3aee31b813b2be3227fc2a8002241b974cf7abbd6e6f13c4df2aa5ff359d72be \
+                    size    200
+
+depends_lib         port:texlive-lang-cjk
+
+texlive.maps      \
+    {Map nanumfonts.map} \
+    {Map umj.map}
+
+texlive.binaries    jamo-normalize komkindex ttf2kotexfont
+
+
+texlive.texmfport

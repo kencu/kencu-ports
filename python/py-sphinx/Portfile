@@ -1,0 +1,84 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           select 1.0
+
+name                py-sphinx
+version             4.2.0
+categories-append   textproc devel
+license             BSD
+maintainers         {jmr @jmroot} openmaintainer
+description         Python documentation generator
+long_description \
+    Sphinx is a tool that makes it easy to create intelligent and beautiful \
+    documentation for Python projects (or other documents consisting of \
+    multiple reStructuredText sources), written by Georg Brandl. It was \
+    originally created to translate the new Python documentation, but has now \
+    been cleaned up in the hope that it will be useful to many other projects.
+
+platforms           darwin
+supported_archs     noarch
+
+homepage            https://www.sphinx-doc.org/
+python.rootname     Sphinx
+
+checksums           md5 6af34550e36dd6d58a496e47ec67280f \
+                    rmd160 e8b1ad48affa2bfbd0499cc8ea1c894d2de428c9 \
+                    sha256 94078db9184491e15bce0a56d9186e0aec95f16ac20b12d00e06d4e36f1058a6
+
+python.versions     27 35 36 37 38 39
+
+if {$subport ne $name} {
+    depends_lib     port:py${python.version}-docutils \
+                    port:py${python.version}-setuptools
+    depends_run     port:py${python.version}-alabaster \
+                    port:py${python.version}-babel \
+                    port:py${python.version}-imagesize \
+                    port:py${python.version}-jinja2 \
+                    port:py${python.version}-packaging \
+                    port:py${python.version}-pygments \
+                    port:py${python.version}-requests \
+                    port:py${python.version}-snowballstemmer \
+                    port:sphinx_select
+    if {${python.version} > 35} {
+        patchfiles-append   setup.py.patch
+    }
+    if {${python.version} == 35} {
+        version     3.5.2
+        revision    0
+        checksums   md5 87f26fa3d3cf3ab8c05d1c2c62a0229e \
+                    rmd160 bc2b9ba340f2af963bc0b7acfae002cd32bfbd80 \
+                    sha256 672cfcc24b6b69235c97c750cb190a44ecd72696b4452acaf75c2d9cc78ca5ff
+    }
+    if {${python.version} == 27} {
+        version     1.8.5
+        revision    0
+        checksums   md5 554f7a4e752f48b2601e5ef5ab463346 \
+                    rmd160 a7a38523976288c13a8a7e5bf4a81367db9af462 \
+                    sha256 c7658aab75c920288a8cf6f09f244c6cfdae30d82d803ac1634d9f223a80ca08
+
+        depends_run-append  port:py${python.version}-six \
+                            port:py${python.version}-sphinxcontrib-websupport \
+                            port:py${python.version}-typing
+    } else {
+        depends_run-append  port:py${python.version}-sphinxcontrib-applehelp \
+                            port:py${python.version}-sphinxcontrib-devhelp \
+                            port:py${python.version}-sphinxcontrib-htmlhelp \
+                            port:py${python.version}-sphinxcontrib-jsmath \
+                            port:py${python.version}-sphinxcontrib-serializinghtml \
+                            port:py${python.version}-sphinxcontrib-qthelp
+    }
+
+    select.group    sphinx
+    select.file     ${filespath}/py${python.version}-sphinx
+
+    notes "
+To make the Python ${python.branch} version of Sphinx the one that is run when\
+you execute the commands without a version suffix, e.g. 'sphinx-build', run:
+
+port select --set ${select.group} [file tail ${select.file}]
+"
+
+    livecheck.type  none
+}

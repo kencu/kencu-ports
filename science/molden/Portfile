@@ -1,0 +1,113 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+# Previous maintainer Jochen Küpper got explicit permission to distribute molden
+# as a MacPorts port, given that the source code is always downloaded from the
+# author's webpage and we display a notice asking users to register.
+
+PortSystem 1.0
+PortGroup xcodeversion 1.0
+PortGroup compilers 1.0
+
+name                molden
+
+# This project regularly makes "stealth updates". The version (with date)
+# as well as checksums should be updated each time this happens.
+# See https://trac.macports.org/wiki/PortfileRecipes#stealth-updates
+epoch               1
+version             6.8-20210407175900
+revision            0
+checksums           rmd160  cb95f8d129d895783b6058e616cf8cc125794023 \
+                    sha256  4dfbf6524b60112afb5720cba3c200a07a0f57b5d190e05ec14cceae1edf5782 \
+                    size    13850111
+
+set version_number  [lindex [split ${version} -] 0]
+set branch          [join [lrange [split ${version_number} .] 0 1] .]
+categories          science graphics chemistry
+platforms           darwin
+license             Restrictive Noncommercial Nomirror
+maintainers         {ryandesign @ryandesign} openmaintainer
+homepage            http://cheminf.cmbi.ru.nl/molden/
+distname            ${name}${version_number}
+worksrcdir          ${name}${branch}
+dist_subdir         ${name}/${version}
+master_sites        ftp://ftp.cmbi.umcn.nl/pub/molgraph/molden/
+
+description         Molecular graphics visualisation tool
+long_description    Molden is a package for displaying Molecular Density from \
+                    the Ab Initio packages GAMESS-UK, GAMESS-US and \
+                    GAUSSIAN and the Semi-Empirical packages Mopac/Ampac, it \
+                    also supports a number of other programs via the Molden Format. \
+                    \n\nIn order to keep up support for Molden, proof that \
+                    it is being used outside the CMBI is required. \
+                    Please register your copy of molden at: \
+                    ${homepage}form.html
+
+notes "
+                    In order to keep up support for Molden, proof that\
+                    it is being used outside the CMBI is required.\
+                    Please register your copy of molden at:
+
+                    ${homepage}form.html
+"
+
+depends_build       port:gmake \
+                    port:makedepend
+
+depends_lib-append  port:libGLU \
+                    port:mesa \
+                    port:xorg-libX11 \
+                    port:xorg-libXmu
+
+post-extract {
+    # Copy "group" permission to "others", which is empty.
+    fs-traverse item ${worksrcpath} {
+        set p [file attributes ${item} -permissions]
+        file attributes ${item} -permissions [format {0%o} [expr {(${p} >> 3 & 7) | ${p}}]]
+    }
+}
+
+patchfiles          patch-makefile.diff
+patchfiles-append   implicit.patch
+
+compilers.choose    fc
+compilers.setup     require_fortran -gcc10 -gcc11
+# This should allow gcc10 to work but the port doesn't honor MacPorts flags.
+#compilers.allow_arguments_mismatch  yes
+# The argument mismatch problem has been reported to the developer by email.
+minimum_xcodeversions {9 3.1}
+
+pre-configure {
+    # Delete ELF executables which were included in the 6.8-20210407175900 distfile.
+    # This problem has been reported to the developer by email; no response yet.
+    system -W ${worksrcpath} "${build.cmd} clean"
+}
+
+use_configure       no
+
+# ld: file too small (length=0) file 'pbc.o' for architecture x86_64
+use_parallel_build  no
+
+build.cmd           ${prefix}/bin/gmake
+pre-build {
+    build.args      CC=${configure.cc} \
+                    FC=${configure.fc} \
+                    PREFIX=${prefix}
+}
+
+destroot.args       PREFIX=${prefix}
+
+post-destroot {
+    set docdir ${destroot}${prefix}/share/doc/molden
+    xinstall -m 0755 -d ${docdir}
+    xinstall -W ${worksrcpath} \
+        COMMERCIAL_LICENSE \
+        CopyRight \
+        HISTORY \
+        README \
+        REGISTER \
+        ${docdir}
+}
+
+livecheck.type      regex
+livecheck.url       http://www.ryandesign.com/macports/version.php/${name}
+livecheck.regex     {^(.+)$}

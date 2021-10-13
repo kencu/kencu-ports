@@ -1,0 +1,43 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/temporalio/temporal 1.12.2 v
+name                temporal-cli
+revision            0
+
+homepage            https://temporal.io
+
+description         CLI for Temporal
+
+long_description    {*}${description}. Temporal is the open source \
+                    microservices orchestration platform for running mission \
+                    critical code at any scale.
+
+categories          devel sysutils
+installs_libs       no
+license             MIT
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+
+checksums           rmd160  ce2e44fea60dd7c4e6277613f10c97170c3c0b53 \
+                    sha256  b394ac90d6207614dba57e34ec95922b63a13cdef60f120b103e4075c5d7e0f2 \
+                    size    1809811
+
+github.tarball_from archive
+
+# Allow fetching dependencies at build time
+build.env-delete    GOPROXY=off GO111MODULE=off
+
+build.cmd           make
+build.target        tctl
+
+installs_libs       no
+use_parallel_build  no
+
+notes "temporal-cli is installed as tctl"
+
+destroot {
+    xinstall -m 755 ${worksrcpath}/tctl ${destroot}${prefix}/bin/
+}

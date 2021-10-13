@@ -1,0 +1,24 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Data-UUID 1.226
+license             BSD
+maintainers         nomaintainer
+description         Perl extension for generating Globally/Universally \
+                    Unique Identifiers (GUIDs/UUIDs).
+long_description    $description
+
+platforms           darwin
+
+checksums           rmd160  383901aceb4aeb42b56c95a4b2d39a719008259e \
+                    sha256  093d57ffa0d411a94bafafae495697db26f5c9d0277198fe3f7cf2be22996453 \
+                    size    17647
+
+
+if {${perl5.major} != ""} {
+    configure.args-append \
+                    --state-storage-directory=${prefix}/var/lib/data-uuid
+}

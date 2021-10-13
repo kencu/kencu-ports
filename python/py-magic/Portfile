@@ -1,0 +1,43 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-magic
+python.rootname     python-magic
+version             0.4.24
+revision            0
+categories-append   devel
+platforms           darwin
+license             MIT
+supported_archs     noarch
+
+python.versions     27 35 36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         File type identification using libmagic
+
+long_description    Determines the mime type of a file using magic \
+                    numbers. Can also operate on arbitrary data streams. \
+                    Much like the Unix file(1) program.
+
+homepage            https://github.com/ahupp/python-magic
+
+checksums           rmd160  139333b721a95953a1979fcee7623c4f186ed829 \
+                    sha256  de800df9fb50f8ec5974761054a708af6e4246b03b4bdaee993f948947b0ebcf \
+                    size    17295
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                        port:py${python.version}-setuptools
+    depends_lib-append  port:file
+
+    patchfiles          patch-magic_loader.py.diff
+
+    post-patch {
+        reinplace -E "s:__PREFIX__:${prefix}:g" ${worksrcpath}/magic/loader.py
+    }
+
+    livecheck.type      none
+}

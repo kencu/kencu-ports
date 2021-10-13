@@ -1,0 +1,45 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           java 1.0
+
+name                bcprov
+version             1.69
+
+categories          java devel security
+license             MIT
+maintainers         nomaintainer
+platforms           darwin
+supported_archs     noarch
+
+description         A Java implementation of cryptographic algorithms
+long_description    ${description}
+homepage            https://www.bouncycastle.org/java.html
+
+master_sites        https://search.maven.org/remotecontent?filepath=org/bouncycastle/${name}-jdk15on/${version}/
+
+distname            ${name}-jdk15on-${version}
+distfiles           ${distname}.jar
+worksrcdir          ${distname}
+
+checksums           rmd160  b0b7df38e422a555af8726cd8370276977209a43 \
+                    sha256  e469bd39f936999f256002631003ff022a22951da9d5bd9789c7abfa9763a292 \
+                    size    5743920
+
+extract {
+    file copy ${distpath}/${distname}.jar ${workpath}
+}
+
+use_configure       no
+
+build {}
+
+destroot {
+    set javadir ${destroot}${prefix}/share/java
+    xinstall -d -m 755 -d ${javadir}/${name}
+    xinstall -m 644 ${workpath}/${distname}.jar ${javadir}/${name}/${name}.jar
+}
+
+livecheck.type      regex
+livecheck.url       https://repo1.maven.org/maven2/org/bouncycastle/${name}-jdk15on/maven-metadata.xml
+livecheck.regex     >(\\d+\\.\\d+(\\.\\d+)*)</

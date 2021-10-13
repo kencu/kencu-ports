@@ -1,0 +1,37 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                onioncat
+version             0.3.8
+categories          net
+platforms           darwin
+maintainers         {l2dy @l2dy} openmaintainer
+license             GPL-3
+
+description         VPN-adapter that provides VPN-tunnels using Tor or I2P
+
+long_description    OnionCat is a VPN-adapter which allows to connect two or \
+                    more computers or networks through VPN-tunnels. It is \
+                    designed to use the anonymization networks Tor or I2P \
+                    as its transport, hence, it provides location-based \
+                    anonymity while still creating tunnel end points \
+                    with private unique IP addresses.
+
+homepage            https://www.onioncat.org/
+
+set branch          [join [lrange [split ${version} .] 0 1] .]
+master_sites        https://www.cypherpunk.at/ocat/download/Source/${branch}/
+
+checksums           rmd160  9ae6842502bfcb0b8d6b62746e0553982b1eacb5 \
+                    sha256  9564d10c64161408a573256ba8aece9296499a753cbdae6bfbc3544e72a1d63b \
+                    size    242144
+
+depends_run         port:tuntaposx \
+                    path:bin/tor:tor
+
+configure.args      --disable-silent-rules
+
+livecheck.type      regex
+livecheck.url       https://www.cypherpunk.at/ocat/download/Source/current/?sort=date&order=desc
+livecheck.regex     ${name}-(\\d+\\.\\d+\\.\\d+)${extract.suffix}

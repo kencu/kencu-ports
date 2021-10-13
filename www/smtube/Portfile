@@ -1,0 +1,69 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           qmake 1.0
+
+name                smtube
+version             20.6.0
+
+categories          www
+license             GPL-2+
+platforms           darwin
+maintainers         {gmail.com:lasticppc @lastic} openmaintainer
+
+homepage            http://www.smtube.org/
+description         Browse, search, and play YouTube videos
+long_description    ${description}. Uses a media player, by default MPlayer, for best performance. \
+                    Broad compatibility, and good performance on older systems.
+
+master_sites        sourceforge
+use_bzip2           yes
+
+checksums           rmd160  adf6b148ba29ae55c98763b1a8383578e1743e86 \
+                    sha256  82f1eb06d2d8fa4304586a40c2e6dde6a44b2224e3157f039b16f3af5f51df42 \
+                    size    746094
+
+depends_build-append \
+                    port:makeicns
+
+depends_run-append  path:${prefix}/bin/mplayer:MPlayer \
+                    port:youtube-dl
+
+configure.dir       ${worksrcpath}/src
+
+patchfiles          patch-smplayer.diff
+
+post-patch {
+    reinplace "s|@@PREFIX@@|${prefix}|g" ${worksrcpath}/src/players.cpp \
+                                         ${worksrcpath}/src/retrieveyoutubeurl.cpp
+}
+
+pre-build {
+    system -W ${worksrcpath}  "${prefix}/bin/makeicns \
+                               -256 ./icons/smtube_256.png \
+                               -128 ./icons/smtube_128.png \
+                               -64 ./icons/smtube_64.png   \
+                               -48 ./icons/smtube_48.png   \
+                               -32 ./icons/smtube_32.png   \
+                               -16 ./icons/smtube_16.png   \
+                               -out src/smtube.icns"
+}
+
+build.dir            ${worksrcpath}/src
+
+# fixme - the translations are made, but forcing the installed app to find them
+# is proving somewhat difficult.
+
+post-build {
+    reinplace "s|com.yourcompany.smtube|org.smtube.smtube|g" ${worksrcpath}/src/smtube.app/Contents/Info.plist
+    move ${worksrcpath}/src/translations ${worksrcpath}/src/smtube.app/Contents/Resources/
+}
+
+destroot {
+    copy ${worksrcpath}/src/smtube.app ${destroot}${applications_dir}/smtube.app
+}
+
+notes "
+The mechanism smtube uses has changed slightly. You may notice\
+a slight delay before the video starts to play.
+"

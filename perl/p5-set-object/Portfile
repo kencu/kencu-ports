@@ -1,0 +1,19 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Set-Object 1.40
+license             Artistic-2
+maintainers         nomaintainer
+description         set of objects and strings
+long_description    This modules implements a set of objects, \
+                    that is, an unordered collection of objects \
+                    without duplication.
+
+platforms           darwin
+
+checksums           rmd160  37c9f6ca249c30a653572b05b8af1108258f8920 \
+                    sha256  1c4d8464c13e6d94957cf021ce603c961b08f52db6a9eaf5a5b0d37868cd37b7 \
+                    size    82458

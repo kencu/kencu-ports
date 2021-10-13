@@ -1,0 +1,93 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           cxx11 1.1
+
+github.setup        OpenLightingProject ola 0.10.8
+revision            0
+categories          net comms
+platforms           darwin
+license             GPL-2+ LGPL-2.1+
+maintainers         {pjnewman.co.uk:bugs @peternewman} \
+                    openmaintainer
+
+description         An open framework for DMX512 lighting control
+
+long_description    The Open Lighting Architecture (OLA) provides a plugin \
+                    framework for distributing DMX512 control signals on \
+                    Mac and Linux. It provides C++ and Python libraries \
+                    which abstract away the underlying DMX over IP protocol \
+                    or DMX interface.
+
+homepage            http://www.openlighting.org/ola/
+
+checksums           rmd160  f7435b1386e5ad0962cf7d62138ba95d0cda0058 \
+                    sha256  102aa3114562a2a71dbf7f77d2a0fb9fc47acc35d6248a70b6e831365ca71b13 \
+                    size    2552023
+
+github.tarball_from releases
+
+patchfiles          Init.cpp.patch
+
+depends_build       port:pkgconfig
+
+# Required while we're patching ola.m4
+use_autoreconf      yes
+
+depends_test        port:cppunit
+# temporary workaround (else configure fails)
+depends_build-append \
+                    port:cppunit
+
+depends_lib         port:protobuf3-cpp
+
+configure.args      --disable-fatal-warnings \
+                    --disable-libftdi \
+                    --disable-http \
+                    --disable-libusb \
+                    --disable-osc
+
+variant python27 description {Enable the Python 2.7 API} {
+    depends_lib-append      port:python27 port:py27-protobuf3
+    configure.args-append   --enable-python-libs
+    configure.python        ${prefix}/bin/python2.7
+}
+
+variant rdm_tests requires python27 description {Enable the RDM Tests} {
+    depends_lib-append      port:py27-numpy
+    configure.args-append   --enable-rdm-tests
+}
+
+variant http description {Build with embedded web server} {
+    depends_lib-append      port:libmicrohttpd
+    configure.args-delete   --disable-http
+}
+
+variant libftdi0 conflicts libftdi1 description {Build with libftdi0 support} {
+    depends_lib-append      port:libftdi0
+    configure.args-delete   --disable-libftdi
+}
+
+variant libftdi1 conflicts libftdi0 description {Build with libftdi1 support} {
+    depends_lib-append      port:libftdi1
+    configure.args-delete   --disable-libftdi
+}
+
+variant libusb description {Build with libusb support} {
+    depends_lib-append      port:libusb
+    configure.args-delete   --disable-libusb
+}
+
+variant osc description {Build with OSC support} {
+    depends_lib-append      port:liblo
+    configure.args-delete   --disable-osc
+}
+
+default_variants    +http +libusb +osc +python27
+if {![variant_isset libftdi1]} {
+    default_variants-append +libftdi0
+}
+
+test.run            yes
+test.target         check

@@ -1,0 +1,122 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           texlive 1.0
+
+name                texlive-basic
+version             58690
+revision            0
+
+categories          tex
+maintainers         {dports @drkp}
+license             Copyleft Permissive
+description         TeX Live: Essential programs and files
+long_description    These files are regarded as basic for any TeX system, covering plain TeX macros, Computer Modern fonts, and configuration for common drivers\; no LaTeX.
+
+checksums           texlive-basic-58690-run.tar.xz \
+                    rmd160  e57cf6a22d2624936903369f30d52cc9075a47cb \
+                    sha256  26afbdfb359acd4890df28b2167d0963d615f102f253aff5cac748e384442efb \
+                    size    20327628 \
+                    texlive-basic-58690-doc.tar.xz \
+                    rmd160  95e12968dc1267948548b6cb6d5fdcab5b3b9dd0 \
+                    sha256  9725c16718171ece0bd84c0d95470f926503ee4aff36796c2f7856484f6438fe \
+                    size    15056184 \
+                    texlive-basic-58690-src.tar.xz \
+                    rmd160  5312842b1e51a796d69da9fa14679cf644d350a2 \
+                    sha256  99305c46b749836a88acbbf69c992ac8f2c2ed60c81efe021caec289b46342fd \
+                    size    293356
+
+texlive.formats      \
+    {1 luahbtex luahbtex language.def,language.dat.lua {luatex.ini}} \
+    {1 dviluatex luatex language.def,language.dat.lua {dviluatex.ini}} \
+    {1 luatex luatex language.def,language.dat.lua {luatex.ini}} \
+    {1 mf mf-nowin - {-translate-file=cp227.tcx mf.ini}} \
+    {1 etex pdftex language.def {-translate-file=cp227.tcx *etex.ini}} \
+    {1 pdfetex pdftex language.def {-translate-file=cp227.tcx *pdfetex.ini}} \
+    {1 pdftex pdftex language.def {-translate-file=cp227.tcx *pdfetex.ini}} \
+    {1 tex tex - {tex.ini}}
+
+texlive.maps      \
+    {Map euler.map} \
+    {MixedMap cm.map} \
+    {MixedMap cmextra.map} \
+    {MixedMap cyrillic.map} \
+    {MixedMap latxfont.map} \
+    {MixedMap symbols.map} \
+    {MixedMap cmtext-bsr-interpolated.map} \
+    {Map dummy-space.map} \
+    {Map mathpple.map}
+
+texlive.binaries    afm2tfm bibtex dviluatex dvipdfm dvipdfmx dvipdft dvips ebb etex extractbb fmtutil fmtutil-sys fmtutil-user gftodvi gftopk gftype inimf initex kpseaccess kpsereadlink kpsestat kpsewhich luahbtex luatex makeindex mf mf-nowin mft mkindex mktexfmt mktexlsr mktexmf mktexpk mktextfm pdfetex pdftex pktogf pktype rungs simpdftex tex texhash texlua texluac tlshell updmap updmap-sys updmap-user xdvi xdvipdfmx
+
+texlive.exclude     texmf-dist/web2c/fmtutil.cnf \
+                    texmf-dist/web2c/texmf.cnf \
+                    texmf-dist/web2c/texmfcnf.lua \
+                    texmf-dist/web2c/updmap.cfg \
+                    texmf-dist/web2c/updmap.cfg \
+                    texmf-dist/tex/generic/config/language.dat \
+                    texmf-dist/tex/generic/config/language.dat.lua \
+                    texmf-dist/tex/generic/config/language.def \
+                    texmf-dist/fonts/map/dvipdfm/updmap \
+                    texmf-dist/fonts/map/dvips/updmap \
+                    texmf-dist/fonts/map/pdftex/updmap
+
+patchfiles          patch-runfiles_texmf-dist_scripts_texlive_fmtutil.pl.diff
+post-patch {
+    reinplace "s|@@TEXMFDIST@@|${texlive_texmfdist}|" ${worksrcpath}/runfiles/texmf-dist/scripts/texlive/fmtutil.pl
+    reinplace "s|@@PREFIX@@|${prefix}|" ${worksrcpath}/runfiles/texmf-dist/scripts/texlive/fmtutil.pl
+    
+    reinplace "s|rungs|gs|g" ${worksrcpath}/runfiles/texmf-dist/dvipdfmx/dvipdfmx.cfg
+}
+
+texlive.forceupdatecnf yes
+texlive.use_mktexlsr_on_deactivate no
+
+pre-activate {
+    # Handle conflicts for TL2020 update
+    if { ![catch {set vers [lindex [registry_active texlive-fonts-recommended] 0]}]
+         && ([vercmp [lindex $vers 1] 54512] < 0) } {
+        registry_deactivate_composite texlive-fonts-recommended "" [list ports_nodepcheck 1]
+    }
+    if { ![catch {set vers [lindex [registry_active texlive-plain-generic] 0]}]
+         && ([vercmp [lindex $vers 1] 54476] < 0) } {
+        registry_deactivate_composite texlive-plain-generic "" [list ports_nodepcheck 1]
+    }
+    if { ![catch {set vers [lindex [registry_active texlive-latex-extra] 0]}]
+         && ([vercmp [lindex $vers 1] 54584] < 0) } {
+        registry_deactivate_composite texlive-latex-extra "" [list ports_nodepcheck 1]
+    }
+    if { ![catch {set vers [lindex [registry_active texlive-bin-extra] 0]}]
+         && ([vercmp [lindex $vers 1] 54608] < 0) } {
+        registry_deactivate_composite texlive-bin-extra "" [list ports_nodepcheck 1]
+    }
+
+    # Handle conflicts for TL2019 upgrade
+    if { ![catch {set vers [lindex [registry_active texlive-bin-extra] 0]}]
+         && ([vercmp [lindex $vers 1] 50853] < 0) } {
+        registry_deactivate_composite texlive-bin-extra "" [list ports_nodepcheck 1]
+    }
+    if { ![catch {set vers [lindex [registry_active texlive-xetex] 0]}]
+         && ([vercmp [lindex $vers 1] 50852] < 0) } {
+        registry_deactivate_composite texlive-xetex "" [list ports_nodepcheck 1]
+    }
+    if { ![catch {set vers [lindex [registry_active texlive-lang-cyrillic] 0]}]
+         && ([vercmp [lindex $vers 1] 50792] < 0) } {
+        registry_deactivate_composite texlive-lang-cyrillic "" [list ports_nodepcheck 1]
+    }
+    if { ![catch {set vers [lindex [registry_active texlive-lang-spanish] 0]}]
+         && ([vercmp [lindex $vers 1] 50792] < 0) } {
+        registry_deactivate_composite texlive-lang-spanish "" [list ports_nodepcheck 1]
+    }
+    if { ![catch {set vers [lindex [registry_active texlive-lang-european] 0]}]
+         && ([vercmp [lindex $vers 1] 50792] < 0) } {
+        registry_deactivate_composite texlive-lang-european "" [list ports_nodepcheck 1]
+    }
+    if { ![catch {set vers [lindex [registry_active texlive-lang-other] 0]}]
+         && ([vercmp [lindex $vers 1] 50792] < 0) } {
+        registry_deactivate_composite texlive-lang-other "" [list ports_nodepcheck 1]
+    }
+}
+
+
+texlive.texmfport

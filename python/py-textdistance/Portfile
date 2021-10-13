@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-textdistance
+version             4.2.1
+revision            0
+
+platforms           darwin
+supported_archs     noarch
+license             MIT
+maintainers         {reneeotten @reneeotten} openmaintainer
+
+description         Compute distance between the two texts.
+long_description    ${description}
+
+homepage            https://github.com/life4/textdistance
+
+checksums           rmd160  2134a46d12610e1d4a4044d44ea967fa311f6d45 \
+                    sha256  46f8df3b26c7f319ab500b417047f61b85c2dd221781cb02f6c9136e5f1c9284 \
+                    size    28950
+
+python.versions     36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    livecheck.type  none
+}

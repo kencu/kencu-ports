@@ -1,0 +1,35 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-sphinxcontrib-svg2pdfconverter
+version             1.1.1
+revision            0
+
+categories-append   textproc devel
+supported_archs     noarch
+platforms           darwin
+license             BSD
+maintainers         {reneeotten @reneeotten} openmaintainer
+
+description         sphinx extension that converts svg graphics files
+long_description    ${name} is a ${description}.
+
+homepage            http://sphinx-doc.org/
+
+checksums           rmd160  11efce678471e05123717b135268b2f7c8d6b358 \
+                    sha256  c5138cbb069150646fd9fd106034678cf8290f894fc62d580d8ccbdb7ac49481 \
+                    size    5185
+
+python.versions     35 36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                        port:py${python.version}-setuptools
+
+    # can use inkscape, librsvg, or cairosvg to do the image conversion
+    depends_run-append  port:librsvg
+
+    livecheck.type      none
+}

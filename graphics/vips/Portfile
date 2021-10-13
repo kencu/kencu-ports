@@ -1,0 +1,59 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           gobject_introspection 1.0
+
+github.setup        libvips libvips 8.11.2 v
+revision            1
+name                vips
+distname            vips-${version}
+description         VIPS is an image processing library.
+long_description    VIPS is an image processing library. It is good for \
+                    large images and for colour.
+maintainers         {gmail.com:jcupitt @jcupitt} openmaintainer
+categories          graphics
+platforms           darwin
+license             LGPL-2.1+
+homepage            https://libvips.github.io/libvips/
+github.tarball_from releases
+
+checksums           rmd160  bb68cabc5465237d581697519f3b379b8fab27d7 \
+                    sha256  bb5ab776ee4c61ae94b4496c63ef523ca7367ebceabcba78ceb1bf97b1d36e06 \
+                    size    17780526
+
+# minor tweak to allow build with older compilers
+# StandaloneFuzzTargetMain.c:31: error: 'for' loop initial declaration used outside C99 mode
+patchfiles-append   patch-vips-fuzz-forloop.diff
+
+depends_build       port:doxygen \
+                    port:gtk-doc \
+                    port:pkgconfig
+
+depends_lib         path:lib/pkgconfig/glib-2.0.pc:glib2 \
+                    path:lib/pkgconfig/pango.pc:pango \
+                    port:cfitsio \
+                    port:expat \
+                    port:fftw-3 \
+                    port:hdf5 \
+                    port:ImageMagick \
+                    path:include/turbojpeg.h:libjpeg-turbo \
+                    port:lcms2 \
+                    port:libexif \
+                    port:libgsf \
+                    port:libpng \
+                    port:librsvg \
+                    port:libtool \
+                    port:matio \
+                    port:nifticlib \
+                    port:openexr \
+                    port:openslide \
+                    port:orc \
+                    port:poppler \
+                    port:tiff \
+                    port:webp \
+                    port:zlib
+
+gobject_introspection   yes
+
+configure.args      --enable-gtk-doc --enable-modules

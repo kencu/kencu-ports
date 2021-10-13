@@ -1,0 +1,67 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           java 1.0
+
+name                LanguageTool
+version             5.5
+revision            1
+categories          aqua textproc java
+license             LGPL-2.1
+maintainers         {amake @amake} openmaintainer
+
+description         Proofreading tool for numerous languages
+long_description    LanguageTool is an Open Source proofreading software for English, French, \
+                    German, Polish, Russian, and more than 20 other languages. It finds many \
+                    errors that a simple spell checker cannot detect.
+homepage            https://languagetool.org/
+platforms           darwin
+supported_archs     noarch
+master_sites        https://languagetool.org/download/
+
+checksums           rmd160  79ce53297b0b6a9bd7efd5dbe0bbab492ff9590a \
+                    sha256  18d16d103f1e59b125a1f48ff9d3c23051f21a80b2ca64a1da305d576245f90d \
+                    size    212103112
+
+java.version        1.8+
+
+use_zip             yes
+use_configure       no
+
+build {}
+
+destroot    {
+    set name_lower [string tolower ${name}]
+
+    xinstall -m 0755 -d ${destroot}${prefix}/share/java
+
+    set target_dir ${prefix}/share/java/${name}
+    copy ${worksrcpath} ${destroot}/${target_dir}
+
+    # CLI wrapper script
+    set cli_bin ${destroot}${prefix}/bin/${name_lower}
+    xinstall -m 0755 ${filespath}/${name}_cli_bin ${cli_bin}
+    reinplace "s|@@JAR@@|${target_dir}/${name_lower}-commandline.jar|g" ${cli_bin}
+
+    set app ${destroot}${applications_dir}/${name}.app
+    xinstall -d ${app}/Contents/MacOS
+    xinstall -d ${app}/Contents/Resources
+
+    xinstall -m 0644 ${filespath}/Info.plist ${app}/Contents/
+    reinplace "s|@@VERSION@@|${version}|g" ${app}/Contents/Info.plist
+
+    xinstall -m 0644 ${filespath}/${name}.icns ${app}/Contents/Resources/
+
+    set app_bin ${app}/Contents/MacOS/${name}
+    xinstall -m 0755 ${filespath}/${name}_app_bin ${app_bin}
+    reinplace "s|@@JAVA_VERSION@@|${java.version}|g" ${app_bin}
+    reinplace "s|@@ICON@@|${applications_dir}/${name}.app/Contents/Resources/${name}.icns|g" ${app_bin}
+    reinplace "s|@@NAME@@|${name}|g" ${app_bin}
+    reinplace "s|@@JAR@@|${target_dir}/${name_lower}.jar|g" ${app_bin}
+}
+
+universal_variant   no
+
+livecheck.type      regex
+livecheck.url       ${master_sites}
+livecheck.regex     ${name}-(\\d+(\\.\\d+)?)\\.zip

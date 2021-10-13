@@ -1,0 +1,52 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+set git_hash        65272b349b3484e846842205f57ed82fc3295be1
+github.setup        macports upt-macports ${git_hash}
+version             0.1-20200607
+name                py-${github.project}
+revision            0
+
+platforms           darwin
+supported_archs     noarch
+license             BSD
+maintainers         {@korusuke somaiya.edu:karan.sheth} openmaintainer
+
+description         MacPorts backend for upt.
+long_description    ${description}
+
+checksums           rmd160  b31ebbebc3b82af3963d1c49c65cd57efad988b3 \
+                    sha256  8663500c1a32b6e07c2bf49ddab05459ace155c677d87b3ab91ba040b21e8638 \
+                    size    11770
+
+python.versions     37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    depends_lib-append \
+                    port:py${python.version}-jinja2 \
+                    port:py${python.version}-packaging \
+                    port:py${python.version}-requests
+
+    depends_test-append \
+                    port:py${python.version}-requests-mock
+
+    test.run        yes
+    test.cmd        ${python.bin} -m unittest
+    test.target
+    test.env        PYTHONPATH=${worksrcpath}/build/lib
+
+    post-destroot {
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath} README.md LICENSE CHANGELOG \
+            ${destroot}${docdir}
+    }
+
+    livecheck.type  none
+}

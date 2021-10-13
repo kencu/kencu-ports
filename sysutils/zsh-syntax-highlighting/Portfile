@@ -1,0 +1,41 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        zsh-users zsh-syntax-highlighting 0.7.1
+
+categories          sysutils shells
+
+maintainers         {@danchr danchr} openmaintainer
+
+description         Fish shell-like like syntax highlighting for Zsh.
+
+long_description    This package provides syntax highlighing for the shell zsh. \
+                    It enables highlighing of commands whilst they are typed at \
+                    a zsh prompt into an interactive terminal. This helps in \
+                    reviewing commands before running them, particularly in \
+                    catching syntax errors. \
+                    \
+                    Please note that you must load zsh-syntax-highlighting \
+                    after all other custom widgets, at the end of your .zshrc \
+                    file.
+
+license             BSD
+
+platforms           darwin
+supported_archs     noarch
+
+checksums           sha256  5abb9814ed5fcfc9d393be4932adb86b39de3b324eee8ade2debe44530acd840 \
+                    rmd160  9df8771fb309f44f62a41fb0af65ddc34296d506 \
+                    size    133551
+
+depends_run         path:bin/zsh:zsh
+
+use_configure       no
+
+build { }
+
+destroot.args-append ZSH=${prefix}/bin/zsh PREFIX=$prefix
+
+github.livecheck.regex {([^"-]+)}

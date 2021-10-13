@@ -1,0 +1,41 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-flake8-mccabe
+python.rootname     mccabe
+version             0.6.1
+revision            1
+
+categories-append   devel
+platforms           darwin
+supported_archs     noarch
+license             MIT
+maintainers         {petr @petrrr} openmaintainer
+
+description         McCabe complexity checker for Python code, flake8 plugin
+long_description    {*}${description}.
+
+homepage            https://github.com/pycqa/mccabe
+
+checksums           rmd160  a0df4f8d27f457b929f91c870961afcf50f51c9f \
+                    sha256  dd8d182285a0fe56bace7f45b5e7d1a6ebcbf524e8f3bd87eb0f125271b8831f \
+                    size    8612
+
+python.versions     27 35 36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools \
+                    port:py${python.version}-pytest-runner
+
+    depends_test-append \
+                    port:py${python.version}-pytest
+
+    test.run        yes
+    test.cmd        ${python.bin}
+    test.target     test_mccabe.py
+
+    livecheck.type  none
+}

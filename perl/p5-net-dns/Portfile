@@ -1,0 +1,29 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup perl5     1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Net-DNS 1.31 ../../authors/id/N/NL/NLNETLABS
+license             MIT
+maintainers         {devans @dbevans} openmaintainer
+description         Perl interface to the DNS resolver
+long_description    Net::DNS is a DNS resolver implemented in Perl.  It \
+                    allows the programmer to perform nearly any type of \
+                    DNS query from a Perl script.
+
+platforms           darwin
+
+checksums           rmd160  292825d5993caca98853fe4c878eca005c06d087 \
+                    sha256  00024a8e371605c6d8422a27a0a87af8b7cf66f26502102e68ddd4baf7cfc615 \
+                    size    249299
+
+if {${perl5.major} != ""} {
+    depends_lib-append \
+                    port:p${perl5.major}-digest-bubblebabble \
+                    port:p${perl5.major}-digest-hmac \
+                    port:p${perl5.major}-io \
+                    port:p${perl5.major}-io-socket-ip \
+                    port:p${perl5.major}-net-libidn2 \
+                    port:p${perl5.major}-time-local
+}

@@ -1,0 +1,43 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-datasets
+version             1.6.2
+platforms           darwin
+license             Apache-2
+maintainers         nomaintainer
+supported_archs     noarch
+
+description         Datasets and evaluation metrics for natural language \
+                    processing and more
+long_description    🤗 Datasets is a lightweight and extensible \
+                    library to easily share and access datasets and \
+                    evaluation metrics for Natural Language Processing \
+                    (NLP) and more.
+
+homepage            https://github.com/huggingface/datasets
+
+checksums           rmd160  e96aedcd0a394614101b4c382b9a333a7f9f6520 \
+                    sha256  94ce238b48754b730bf217966725197f9579e5821c22d496130a37fe66793483 \
+                    size    21813686
+
+python.versions     37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    depends_run-append \
+                    port:py${python.version}-dill \
+                    port:py${python.version}-multiprocess \
+                    port:py${python.version}-numpy \
+                    port:py${python.version}-pandas \
+                    port:py${python.version}-pyarrow \
+                    port:py${python.version}-requests \
+                    port:py${python.version}-tqdm \
+                    port:py${python.version}-xxhash
+
+    livecheck.type  none
+}

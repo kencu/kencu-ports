@@ -1,0 +1,34 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-flit
+version             3.3.0
+platforms           darwin
+supported_archs     noarch
+maintainers         nomaintainer
+license             BSD
+
+description         A simple packaging tool for simple packages.
+
+long_description    Flit is a simple way to put Python packages and \
+                    modules on PyPI.
+
+homepage            https://github.com/takluyver/flit
+
+checksums           rmd160 3522cbb1e68c88eddb3b482daa71efcb3317b815 \
+                    sha256 65fbe22aaa7f880b776b20814bd80b0afbf91d1f95b17235b608aa256325ce57 \
+                    size   117809
+
+python.versions     37 38 39
+
+python.pep517       yes
+
+if {$subport ne $name} {
+    depends_run-append  port:py${python.version}-flit_core \
+                        port:py${python.version}-requests \
+                        port:py${python.version}-docutils \
+                        port:py${python.version}-toml
+    livecheck.type  none
+}

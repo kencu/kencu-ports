@@ -1,0 +1,62 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        mas-cli mas 1.8.3 v
+revision            0
+categories          sysutils
+description         Mac App Store command line interface
+long_description    A simple command line interface for the Mac App Store. \
+                    Designed for scripting and automation.
+license             MIT
+
+maintainers         {kimuraw @kimuraw} \
+                    {outlook.de:judaew @judaew} openmaintainer
+platforms           darwin
+
+checksums           sha256  1287715d3c298e2f77c09bb9222354f08a557f447d4bdb05234d1261bf318080 \
+                    rmd160  1cc74b4fe91258bc62468a34db74623fd0182840 \
+                    size    403456
+
+# requirements:
+# - mas: Xcode 11.4 or later
+set xcodeversion_min_required 11.4
+pre-fetch {
+    if {[vercmp ${xcodeversion} ${xcodeversion_min_required}] < 0} {
+        ui_error "${name} @${version} requires Xcode ${xcodeversion_min_required} or later but you have Xcode ${xcodeversion}."
+        ui_error "See https://guide.macports.org/chunked/installing.xcode.html for download links."
+        return -code error "incompatible Xcode version"
+    }
+}
+
+patchfiles          patch-fix-version.diff
+
+post-patch {
+    reinplace "s,@@VERSION@@,${version},g" \
+        ${worksrcpath}/Sources/MasKit/Commands/Version.swift
+}
+
+use_configure       no
+use_xcode           yes
+
+build.cmd           swift
+build.target        build
+build.args          --configuration release \
+                    --arch ${configure.build_arch} \
+                    --disable-sandbox
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/.build/${configure.build_arch}-apple-macosx/release/${name} \
+        ${destroot}${prefix}/bin/${name}
+
+    set bash_complete ${prefix}/share/bash-completion/completions
+    xinstall -d ${destroot}${bash_complete}
+    xinstall -m 0644 ${worksrcpath}/contrib/completion/mas-completion.bash \
+        ${destroot}${bash_complete}/${name}
+
+    set fish_complete ${prefix}/share/fish/vendor_completions.d
+    xinstall -d ${destroot}${fish_complete}
+    xinstall -m 0644 ${worksrcpath}/contrib/completion/mas.fish \
+        ${destroot}${bash_complete}/${name}.fish
+}

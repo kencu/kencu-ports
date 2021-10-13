@@ -1,0 +1,42 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/go-acme/lego 4.5.3 v
+revision            0
+
+homepage            https://go-acme.github.io/lego
+
+description         Let's Encrypt client and ACME library written in Go
+
+long_description    {*}${description}. Supports ACME v2 RFC 8555.  Allows \
+                    registering with a CA, obtaining certificates (both from \
+                    scratch, or with an existing CSR), renewing certificates, \
+                    revoking certificates, SAN certificate support, support \
+                    for ACME challenges (HTTP, DNS, TLS), certificate \
+                    bundling, and more.
+
+categories          security www
+license             MIT
+installs_libs       no
+
+# Do not restrict Go from downloading dependencies at build time.
+build.env-delete    GOPROXY=off GO111MODULE=off
+
+build.cmd           make
+build.pre_args      VERSION=v${version}
+build.args          build
+
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+
+checksums           rmd160  070ab8efbd39a499181cd1359daa5c6ecc500fbc \
+                    sha256  82778a122e98225b55e1e6c102a06948747263533d88284216f0cce238b897c9 \
+                    size    516241
+
+github.tarball_from archive
+
+destroot {
+    xinstall -m 755 ${worksrcpath}/dist/${name} ${destroot}${prefix}/bin/
+}

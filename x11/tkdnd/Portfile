@@ -1,0 +1,78 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           active_variants 1.1
+PortGroup           github 1.0
+PortGroup           compiler_blacklist_versions 1.0
+
+github.setup        petasis tkdnd 2.9.2 tkdnd-release-test-v
+platforms           darwin
+categories          x11
+license             BSD
+maintainers         {mcalhoun @MarcusCalhoun-Lopez} openmaintainer
+description         an extension that adds native drag & drop capabilities to the tk toolkit
+long_description    Tk Drag & Drop: tkdnd is an extension that adds native drag & drop capabilities to the tk toolkit.
+homepage            http://www.ellogon.org/petasis/index.php/tcltk-projects/tkdnd
+
+checksums           rmd160  3bc5cc836e7b7fca6afa751df41a01a6320f5c1f \
+                    sha256  a38ad6fd02df10d6ed5bb0ba896cc6c84b6a05622b4c3ced466c7672d7fd5473 \
+                    size    573731
+
+cmake.install_prefix ${prefix}/lib
+
+# do not:
+#     find macOS Tcl/Tk,
+#     build universal, or
+#     use garbage collection
+patchfiles-append   patch-CMakeLists.txt.diff
+
+configure.args-append \
+    -DTCL_INCLUDE_PATH:PATH=${prefix}/include \
+    -DTK_INCLUDE_PATH:PATH=${prefix}/include
+
+depends_lib-append port:tcl \
+                   port:tk
+
+variant quartz conflicts x11 {
+    require_active_variants tk quartz
+    # garbage collection is still available for ${os.major} < 16
+    # ARC is available for ${os.major} > 10
+    # in Xcode < 10, ARC forbids Objective-C objects in struct
+    #     see https://developer.apple.com/videos/play/wwdc2018/409/?time=229
+    #     see https://trac.macports.org/ticket/59058
+    if {${os.major} >= 16} {
+        compiler.blacklist-append {clang < 1000}
+    }
+    post-patch {
+        reinplace "s|MACPORTS_APPLE|APPLE|g" \
+            ${worksrcpath}/CMakeLists.txt
+        if {${os.major} < 16} {
+            reinplace "s|#MACPORTS_DO_NOT_USE_GC||g" \
+                ${worksrcpath}/CMakeLists.txt
+        } else {
+            reinplace "s|#MACPORTS_DO_NOT_USE_ARC||g" \
+                ${worksrcpath}/CMakeLists.txt
+
+        }
+    }
+}
+
+variant x11 conflicts quartz {
+    require_active_variants tk x11
+    depends_lib-append \
+        port:xorg-libX11 \
+        port:xorg-libXext \
+        port:xorg-libice \
+        port:xorg-libsm
+}
+
+if {![variant_isset quartz]} {
+    default_variants +x11
+}
+
+pre-configure {
+    if {![variant_isset quartz] && ![variant_isset x11]} {
+        error "Either +x11 or +quartz is required"
+    }
+}

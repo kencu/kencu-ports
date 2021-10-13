@@ -1,0 +1,29 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         Sys-CpuLoad 0.31 ../../authors/id/R/RR/RRWO
+license             {Artistic-1 GPL}
+maintainers         nomaintainer
+description         A module to retrieve system load averages
+long_description    ${description}.
+platforms           darwin
+
+checksums           rmd160  f03a95332c274fc2d2f40ac02017639d870ab5b3 \
+                    sha256  99de82622b3a41f82e00471f5a27cb2134c782a5e7916a07e2fafa28fd4f7359 \
+                    size    19808
+
+if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-module-metadata \
+                    port:p${perl5.major}-test-deep \
+                    port:p${perl5.major}-test-exception \
+                    port:p${perl5.major}-test-warnings
+
+    depends_lib-append \
+                    port:p${perl5.major}-file-which \
+                    port:p${perl5.major}-ipc-run3 \
+                    port:p${perl5.major}-xsloader
+}

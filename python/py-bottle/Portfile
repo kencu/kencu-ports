@@ -1,0 +1,40 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; truncate-lines: t; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-bottle
+version             0.12.18
+revision            1
+
+categories-append   devel
+platforms           darwin
+supported_archs     noarch
+license             MIT
+maintainers         nomaintainer
+
+description         Fast, simple and lightweight WSGI micro web-framework for python
+long_description    Bottle is a fast, simple and lightweight WSGI micro web-framework \
+                    with no dependencies other than the Python Standard Library. It \
+                    supports routing, templates and has a built-in HTTP development server. \
+                    It supports paste, fapws3, bjoern, Google App Engine, cheerypy or \
+                    any other WSGI capable HTTP server
+
+homepage            https://bottlepy.org/
+
+checksums           rmd160  a34d7d5c77e3a65a9763323c5fe94edc85fc2c97 \
+                    sha256  0819b74b145a7def225c0e83b16a4d5711fde751cd92bae467a69efce720f69e \
+                    size    71557
+
+python.versions     27 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    test.run        yes
+    test.cmd        python${python.branch}
+    test.target     test/testall.py
+
+    livecheck.type  none
+}

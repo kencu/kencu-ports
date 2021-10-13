@@ -1,0 +1,38 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32
+perl5.setup         DateTime-Format-Natural 1.11 ../../authors/id/S/SC/SCHUBIGER
+license             {Artistic-1 GPL}
+maintainers         {devans @dbevans} openmaintainer
+description         DateTime::Format::Natural - Parse informal natural language date/time strings
+long_description    ${description}
+
+platforms           darwin
+
+checksums           rmd160  3c13804b505e62a83002e8b290442d487b5cefc5 \
+                    sha256  738fb0fb14e42ffae142a322f49f471c8cc122694cfbe6d33580363203f44552 \
+                    size    82424
+
+if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-module-util \
+                    port:p${perl5.major}-test-mocktime
+
+    depends_lib-append \
+                    port:p${perl5.major}-boolean \
+                    port:p${perl5.major}-clone \
+                    port:p${perl5.major}-date-calc \
+                    port:p${perl5.major}-datetime \
+                    port:p${perl5.major}-datetime-timezone \
+                    port:p${perl5.major}-getopt-long \
+                    port:p${perl5.major}-list-moreutils \
+                    port:p${perl5.major}-params-validate \
+                    port:p${perl5.major}-term-readline
+
+
+    perl5.use_module_build
+    supported_archs noarch
+}

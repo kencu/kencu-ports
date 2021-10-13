@@ -1,0 +1,26 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+github.setup        daviddrysdale python-phonenumbers 8.12.19 v
+name                py-phonenumbers
+python.versions     27 35 36 37 38 39
+categories-append   textproc
+license             apache
+platforms           darwin
+supported_archs     noarch
+maintainers         {aronnax @lpsinger} openmaintainer
+description         parsing, formatting, storing and validating international phone numbers
+long_description    Python version of Google's common library for ${description}
+
+checksums           rmd160  11155dc7c3da6eeb8cff558d84f842430cd36604 \
+                    sha256  257c40d77b5c12e571483d3e9a34eaac62871212b84efb9bdf8fb7041d311862 \
+                    size    4832882
+
+if {$subport ne $name} {
+    depends_build-append port:py${python.version}-setuptools
+
+    livecheck.type  none
+}

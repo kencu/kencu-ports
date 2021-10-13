@@ -1,0 +1,54 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim: fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-jupyter_console
+version             6.4.0
+revision            0
+categories-append   devel
+platforms           darwin
+license             BSD
+supported_archs     noarch
+
+python.versions     27 35 36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         Jupyter terminal console.
+long_description    ${description}
+
+homepage            https://jupyter.org/
+
+checksums           rmd160  8190b4b93ef04d48765dd842e4a86af953c1e57e \
+                    sha256  242248e1685039cd8bff2c2ecb7ce6c1546eb50ee3b08519729e6e881aec19c7 \
+                    size    35765
+
+if {${name} ne ${subport}} {
+
+    if {${python.version} eq 27} {
+        version             5.2.0
+        revision            0
+        distname            ${python.rootname}-${version}
+        checksums           rmd160  5cf2f6363e89b378be96463dea0e9214fbdd708e \
+                            sha256  545dedd3aaaa355148093c5609f0229aeb121b4852995c2accfa64fe3e0e55cd \
+                            size    27063
+    } elseif {${python.version} eq 35} {
+        version             6.1.0
+        revision            1
+        distname            ${python.rootname}-${version}
+        checksums           rmd160  5306d349cb34f745d89cf99644c011555625468e \
+                            sha256  6f6ead433b0534909df789ea64f0a14cdf9b6b2360757756f08182be4b9e431b \
+                            size    28468
+        patchfiles-append   patch-setup.py.diff
+    }
+
+    depends_lib-append  port:py${python.version}-ipykernel \
+                        port:py${python.version}-ipython \
+                        port:py${python.version}-jupyter_client \
+                        port:py${python.version}-prompt_toolkit \
+                        port:py${python.version}-pygments \
+                        port:py${python.version}-setuptools
+
+    livecheck.type      none
+}

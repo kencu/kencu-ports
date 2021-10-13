@@ -1,0 +1,36 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+epoch               2
+perl5.branches      5.28 5.30 5.32
+perl5.setup         DateTime 1.54 ../../authors/id/D/DR/DROLSKY
+license             Artistic-2
+maintainers         nomaintainer
+description         A date and time object for Perl
+long_description    DateTime is a class for the representation of \
+                    date/time combinations, and is part of the Perl \
+                    DateTime project. For details on this project \
+                    please see http://datetime.perl.org
+
+platforms           darwin
+
+checksums           rmd160  041992fa61dc2fa2995fe9bdec17570f60fe1677 \
+                    sha256  b12eda6d900713f227964dc4dc0e2efb86d294e8bc2f16be9e95b659f953b2e7 \
+                    size    314605
+
+if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-cpan-meta-check \
+                    port:p${perl5.major}-test-fatal \
+                    port:p${perl5.major}-test-warnings
+
+    depends_lib-append \
+                    port:p${perl5.major}-datetime-locale \
+                    port:p${perl5.major}-datetime-timezone \
+                    port:p${perl5.major}-namespace-autoclean \
+                    port:p${perl5.major}-params-validationcompiler \
+                    port:p${perl5.major}-specio \
+                    port:p${perl5.major}-try-tiny
+}

@@ -1,0 +1,96 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8::et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+PortGroup               github 1.0
+PortGroup               cmake  1.1
+PortGroup               app    1.0
+PortGroup               active_variants 1.1
+
+github.setup            giuspen cherrytree 0.99.40
+revision                0
+categories              editors
+license                 GPL-3+
+maintainers             nomaintainer
+
+checksums               rmd160  2ece65c9b77bc873c4bda5b43a5266578aaa68ea \
+                        sha256  accb4abfb36e62a6624e662c20676530a07adeea457d297d7aaa0c49f61d3d4d \
+                        size    18026832
+
+description             Hierarchical Note Taking
+long_description        A Hierarchical Note Taking Application, featuring Rich Text\
+                        and Syntax Highlighting
+
+platforms               darwin
+
+compiler.cxx_standard   2017
+
+patchfiles              patch-cherrytree-all-apple-is-not-homebrew-for-goodness-sake.diff
+
+depends_build-append    port:pkgconfig
+
+depends_build-append    port:python39
+configure.args-append   -DPYTHON_EXEC=${prefix}/bin/python3.9
+
+depends_lib-append      port:adwaita-icon-theme \
+                        port:atk \
+                        port:atkmm \
+                        path:lib/pkgconfig/cairo.pc:cairo \
+                        port:cairomm \
+                        port:curl \
+                        port:enchant2 \
+                        port:gdk-pixbuf2 \
+                        port:gettext \
+                        path:lib/pkgconfig/glib-2.0.pc:glib2 \
+                        port:glibmm \
+                        port:gspell \
+                        port:gtk3 \
+                        port:gtkmm3 \
+                        port:gtksourceview3 \
+                        port:gtksourceviewmm3 \
+                        port:libfmt \
+                        port:libsigcxx2 \
+                        port:libxmlxx2 \
+                        port:libxml2 \
+                        path:lib/pkgconfig/pango.pc:pango \
+                        port:pangomm \
+                        port:sqlite3 \
+                        port:spdlog \
+                        port:uchardet
+
+configure.args-append   -DBUILD_TESTING=OFF
+
+if {${os.platform} eq "darwin" && ${os.major} < 18} {
+    # the legacysupport implementation of this did not work for me, doing it manually
+    depends_lib-append  port:macports-libcxx
+    configure.cxxflags-append -nostdinc++ -I${prefix}/include/libcxx/v1
+    configure.ldflags-append  -L${prefix}/lib/libcxx
+
+   notes-append    "This build of ${name} will use an external libc++ as your system\
+                    libc++ is not new enough to support ${name}. Issues may arise."
+}
+
+if {${os.platform} eq "darwin" && ${os.major} < 13} {
+    # uses '-k' option to gzip which is not supported until 10.9
+    depends_build-append  port:gzip
+}
+
+app.name                CherryTree
+app.executable          ${prefix}/bin/${name}
+app.icon                ./icons/cherrytree.ico
+app.use_launch_script   yes
+
+variant x11 conflicts quartz {
+   require_active_variants gtk3 x11 quartz
+
+   notes-append    "This is ${name} +x11. You will need an X11 server installed, either\
+                    xorg-server from MacPorts or XQuartz, to view this application. If you\
+                    prefer a macOS-native quartz version, please install ${name} +quartz instead."
+}
+
+variant quartz conflicts x11 {
+   require_active_variants gtk3 quartz x11
+}
+
+if {![variant_isset quartz]} {
+    default_variants-append +x11
+}

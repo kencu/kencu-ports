@@ -1,0 +1,43 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem 1.0
+PortGroup python 1.0
+PortGroup select 1.0
+
+name                py-mypy
+version             0.910
+revision            0
+license             MIT
+platforms           darwin
+maintainers         {toby @tobypeterson} openmaintainer
+description         Optional static typing for Python
+long_description    Add type annotations to your Python programs, and use mypy to \
+                    type check them. Mypy is essentially a Python linter on steroids, \
+                    and it can catch many programming errors by analyzing your \
+                    program, without actually having to run it. Mypy has a powerful \
+                    type system with features such as type inference, gradual typing, \
+                    generics and union types.
+
+homepage            http://www.mypy-lang.org
+
+checksums           rmd160  a2f5e814652ed0f21604a593aea7f61f86fc6815 \
+                    sha256  704098302473cb31a218f1775a873b376b30b4c18229421e9e9dc8916fd16150 \
+                    size    2500630
+
+python.versions     37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append    port:py${python.version}-setuptools
+    depends_lib-append      port:py${python.version}-mypy_extensions \
+                            port:py${python.version}-toml \
+                            port:py${python.version}-typed-ast \
+                            port:py${python.version}-typing_extensions
+    depends_run-append      port:mypy_select
+
+    select.group            mypy
+    select.file             ${filespath}/mypy${python.version}
+
+    livecheck.type          none
+} else {
+    livecheck.type          pypi
+}

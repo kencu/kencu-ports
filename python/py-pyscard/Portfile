@@ -1,0 +1,32 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+github.setup        LudovicRousseau pyscard 2.0.2
+name                py-pyscard
+platforms           darwin
+license             GPL
+maintainers         {amake @amake} openmaintainer
+
+description         Smartcard module for Python.
+long_description    ${description}
+
+homepage            https://pyscard.sourceforge.io/
+
+checksums           rmd160  021d68cd243d3852bba45b9240d19e641f7f7128 \
+                    sha256  1e12396bda101cc1049eb0fe06268eae8e1682ab638b545548847565fc2748c4 \
+                    size    178064
+
+python.versions     27 35 36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+        port:py${python.version}-setuptools
+
+    depends_lib-append \
+        port:swig-python
+
+    livecheck.type  none
+}

@@ -1,0 +1,58 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        ahmetb kubectx 0.9.4 v
+revision            0
+categories          sysutils
+platforms           darwin
+supported_archs     noarch
+maintainers         {breun.nl:nils @breun} @gearnode openmaintainer
+license             Apache-2
+
+description         Power tools for kubectl
+long_description    kubectx helps you switch between clusters back and forth. \
+                    kubens helps you switch between Kubernetes namespaces smoothly.
+
+checksums           rmd160  63b2b1f45a352baa6e05bd65baf425d1b13cd0bc \
+                    sha256  85ff8ff3882c4b5eda4d7c90e98d7fca8bdab54cb54a71fb11e7ad0b291439ed \
+                    size    520687
+
+depends_run         path:${prefix}/bin/kubectl:kubectl-1.21
+
+use_configure       no
+build {}
+
+destroot    {
+    set doc_dir ${destroot}${prefix}/share/${name}
+    xinstall -d ${doc_dir}
+    xinstall -m 644 -W ${worksrcpath} \
+        CONTRIBUTING.md \
+        LICENSE \
+        README.md \
+        ${doc_dir}
+
+    set bin_dir ${destroot}${prefix}/bin
+    xinstall -m 755 -W ${worksrcpath} \
+        kubectx \
+        kubens \
+        ${bin_dir}
+
+    set src_completion_dir ${worksrcpath}/completion
+
+    set zsh_completion_dir ${destroot}${prefix}/share/zsh/site-functions
+    xinstall -d ${zsh_completion_dir}
+    xinstall -m 644 ${src_completion_dir}/kubectx.zsh ${zsh_completion_dir}/_kubectx
+    xinstall -m 644 ${src_completion_dir}/kubens.zsh ${zsh_completion_dir}/_kubens
+
+    set bash_completion_dir ${destroot}${prefix}/etc/bash_completion.d
+    xinstall -d ${bash_completion_dir}
+    xinstall -m 644 ${src_completion_dir}/kubectx.bash ${bash_completion_dir}/kubectx
+    xinstall -m 644 ${src_completion_dir}/kubens.bash ${bash_completion_dir}/kubens
+
+    set fish_completion_dir ${destroot}${prefix}/share/fish/completions
+    xinstall -d ${fish_completion_dir}
+    xinstall -m 644 ${src_completion_dir}/kubectx.fish ${fish_completion_dir}/kubectx
+    xinstall -m 644 ${src_completion_dir}/kubens.fish ${fish_completion_dir}/kubens
+}

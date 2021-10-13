@@ -1,0 +1,23 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           meson 1.0
+
+name                spice-protocol
+version             0.14.3
+revision            0
+checksums           rmd160  5a59b1347e4d0b2a54d0b9083e10e1b80341de08 \
+                    sha256  f986e5bc2a1598532c4897f889afb0df9257ac21c160c083703ae7c8de99487a \
+                    size    22224
+
+maintainers         nomaintainer
+categories          devel
+platforms           darwin
+license             BSD
+description         Remote virtual machine protocol
+long_description    {*}${description}
+
+homepage            https://www.spice-space.org
+master_sites        ${homepage}/download/releases/
+use_xz              yes
+supported_archs     noarch

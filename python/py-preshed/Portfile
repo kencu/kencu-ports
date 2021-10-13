@@ -1,0 +1,49 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem                         1.0
+PortGroup           python         1.0
+PortGroup           github         1.0
+
+name                py-preshed
+# Don't upgrade past py-spaCy's highest supported version.
+version             3.0.5
+revision            0
+github.setup        explosion preshed ${version} v
+
+checksums           rmd160  965c9ec901669d49d8003ab3f23e880e5e3c891d \
+                    sha256  418900d4873a9d7760666291e8ab3820310b93c2b42a07c302d46a4264a7c344 \
+                    size    14119
+
+platforms           darwin
+supported_archs     x86_64
+
+license             MIT
+
+maintainers         {jonesc @cjones051073} openmaintainer
+
+description         Cython hash tables that assume keys are pre-hashed
+long_description    ${description}
+
+# Exclude anything with non-numbers
+github.livecheck.regex {([0-9.]+)}
+
+# Support python versions
+python.versions     27 35 36 37 38 39
+python.default_version 39
+
+if {${name} ne ${subport}} {
+
+    depends_build-append \
+        port:py${python.version}-setuptools
+
+    depends_lib-append \
+        port:py${python.version}-cython \
+        port:py${python.version}-cymem \
+        port:py${python.version}-murmurhash
+
+    depends_test-append \
+        port:py${python.version}-pytest
+
+    livecheck.type none 
+
+}

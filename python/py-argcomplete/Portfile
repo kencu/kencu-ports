@@ -1,0 +1,26 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-argcomplete
+version             1.12.3
+platforms           darwin
+license             Apache-2
+maintainers         {outlook.com:mohd.akram @mohd-akram} openmaintainer
+
+description         Bash tab completion for argparse
+long_description    {*}${description}
+
+homepage            https://kislyuk.github.io/argcomplete
+
+checksums           rmd160  feddf82662fb2d13c57b01f2f6265d073f257dd9 \
+                    sha256  2c7dbffd8c045ea534921e63b0be6fe65e88599990d8dc408ac8c542b72a5445 \
+                    size    76128
+
+python.versions     36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build   port:py${python.version}-setuptools
+    livecheck.type  none
+}

@@ -1,0 +1,109 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           cargo 1.0
+
+github.setup        jakedeichert mask 0.11.0 v
+revision            0
+
+description         A CLI task runner defined by a simple markdown file
+
+long_description    mask is a CLI task runner which is defined by a simple \
+                    markdown file. It searches for a maskfile.md in the \
+                    current directory which it then parses for commands and \
+                    arguments.  A maskfile.md is both a human-readable \
+                    document and a command definition! Being documentation \
+                    focused allows others to easily get started with your \
+                    project's development setup by simply reading your \
+                    maskfile.md.
+
+categories          sysutils
+platforms           darwin
+license             MIT
+
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+
+checksums           ${distname}${extract.suffix} \
+                    rmd160  7b032f86637582153e793fb8fecd798ecc5afe28 \
+                    sha256  22566e699c54335295e8052b10f29ca70c59a76101c53e4b0e008f847310de63 \
+                    size    29912
+
+destroot {
+    xinstall -m 755 \
+        ${worksrcpath}/target/[cargo.rust_platform]/release/${name} \
+        ${destroot}${prefix}/bin/
+}
+
+cargo.crates \
+    aho-corasick                    0.7.15  7404febffaa47dac81aa44dba71523c9d069b1bdc50a77db41195149e17f68e5 \
+    ansi_term                       0.11.0  ee49baf6cb617b853aa8d93bf420db2383fab46d314482ca2803b40d5fde979b \
+    assert_cmd                       1.0.3  f2475b58cd94eb4f70159f4fd8844ba3b807532fe3131b3373fae060bbe30396 \
+    assert_fs                        1.0.1  3203d5bb9979ac7210f01a150578ebafef6f08b55e79f6db32673c0977b94340 \
+    atty                            0.2.14  d9b39be18770d11421cdb1b9947a45dd3f37e93092cbf377614828a319d5fee8 \
+    autocfg                          1.0.1  cdb031dd78e28731d87d56cc8ffef4a8f36ca26c38fe2de700543e627f8a464a \
+    bitflags                         1.2.1  cf1de2fe8c75bc145a2f577add951f8134889b4795d47466a54a5c846d691693 \
+    bstr                            0.2.15  a40b47ad93e1a5404e6c18dec46b628214fee441c70f4ab5d6942142cc268a3d \
+    byteorder                        1.4.3  14c189c53d098945499cdfa7ecc63567cf3886b3332b312a5b4585d8d3a6a610 \
+    cfg-if                           1.0.0  baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd \
+    clap                            2.33.3  37e58ac78573c40708d45522f0d80fa2f01cc4f9b4e2bf749807255454312002 \
+    colored                          2.0.0  b3616f750b84d8f0de8a58bda93e08e2a81ad3f523089b05f1dffecab48c6cbd \
+    crossbeam-utils                  0.8.3  e7e9d99fa91428effe99c5c6d4634cdeba32b8cf784fc428a2a687f61a952c49 \
+    difference                       2.0.0  524cbf6897b527295dff137cec09ecf3a05f4fddffd7dfcd1585403449e74198 \
+    doc-comment                      0.3.3  fea41bba32d969b513997752735605054bc0dfa92b4c56bf1189f2e174be7a10 \
+    float-cmp                        0.8.0  e1267f4ac4f343772758f7b1bdcbe767c218bbab93bb432acbf5162bbf85a6c4 \
+    fnv                              1.0.7  3f9eec918d3f24069decb9af1554cad7c880e2da24a9afd88aca000531ab82c1 \
+    getrandom                        0.2.2  c9495705279e7140bf035dde1f6e750c162df8b625267cd52cc44e0b156732c8 \
+    globset                          0.4.6  c152169ef1e421390738366d2f796655fec62621dabbd0fd476f905934061e4a \
+    globwalk                         0.8.1  93e3af942408868f6934a7b85134a3230832b9977cf66125df2f9edcfce4ddcc \
+    hermit-abi                      0.1.18  322f4de77956e22ed0e5032c359a0f1273f1f7f0d79bfa3b8ffbc730d7fbcc5c \
+    ignore                          0.4.17  b287fb45c60bb826a0dc68ff08742b9d88a2fea13d6e0c286b3172065aaf878c \
+    itoa                             0.4.7  dd25036021b0de88a0aff6b850051563c6516d0bf53f8638938edbb9de732736 \
+    lazy_static                      1.4.0  e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646 \
+    libc                            0.2.93  9385f66bf6105b241aa65a61cb923ef20efc665cb9f9bb50ac2f0c4b7f378d41 \
+    log                             0.4.14  51b9bbe6c47d51fc3e1a9b945965946b4c44142ab8792c50835a980d362c2710 \
+    memchr                           2.3.4  0ee1c47aaa256ecabcaea351eae4a9b01ef39ed810004e298d2511ed284b1525 \
+    normalize-line-endings           0.3.0  61807f77802ff30975e01f4f071c8ba10c022052f98b3294119f3e615d13e5be \
+    num-traits                      0.2.14  9a64b1ec5cda2586e284722486d802acf1f7dbdc623e2bfc57e65ca1cd099290 \
+    once_cell                        1.7.2  af8b08b04175473088b46763e51ee54da5f9a164bc162f615b91bc179dbf15a3 \
+    ppv-lite86                      0.2.10  ac74c624d6b2d21f425f752262f42188365d7b8ff1aff74c82e45136510a4857 \
+    predicates                       1.0.7  eeb433456c1a57cc93554dea3ce40b4c19c4057e41c55d4a0f3d84ea71c325aa \
+    predicates-core                  1.0.2  57e35a3326b75e49aa85f5dc6ec15b41108cf5aee58eabb1f274dd18b73c2451 \
+    predicates-tree                  1.0.2  15f553275e5721409451eb85e15fd9a860a6e5ab4496eb215987502b5f5391f2 \
+    proc-macro2                     1.0.26  a152013215dca273577e18d2bf00fa862b89b24169fb78c4c95aeb07992c9cec \
+    pulldown-cmark                   0.5.3  77043da1282374688ee212dc44b3f37ff929431de9c9adc3053bd3cee5630357 \
+    quote                            1.0.9  c3d0b9745dc2debf507c8422de05d7226cc1f0644216dfdfead988f9b1ab32a7 \
+    rand                             0.8.3  0ef9e7e66b4468674bfcb0c81af8b7fa0bb154fa9f28eb840da5c447baeb8d7e \
+    rand_chacha                      0.3.0  e12735cf05c9e10bf21534da50a147b924d555dc7a547c42e6bb2d5b6017ae0d \
+    rand_core                        0.6.2  34cf66eb183df1c5876e2dcf6b13d57340741e8dc255b48e40a26de954d06ae7 \
+    rand_hc                          0.3.0  3190ef7066a446f2e7f42e239d161e905420ccab01eb967c9eb27d21b2322a73 \
+    redox_syscall                    0.2.6  8270314b5ccceb518e7e578952f0b72b88222d02e8f77f5ecf7abbb673539041 \
+    regex                            1.4.5  957056ecddbeba1b26965114e191d2e8589ce74db242b6ea25fc4062427a5c19 \
+    regex-automata                   0.1.9  ae1ded71d66a4a97f5e961fd0cb25a5f366a42a41570d16a763a69c092c26ae4 \
+    regex-syntax                    0.6.23  24d5f089152e60f62d28b835fbff2cd2e8dc0baf1ac13343bef92ab7eed84548 \
+    remove_dir_all                   0.5.3  3acd125665422973a33ac9d3dd2df85edad0f4ae9b00dafb1a05e43a9f5ef8e7 \
+    ryu                              1.0.5  71d301d4193d031abdd79ff7e3dd721168a9572ef3fe51a1517aba235bd8f86e \
+    same-file                        1.0.6  93fc1dc3aaa9bfed95e02e6eadabb4baf7e3078b0bd1b4d7b6b0b68378900502 \
+    serde                          1.0.125  558dc50e1a5a5fa7112ca2ce4effcb321b0300c0d4ccf0776a9f60cd89031171 \
+    serde_derive                   1.0.125  b093b7a2bb58203b5da3056c05b4ec1fed827dcfdb37347a8841695263b3d06d \
+    serde_json                      1.0.64  799e97dc9fdae36a5c8b8f2cae9ce2ee9fdce2058c57a93e6099d919fd982f79 \
+    strsim                           0.8.0  8ea5119cdb4c55b55d432abb513a0429384878c15dde60cc77b1c99de1a95a6a \
+    syn                             1.0.69  48fe99c6bd8b1cc636890bcc071842de909d902c81ac7dab53ba33c421ab8ffb \
+    tempfile                         3.2.0  dac1c663cfc93810f88aed9b8941d48cabf856a1b111c29a40439018d870eb22 \
+    term_size                        0.3.2  1e4129646ca0ed8f45d09b929036bafad5377103edd06e50bf574b353d2b08d9 \
+    textwrap                        0.11.0  d326610f408c7a4eb6f51c37c330e496b08506c9457c9d34287ecc38809fb060 \
+    thread_local                     1.1.3  8018d24e04c95ac8790716a5987d0fec4f8b27249ffa0f7d33f1369bdfb88cbd \
+    treeline                         0.1.0  a7f741b240f1a48843f9b8e0444fb55fb2a4ff67293b50a9179dfd5ea67f8d41 \
+    unicase                          2.6.0  50f37be617794602aabbeee0be4f259dc1778fabe05e2d67ee8f79326d5cb4f6 \
+    unicode-width                    0.1.8  9337591893a19b88d8d87f2cec1e73fad5cdfd10e5a6f349f498ad6ea2ffb1e3 \
+    unicode-xid                      0.2.1  f7fe0bb3479651439c9112f72b6c505038574c9fbb575ed1bf3b797fa39dd564 \
+    vec_map                          0.8.2  f1bddf1187be692e79c5ffeab891132dfb0f236ed36a43c7ed39f1165ee20191 \
+    version_check                    0.9.3  5fecdca9a5291cc2b8dcf7dc02453fee791a280f3743cb0905f8822ae463b3fe \
+    wait-timeout                     0.2.0  9f200f5b12eb75f8c1ed65abd4b2db8a6e1b138a20de009dacee265a2498f3f6 \
+    walkdir                          2.3.2  808cf2735cd4b6866113f648b791c6adc5714537bc222d9347bb203386ffda56 \
+    wasi     0.10.2+wasi-snapshot-preview1  fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6 \
+    winapi                           0.3.9  5c839a674fcd7a98952e593242ea400abe93992746761e38641405d28b00f419 \
+    winapi-i686-pc-windows-gnu       0.4.0  ac3b87c63620426dd9b991e5ce0329eff545bccbbb34f3be09ff6fb6ab51b7b6 \
+    winapi-util                      0.1.5  70ec6ce85bb158151cae5e5c87f95a8e97d2c0c4b001223f33a334e3ce5de178 \
+    winapi-x86_64-pc-windows-gnu     0.4.0  712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f

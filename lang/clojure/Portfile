@@ -1,0 +1,56 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                clojure
+epoch               20110929
+version             1.10.3.986
+revision            0
+license             EPL-1
+categories          lang java
+maintainers         {gmail.com:jtrtik @jtrtik} openmaintainer
+description         The Clojure programming language
+long_description    Clojure is a dynamic programming language for the JVM. \
+                    It is interactive, yet compiled, with a robust \
+                    infrastructure for concurrency. It is a functional \
+                    dialect of Lisp, with a rich set of immutable, \
+                    persistent data structures and a macro system.
+homepage            https://clojure.org
+platforms           darwin
+supported_archs     noarch
+master_sites        https://download.clojure.org/install/
+distname            clojure-tools-${version}
+worksrcdir          clojure-tools
+checksums           rmd160  bb6ec48b9bea76ad308d37e4a8fa2f527870ebb4 \
+                    sha256  7da84b6908d00e748c2c46ad23e383ede59cf18bf3ae449b1c30cd6a50b80ef6 \
+                    size    14217156
+use_configure       no
+build               {}
+
+destroot {
+    set bin_dir ${prefix}/bin
+    set man_dir ${prefix}/share/man/man1
+    set clojure_lib_dir ${prefix}/lib/${name}
+    set clojure_libexec_dir ${clojure_lib_dir}/libexec
+
+    xinstall -d ${destroot}${clojure_lib_dir}
+    xinstall -m 644 -W ${worksrcpath} deps.edn example-deps.edn ${destroot}${clojure_lib_dir}
+
+    xinstall -d ${destroot}${clojure_libexec_dir}
+    xinstall -m 0644 -W ${worksrcpath} ${distname}.jar exec.jar ${destroot}${clojure_libexec_dir}
+
+    reinplace "s|PREFIX|${clojure_lib_dir}|g" ${worksrcpath}/clojure
+    reinplace "s|BINDIR|${bin_dir}|g" ${worksrcpath}/clj
+    xinstall -d ${destroot}${bin_dir}
+    xinstall -m 0755 -W ${worksrcpath} clojure clj ${destroot}${bin_dir}
+
+    xinstall -d ${destroot}${man_dir}
+    xinstall -m 0644 -W ${worksrcpath} clojure.1 clj.1 ${destroot}${man_dir}
+}
+
+notes "Install the rlwrap port and invoke `clj` for more a more ergonomic REPL."
+
+# ${homepage} now returns 0 bytes; the only indication of the current version on
+# all of clojure.org is currently the Linux install script instructions.
+livecheck.url       https://clojure.org/guides/getting_started
+livecheck.regex     {linux-install-(\d+(?:\.\d+)*)\.sh}

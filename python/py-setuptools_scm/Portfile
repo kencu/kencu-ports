@@ -1,0 +1,57 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim: fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-setuptools_scm
+version             6.3.2
+revision            0
+categories-append   devel
+platforms           darwin
+license             MIT
+supported_archs     noarch
+
+# keep version for PY27 and PY34, these are (indirect) dependencies of py-virtualenv
+python.versions     27 34 35 36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         Package to manage versions by scm tags.
+long_description    ${description}
+
+homepage            https://github.com/pypa/setuptools_scm/
+
+checksums           rmd160  cc94a6930135ed2f59dbd96cb747302173eaf26f \
+                    sha256  a49aa8081eeb3514eb9728fa5040f2eaa962d6c6f4ec9c32f6c1fba88f88a0f2 \
+                    size    57207
+
+if {${name} ne ${subport}} {
+    depends_lib-append  port:py${python.version}-setuptools
+
+    if {${python.version} eq 34} {
+        version             3.5.0
+        revision            0
+        distname            ${python.rootname}-${version}
+        checksums           rmd160  4c63618354c506cb64dd75bd1ca605d00342c1ce \
+                            sha256  5bdf21a05792903cafe7ae0c9501182ab52497614fa6b1750d9dbae7b60c1a87 \
+                            size    46272
+    } elseif {${python.version} in "27 35"} {
+        version             5.0.2
+        revision            0
+        distname            ${python.rootname}-${version}
+        checksums           rmd160  9a479a8c63f12ea4a07714e5a8f11a6b918f8d48 \
+                            sha256  83a0cedd3449e3946307811a4c7b9d89c4b5fd464a2fb5eeccd0a5bb158ae5c8 \
+                            size    52273
+    } else {
+        depends_lib-append  port:py${python.version}-packaging \
+                            port:py${python.version}-tomli
+    }
+
+    # https://trac.macports.org/ticket/57199
+    use_configure       yes
+    configure.cmd       ${python.bin}
+    configure.pre_args
+    configure.args      setup.py egg_info
+
+    livecheck.type      none
+}

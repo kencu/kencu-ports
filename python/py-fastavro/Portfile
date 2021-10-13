@@ -1,0 +1,44 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-fastavro
+version             1.3.3
+revision            0
+
+categories-append   net parallel science
+platforms           darwin
+license             MIT
+maintainers         {petr @petrrr} openmaintainer
+
+description         Fast read and write module for AVRO files
+long_description    ${description}
+
+homepage            https://fastavro.readthedocs.org/
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+distname            ${python.rootname}-${version}
+
+checksums           rmd160  c3154964e9d091ece19eb3d40ed70e6d00740e51 \
+                    sha256  1d9b18a86ecc3837a919c3190f2f538b7bcf179e0ad2524d7626699773bf2945 \
+                    size    706650
+
+python.versions     37 38 39
+
+if {${name} ne ${subport}} {
+    depends_lib-append \
+                    port:py${python.version}-setuptools
+
+    depends_test-append \
+                    port:py${python.version}-pytest
+
+    pre-test {
+        test.env    PYTHONPATH=[glob -nocomplain ${worksrcpath}/build/lib*]
+    }
+
+    test.run        yes
+    test.cmd        py.test-${python.branch}
+    test.target
+
+    livecheck.type  none
+}

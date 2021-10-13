@@ -1,0 +1,27 @@
+PortSystem 1.0
+
+name                hmmer
+version             3.3
+epoch               0
+categories          science
+maintainers         nomaintainer
+license             BSD
+description         HMMER searches biological sequence databases for \
+        homologous sequences.
+long_description    HMMER searches biological sequence databases for \
+        homologous sequences, using either single sequences or multiple \
+        sequence alignments as queries. HMMER implements a technology \
+        called "profile hidden Markov models" (profile HMMs). HMMER is \
+        the software engine underlying many protein family domain \
+        databases and large-scale annotation pipelines, including the \
+        Pfam and SMART databases.
+homepage            http://hmmer.org/
+platforms           darwin
+master_sites        http://eddylab.org/software/hmmer/
+checksums           rmd160  aa4c7fa8d727cc65fdcb39420818202755e9c2ad \
+                    sha256  0186bf40af67032666014971ed8ddc3cf2834bebc2be5b3bc0304a93e763736c \
+                    size    18614771
+
+livecheck.type      regex
+livecheck.url       ${homepage}/download.html
+livecheck.regex     The <strong>current version</strong> is HMMER <strong>(\[0-9.brc\]+)</strong>

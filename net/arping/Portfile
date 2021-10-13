@@ -1,0 +1,35 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                arping
+version             2.22
+revision            0
+categories          net
+platforms           darwin
+maintainers         {snc @nerdling} openmaintainer
+license             GPL-2
+description         utility to find out if an IP address is already taken on a LAN
+long_description    Arping is a util to find out if a specific IP address on \
+                    the LAN is 'taken' and what MAC address owns it.
+
+homepage            http://www.habets.pp.se/synscan/programs.php?prog=arping
+master_sites        http://www.habets.pp.se/synscan/files/
+checksums           rmd160  ad8bc65f39a1b2741678f9e7a353cc9021713f50 \
+                    sha256  cb40de7e146375063b2af674ef4d61d7aaf3ac2e0c3ad1cca46c6b4229ba533a \
+                    size    180989
+
+depends_lib         port:libnet11 \
+                    lib:libpcap.DP:libpcap
+
+post-destroot {
+    xinstall -m 755 ${worksrcpath}/extra/arping-scan-net.sh \
+        ${destroot}${prefix}/sbin/arping-scan-net
+    xinstall -m 755 -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 644 -W ${worksrcpath} LICENSE README \
+        ${destroot}${prefix}/share/doc/${name}
+}
+
+livecheck.url       ${homepage}
+livecheck.type      regex
+livecheck.regex     ${name}-(\\d+(\\.\\d+)+)

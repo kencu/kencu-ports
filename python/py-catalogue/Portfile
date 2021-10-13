@@ -1,0 +1,64 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           python 1.0
+
+epoch               1
+# Don't upgrade past py-spaCy's highest supported version.
+github.setup        explosion catalogue 2.0.4 v
+revision            0
+
+checksums           rmd160  bafda6dd4b9d82b4441c93204f4c05c83fcb2cc8 \
+                    sha256  ef4c996a7b5d23cb8582a26baa69607d74d0032c07c166d0e887e7de72a21b18 \
+                    size    15691
+
+name                py-${github.project}
+categories-append   devel
+platforms           darwin
+supported_archs     noarch
+license             MIT
+maintainers         nomaintainer
+
+description         Super lightweight function registries for your library
+long_description    catalogue is a tiny, zero-dependencies library\
+                    that makes it easy to add function (or object)\
+                    registries to your code. Function registries are\
+                    helpful when you have objects that need to be both\
+                    easily serializable and fully\
+                    customizable. Instead of passing a function into\
+                    your object, you pass in an identifier name, which\
+                    the object can use to lookup the function from the\
+                    registry. This makes the object easy to serialize,\
+                    because the name is a simple string. If you\
+                    instead saved the function, you'd have to use\
+                    Pickle for serialization, which has many drawbacks.
+
+python.versions     35 36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    if {${python.version} < 38} {
+        depends_build-append \
+                    port:py${python.version}-importlib-metadata
+    }
+
+    depends_test-append \
+                    port:py${python.version}-pytest
+
+    test.run        yes
+    test.cmd        py.test-${python.branch}
+    test.target
+    test.env        PYTHONPATH=${worksrcpath}/build/lib
+
+    post-destroot {
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath} README.md LICENSE \
+            ${destroot}${docdir}
+    }
+
+    livecheck.type  none
+}

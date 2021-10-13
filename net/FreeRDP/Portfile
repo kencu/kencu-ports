@@ -1,0 +1,119 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github  1.0
+PortGroup           cmake   1.1
+
+epoch               3
+github.setup        FreeRDP FreeRDP 2.4.0
+revision            0
+categories          net
+platforms           darwin
+license             Apache
+maintainers         nomaintainer
+description         A Remote Desktop Protocol implementation
+long_description    FreeRDP is a free implementation of the Remote Desktop Protocol (RDP), released \
+                    under the Apache license.
+
+homepage            http://www.freerdp.com
+
+checksums           rmd160  de05f073216aac61c47b6fcbfb9f432f446d34a1 \
+                    sha256  37af9c98b2f096120a8f1c5d0c1023ca3e80cc5737b9e76fa1e4d8308aef339b \
+                    size    7245098
+
+depends_build-append \
+                    port:pkgconfig
+
+depends_lib-append  port:xorg-libX11 \
+                    port:xorg-libXcursor \
+                    port:xorg-libXext \
+                    port:xorg-libXi \
+                    port:xorg-libXinerama \
+                    port:xorg-libxkbfile \
+                    port:xorg-libXrandr \
+                    port:xorg-libXv \
+                    port:xrender \
+                    port:zlib \
+                    path:include/turbojpeg.h:libjpeg-turbo \
+                    path:lib/libssl.dylib:openssl \
+                    path:lib/libusb.dylib:libusb \
+                    path:lib/pkgconfig/cairo.pc:cairo
+
+# Mac has 64bit filesystem too
+patchfiles-append   patch-64bitfs.diff
+
+# disable rdpsnd on macOS < 10.10 since
+# AVAudioBuffer was introduced in 10.10
+if { ${os.major} <= 13 } {
+    configure.args-append \
+        -DCHANNEL_RDPSND=OFF
+}
+
+post-patch {
+    if {[string match "*gcc*" ${configure.compiler}]} {
+        reinplace "s:-fobjc-nonfragile-abi::" \
+            ${worksrcpath}/client/Mac/cli/CMakeLists.txt \
+            ${worksrcpath}/client/Mac/CMakeLists.txt
+    }
+}
+
+use_xcode           yes
+
+configure.args-append \
+                    -DWITH_ALSA=OFF \
+                    -DWITH_CCACHE=OFF \
+                    -DWITH_FFMPEG=OFF \
+                    -DWITH_X11=ON \
+                    -DWITH_MANPAGES=OFF \
+                    -DWITH_PULSE=OFF \
+                    -DWITH_JPEG=ON \
+                    -DWITH_LAME=OFF \
+                    -DWITH_FAAD2=OFF \
+                    -DWITH_FAAC=OFF \
+                    -DWITH_SOXR=OFF \
+                    -DWITH_CUPS=ON \
+                    -DWITH_CAIRO=ON
+
+# ffmpeg only supports VDA (video hardware acceleration, mostly H264) on 10.6.3+ (#48397)
+if {${os.major} > 10 || (${os.major} == 10 && ${os.minor} >= 3)} {
+    configure.args-replace  -DWITH_FFMPEG=OFF -DWITH_FFMPEG=ON
+    depends_lib-append      path:lib/libavcodec.dylib:ffmpeg
+}
+
+# I've seen manpage building fail for unclear reasons, so provide a variant to turn it off
+variant docs description {build the manpages} {
+    depends_build-append \
+                    port:libxslt \
+                    port:docbook-xsl-nons
+    configure.args-replace \
+                    -DWITH_MANPAGES=OFF \
+                    -DWITH_MANPAGES=ON
+}
+default_variants-append +docs
+
+variant pulseaudio description {build PulseAudio support} {
+    depends_lib-append \
+                    port:pulseaudio
+    configure.args-replace \
+                    -DWITH_PULSE=OFF \
+                    -DWITH_PULSE=ON
+}
+
+variant codecs description {support MP3, FAAD2, FAAC and SOXR codecs} {
+    depends_lib-append \
+                    port:lame \
+                    port:faad2 \
+                    port:faac \
+                    port:soxr
+    configure.args-replace \
+                    -DWITH_LAME=OFF \
+                    -DWITH_LAME=ON \
+                    -DWITH_FAAD2=OFF \
+                    -DWITH_FAAD2=ON \
+                    -DWITH_FAAC=OFF \
+                    -DWITH_FAAC=ON \
+                    -DWITH_SOXR=OFF \
+                    -DWITH_SOXR=ON
+}
+
+build.post_args-append -k

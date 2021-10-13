@@ -1,0 +1,33 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup github    1.0
+PortGroup ocaml     1.1
+
+name                ocaml-stdio
+github.setup        janestreet stdio 0.14.0 v
+
+categories          ocaml devel
+maintainers         {landonf @landonf} openmaintainer
+license             MIT
+description         Jane Street's standard IO library for OCaml
+long_description    Stdio implements simple input/output functionalities for OCaml, \
+                    re-exporting the input/output functions of the OCaml standard \
+                    libraries using a more consistent API.
+
+platforms           darwin
+
+# Strip everything but <major>.<minor> from version
+set janestreet_ver [regsub {^([^\.]+\.[^\.]+).*} ${version} {\1}]
+master_sites        https://ocaml.janestreet.com/ocaml-core/v${janestreet_ver}/files/
+
+distname            stdio-${git.branch}
+
+checksums           rmd160  04cbcbc40e3b974584f94ed92c1a057446807488 \
+                    sha256  14ccd6a8b8a6fb4c906903a380644a6b7f2d7d081424a3408ac2e37c558645c2 \
+                    size    7738
+
+depends_lib         port:ocaml-base
+
+ocaml.build_type    dune
+test.run            yes

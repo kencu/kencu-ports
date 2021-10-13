@@ -1,0 +1,95 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           java 1.0
+
+name                OmegaT
+set name_lower      [string tolower ${name}]
+version             4.3.2
+revision            3
+categories          aqua textproc java
+license             GPL-3
+maintainers         {amake @amake} openmaintainer
+
+description         A full-featured Computer-Aided Translation (CAT) tool
+long_description    OmegaT is a free and open source multiplatform Computer Assisted \
+                    Translation tool with fuzzy matching, translation memory, keyword \
+                    search, glossaries, and translation leveraging into updated projects.
+
+homepage            https://omegat.org/
+
+platforms           darwin
+supported_archs     noarch
+universal_variant   no
+
+java.version        1.8
+java.fallback       openjdk8
+
+set flavor          Standard
+set version_suff    {}
+
+checksums           rmd160  5145713e2bc6a6fd82bb6e9f8c410a7c49fb7a7f \
+                    sha256  d2bf455276844c9f5927d1d236b6318412b3f83c5e818e905c3c4aaed3d6f63f \
+                    size    152246804
+
+subport ${name}-latest {
+    version         5.6.0
+    revision        2
+    set flavor      Latest
+    set version_suff _Beta
+
+    checksums       rmd160  841c85f97908997e4c399380dc4600c207141ae6 \
+                    sha256  d4832cc030854297f3e929c28b7b5acf6701898c189eb932b84d2916e7da791d \
+                    size    157105927
+
+    conflicts       OmegaT
+}
+
+if {${name} eq ${subport}} {
+    conflicts       ${name}-latest
+}
+
+set dist_platform   Without_JRE
+distname            ${name}_${version}${version_suff}_${dist_platform}
+set flavor_dir      ${name}%20-%20${flavor}
+set version_dir     ${name}%20[string map {_0 "%20update%20" _ "%20update%20"} $version]
+master_sites        sourceforge:project/${name_lower}/${flavor_dir}/${version_dir}
+
+use_configure       no
+use_zip             yes
+
+build {}
+
+destroot    {
+    xinstall -m 0755 -d ${destroot}${prefix}/share/java
+
+    # Main application payload
+    set target_dir  ${prefix}/share/java/${name}
+    copy ${worksrcpath} ${destroot}/${target_dir}
+
+    # CLI wrapper script
+    set cli_bin ${destroot}${prefix}/bin/${name_lower}
+    xinstall -m 0755 ${filespath}/${name}_cli_bin ${cli_bin}
+
+    # .app bundle
+    set app ${destroot}${applications_dir}/${name}.app
+    xinstall -d ${app}/Contents/MacOS
+    xinstall -d ${app}/Contents/Resources
+
+    xinstall -m 0644 ${filespath}/Info.plist ${app}/Contents/
+    reinplace "s|@@VERSION@@|${version}|g" ${app}/Contents/Info.plist
+
+    xinstall -m 0644 ${filespath}/${name}.icns ${app}/Contents/Resources/
+
+    set app_bin ${app}/Contents/MacOS/${name}
+    xinstall -m 0755 ${filespath}/${name}_app_bin ${app_bin}
+
+    reinplace "s|@@JAVA_VERSION@@|${java.version}|g" ${app_bin}
+    reinplace "s|@@ICON@@|${applications_dir}/${name}.app/Contents/Resources/${name}.icns|g" ${app_bin}
+    reinplace "s|@@JAR@@|${target_dir}/${name}.jar|g" ${app_bin} ${cli_bin}
+    reinplace "s|@@NAME@@|${name}|g" ${app_bin} ${cli_bin}
+}
+
+livecheck.type      regex
+livecheck.url       https://omegat.org/download
+livecheck.regex     ${flavor}/\[^/\]*/${name}_(\\d+\\.\\d+(\\.\\d+)?(_\\d+)?)${version_suff}_${dist_platform}\\.zip

@@ -1,0 +1,47 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           gobject_introspection 1.0
+
+name                gfbgraph
+version             0.2.4
+revision            1
+license             LGPL-2.1
+set branch          [join [lrange [split ${version} .] 0 1] .]
+description         A GObject library for Facebook Graph API.
+long_description    ${description}
+
+maintainers         {devans @dbevans} openmaintainer
+categories          gnome
+platforms           darwin
+homepage            https://www.gnome.org
+master_sites        gnome:sources/${name}/${branch}/
+
+use_xz              yes
+
+checksums           rmd160  f0f5b7944494dfabebbfdc0d0fbb3bb6581e4f5f \
+                    sha256  6065391f35e7335588cc6b0cc4c1abbce7341488573a654551264cb9793b9379 \
+                    size    39520
+
+depends_build       port:pkgconfig \
+                    port:gtk-doc \
+                    port:autoconf \
+                    port:automake \
+                    port:libtool
+
+depends_lib         path:lib/pkgconfig/glib-2.0.pc:glib2 \
+                    port:rest \
+                    port:json-glib \
+                    port:libsoup \
+                    port:gnome-online-accounts
+
+patchfiles          patch-Makefile.am.diff
+
+gobject_introspection yes
+
+configure.cmd       ./autogen.sh
+
+configure.args      --disable-silent-rules \
+                    --enable-gtk-doc
+
+livecheck.type      gnome

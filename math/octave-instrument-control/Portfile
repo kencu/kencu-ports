@@ -1,0 +1,17 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           octave 1.0
+
+octave.setup        instrument-control 0.7.0
+revision            1
+platforms           darwin
+license             GPL-2+
+maintainers         {mps @Schamschula} openmaintainer
+description         Low level I/O functions for serial, i2c, spi, parallel, tcp, gpib, \
+                    vxi11, udp and usbtmc interfaces.
+long_description    {*}${description}
+
+checksums           rmd160  9c42a1e5950102235eba4f0d2465f4b7e4a3bef6 \
+                    sha256  7e7503958a4a9e7f84412873aad21f44c6b9af21feb1096783ec7c18fbb2b631 \
+                    size    558282

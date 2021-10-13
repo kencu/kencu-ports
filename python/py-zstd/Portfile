@@ -1,0 +1,42 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           python 1.0
+
+github.setup        indygreg python-zstandard 0.15.2
+github.tarball_from archive
+name                py-zstd
+
+platforms           darwin
+license             BSD
+maintainers         nomaintainer
+
+description         Zstandard compression
+long_description    This extension allows Zstandard compression from Python
+
+homepage            https://github.com/indygreg/python-zstandard
+
+checksums           rmd160  397c7a0aafe6faa9d7941c191045793c7d81f26b \
+                    sha256  5f947c9b0a2e5b3831bff2e7132cfbd7cc22ea8a400da2304e0c089d5c22a876 \
+                    size    1059677
+
+python.versions     36 37 38 39
+
+if {${name} ne ${subport}} {
+    depends_build-append port:py${python.version}-setuptools
+
+    depends_lib-append      port:zstd
+
+    configure.args-append   --install-option="--system-zstd"
+
+    post-destroot {
+        xinstall -d ${destroot}${prefix}/share/doc/${subport}
+        xinstall -m 0644 -W ${worksrcpath} LICENSE README.rst \
+             ${destroot}${prefix}/share/doc/${subport}
+    }
+
+    livecheck.type  none
+} else {
+    livecheck.type  pypi
+}

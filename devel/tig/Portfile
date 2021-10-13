@@ -1,0 +1,41 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        jonas tig 2.5.4 tig-
+github.tarball_from releases
+checksums           rmd160  cb3fd5a5ca5380bfbcf55a528b89cc297ee0cce6 \
+                    sha256  c48284d30287a6365f8a4750eb0b122e78689a1aef8ce1d2961b6843ac246aa7 \
+                    size    1167930
+
+categories          devel
+maintainers         {cal @neverpanic} \
+                    openmaintainer
+description         A text interface to git repositories
+long_description    {*}${description}
+
+homepage            https://jonas.github.io/tig/
+license             GPL-2+
+platforms           darwin
+
+depends_lib         bin:git:git \
+                    port:libiconv \
+                    port:ncurses
+
+license_noconflict  git asciidoc
+
+# -E, -S, -save-temps and -M options are not allowed with multiple -arch flags
+universal_variant   no
+
+destroot.target-append install-doc-man
+
+variant doc description {Install HTML documentation} {
+    depends_build-append port:asciidoc
+    depends_build-append port:xmlto
+
+    build.target-append doc-html
+    destroot.target-append install-doc-html
+}
+
+default_variants    +doc

@@ -1,0 +1,50 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-bitarray
+version             1.1.0
+revision            0
+
+categories-append   math
+platforms           darwin
+license             PSF
+maintainers         {petr @petrrr} openmaintainer
+
+description         A efficient implementation of arrays of booleans
+long_description    \
+    This module provides an object type which efficiently represents an array \
+    of booleans. Bitarrays are sequence types and behave very much like usual \
+    lists. Eight bits are represented by one byte in a contiguous block of \
+    memory. The user can select between two representations: little-endian \
+    and big-endian. Most of the functionality is implemented in C. \
+    Methods for accessing the machine representation are provided.
+
+homepage            https://github.com/ilanschnell/bitarray
+distname            ${python.rootname}-${version}
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+
+checksums           rmd160  7080c4a112fff2169a8751d843a1354745b44a09 \
+                    sha256  9f578314c7808eb1416620dc7d7977d4787a65a4f61b4c9685343a860712615b \
+                    size    40080
+
+python.versions     27 35 36 37 38
+
+if {${name} ne ${subport}} {
+    post-destroot {
+        set docdir ${prefix}/share/doc/${subport}
+        xinstall -d ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath} README.rst ${destroot}${docdir}
+    }
+
+    pre-test {
+        test.env    PYTHONPATH=[glob -nocomplain ${worksrcpath}/build/lib*]
+    }
+
+    test.run        yes
+    test.cmd        ${python.bin} bitarray/test_bitarray.py
+    test.target
+
+    livecheck.type  none
+}

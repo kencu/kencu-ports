@@ -1,0 +1,87 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           active_variants 1.1
+PortGroup           compiler_blacklist_versions 1.0
+PortGroup           conflicts_build 1.0
+PortGroup           github 1.0
+PortGroup           cmake 1.1
+PortGroup           boost 1.0
+
+github.setup        arvidn libtorrent 2.0.4 v
+revision            0
+name                libtorrent-rasterbar
+license             BSD
+categories          net
+maintainers         {devans @dbevans} {i0ntempest @i0ntempest} openmaintainer
+platforms           darwin
+homepage            https://libtorrent.org/
+
+github.tarball_from releases
+distname            libtorrent-rasterbar-${version}
+
+description         A C++ bittorrent library (not the same as port libtorrent)
+
+long_description    A C++ bittorrent library designed to run on anything from embedded systems to large scale \
+                    seed servers. It comes with python bindings and detailed documentation.
+
+checksums           rmd160  9698ef325a5d7af76505366e56316ffcaf836dc6 \
+                    sha256  55bcce16c4b85b8cccd20e7ff4a9fde92db66333a25d6504a83c0bb0a5f7f529 \
+                    size    4311319
+
+depends_lib-append  path:lib/libssl.dylib:openssl
+
+patchfiles          patch-python-use-the-right-compiler.diff
+
+# Apple clang less than 900.0.39.2 fails to build
+# build using C++14 for binary compatibility with C++14 dependents
+compiler.cxx_standard 2014
+compiler.blacklist-append *gcc-3.* *gcc-4.* {clang < 900.0.39.2}
+
+# ensure that compiler is using C++14 mode
+configure.cxxflags-append -std=c++14
+
+configure.args-append \
+                    -DBoost_LIBRARY_DIR_RELEASE=[boost::lib_dir] \
+                    -Dencryption=ON \
+                    -DCMAKE_BUILD_TYPE=Release \
+                    -DCMAKE_CXX_STANDARD=14 \
+                    -Dlogging=OFF \
+                    -Dpython-bindings=ON \
+                    -Dpython-install-system-dir=ON
+
+universal_variant   no
+
+conflicts_build     ${name}
+
+variant python37 conflicts python38 python39 description {Build bindings for Python 3.7} {
+        require_active_variants boost[boost::version_nodot] python37
+        depends_lib-append port:python37
+        configure.args-append \
+                -DPython3_EXECUTABLE=${prefix}/bin/python3.7 \
+                -DBoost_PYTHON37_LIBRARY_RELEASE=[boost::lib_dir]/libboost_python37-mt.dylib
+}
+
+variant python38 conflicts python37 python39 description {Build bindings for Python 3.8} {
+        require_active_variants boost[boost::version_nodot] python38
+        depends_lib-append port:python38
+        configure.args-append \
+                -DPython3_EXECUTABLE=${prefix}/bin/python3.8 \
+                -DBoost_PYTHON38_LIBRARY_RELEASE=[boost::lib_dir]/libboost_python38-mt.dylib
+}
+
+variant python39 conflicts python37 python38 description {Build bindings for Python 3.9} {
+        require_active_variants boost[boost::version_nodot] python39
+        depends_lib-append port:python39
+        configure.args-append \
+                -DPython3_EXECUTABLE=${prefix}/bin/python3.9 \
+                -DBoost_PYTHON39_LIBRARY_RELEASE=[boost::lib_dir]/libboost_python39-mt.dylib
+}
+
+variant error_logging description {Enable logging of errors to disk} {
+        configure.args-replace -Dlogging=OFF -Dlogging=ON
+}
+
+if {![variant_isset python37] && ![variant_isset python38] && ![variant_isset python39]} {
+        default_variants +python39
+}

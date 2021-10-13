@@ -1,0 +1,50 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+github.setup        python-openxml python-docx 0.8.10 v
+name                py-docx
+revision            0
+
+categories-append   devel
+platforms           darwin
+supported_archs     noarch
+license             MIT
+maintainers         nomaintainer
+
+description         Create and update Microsoft Word .docx files
+long_description    ${description}
+
+checksums           rmd160  b181ab2dec099fcc0dcbcd0666b34bdd1d491e10 \
+                    sha256  e06d80584418f64991690e88cb531d4e0eb52a1c09e1a1c96df8def4d6e840ee \
+                    size    45227136
+
+python.versions     27 37 38
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    depends_lib-append \
+                    port:py${python.version}-lxml
+
+    depends_lib-append \
+                    port:py${python.version}-mock \
+                    port:py${python.version}-parsing \
+                    port:py${python.version}-pytest
+
+    test.run        yes
+    test.cmd        py.test-${python.branch}
+    test.target
+    test.env        PYTHONPATH=${worksrcpath}/build/lib
+
+    post-destroot {
+        xinstall -d ${destroot}${prefix}/share/doc/${subport}
+        xinstall -m 0644 -W ${worksrcpath} HISTORY.rst LICENSE README.rst \
+            ${destroot}${prefix}/share/doc/${subport}
+    }
+
+    livecheck.type  none
+}

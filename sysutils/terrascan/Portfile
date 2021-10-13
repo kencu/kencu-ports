@@ -1,0 +1,37 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/accurics/terrascan 1.10.0 v
+revision            0
+
+homepage            https://docs.accurics.com/projects/accurics-terrascan
+
+description         Detect compliance and security violations across \
+                    Infrastructure as Code
+
+long_description    Terrascan detects security vulnerabilities and compliance \
+                    violations across your Infrastructure as Code. Mitigate \
+                    risks before provisioning cloud native infrastructure.
+
+categories          sysutils
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+license             Apache-2
+
+# Due to issues vendoring dependencies, allow fetching deps at build time.
+build.env-delete    GO111MODULE=off GOPROXY=off
+
+build.cmd           make
+build.target        build
+
+checksums           rmd160  c5130782a333d8a3ca35b3d65d54c6bdb734a04e \
+                    sha256  4fcfc99e64b081f7a202eb9b6edd4e31e9b477bbcc2c21b70090f94c636d0460 \
+                    size    1935456
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/bin/${name} ${destroot}${prefix}/bin/
+}
+
+github.tarball_from archive

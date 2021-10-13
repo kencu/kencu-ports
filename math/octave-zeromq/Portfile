@@ -1,0 +1,18 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           octave 1.0
+
+octave.setup        zeromq 1.5.3
+revision            1
+platforms           darwin
+license             GPL-2+
+maintainers         {mps @Schamschula} openmaintainer
+description         ZeroMQ bindings for GNU Octave
+long_description    {*}${description}
+
+checksums           rmd160  100effe22225db61bb51cf402fdbb6de67a09f08 \
+                    sha256  943bab8e38dd524b0e83882c65c2f71a35dcf142b2807cdc56d1db85af5817c0 \
+                    size    343083
+
+depends_lib-append  port:zmq

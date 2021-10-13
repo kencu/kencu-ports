@@ -1,0 +1,52 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-geojson
+version             2.5.0
+revision            0
+
+categories-append   gis
+platforms           darwin
+supported_archs     noarch
+license             BSD
+maintainers         {petr @petrrr} openmaintainer
+
+description         Python bindings and utilities for GeoJSON
+long_description    \
+    This library implements all the GeoJSON objects described in The GeoJSON \
+    Format Specification. It provides functions encoding and decoding GeoJSON \
+    formatted data and is an implementation of the Python __geo_interface__ \
+    Specification.
+
+homepage            https://github.com/frewsxcv/python-geojson
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+distname            ${python.rootname}-${version}
+
+checksums           rmd160  72cae53bbe871d370d6da7c75ba24a8b7ec2cec1 \
+                    sha256  6e4bb7ace4226a45d9c8c8b1348b3fc43540658359f93c3f7e03efa9f15f658a \
+                    size    23086
+
+python.versions     27 35 36 37 38
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools
+
+    if {${python.version} eq 27} {
+        depends_test-append \
+                    port:py${python.version}-unittest2
+    }
+
+    test.run        yes
+
+    post-destroot {
+        set dest_doc ${destroot}${prefix}/share/doc/${subport}
+        xinstall -d ${dest_doc}
+        xinstall -m 0644 -W ${worksrcpath} CHANGELOG.rst \
+            LICENSE.rst README.rst ${dest_doc}
+    }
+
+    livecheck.type  none
+}

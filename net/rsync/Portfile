@@ -1,0 +1,85 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                rsync
+version             3.2.3
+revision            0
+checksums           rmd160  6eea543c7034f1ef4997f72011d4fcdda2a960da \
+                    sha256  becc3c504ceea499f4167a260040ccf4d9f2ef9499ad5683c179a697146ce50e \
+                    size    1069784
+
+categories          net
+license             {GPL-3+ OpenSSLException}
+installs_libs       no
+platforms           darwin freebsd sunos
+maintainers         {ryandesign @ryandesign} openmaintainer
+description         Fast incremental file transfer
+long_description    rsync is an open source utility that provides fast \
+                    incremental file transfer. It works both locally and remote \
+                    with either the custom rsyncd protocol or a remote shell \
+                    like ssh.
+
+homepage            https://rsync.samba.org
+master_sites        https://download.samba.org/pub/rsync/src/
+
+depends_lib         port:popt \
+                    port:libiconv \
+                    port:xxhashlib \
+                    port:lz4 \
+                    port:zstd \
+                    path:lib/libssl.dylib:openssl
+
+patch.pre_args      -p1
+
+# This patch comes from
+# https://download.samba.org/pub/rsync/src/rsync-patches-3.2.3.tar.gz
+# and needs to be updated with each release.
+# We used to use hfs-compression.diff but it has been deliberately
+# disabled by its developers as of 3.1.3 because it needs to be reworked
+# to account for changes that occurred in rsync's rsync_xal_get function:
+# https://trac.macports.org/ticket/60792#comment:2
+patchfiles          fileflags.diff
+
+# This patch adds "advanced error-logging for ACL unpack errors". It
+# is unknown where the patch came from or whether it has been suggested
+# to the developers of rsync.
+patchfiles-append   patch-acls-unpack-error.diff
+
+configure.args      --with-rsyncd-conf=${prefix}/etc/rsyncd.conf
+
+pre-configure {
+    system -W ${worksrcpath} "./prepare-source"
+}
+
+test.run           yes
+test.target        check
+
+post-destroot {
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 -W ${worksrcpath} \
+                    COPYING INSTALL.md NEWS.md TODO README.md doc/README-SGML \
+                    doc/profile.txt doc/rsync.sgml \
+                    ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${filespath}/rsyncd.conf.example \
+                    ${destroot}${prefix}/etc/rsyncd.conf.example
+    reinplace "s|__PREFIX__|${prefix}|g" \
+        ${destroot}${prefix}/etc/rsyncd.conf.example
+}
+
+livecheck.type      regex
+livecheck.regex     "Rsync version (\\d+(?:\\.\\d+)*) released"
+
+startupitem.create  yes
+startupitem.name    rsyncd
+startupitem.logfile ${prefix}/var/log/rsyncd.log
+startupitem.start   "${prefix}/bin/rsync --daemon --config=${prefix}/etc/rsyncd.conf"
+startupitem.stop    "kill `cat ${prefix}/var/run/rsyncd.pid`"
+startupitem.pidfile auto ${prefix}/var/run/rsyncd.pid
+
+notes "
+To use the rsyncd server you must copy\
+${prefix}/etc/rsyncd.conf.example to rsyncd.conf and add\
+your modules there. See 'man rsyncd.conf' for more\
+information.
+"
