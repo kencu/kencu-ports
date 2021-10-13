@@ -1,0 +1,12 @@
+/PortIndex
+/PortIndex.quick
+
+*/*/work
+
+Portfile~
+*.tcl~
+*.diff~
+*.patch~
+
+.DS_Store
+
