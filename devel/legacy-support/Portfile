@@ -9,14 +9,14 @@ name                legacy-support
 categories          devel
 platforms           darwin
 
-maintainers         {jonesc @cjones051073} {kencu @kencu} openmaintainer
+maintainers         nomaintainer
 license             MIT
 
 description         Installs wrapper headers to add missing functionality to legacy OSX versions.
 long_description    {*}${description}
 
 # Primary release version
-set release_ver     1.0.3
+set release_ver     1.0.4
 
 # Binary compatibility version
 set compat_ver      1.0.0
@@ -25,20 +25,20 @@ subport ${name} {
     conflicts           ${name}-devel
     github.setup        macports macports-legacy-support ${release_ver} v
     revision            0
-    checksums           rmd160  c502c96596151d053d575554012ceb4a916a24c3 \
-                        sha256  86cda7390f9deb5aef8496fbd7853ce7dc146bbaeb66d92d6cca4ebef41c0b92 \
-                        size    48787
+    checksums           rmd160  b5d1b0ab3baf42c519bb62055b4721b4de9c3e85 \
+                        sha256  75c0b80f036e559e9aafd51c609b7638cbfdd1a05a05a183e6c0b604e897798e \
+                        size    50744
 }
 
 subport ${name}-devel {
     conflicts           ${name}
-    github.setup        macports macports-legacy-support 291c6bbe9df5e7075900ffe9a1ef081bec8ba961
-    version             20210917
+    github.setup        macports macports-legacy-support f912da57bae55c5cad50fd661a3656ab87df2a41
+    version             20211012
     revision            0
     livecheck.type      none
-    checksums           rmd160  ac9d2cab1809dc715ee7c2301c4f42dca9090d98 \
-                        sha256  cfb2016bc8048965920c5dfa5a9eca11be31d928f7e8cf7af4a907e385646843 \
-                        size    50482
+    checksums           rmd160  b5d1b0ab3baf42c519bb62055b4721b4de9c3e85 \
+                        sha256  75c0b80f036e559e9aafd51c609b7638cbfdd1a05a05a183e6c0b604e897798e \
+                        size    50744
     set v_split         [split ${release_ver} .]
     set release_ver     [lindex ${v_split} 0].[lindex ${v_split} 1].99
 }
