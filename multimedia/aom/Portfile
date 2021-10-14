@@ -6,7 +6,7 @@ PortGroup               muniversal 1.0
 PortGroup               compiler_blacklist_versions 1.0
 
 name                    aom
-version                 3.1.2
+version                 3.1.3
 revision                0
 categories              multimedia
 maintainers             {mcalhoun @MarcusCalhoun-Lopez} openmaintainer
@@ -48,6 +48,16 @@ configure.args-append   -DBUILD_SHARED_LIBS=ON \
 
 if {![info exists universal_possible]} {
     set universal_possible [expr {${os.universal_supported} && [llength ${configure.universal_archs}] >= 2}]
+}
+
+platform darwin 10 {
+    PortGroup               active_variants 1.1
+
+    # on SL, need a newer ld64 than ld64-127
+    # ld64-latest works. The others are untested
+    # need to specifically mark ld64 as a dep for the PG to work, interestingly
+    depends_build-append port:ld64
+    require_active_variants ld64 {} {ld64-97 ld64_127 ld64-236 ld64-274}
 }
 
 # a `native` variant is not needed since aom does runtime CPU detection
