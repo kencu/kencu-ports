@@ -1,6 +1,7 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem              1.0
+PortGroup               old_openssl 1.0
 
 name                    mysql8
 version                 8.0.26
@@ -18,7 +19,7 @@ maintainers             {gmail.com:herby.gillot @herbygillot} \
                         openmaintainer
 
 # Set revision_client and revision_server to 0 on version bump.
-set revision_client 1
+set revision_client 2
 set revision_server 0
 
 set name_mysql          ${name}
@@ -62,6 +63,10 @@ if {$subport eq $name} {
                         port:icu \
                         port:zlib \
                         port:zstd
+
+    # build fails against openssl 3.x
+    openssl.branch      1.1
+    openssl.configure   build_flags
 
     depends_run-append  port:mysql_select
 
@@ -129,7 +134,7 @@ if {$subport eq $name} {
         -DWITH_INNODB_MEMCACHED=1 \
         -DWITH_PROTOBUF=bundled \
         -DWITH_SASL:PATH="${prefix}" \
-        -DWITH_SSL:PATH="${prefix}" \
+        -DWITH_SSL:PATH="${openssl.dir}" \
         -DWITH_ZLIB:PATH=system \
         -DWITH_ZSTD=system
 
