@@ -2,6 +2,7 @@
 
 PortSystem          1.0
 PortGroup           perl5 1.0
+PortGroup           old_openssl 1.0
 
 perl5.branches      5.28 5.30 5.32
 perl5.setup         Crypt-OpenSSL-RSA 0.31
@@ -27,4 +28,8 @@ if {${perl5.major} != ""} {
                     port:p${perl5.major}-crypt-openssl-random \
                     port:p${perl5.major}-crypt-openssl-bignum \
                     path:lib/libssl.dylib:openssl
+
+    openssl.branch 1.1
+    openssl.configure pkgconfig_and_build_flags
+
 }

@@ -1,0 +1,24 @@
+--- src/_cffi_src/build_openssl.py.orig	2021-10-16 09:56:17.000000000 -0700
++++ src/_cffi_src/build_openssl.py	2021-10-16 10:02:04.000000000 -0700
+@@ -40,7 +40,7 @@
+         # -lpthread required due to usage of pthread an potential
+         # existance of a static part containing e.g. pthread_atfork
+         # (https://github.com/pyca/cryptography/issues/5084)
+-        return ["ssl", "crypto", "pthread"]
++        return ["-L@@openssl11path@@/lib/", "ssl", "crypto", "pthread"]
+ 
+ 
+ def _extra_compile_args(platform):
+@@ -61,11 +61,7 @@
+         cmd._check_compiler()
+         is_gcc = ("gcc" in cmd.compiler.compiler[0] or
+                   "clang" in cmd.compiler.compiler[0])
+-    if is_gcc or not (platform in ["win32", "hp-ux11", "sunos5"] or
+-                      platform.startswith("aix")):
+-        return ["-Wconversion", "-Wno-error=sign-conversion"]
+-    else:
+-        return []
++    return ["-I@@openssl11path@@/include/"]
+ 
+ 
+ ffi = build_ffi_for_binding(

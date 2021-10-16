@@ -42,8 +42,11 @@ if {${name} ne ${subport}
     # legacy support
     if {${python.version} eq 27
         || ${os.platform} eq "darwin" && ${os.major} < ${cryptography_darwin_min_ver}} {
+
+        PortGroup       old_openssl 1.0
+
         github.setup    pyca cryptography 2.9.2
-        revision        0
+        revision        1
 
         description     Legacy support of Python cryptography.
 
@@ -53,9 +56,18 @@ if {${name} ne ${subport}
                         sha256  a0c30272fb4ddda5f5ffc1089d7405b7a71b0b0f51993cb4e5dbb4590b2fc229 \
                         size    517571
 
-        if {${os.platform} eq "darwin" && ${os.major} < 11} {
+        #if {${os.platform} eq "darwin" && ${os.major} < 11} {
             # https://trac.macports.org/ticket/54519
-            patchfiles-append   patch-src__cffi_src_build_openssl.py.diff
+            #patchfiles-append   patch-src__cffi_src_build_openssl.py.diff
+        #}
+
+        openssl.branch 1.1
+
+        # includes the above patch which can apply always
+        patchfiles-append py-cryptography-force-to-openssl11.diff
+
+        post-patch {
+            reinplace "s|@@openssl11path@@|${openssl.dir}|g" ${worksrcpath}/src/_cffi_src/build_openssl.py
         }
 
         depends_lib-append \

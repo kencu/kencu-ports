@@ -6,7 +6,7 @@ PortGroup           python 1.0
 name                py-curl
 python.rootname     pycurl
 version             7.44.1
-revision            1
+revision            2
 
 categories-append   net devel
 platforms           darwin
