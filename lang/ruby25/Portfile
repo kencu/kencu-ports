@@ -2,6 +2,7 @@
 
 PortSystem          1.0
 PortGroup           select 1.0
+PortGroup           old_openssl 1.0
 
 name                ruby25
 version             2.5.9
@@ -52,6 +53,9 @@ if {${os.major} < 10} {
 select.group        ruby
 select.file         ${filespath}/ruby25
 
+# build fails against openssl 3.x
+openssl.branch      1.1
+
 # Fix build on 10.4 i386
 patchfiles          patch-tiger.diff
 # Fix build on < 10.6
@@ -77,6 +81,7 @@ configure.args      --enable-shared \
                     --disable-install-doc \
                     --mandir="${prefix}/share/man" \
                     --enable-pthread \
+                    --with-openssl-dir="${openssl.dir}" \
                     --without-gmp \
                     --with-opt-dir="${prefix}" \
                     --program-suffix=2.5 \

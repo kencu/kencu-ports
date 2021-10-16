@@ -2,10 +2,11 @@
 
 PortSystem          1.0
 PortGroup           select 1.0
+PortGroup           old_openssl 1.0
 
 name                ruby26
 version             2.6.8
-revision            2
+revision            3
 
 categories          lang ruby
 maintainers         {kimuraw @kimuraw} openmaintainer
@@ -47,11 +48,15 @@ depends_skip_archcheck pkgconfig
 select.group        ruby
 select.file         ${filespath}/ruby26
 
+# build fails against openssl 3.x
+openssl.branch      1.1
+
 configure.args      --enable-shared \
                     --enable-install-static-library \
                     --disable-install-doc \
                     --mandir="${prefix}/share/man" \
                     --enable-pthread \
+                    --with-openssl-dir="${openssl.dir}" \
                     --without-gmp \
                     --with-opt-dir="${prefix}" \
                     --program-suffix=2.6 \

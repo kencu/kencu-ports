@@ -3,10 +3,11 @@
 PortSystem          1.0
 PortGroup           select 1.0
 PortGroup           compiler_blacklist_versions 1.0
+PortGroup           old_openssl 1.0
 
 name                ruby30
 version             3.0.2
-revision            2
+revision            3
 
 categories          lang ruby
 maintainers         {kimuraw @kimuraw} openmaintainer
@@ -48,6 +49,9 @@ depends_skip_archcheck pkgconfig
 select.group        ruby
 select.file         ${filespath}/ruby30
 
+# build fails against openssl 3.x
+openssl.branch      1.1
+
 # patch-random.c.diff: fix build error at Lion (#63571)
 patchfiles          patch-random.c.diff
 #----------------------------------------------------------------------------------------
@@ -62,6 +66,7 @@ configure.args      --enable-shared \
                     --disable-install-doc \
                     --mandir="${prefix}/share/man" \
                     --enable-pthread \
+                    --with-openssl-dir="${openssl.dir}" \
                     --without-gmp \
                     --with-opt-dir="${prefix}" \
                     --program-suffix=3.0 \
