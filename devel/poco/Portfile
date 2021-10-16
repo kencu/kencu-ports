@@ -2,6 +2,7 @@
 
 PortSystem          1.0
 PortGroup           github 1.0
+PortGroup           old_openssl 1.0
 
 github.setup        pocoproject poco 1.10.1 poco- -release
 categories          devel
@@ -27,7 +28,7 @@ set docdir          ${prefix}/share/doc/${name}
 if {${subport} eq ${name}} {
     PortGroup           cmake 1.1
 
-    revision            3
+    revision            4
     checksums           rmd160  b3ba1f1cb925b24626ab09a6cb055edf99380464 \
                         sha256  2cde4b50778013ab3b7a522aa59bccaa7e85a8ccfc654a354c4d9611b6ce1758 \
                         size    5313561
@@ -39,6 +40,9 @@ if {${subport} eq ${name}} {
                         port:pcre \
                         port:zlib
     
+    openssl.branch      1.1
+    openssl.configure   pkgconfig_and_build_flags
+
     patchfiles          DYLD_LIBRARY_PATH.patch
     
     compiler.c_standard 1999
