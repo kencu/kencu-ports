@@ -6,7 +6,7 @@ name                w3m
 set sf_version      0.5.3
 set debian_revision 38
 version             ${sf_version}-${debian_revision}
-revision            0
+revision            1
 categories          www
 license             MIT
 maintainers         nomaintainer
