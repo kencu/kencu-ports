@@ -9,7 +9,6 @@ name             libuv
 categories       devel
 platforms        darwin
 maintainers      {michaelld @michaelld} \
-                 {kencu @kencu} \
                  openmaintainer
 license          {MIT BSD}
 
@@ -25,11 +24,11 @@ platform darwin {
     # which port version depends on which OS version
     if { ${os.major} == 8 } {
 
-        # peg at version 1.30.0 with patches for 10.4 Tiger, updated occasionally
-        github.setup libuv libuv 1.30.0 v
-        checksums rmd160 cb73c5f0681bb47606abf8e58f8fad3b75640862 \
-                  sha256 97cf47b87f20532e58f4912cfa2f68de1e2fd7c31b35b836e80e1942f2fd76e3 \
-                  size   1228472
+        # peg at version 1.42.0 with patches for 10.4 Tiger, updated occasionally
+        github.setup libuv libuv 1.42.0 v
+        checksums rmd160 09e85ff38d67be34eb467ecb72d9a092de298ec8 \
+                  sha256 1aa2d2b85899976f47313d80737a57cdac943ba39df993cfca36944ccbecaffa \
+                  size   1293521
         revision  0
 
         long_description {*}${long_description} This version is pegged for OSX 10.4 Tiger and is updated occasionally. \
@@ -39,23 +38,20 @@ platform darwin {
         # prevent conflicting opentransport header from being pulled in
         configure.cppflags-append -D__OPENTRANSPORTPROVIDERS__
 
-        # this patch has been sent upstream (same as Leopard/SnowLeopard)
-        patchfiles-append patch-libuv-130-unix-core-close-nocancel.diff
-
-        # Tiger unified patch
-        patchfiles-append patch-libuv-1-23-2-tiger.diff
+        patchfiles-append    patch-libuv-unix-core-close-nocancel.diff
+        patchfiles-append    patch-libuv-legacy.diff
 
         # Tiger has no libutil
         patchfiles-append patch-makefile-am-no-libutil-on-Tiger.diff
 
     } elseif { ${os.major} == 9 || ${os.major} == 10 } {
 
-        # peg at version 1.30.0, updated occasionally
+        # peg at version 1.42.0, updated occasionally
         # see https://trac.macports.org/ticket/57926
-        github.setup libuv libuv 1.30.0 v
-        checksums rmd160 cb73c5f0681bb47606abf8e58f8fad3b75640862 \
-                  sha256 97cf47b87f20532e58f4912cfa2f68de1e2fd7c31b35b836e80e1942f2fd76e3 \
-                  size   1228472
+        github.setup libuv libuv 1.42.0 v
+        checksums rmd160 09e85ff38d67be34eb467ecb72d9a092de298ec8 \
+                  sha256 1aa2d2b85899976f47313d80737a57cdac943ba39df993cfca36944ccbecaffa \
+                  size   1293521
         revision  0
 
         long_description {*}${long_description} This version is pegged for OSX 10.5 Leopard and 10.6 Snow Leopard and is updated occasionally. \
@@ -64,7 +60,8 @@ platform darwin {
         # needed for the tests to compile correctly on Leopard
         configure.cppflags-append -D__DARWIN_64_BIT_INO_T
 
-        patchfiles-append patch-libuv-130-unix-core-close-nocancel.diff
+        patchfiles-append patch-libuv-unix-core-close-nocancel.diff
+        patchfiles-append    patch-libuv-legacy.diff
 
     } else {
 
