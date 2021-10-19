@@ -1,7 +1,6 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
-PortGroup           perl5 1.0
 
 name                git
 version             2.33.1
@@ -31,12 +30,6 @@ checksums           git-${version}${extract.suffix} \
                     rmd160  ce2007826a7b42277e12c491d1e25e827ba2e586 \
                     sha256  c75219f1c9f56caad4f8eb17915e4fe34ca5e1b453773df279a2cec98205ab87 \
                     size    494288
-
-perl5.require_variant   false
-perl5.conflict_variants yes
-perl5.branches          5.28 5.30 5.32
-perl5.default_branch    5.28
-perl5.create_variants   ${perl5.branches}
 
 depends_lib-append  port:curl \
                     port:zlib \
@@ -75,26 +68,6 @@ build.args          CFLAGS="${CFLAGS}" \
                     NO_R_TO_GCC_LINKER=1 \
                     NO_PERL=1 \
                     V=1
-
-if {[variant_isset ${perl5.variant}]} {
-    depends_run-append \
-                    port:p${perl5.major}-authen-sasl \
-                    port:p${perl5.major}-error \
-                    port:p${perl5.major}-net-smtp-ssl \
-                    port:p${perl5.major}-term-readkey \
-                    port:p${perl5.major}-cgi
-
-    build.args-delete \
-                    NO_PERL=1
-
-    build.args-append \
-                    PERL_PATH="${perl5.bin}" \
-                    NO_PERL_CPAN_FALLBACK=1
-} elseif {[variant_isset svn]} {
-    pre-configure {
-        return -code error "+svn does not work without +perl5_xx"
-    }
-}
 
 test.run            yes
 test.cmd            make
@@ -214,12 +187,6 @@ variant gitweb description {Install gitweb.cgi} {
     }
 }
 
-variant svn description {Bi-directional subversion repository support} {
-    depends_run-append  port:subversion \
-                        port:p${perl5.major}-libwww-perl \
-                        port:p${perl5.major}-svn-simple
-}
-
 variant credential_osxkeychain description {Install git credential-osxkeychain utility from contrib} {
 
     post-build {
@@ -278,7 +245,7 @@ platform darwin 8 {
     build.args-append   CC_LD_DYNPATH=-R
 }
 
-default_variants    +doc +pcre +credential_osxkeychain +diff_highlight
+default_variants    +credential_osxkeychain
 
 livecheck.type          regexm
 livecheck.regex         {<span class="version">.*?(\d+\.\d+\.\d+).*?</span>}
