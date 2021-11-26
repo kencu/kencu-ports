@@ -33,6 +33,9 @@ post-extract {
     reinplace  "s|constrol|control|" ${worksrcpath}/pan/gui/actions.cc
 }
 
+# some kind of issue building with newer clang versions
+compiler.whitelist  macports-clang-5.0
+
 depends_build       port:pkgconfig \
                     port:itstool \
                     port:yelp-tools
