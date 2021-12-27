@@ -6,6 +6,7 @@ PortGroup           active_variants 1.1
 
 name                pan2
 version             0.147
+revision            1
 categories          news
 license             GPL-2
 platforms           darwin
@@ -28,14 +29,6 @@ checksums           rmd160  a4d919d0ecf9d6114f5642042e4215d665e487b0 \
                     sha256  997a98fb92c75b45b99e07cccd9c5e5d7433dcc50a35b0270ad564e054d4c024 \
                     size    2215214
 
-post-extract {
-    # fix typo in one file
-    reinplace  "s|constrol|control|" ${worksrcpath}/pan/gui/actions.cc
-}
-
-# some kind of issue building with newer clang versions
-compiler.whitelist  macports-clang-5.0
-
 depends_build       port:pkgconfig \
                     port:itstool \
                     port:yelp-tools
@@ -47,6 +40,11 @@ depends_lib         port:desktop-file-utils \
                     path:lib/pkgconfig/gtk+-2.0.pc:gtk2 \
                     port:gtkspell2 \
                     port:libiconv
+
+patchfiles          pan-gui-actions.cc.patch
+
+# fix build with newer clangs https://gitlab.gnome.org/GNOME/pan/-/issues/136
+patchfiles-append   patch-pan2-general-stringview-clangfix.diff
 
 configure.args      --with-gnutls \
                     --disable-silent-rules
