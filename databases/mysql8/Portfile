@@ -4,7 +4,7 @@ PortSystem              1.0
 PortGroup               old_openssl 1.0
 
 name                    mysql8
-version                 8.0.26
+version                 8.0.28
 # When updating to 8.0.27, set compiler.cxx_standard to 2017
 
 set boost_version       1.73.0
@@ -19,7 +19,7 @@ maintainers             {gmail.com:herby.gillot @herbygillot} \
                         openmaintainer
 
 # Set revision_client and revision_server to 0 on version bump.
-set revision_client 2
+set revision_client 0
 set revision_server 0
 
 set name_mysql          ${name}
@@ -33,7 +33,7 @@ if {$subport eq $name} {
     PortGroup           cmake 1.1
     PortGroup           select 1.0
     PortGroup           compiler_blacklist_versions 1.0
-    PortGroup           legacysupport 1.0
+    PortGroup           legacysupport 1.1
 
     description         Multithreaded SQL database server
     long_description    MySQL is an open-source, multi-threaded SQL database.
@@ -50,9 +50,9 @@ if {$subport eq $name} {
                         ${boost_distname}${extract.suffix}:boost
 
     checksums           ${distname}${extract.suffix} \
-                        rmd160  e659d2506fb06fd49e82571a6957f72e89c3acbc \
-                        sha256  dbddcdc772f806c711a3731363a50f3d359eaac9c5d1480084728a1c2ce5da4d \
-                        size    284626983 \
+                    rmd160  e23705407afa27daad0ada9bdfdaff3636c87f49 \
+                    sha256  d869369eb6de4f2bb2db8d3b31b7b73968e356e5ffc4354f4b96658ab1e48b22 \
+                    size    291424253 \
                         ${boost_distname}${extract.suffix} \
                         rmd160  47f3dad1ddb5e1e9f367f05a4019d5fac48a2e3b \
                         sha256  9995e192e68528793755692917f9eb6422f3052a53c5e13ba278a228af6c7acf \
@@ -76,15 +76,10 @@ if {$subport eq $name} {
     use_parallel_build  yes
 
     # Will require C++17 as of 8.0.27
-    compiler.cxx_standard 2014
+    compiler.cxx_standard 2017
 
     # TODO: explain why these compilers are blacklisted
     compiler.blacklist-append *gcc-5 {clang < 900}
-
-    # clang 8.0+ are too strict to build this port
-    # version:1:1: error: C++ requires a type specifier for all declarations
-    # MYSQL_VERSION_MAJOR=8
-    compiler.blacklist-append {macports-clang-[8-9].0}
 
     # Use default CMake build_types
     if {[variant_isset debug]} {
