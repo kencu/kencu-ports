@@ -11,8 +11,8 @@ platforms           darwin
 maintainers         nomaintainer
 license             MIT
 
-description         Installs wrapper headers to add missing functionality to legacy OSX versions.
-long_description    {*}${description}
+description         add missing functionality to legacy OSX versions.
+long_description    ${description}
 
 # Primary release version
 set release_ver     1.0.4
@@ -20,24 +20,37 @@ set release_ver     1.0.4
 # Binary compatibility version
 set compat_ver      1.0.0
 
-subport ${name} {
-    conflicts           ${name}-devel
-    github.setup        macports macports-legacy-support ${release_ver} v
-    revision            0
-    checksums           rmd160  b5d1b0ab3baf42c519bb62055b4721b4de9c3e85 \
-                        sha256  75c0b80f036e559e9aafd51c609b7638cbfdd1a05a05a183e6c0b604e897798e \
-                        size    50744
-}
+# subport legacy-support {
+#     conflicts           legacy-support-devel
+#     github.setup        kencu kencu-legacy-support ${release_ver} v
+#     revision            1
+#     checksums           rmd160  b5d1b0ab3baf42c519bb62055b4721b4de9c3e85 \
+#                         sha256  75c0b80f036e559e9aafd51c609b7638cbfdd1a05a05a183e6c0b604e897798e \
+#                         size    50744
+# }
 
-subport ${name}-devel {
-    conflicts           ${name}
-    github.setup        macports macports-legacy-support 67f0316ae6298c90b7272c5d531354ee25263bb9
-    version             20211024
+subport legacy-support {
+    conflicts           legacy-support-devel
+    github.setup        kencu kencu-legacy-support 6132fe60d1b9913d959c54823855e12064540a3d
+    version             20220119
     revision            0
     livecheck.type      none
-checksums           rmd160  6f15bbbd66ab3ec737691402705a5fd55b6c90f4 \
-                    sha256  b39e78b6608012a326b8dedca5593b3913d140ff67d42c22a3c3e7ae630ba60f \
-                    size    51056
+checksums           rmd160  b03a8384169d22c6b46eab5f5257aba5e573899d \
+                    sha256  92e9ee3ab2d855f9d586c147e7c47a3065e91355073a04ad0d466d814b399e39 \
+                    size    49909
+    set v_split         [split ${release_ver} .]
+    set release_ver     [lindex ${v_split} 0].[lindex ${v_split} 1].99
+}
+
+subport legacy-support-devel {
+    conflicts           legacy-support
+    github.setup        kencu kencu-legacy-support 6132fe60d1b9913d959c54823855e12064540a3d
+    version             20220119
+    revision            0
+    livecheck.type      none
+checksums           rmd160  b03a8384169d22c6b46eab5f5257aba5e573899d \
+                    sha256  92e9ee3ab2d855f9d586c147e7c47a3065e91355073a04ad0d466d814b399e39 \
+                    size    49909
     set v_split         [split ${release_ver} .]
     set release_ver     [lindex ${v_split} 0].[lindex ${v_split} 1].99
 }
@@ -97,11 +110,8 @@ platform darwin 8 {
         copy ${worksrcpath}/tiger_only/include/Availability.h         ${destroot}${prefix}/include/LegacySupport/
         copy ${worksrcpath}/tiger_only/include/AvailabilityInternal.h ${destroot}${prefix}/include/LegacySupport/
 
-    if {${subport} eq "${name}-devel"} {
         # copyfile exists in libSystem, just needs the header from 10.5 to work
         copy ${worksrcpath}/tiger_only/include/copyfile.h             ${destroot}${prefix}/include/LegacySupport/
-    }
-
     }
 }
 
@@ -121,15 +131,4 @@ if { ${build_arch} ne "arm64" && ${os.major} > ${max_darwin_reexport} } {
             ui_warn "${destroot}${legSystem} already exists."
         }
     }
-}
-
-if {![file exists ${prefix}/libexec/mpstats]} {
-    notes "
-    To help make sure your system continues to be well represented by MacPorts, especially\
-    if your system is not one of the latest macOS releases, please consider installing mpstats.\
-    It will periodically send an anonymous synopsis of your OS settings and installed ports.\
-    The information provided by this is useful to help determine how resources are allocated.
-
-    You can install mpstats like this:    sudo port install mpstats
-    "
 }
