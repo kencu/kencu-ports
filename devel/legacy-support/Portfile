@@ -31,26 +31,26 @@ set compat_ver      1.0.0
 
 subport legacy-support {
     conflicts           legacy-support-devel
-    github.setup        kencu kencu-legacy-support 6132fe60d1b9913d959c54823855e12064540a3d
-    version             20220119
+    github.setup        kencu kencu-legacy-support c4c7418840eb953ddf2a1aa92dd4ba25f87ce4fc
+    version             20220120
     revision            0
     livecheck.type      none
-checksums           rmd160  b03a8384169d22c6b46eab5f5257aba5e573899d \
-                    sha256  92e9ee3ab2d855f9d586c147e7c47a3065e91355073a04ad0d466d814b399e39 \
-                    size    49909
+checksums           rmd160  559f289bc4b5e095de281a3a8065af4d6907a375 \
+                    sha256  417020a198213085d5ae9a1f9600f52fc043fe8d7bf8e48d591fd3ac683e080d \
+                    size    51353
     set v_split         [split ${release_ver} .]
     set release_ver     [lindex ${v_split} 0].[lindex ${v_split} 1].99
 }
 
 subport legacy-support-devel {
     conflicts           legacy-support
-    github.setup        kencu kencu-legacy-support 6132fe60d1b9913d959c54823855e12064540a3d
-    version             20220119
+    github.setup        kencu kencu-legacy-support c4c7418840eb953ddf2a1aa92dd4ba25f87ce4fc
+    version             20220120
     revision            0
     livecheck.type      none
-checksums           rmd160  b03a8384169d22c6b46eab5f5257aba5e573899d \
-                    sha256  92e9ee3ab2d855f9d586c147e7c47a3065e91355073a04ad0d466d814b399e39 \
-                    size    49909
+checksums           rmd160  559f289bc4b5e095de281a3a8065af4d6907a375 \
+                    sha256  417020a198213085d5ae9a1f9600f52fc043fe8d7bf8e48d591fd3ac683e080d \
+                    size    51353
     set v_split         [split ${release_ver} .]
     set release_ver     [lindex ${v_split} 0].[lindex ${v_split} 1].99
 }
