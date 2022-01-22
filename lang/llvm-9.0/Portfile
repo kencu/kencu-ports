@@ -55,16 +55,6 @@ if {${subport} eq "llvm-${llvm_version}"} {
     depends_run         port:clang_select port:ld64
     depends_skip_archcheck-append ld64 subversion
 
-    # Older Xcode's lipo doesn't support x86_64h slices
-    # https://trac.macports.org/ticket/53159
-    # Older Xcode's ranlib doesn't understand objects produced by newer clang (malformed object (unknown load command 2))
-    # https://trac.macports.org/ticket/57412
-    if {[vercmp $xcodeversion "6.0.0"] < 0} {
-        depends_build-append port:cctools
-        depends_run-append port:cctools
-        depends_skip_archcheck-append cctools
-    }
-
     # Avoid requiring a bootstrap version of perl5 on 10.6.
     if {${os.major} >= 11} {
         default_variants    +analyzer
@@ -310,8 +300,8 @@ if {${subport} eq "llvm-${llvm_version}"} {
     if {${os.major} <= 13} {
         # libfuzzer uses TLS, fails on 10.9 and less
         # possibly fixable, see https://trac.macports.org/ticket/58291
-	configure.args-append \
-	    -DCOMPILER_RT_BUILD_LIBFUZZER=OFF
+    configure.args-append \
+        -DCOMPILER_RT_BUILD_LIBFUZZER=OFF
     }
 
     if {${os.major} <= 15} {
@@ -320,8 +310,8 @@ if {${subport} eq "llvm-${llvm_version}"} {
         # see https://trac.macports.org/ticket/57130
         # https://bugs.llvm.org/show_bug.cgi?id=38959
         # https://bugs.llvm.org/show_bug.cgi?id=38958
-	configure.args-append \
-	    -DCOMPILER_RT_BUILD_XRAY=OFF
+    configure.args-append \
+        -DCOMPILER_RT_BUILD_XRAY=OFF
     }
 
 } elseif {${subport} eq "lldb-${llvm_version}"} {
@@ -366,28 +356,22 @@ if {${subport} eq "lldb-${llvm_version}"} {
     compiler.blacklist-append {clang < 700}
 }
 
-# I'm not sure the exact version of Xcode that has a good enough libtool, but 3.2.6 seems to get past this when 3.1.4 doesn't:
-#     /Developer/usr/bin/libtool: for architecture x86_64 object: CMakeFiles/LLVMSupport.dir/PluginLoader.cpp.o malformed object (unknown load command 1)
-#     /Developer/usr/bin/libtool: for architecture: (null) file: CMakeFiles/LLVMSupport.dir/PluginLoader.cpp.o is not an object file (not allowed in a library)
-#     /Developer/usr/bin/libtool: for architecture i386 object: CMakeFiles/LLVMSupport.dir/PluginLoader.cpp.o malformed object (unknown load command 1)
+# cctools is needed to handle objects from newer clang toolchains
+# older systems for this definition is anything that needs a macports-clang
+# compiler to build this tree
 if {[string match macports-clang-* ${configure.compiler}]} {
     depends_build-append port:cctools
+    depends_run-append port:cctools
     depends_skip_archcheck-append cctools
+    configure.args-append -DCMAKE_LIBTOOL=${prefix}/bin/libtool
 }
-
-# Set CMAKE_LIBTOOL if we're using MacPorts-provided cctools
-if {[lsearch -exact $PortInfo(depends_build) port:cctools] != -1} {
-    configure.args-append \
-        -DCMAKE_LIBTOOL=${prefix}/bin/libtool
-}
-
 
 # use the system python27 if present
 if {${os.platform} eq "darwin" && ${os.major} >= 11} {
-	set pythonfullpath   /usr/bin/python2.7
+    set pythonfullpath   /usr/bin/python2.7
 } else {
-	set pythonfullpath   ${prefix}/bin/python2.7
-	depends_lib-append   port:python27
+    set pythonfullpath   ${prefix}/bin/python2.7
+    depends_lib-append   port:python27
 }
 configure.args-append   -DPYTHON_EXECUTABLE=${pythonfullpath}
 

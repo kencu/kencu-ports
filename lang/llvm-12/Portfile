@@ -75,10 +75,13 @@ configure.args-append \
 
 
 # cctools is needed to handle objects from newer clang toolchains
+# older systems for this definition is anything that needs a macports-clang
+# compiler to build this tree
 if {[string match macports-clang-* ${configure.compiler}]} {
-    depends_build-append            port:cctools
-    depends_skip_archcheck-append   cctools
-    configure.args-append           -DCMAKE_LIBTOOL=${prefix}/bin/libtool
+    depends_build-append port:cctools
+    depends_run-append port:cctools
+    depends_skip_archcheck-append cctools
+    configure.args-append -DCMAKE_LIBTOOL=${prefix}/bin/libtool
 }
 
 depends_build-append    port:python39

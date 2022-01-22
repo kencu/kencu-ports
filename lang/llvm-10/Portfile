@@ -258,9 +258,13 @@ compiler.fallback   clang
 compiler.fallback-append macports-clang-9.0
 
 # cctools is needed to handle objects from newer clang toolchains
+# older systems for this definition is anything that needs a macports-clang
+# compiler to build this tree
 if {[string match macports-clang-* ${configure.compiler}]} {
     depends_build-append port:cctools
+    depends_run-append port:cctools
     depends_skip_archcheck-append cctools
+    configure.args-append -DCMAKE_LIBTOOL=${prefix}/bin/libtool
 }
 
 if {${os.major} <= 14} {
@@ -271,18 +275,12 @@ if {${os.major} <= 14} {
     configure.args-append -DDARWIN_osx_SYSROOT="${configure.sdkroot}"
 }
 
-# Set CMAKE_LIBTOOL if we're using MacPorts-provided cctools
-if {[lsearch -exact $PortInfo(depends_build) port:cctools] != -1} {
-    configure.args-append \
-        -DCMAKE_LIBTOOL=${prefix}/bin/libtool
-}
-
 # use the system python27 if present
 if {${os.platform} eq "darwin" && ${os.major} >= 11} {
-	set pythonfullpath   /usr/bin/python2.7
+    set pythonfullpath   /usr/bin/python2.7
 } else {
-	set pythonfullpath   ${prefix}/bin/python2.7
-	depends_lib-append   port:python27
+    set pythonfullpath   ${prefix}/bin/python2.7
+    depends_lib-append   port:python27
 }
 configure.args-append   -DPYTHON_EXECUTABLE=${pythonfullpath}
 
