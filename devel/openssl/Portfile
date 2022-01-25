@@ -57,6 +57,11 @@ if {${os.platform} eq "darwin" && ${os.major} < 11} {
 patchfiles-append   patch-pre-Sierra.diff
 
 configure.ccache    no
+if {${os.platform} eq "darwin" && ${os.major} < 19} {
+    patchfiles-append patch-disable-avx512.diff
+    patchfiles-append   patch-fix-i386-atomics.diff
+}
+
 configure.perl      /usr/bin/perl
 configure.cmd       ./Configure
 configure.args      -L${prefix}/lib \
