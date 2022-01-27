@@ -10,6 +10,10 @@ PortGroup legacysupport               1.1
 # link legacysupport statically for compilers
 legacysupport.use_static yes
 
+# Sysconf wrapping causes issues so disable
+legacysupport.disable_function_wrap   yes
+
+
 categories              lang
 platforms               darwin
 license                 NCSA
