@@ -167,7 +167,7 @@ if {${subport} eq ${name}} {
 
 # Step 2: build a rustc and cargo by mrustc
 subport mrustc-rust {
-    PortGroup       openssl 1.0
+    PortGroup       old_openssl 1.0
 
     description     Rust and cargo which was compiled by mrustc.
     long_description {*}${description}
@@ -214,9 +214,9 @@ subport mrustc-rust {
     }
 
     build.env-append \
-                    OPENSSL_DIR=[openssl::install_area] \
-                    OPENSSL_INCLUDE_DIR=[openssl::include_dir] \
-                    OPENSSL_LIB_DIR=[openssl::lib_dir] \
+                    OPENSSL_DIR=${openssl.dir} \
+                    OPENSSL_INCLUDE_DIR=${openssl.includedir} \
+                    OPENSSL_LIB_DIR=${openssl.libdir} \
                     "LLVM_CMAKE_OPTS_EXTRA=PYTHON_EXECUTABLE=${pythonfullpath} ${cmake_opts}" \
                     MINICARGO=${prefix}/libexec/mrustc/bin/minicargo \
                     "MINICARGO_FLAGS=--features curl-sys/force-system-lib-on-osx" \
