@@ -732,6 +732,8 @@ variant universal {
                                             if {${destroot.delete_la_files} eq "yes"} {
                                                 ui_debug "universal: merge: ${prefixDir}/${fl} differs in ${base1} and ${base2}; ignoring due to delete_la_files"
                                             } else {
+                                                # la files sometimes have comments in them, like generated time
+                                                #copy ${dir1}/${fl} ${dir}
                                                 return -code error "${prefixDir}/${fl} differs in ${base1} and ${base2} and cannot be merged"
                                             }
                                         }
