@@ -5,8 +5,8 @@ PortGroup           wxWidgets 1.0
 PortGroup           boost 1.0
 
 name                codeblocks
-version             17.12
-revision            2
+version             20.03
+revision            0
 platforms           darwin freebsd
 categories          devel aqua x11
 license             GPL-3+
@@ -19,16 +19,13 @@ long_description    Code::Blocks is a free C++ IDE built specifically \
                     It was designed, right from the start, to be \
                     extensible and configurable.
 
-homepage            http://www.codeblocks.org/
-master_sites        sourceforge:project/codeblocks/Sources/${version}
-
+homepage            https://www.codeblocks.org/
+master_sites        https://sourceforge.net/projects/codeblocks/files/Sources/${version}
 use_xz              yes
-distname            ${name}_${version}
-worksrcdir          ${name}-${version}
 
-checksums           rmd160  d6b24ef948437f248135ccc40fcff71944a6a07f \
-                    sha256  13881a0a72769694e82e531b8e7814d51fbf1fa122c73c5004e186560fbc57e0 \
-                    size    15725976
+checksums           rmd160  2b4a2136cc34b1d27a8c7bdb3747f87904648cab \
+                    sha256  15eeb3e28aea054e1f38b0c7f4671b4d4d1116fd05f63c07aa95a91db89eaac5 \
+                    size    11799264
 
 patchfiles          patch-sqvm-header-fix.diff
 
@@ -146,7 +143,7 @@ if {[variant_isset wxgtk28] || [variant_isset wxgtk30]} {
                             port:atk \
                             port:fontconfig \
                             port:freetype \
-                            port:gdk-pixbuf2 \
+                            path:lib/pkgconfig/gdk-pixbuf-2.0.pc:gdk-pixbuf2 \
                             port:gettext \
                             path:lib/pkgconfig/gtk+-2.0.pc:gtk2 \
                             port:xorg-libX11 \
