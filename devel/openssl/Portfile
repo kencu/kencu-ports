@@ -15,7 +15,7 @@ revision            0
 categories          devel security
 platforms           darwin
 license             Apache-2
-maintainers         {larryv @larryv} {cal @neverpanic} openmaintainer
+maintainers         nomaintainer
 
 description         OpenSSL SSL/TLS cryptography library
 long_description    The OpenSSL Project is a collaborative effort to \
