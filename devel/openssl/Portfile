@@ -1,11 +1,16 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
+PortGroup           compiler_blacklist_versions 1.0
 PortGroup           muniversal 1.0
+PortGroup           legacysupport 1.1
+
+# Availability.h
+legacysupport.newest_darwin_requires_legacy 8
 
 name                openssl
 epoch               1
-version             3.0.0
+version             3.0.5
 revision            0
 
 # Please revbump these ports when updating OpenSSL.
@@ -41,27 +46,21 @@ master_sites        ${homepage}/source \
                     ftp://ftp.linux.hr/pub/openssl/source/ \
                     ftp://guest.kuria.katowice.pl/pub/openssl/source/
 
-checksums           rmd160  a31de80cc0ab6b37bc92fa6e0c16fb94e95a599e \
-                    sha256  59eedfcb46c25214c9bd37ed6078297b4df01d012267fe9e9eee31f61bc70536 \
-                    size    14978663
+checksums           rmd160  05b59b3e88da2aea3ea94018d8503161367bcbd1 \
+                    sha256  aa7d8d9bef71ad6525c55ba11e5f4397889ce49c2c9349dcea6d3e4f0b024a7a \
+                    size    15074407
 
 if {${os.platform} eq "darwin" && ${os.major} < 11} {
     # Having the stdlib set to libc++ on 10.6 causes a dependency on a
     # macports-clang compiler to be added, which would be a dep cycle.
-    configure.cxx_stdlib
+#    configure.cxx_stdlib
 }
 
-#   https://github.com/openssl/openssl/commit/c023d98dcf2ba1cc30f545ae54d0e037e80a8794
-#   https://github.com/openssl/openssl/commit/24cdb1bfecbd765e829b9932a5a60ff63a7dff4b
-#   Patches updated to fix 10.4 build
-patchfiles-append   patch-pre-Sierra.diff
-
-configure.ccache    no
 if {${os.platform} eq "darwin" && ${os.major} < 19} {
     patchfiles-append patch-disable-avx512.diff
-    patchfiles-append   patch-fix-i386-atomics.diff
 }
 
+configure.ccache    no
 configure.perl      /usr/bin/perl
 configure.cmd       ./Configure
 configure.args      -L${prefix}/lib \
@@ -111,8 +110,6 @@ if {(!${universal_possible} || ![variant_isset universal])
 }
 configure.universal_args-delete --disable-dependency-tracking
 
-# Parallel builds don't quite work (#46719).
-use_parallel_build  no
 
 test.run            yes
 
@@ -129,6 +126,22 @@ destroot.args       MANDIR=${prefix}/share/man MANSUFFIX=ssl
 
 variant rfc3779 description {enable RFC 3779: X.509 Extensions for IP Addresses and AS Identifiers} {
     configure.args-append   enable-rfc3779
+}
+
+post-destroot {
+	set     cnf [open ${destroot}${prefix}/etc/openssl/openssl.cnf a]
+	puts  ${cnf} ""
+	puts  ${cnf} "# enable legacy providers"
+	puts  ${cnf} "\[openssl_init\]"
+	puts  ${cnf} "providers = provider_sect"
+	puts  ${cnf} "\[provider_sect\]"
+	puts  ${cnf} "default = default_sect"
+	puts  ${cnf} "legacy = legacy_sect"
+	puts  ${cnf} "\[default_sect\]"
+	puts  ${cnf} "activate = 1"
+	puts  ${cnf} "\[legacy_sect\]"
+	puts  ${cnf} "activate = 1"
+	close ${cnf}
 }
 
 livecheck.type      regex
