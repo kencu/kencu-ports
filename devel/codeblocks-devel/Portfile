@@ -20,10 +20,13 @@ long_description        {*}${description}. This port tracks the upstream develop
 
 fetch.type              svn
 svn.url                 svn://svn.code.sf.net/p/codeblocks/code/trunk
-svn.revision            12943
+svn.revision            13000
 svn.method              checkout
-version                 20221003-r${svn.revision}
+version                 20221102-r${svn.revision}
 revision                0
+
+# fix boost detection with i386 systems
+patchfiles-append       patch-m4-boost.diff
 
 use_autoconf            yes
 autoconf.cmd            ./bootstrap
@@ -47,7 +50,7 @@ configure.args          --with-boost=[boost::install_area] \
 
 # work around a directory layout issue based on MacPorts default non-bundled layout
 post-destroot {
-    ln -s  ${prefix}/lib/codeblocks/plugins ${destroot}${prefix}/share/codeblocks/plugins
+    ln -s ${prefix}/lib/codeblocks/plugins ${destroot}${prefix}/share/codeblocks/plugins
 }
 
 # this will need to be reassessed if we use the full bundle
