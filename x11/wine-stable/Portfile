@@ -18,6 +18,7 @@ conflicts                   wine-devel wine-crossover
 set my_name                 wine
 version                     6.0.4
 revision                    0
+platforms                   {darwin >= 10}
 set branch                  [lindex [split ${version} .] 0].0
 license                     LGPL-2.1+
 categories                  x11
@@ -108,7 +109,8 @@ patchfiles-append \
     0002-crypt32-expand-cert-search-paths.diff
 
 post-patch {
-    reinplace "s|@@PREFIX@@|${prefix}|g" ${worksrcpath}/dlls/crypt32/unixlib.c
+    reinplace "s|@@PREFIX@@|${prefix}|g"    ${worksrcpath}/dlls/crypt32/unixlib.c
+    reinplace -q "/PKG_CONFIG_LIBDIR/d"     ${worksrcpath}/configure
 }
 
 configure.checks.implicit_function_declaration.whitelist-append \
@@ -208,11 +210,6 @@ variant x11 {
         --x-lib=${prefix}/lib
 }
 
-# Workaround weirdness with i386 GSTREAMER_CFLAGS not always getting set from pkgconfig
-configure.args-append \
-    GSTREAMER_CFLAGS="-I${prefix}/include/gstreamer-1.0 -I${prefix}/include/glib-2.0 -I${prefix}/lib/glib-2.0/include -I${prefix}/include/orc-0.4" \
-    FAUDIO_CFLAGS="-I${prefix}/include/FAudio"
-
 # Standard dlopen() is used so wine(64) no longer finds dylibs, since wine-5.6
 # https://bugs.winehq.org/show_bug.cgi?id=49199
 configure.ldflags-append \
@@ -306,36 +303,15 @@ if {${os.major} == 10} {
 compiler.blacklist-append   {*gcc*} {clang < 800} {macports-clang-3.*}
 compiler.fallback-append    macports-clang-5.0
 
+# wine(64)-preloader claims usb interface for no reason
+# https://github.com/Gcenx/WineskinServer/discussions/280
 variant usb description {Build ${name} with USB support} {
     depends_lib-append port:libusb
     configure.args-delete --without-usb
     configure.args-append --with-usb
 }
 
-if {${os.major} < 10} {
-    known_fail yes
-    archive_sites
-    distfiles
-    depends_build
-    depends_lib
-    pre-fetch {
-        ui_error "${name} @${version} requires Mac OS X 10.6 or later."
-        return -code error "incompatible Mac OS X version"
-    }
-}
-
-if {${os.endian} eq "big"} {
-    known_fail yes
-    archive_sites
-    distfiles
-    depends_build
-    depends_lib
-    pre-fetch {
-        ui_error "${name} can only be used on an Intel Mac or other computer with a little-endian processor."
-        return -code error "incompatible processor"
-    }
-}
-
+# Were only installing wine not the development files
 destroot.target install-lib
 
 post-destroot {
