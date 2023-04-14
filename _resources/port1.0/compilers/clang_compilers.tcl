@@ -4,7 +4,7 @@
 # clang_dependency PortGroup, and add it to any new dependencies of the
 # new version.
 
-# clang 13  and older build on 10.6+  (darwin 10)
+# clang 15  and older build on 10.6+  (darwin 10)
 # clang 9.0 and older build on 10.5+  (darwin 9)
 # clang 7.0 and older build on 10.4+  (darwin 8)
 # Clang 11 and newer only on Apple Silicon
@@ -12,8 +12,9 @@
 
 global os.major os.arch
 
-
 if { ${os.major} >= 10 } {
+    lappend compilers macports-clang-15
+    lappend compilers macports-clang-14
     lappend compilers macports-clang-13
     lappend compilers macports-clang-12
     lappend compilers macports-clang-11 
