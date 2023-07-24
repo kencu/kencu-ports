@@ -1,27 +1,27 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem                  1.0
-PortGroup                   muniversal 1.1
-PortGroup                   compiler_blacklist_versions 1.0
 PortGroup                   active_variants 1.1
+PortGroup                   compiler_blacklist_versions 1.0
 PortGroup                   legacysupport 1.1
+PortGroup                   muniversal 1.1
 
 # ntdll requires fstatat, since wine-5.9
 # https://github.com/wine-staging/wine-staging/commit/762c0e704003f802a5f3470aedd80799cb18c9ef
 legacysupport.newest_darwin_requires_legacy 13
 
-# Must be statically linked or -preloader breaks 
+# Must be statically linked or preloader breaks
 legacysupport.use_static yes
 
-name                        wine-stable
-conflicts                   wine-devel wine-crossover
+name                        wine-devel
+conflicts                   wine-stable wine-crossover
 set my_name                 wine
-version                     6.0.4
+version                     6.8
 revision                    0
-platforms                   {darwin >= 10}
-set branch                  [lindex [split ${version} .] 0].0
+platforms                   {darwin >= 10 < 18}
+set branch                  [lindex [split ${version} .] 0].x
 license                     LGPL-2.1+
-categories                  x11
+categories                  emulators
 
 supported_archs             i386 x86_64
 maintainers                 {@gcenx}
@@ -44,23 +44,17 @@ long_description \
     of other methods and allowing you to cleanly \
     integrate Windows applications into your desktop.
 
-depends_fetch-append        port:curl
-depends_skip_archcheck-append curl
-fetch {
-    # Manually download the file(s) if they don't exist
-    if {![file exists ${distpath}/${wine_distfile} ]} {
-        system -W /bin "${prefix}/bin/curl -Lo ${distpath}/${wine_distfile} https://github.com/wine-mirror/wine/archive/${wine_distfile}"
-    }
-}
+master_sites \
+    https://github.com/wine-mirror/wine/archive/:winesource
 
 distfiles \
     ${wine_distfile}:winesource
 
 checksums \
     ${wine_distfile} \
-    rmd160  c136de5fe6a7e3b5620ecd0afb272d165c1d9ec6 \
-    sha256  ca50376e3f7200493214daa5f7fd1145bfc9dd085c4814e4d502d4723e7b52a6 \
-    size    40532584
+    rmd160  dab645cb700ee5a0915fa28feabc129f53f609e7 \
+    sha256  d0208944564acf5a14357117f34ed386e18709d28239f43377d639421c16b153 \
+    size    40979772
 
 depends_build \
     port:bison \
@@ -72,13 +66,10 @@ depends_build \
     port:pkgconfig
 
 depends_lib \
-    port:freetype \
     port:FAudio \
+    port:freetype \
+    port:gettext-runtime \
     path:lib/pkgconfig/gnutls.pc:gnutls \
-    port:gstreamer1 \
-    port:gstreamer1-gst-plugins-base \
-    port:gstreamer1-gst-plugins-good \
-    port:gstreamer1-gst-libav \
     path:include/turbojpeg.h:libjpeg-turbo \
     port:lcms2 \
     port:libiconv \
@@ -88,17 +79,15 @@ depends_lib \
     port:libxml2 \
     port:libxslt \
     port:mpg123 \
-    port:openal-soft \
     port:openldap \
     port:tiff
 
 depends_run \
     path:share/curl/curl-ca-bundle.crt:curl-ca-bundle \
-    port:wine-gecko \
-    port:wine-mono
+    port:mingw-w64-wine-gecko-2.47.2 \
+    port:mingw-w64-wine-mono-6.1.1
 
-patch.pre_args \
-    -p1
+patch.pre_args -p1
 
 # https://bugs.winehq.org/show_bug.cgi?id=34166#c103
 patchfiles-append \
@@ -108,9 +97,15 @@ patchfiles-append \
 patchfiles-append \
     0002-crypt32-expand-cert-search-paths.diff
 
+# msvcrt: Add sincos to importlib, since wine-6.9
+# https://gitlab.winehq.org/wine/wine/-/commit/f0131276474997b9d4e593bbf8c5616b879d3bd5
+patchfiles-append \
+    0003-msvcrt-add-sincos-to-importlib.diff
+
 post-patch {
-    reinplace "s|@@PREFIX@@|${prefix}|g"    ${worksrcpath}/dlls/crypt32/unixlib.c
-    reinplace -q "/PKG_CONFIG_LIBDIR/d"     ${worksrcpath}/configure
+    # https://gitlab.winehq.org/wine/wine/-/commit/c7a97b5d5d56ef00a0061b75412c6e0e489fdc99
+    reinplace -q "/PKG_CONFIG_PATH/d"       ${worksrcpath}/configure
+    reinplace -q "s|@@PREFIX@@|${prefix}|g" ${worksrcpath}/dlls/crypt32/unixlib.c
 }
 
 configure.checks.implicit_function_declaration.whitelist-append \
@@ -125,6 +120,12 @@ configure.checks.implicit_function_declaration.whitelist-append \
 # https://bugs.winehq.org/show_bug.cgi?id=35310
 configure.install \
     ${worksrcpath}/tools/install-sh
+
+configure.pre_args.i386 \
+    --with-wine64=${workpath}/${worksrcdir}-x86_64
+
+configure.pre_args.x86_64 \
+    --enable-win64
 
 configure.args \
     --without-alsa \
@@ -142,16 +143,17 @@ configure.args \
     --with-gnutls \
     --without-gsm \
     --without-gssapi \
-    --with-gstreamer \
+    --without-gstreamer \
     --without-hal \
     --without-inotify \
     --with-jpeg \
+    --without-jxrlib \
     --without-krb5 \
     --with-ldap \
     --with-mingw \
     --with-mpg123 \
     --without-netapi \
-    --with-openal \
+    --without-openal \
     --with-opencl \
     --with-opengl \
     --without-oss \
@@ -212,56 +214,44 @@ variant x11 {
 
 # Standard dlopen() is used so wine(64) no longer finds dylibs, since wine-5.6
 # https://bugs.winehq.org/show_bug.cgi?id=49199
-configure.ldflags-append \
-    -Wl,-rpath,${prefix}/lib
-
-configure.args.i386-append \
-    --without-vulkan
-
-configure.args.x86_64-append    "--enable-win64 --libdir=${prefix}/lib"
-build.args.x86_64-append        "dlldir=${prefix}/lib/wine64"
-destroot.args.x86_64-append     "dlldir=${prefix}/lib/wine64"
-
-if {[llength ${supported_archs}] > 1} {
-    default_variants +universal
-}
-
-if {${universal_possible} && [variant_isset universal]} {
-    configure.args.i386-append  --with-wine64=${workpath}/${worksrcdir}-x86_64
-} elseif {${universal_possible} && ![variant_isset universal]} {
-    supported_archs             i386
-}
-
-# Avoid weird linker errors with Xcode 10 and later
-if {${os.major} > 18} {
-    macosx_deployment_target    10.14
-}
+configure.ldflags-append        -Wl,-rpath,${prefix}/lib
 
 # Vulkan is supported on macOS through MoltenVK, since wine-3.13
 if {${os.major} >= 15} {
-    depends_lib-append \
-        path:lib/libMoltenVK.dylib:MoltenVK
-
-    depends_skip_archcheck-append \
-        MoltenVK
-
-    configure.args.x86_64-append \
-        --with-vulkan \
-        ac_cv_lib_soname_MoltenVK=libMoltenVK.dylib \
-        ac_cv_lib_soname_vulkan=
+    depends_lib-append      path:lib/libMoltenVK.dylib:MoltenVK
+    if {"i386" in ${configure.universal_archs}} {
+        depends_skip_archcheck-append MoltenVK
+    }
+    configure.args.i386     --without-vulkan
+    configure.args.x86_64   --with-vulkan
+    configure.env.x86_64    ac_cv_lib_soname_vulkan=
+} else {
+    configure.args-append   --without-vulkan
 }
 
-if {${os.major} == 10} {
+# MacOSX10.7.SDK opencl isn't new enough, since wine-6.5
+# https://gitlab.winehq.org/wine/wine/-/commit/6b15f4d614fd33ec2c81b377fe6609f2bb7bfa6c
+if {${os.major} < 12} {
+    configure.args-replace  --with-opencl --without-opencl
+}
+
+platform darwin 10 {
+    # Need to tracking down when the reamaining breakage happened
     # https://trac.macports.org/ticket/61721
-    depends_build-append        port:libmacho
     patchfiles-append           1001-SnowLeopard-Fixes.diff
 
-    # Must be statically linked or -preloader breaks
+    # "winemac.drv: Wake up the display on user input.", since wine-3.12
+    # https://gitlab.winehq.org/wine/wine/-/commit/60edba563bbf95d15b7691fc9facbd97fce3f7b6
+    patchfiles-append           1002-winemac.drv-wake-display-from-sleep-on-10.6.diff
+
+    # libmacho is required for getsegmentdata(3), since wine-3.14
+    # https://gitlab.winehq.org/wine/wine/-/commit/bdca749f7ba4f434ac326481cf4fe0a059887f5d
+    depends_build-append        port:libmacho
     configure.ldflags-append    ${prefix}/lib/libmacho.a
 
-    # "-no_new_main" is needed for preloader, since wine-4.0-rc1
+    # ld64 needs to support -no_new_main for preloader, since wine-4.0-rc1
     # https://gitlab.winehq.org/wine/wine/-/commit/a0ab2a7b0c9c28588714372cf1b19a06dd706b26
-    # require_active_variants     port:ld64 ld64_274
+    require_active_variants     port:ld64 ld64_274
 
     # Used to fix a build issue with Xcode 10, since wine-4.0-rc2
     # https://gitlab.winehq.org/wine/wine/-/commit/0185ee5d99e8dca2c69d61ba0c0e00256beaf1b5
@@ -269,33 +259,21 @@ if {${os.major} == 10} {
         reinplace s|-mmacosx-version-min=10.7|-mmacosx-version-min=10.6|g ${worksrcpath}/configure
     }
 
+    # ws2_32: Handle more IGMP socket options, since wine-4.19
+    # https://gitlab.winehq.org/wine/wine/-/commit/bf24c316f443185c16513118e30e160b20223134
+    patchfiles-append           1003-ws2_32-guard-IGMP-socket-options.diff
+
     # Features don't exist in IOKit until 10.7, since wine-4.21
     # https://gitlab.winehq.org/wine/wine/-/commit/eea87600d21adcd910f72f1cdaf698451884f582
-    patchfiles-append           1002-Revert-eea87600d21adcd910f72f1cdaf698451884f582.diff
-
-    #### One or both of these need to be reverted or wine-6.0.4 won't launch some error on user32 ####
-    # user32: Redraw children when the combo box is dropped down, since wine-6.22 (cherry picked)
-    # https://gitlab.winehq.org/wine/wine/-/commit/ad7c5e9ced855950228ea3f73bff0624829b66d7
-    patchfiles-append           1003-Revert-ad7c5e9ced855950228ea3f73bff0624829b66d7.diff
-
-    # user32: Set WM_CONTEXTMENU's wparam to the child window's handle, since wine-7.0-rc5 (cherry picked)
-    # https://gitlab.winehq.org/wine/wine/-/commit/149284628def87f7e1ca70a1f8c7858d68cea346
-    patchfiles-append           1004-Revert-149284628def87f7e1ca70a1f8c7858d68cea346.diff
-    #### One or both of those need to be reverted or wine-6.0.4 won't launch some error on user32 ####
+    patchfiles-append           1004-Revert-eea87600d21adcd910f72f1cdaf698451884f582.diff
 
     # Using the 10.7 SDK to avoid even more reverts
     configure.sdk_version   10.7
     if {${configure.sdkroot} eq ""} {
         pre-fetch {
-            error "Building ${name} @${version} on Mac OS X 10.6 requires the MacOSX10.7.sdk to be present in ${developer_dir}/SDKs/"
+            error "Building ${subport} @${version} on Mac OS X 10.6 requires the MacOSX10.7.sdk to be present in ${developer_dir}/SDKs/"
         }
     }
-
-    notes-append "
-            \n
-            ${name} @${version} might have issues launching somethings as wine-preloader\
-            was designed for OS X 10.7 and not OS X 10.6
-    "
 }
 
 # wine requires clang >= 3.8
@@ -303,21 +281,30 @@ if {${os.major} == 10} {
 compiler.blacklist-append   {*gcc*} {clang < 800} {macports-clang-3.*}
 compiler.fallback-append    macports-clang-5.0
 
-# wine(64)-preloader claims usb interface for no reason
-# https://github.com/Gcenx/WineskinServer/discussions/280
-variant usb description {Build ${name} with USB support} {
-    depends_lib-append port:libusb
-    configure.args-delete --without-usb
-    configure.args-append --with-usb
+variant gstreamer description {Build ${subport} with gstreamer support} {
+    depends_lib-append      port:gstreamer1-gst-plugins-base
+    configure.args-replace  --without-gstreamer --with-gstreamer
 }
 
+# wine(64)-preloader claims usb interface for no reason
+# https://github.com/Gcenx/WineskinServer/discussions/280
+variant usb description {Build ${subport} with USB support} {
+    depends_lib-append      port:libusb
+    configure.args-replace  --without-usb --with-usb
+}
+
+default_variants            +gstreamer +universal +x11
+
+configure.optflags          -g -O2
+configure.env-append        CROSSCFLAGS=${configure.optflags}
+
+# Reduce compilation warnings
+configure.cflags-append     -Wno-deprecated-declarations
+
 # Were only installing wine not the development files
-destroot.target install-lib
+destroot.target             install-lib
 
 post-destroot {
-    # Add custom tool for easy launching explorer
-    xinstall ${worksrcpath}/tools/wineapploader.in ${destroot}${prefix}/bin/explorer
-
     set docdir ${prefix}/share/doc/${my_name}
     xinstall -d ${destroot}${docdir}
     xinstall -m 0644 -W ${worksrcpath} \
@@ -343,6 +330,9 @@ if {${universal_possible} && [variant_isset universal]} {
 
         See the Wine FAQ for details: https://wiki.winehq.org/FAQ#Wineprefixes
     "
+} else {
+    supported_archs         i386
+    configure.pre_args.i386
 }
 
 livecheck.type              none
