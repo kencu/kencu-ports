@@ -4,7 +4,6 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           mpi 1.0
 PortGroup           linear_algebra 1.0
-PortGroup           debug 1.0
 
 github.setup        plumed plumed2 2.7.2 v
 name                plumed
