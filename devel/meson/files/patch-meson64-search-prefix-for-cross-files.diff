@@ -4,7 +4,7 @@
      cross-file)
        _filedir
        COMPREPLY+=($(_filedir_in "$XDG_DATA_DIRS"/meson/cross))
-+      COMPREPLY+=($(_filedir_in @@PREFIX@@/share/@@SUBPORT@@/meson/cross))
++      COMPREPLY+=($(_filedir_in @@PREFIX@@/share/@@SUBPORT@@meson/cross))
        COMPREPLY+=($(_filedir_in /usr/local/share/meson/cross))
        COMPREPLY+=($(_filedir_in /usr/share/meson/cross))
        COMPREPLY+=($(_filedir_in "$XDG_DATA_HOME"/meson/cross))
