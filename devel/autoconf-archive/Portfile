@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                autoconf-archive
-version             2021.02.19
+version             2023.02.20
 revision            0
 categories          devel
 platforms           darwin
@@ -26,6 +26,6 @@ homepage            https://www.gnu.org/software/autoconf-archive/
 master_sites        gnu
 use_xz              yes
 
-checksums           rmd160  0ba7d20fbd655f64595c4c219b47f8f822bd20b8 \
-                    sha256  e8a6eb9d28ddcba8ffef3fa211653239e9bf239aba6a01a6b7cfc7ceaec69cbd \
-                    size    667304
+checksums           rmd160  f5dc65548663940f19c71d9ffee160617074de74 \
+                    sha256  71d4048479ae28f1f5794619c3d72df9c01df49b1c628ef85fde37596dc31a33 \
+                    size    678184
