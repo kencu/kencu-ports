@@ -28,7 +28,7 @@ checksums           rmd160  9b32a4cc4dc44d14d97675c6f21ca52f0e74d1a6 \
                     sha256  4533a43c34548edd1f63a276a42690fce15bde9409bcf20c4b8fa3d7e4d7cac1 \
                     size    2184484
 
-python.versions         36 37 38 39
+python.versions         36 37 38 39 310
 python.default_version  39
 python.link_binaries    no
 
