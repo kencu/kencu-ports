@@ -3,29 +3,29 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         Test2-Suite 0.000139 ../../authors/id/E/EX/EXODIST
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         Test2-Suite 0.000159 ../../authors/id/E/EX/EXODIST
+revision            0
 license             {Artistic-1 GPL}
-maintainers         {devans @dbevans} openmaintainer
+maintainers         nomaintainer
 description         Test2::Suite - Distribution with a rich set of tools built upon the Test2 framework.
-long_description    ${description}
+long_description    {*}${description}
 
-platforms           darwin
+platforms           {darwin any}
+supported_archs     noarch
 
-checksums           rmd160  edaf6acb6017ff131018ff1fe8e6394254d38f7b \
-                    sha256  559b474012ec34cb88d717240f6cfb7a86c49ce124c9941ccc60318b11079743 \
-                    size    227324
+checksums           rmd160  630321b441e41de21b996cbdf115cdc507eac514 \
+                    sha256  cb7453380d2a70682c450cb6ec44fecd02d1c48674a76d9799903b7f4444cc0e \
+                    size    242819
 
 if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-json-maybexs
+
     depends_lib-append \
                     port:p${perl5.major}-data-dumper \
-                    port:p${perl5.major}-importer \
                     port:p${perl5.major}-module-pluggable \
-                    port:p${perl5.major}-scope-guard \
-                    port:p${perl5.major}-sub-info \
                     port:p${perl5.major}-term-table \
                     port:p${perl5.major}-test-simple \
                     port:p${perl5.major}-time-hires
-
-    supported_archs noarch
 }

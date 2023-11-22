@@ -3,12 +3,11 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-
-perl5.setup         Net-DNS-SEC 1.18 ../../authors/id/N/NL/NLNETLABS
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         Net-DNS-SEC 1.23 ../../authors/id/N/NL/NLNETLABS
+revision            0
 license             MIT
 maintainers         {devans @dbevans} openmaintainer
-
 description         Perl interface for DNSSEC resource records
 long_description    The Net::DSN::SEC suite provides the resource records \
                     that are needed for DNSSEC (RFC 4033, 4034 and 4035). \
@@ -16,24 +15,16 @@ long_description    The Net::DSN::SEC suite provides the resource records \
                     useful for dynamic updates using key-pairs. \
                     RSA and DSA crypto routines are supported.
 
-checksums           rmd160  3840c75341cf08ff448fbae771d6a167c6ef377b \
-                    sha256  65ea2b1e878ca651238192426d41d1750eb77b5b7ba1fb71be3fc2ebb7e237b9 \
-                    size    46301
-
 platforms           darwin
-supported_archs     noarch
+
+checksums           rmd160  e90358192ea5d7453d70b1e7e3e30982d1e6bff4 \
+                    sha256  3281a6a620665280dcfd517f9b9b64501df993b1b78afe2ff8a05f488c388590 \
+                    size    45143
 
 if {${perl5.major} != ""} {
     depends_lib-append \
-                    port:p${perl5.major}-digest-sha \
+                    port:p${perl5.major}-io \
                     port:p${perl5.major}-mime-base64 \
                     port:p${perl5.major}-net-dns \
                     path:lib/libcrypto.dylib:openssl
-
-# optional dependency p5-crypt-openssl-ecdsa enables use of
-#   Net::DNS::SEC::ECDSA
-#   Net::DNS::SEC::ECCGOST
-
-    depends_lib-append \
-                    port:p${perl5.major}-crypt-openssl-ecdsa
 }

@@ -3,18 +3,20 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         DBIx-SearchBuilder 1.68
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         DBIx-SearchBuilder 1.78
+revision            0
 license             {Artistic-1 GPL}
 maintainers         nomaintainer
-
 description         Deal with multiple SearchBuilder result sets as one
-long_description    ${description}
-platforms           darwin
+long_description    {*}${description}
 
-checksums           rmd160  03af7d206ac7ee01c6498b45fd1d46e33e17ac1d \
-                    sha256  be197c0f83c426996f77d22126f3103f958fc4bd1791c6962b793cc2779601f8 \
-                    size    115423
+platforms           {darwin any}
+supported_archs     noarch
+
+checksums           rmd160  fdaf236d2a6ef01eca7535e78ab919920cc17674 \
+                    sha256  f3a5b72295546eac1d71fee8f1ff09d93dd64ca55b1438e36bd85a5f5ccaa7d4 \
+                    size    128620
 
 if {${perl5.major} != ""} {
     depends_build-append \
@@ -30,6 +32,4 @@ if {${perl5.major} != ""} {
                     port:p${perl5.major}-dbix-dbschema \
                     port:p${perl5.major}-encode \
                     port:p${perl5.major}-want
-
-    supported_archs noarch
 }

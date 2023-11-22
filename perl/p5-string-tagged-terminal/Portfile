@@ -3,25 +3,29 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         String-Tagged-Terminal 0.04
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         String-Tagged-Terminal 0.06
 license             {Artistic-1 GPL}
+revision            0
 maintainers         nomaintainer
 description         String::Tagged::Terminal - format terminal output using String::Tagged
-long_description    ${description}
+long_description    {*}${description}
 
-platforms           darwin
+platforms           {darwin any}
+supported_archs     noarch
 
-checksums           rmd160  5cbce05f337c7a64277c8f434a2e258e3dc9c7f7 \
-                    sha256  190f49da626becd4cb91ae1e88b52c3d18213e16b795e6df57bb23f87000b337 \
-                    size    17571
+checksums           rmd160  4b546913651d989137bb7250bee5e952a90ea9a7 \
+                    sha256  b467c403a426ff0c2ba2290bab1ee8d22bb1b456caa8af99533b17867c36aac2 \
+                    size    18425
 
 if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-test2-suite
+
     depends_lib-append \
                     port:p${perl5.major}-convert-color \
                     port:p${perl5.major}-convert-color-xterm \
                     port:p${perl5.major}-string-tagged
 
     perl5.use_module_build
-    supported_archs noarch
 }

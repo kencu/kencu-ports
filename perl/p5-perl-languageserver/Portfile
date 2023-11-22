@@ -3,13 +3,13 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         Perl-LanguageServer 2.1.0
-
-platforms           darwin
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         Perl-LanguageServer 2.6.1
+revision            0
 maintainers         {@chrstphrchvz gmx.us:chrischavez} openmaintainer
 license             Artistic-2
 
+platforms           {darwin any}
 supported_archs     noarch
 
 description         Perl::LanguageServer - Language Server and Debug Protocol Adapter for Perl
@@ -17,11 +17,11 @@ description         Perl::LanguageServer - Language Server and Debug Protocol Ad
 long_description    Perl::LanguageServer is a Language Server and Debug Protocol Adapter for Perl. \
                     It implements the Language Server Protocol which provides syntax-checking, \
                     symbol search, etc. Perl to various editors, for example Visual Studio Code or Atom. \
-                    It also implements the Debug Adapter Protocol, which allows debugging with various editors.                    
+                    It also implements the Debug Adapter Protocol, which allows debugging with various editors.
 
-checksums           rmd160  43a792461e8d8d9e5302b633b287e018d083b0fc \
-                    sha256  5de309dc4e16fe91e971af523f6d209aa254045e26bbf1694dbdd19f80ce517f \
-                    size    36040
+checksums           rmd160  d2b1441cd0fc6001a493b592febe86ed281c96ae \
+                    sha256  203334bb0b045cc78702ef4303409d081f3b68ddd746834474638827c34cb198 \
+                    size    53390
 
 if {${perl5.major} ne ""} {
     depends_lib-append \
@@ -31,6 +31,8 @@ if {${perl5.major} ne ""} {
                     port:p${perl5.major}-compiler-lexer \
                     port:p${perl5.major}-coro \
                     port:p${perl5.major}-data-dump \
+                    port:p${perl5.major}-encode-locale \
+                    port:p${perl5.major}-hash-safekeys \
                     port:p${perl5.major}-io-aio \
                     port:p${perl5.major}-json \
                     port:p${perl5.major}-moose \

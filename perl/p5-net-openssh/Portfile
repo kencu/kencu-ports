@@ -3,22 +3,23 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         Net-OpenSSH 0.80
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         Net-OpenSSH 0.84
+revision            0
 license             {Artistic-1 GPL}
-platforms           darwin
 maintainers         nomaintainer
 
-description         Perl SSH client package implemented on top of OpenSSH
-long_description    ${description}
+platforms           {darwin any}
+supported_archs     noarch
 
-checksums           rmd160  7b53c56dcd52687260feb09a9eef98e7f29365b2 \
-                    sha256  fee093657df2b361472a2982859588a6e4bc5e1aee8118ece5eebfeafa8daeb3 \
-                    size    76893
+description         Perl SSH client package implemented on top of OpenSSH
+long_description    {*}${description}
+
+checksums           rmd160  478f0b9b8eb48882fee3beca8eeaae53284dee28 \
+                    sha256  8780e62f01b1cf0db43c9cb705c94ff4949b032233be4be91fc91abc791539f8 \
+                    size    77004
 
 if {${perl5.major} != ""} {
     depends_lib-append \
                     port:openssh
-
-    supported_archs noarch
 }

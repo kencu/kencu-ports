@@ -3,17 +3,17 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         lib-relative 1.000
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         lib-relative 1.002
+revision            0
 license             {Artistic-1 GPL}
 maintainers         {devans @dbevans} openmaintainer
 description         lib::relative - Add paths relative to the current file to @INC
-long_description    ${description}
+long_description    {*}${description}
 
-platforms           darwin
-
-checksums           rmd160  153b41c76035c4bc4c78e69e4044b983b23f86cf \
-                    sha256  dfe0c7005fd8bddd25a7e8c2504b0fade162c74ca71b4f7acb7e8e76106d6cd7 \
-                    size    16156
-
+platforms           {darwin any}
 supported_archs     noarch
+
+checksums           rmd160  27a82a65b679b46f6f8158224d4a32167fc9dd5a \
+                    sha256  e4470215167c406917603e78be4d93112cf6913cd342aeb800b412e011c8a78b \
+                    size    13775

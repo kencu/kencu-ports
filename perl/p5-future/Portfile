@@ -3,28 +3,24 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         Future 0.46 ../../authors/id/P/PE/PEVANS
-
-platforms           darwin
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         Future 0.50 ../../authors/id/P/PE/PEVANS
+revision            0
 maintainers         nomaintainer
 license             {Artistic-1 GPL}
+description         Future - represent an operation awaiting completion
+long_description    {*}${description}
 
+platforms           {darwin any}
 supported_archs     noarch
 
-description         Future - represent an operation awaiting completion
-
-long_description    ${description}
-
-checksums           rmd160  000b4d93d030996ca37a3249815f5c4911b12c22 \
-                    sha256  7831ba1055cd9c187d205b772bc1a57afec318a0bb1eb6fdfefe97ff9762a47f \
-                    size    96369
+checksums           rmd160  d11e527dacb6da2188c235170b0760cae688c26c \
+                    sha256  c035e3d9e69a3af144b33ac834dee9e65ad360f2a51db9f158dc342ecddd5f44 \
+                    size    101758
 
 if {${perl5.major} != ""} {
     depends_build-append \
-                    port:p${perl5.major}-test-fatal \
-                    port:p${perl5.major}-test-identity \
-                    port:p${perl5.major}-test-refcount
+                    port:p${perl5.major}-test2-suite
 
     depends_lib-append \
                     port:p${perl5.major}-test-simple \

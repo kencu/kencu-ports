@@ -3,31 +3,34 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         Astro-satpass 0.116 ../../authors/id/W/WY/WYANT
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         Astro-satpass 0.130 ../../authors/id/W/WY/WYANT
+revision            0
 maintainers         nomaintainer
-platforms           darwin
 license             {Artistic-1 GPL}
-
 description         Astro-satpass - Predict satellite passes over an observer.
-
 long_description    This package contains classes needed to predict \
                     satellite visibility, and an optional demonstration application \
                     (satpass) that makes use of these classes.
 
-homepage            https://metacpan.org/release/${perl5.module}
+homepage            https://metacpan.org/dist/${perl5.module}
 
-checksums           rmd160  b9dce6ed9f2fd9341795ccb6dcc670ddcf9c6d71 \
-                    sha256  6ac2540de57b5ea86c9c92da0cf2f14b572b2c18cb2d673a09947aaec6364ae9 \
-                    size    522017
+platforms           {darwin any}
+supported_archs     noarch
+
+checksums           rmd160  ceb14b98c0b8f666f3bcf50ac530b4d146ca8527 \
+                    sha256  35c6453aa376f4f9c6ec2c516e4e4672c459759d19dc3e40f728e74ad7f3c59d \
+                    size    532395
 
 variant script description {Install the deprecated satpass script and optional dependencies} {}
 
 if {${perl5.major} != ""} {
     depends_lib-append \
+                    port:p${perl5.major}-clone \
                     port:p${perl5.major}-datetime \
                     port:p${perl5.major}-datetime-timezone \
-                    port:p${perl5.major}-json
+                    port:p${perl5.major}-json \
+                    port:p${perl5.major}-time-local
 
     if {[variant_isset script]} {
 #       requires Makefile.PL -y to install deprecated satpass script
@@ -42,5 +45,4 @@ if {${perl5.major} != ""} {
     }
 
     perl5.use_module_build
-    supported_archs noarch
 }

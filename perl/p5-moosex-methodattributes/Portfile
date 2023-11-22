@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
+perl5.branches      5.28 5.30 5.32 5.34
 perl5.setup         MooseX-MethodAttributes 0.32
 license             {Artistic-1 GPL}
 maintainers         nomaintainer
@@ -11,7 +11,8 @@ description         code attribute introspection
 long_description    This module allows code attributes of methods to be \
                     introspected using Moose meta method objects.
 
-platforms           darwin
+platforms           {darwin any}
+supported_archs     noarch
 
 checksums           rmd160  3b866d74308ba3c2afa0b1a7e69b4fbfd1e03c73 \
                     sha256  cb33886574b7d2dd39c42c0dcdc707acdb0aec7dbbde9a21c0422660368c197b \

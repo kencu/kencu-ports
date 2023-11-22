@@ -3,23 +3,34 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         Math-BigInt 1.999823
-maintainers         nomaintainer
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         Math-BigInt 2.001001 ../../authors/id/P/PJ/PJACKLAM
+revision            0
 categories-append   math
 license             {Artistic-1 GPL}
-platforms           darwin
+maintainers         nomaintainer
 
-description         Arbitrary size integer math package
-long_description    ${description}
+platforms           {darwin any}
+supported_archs     noarch
 
-checksums           rmd160  ae4a1b1670fbed34337f235e096d382c3a2eb0a7 \
-                    sha256  01f3d556f870743ac32c757145f13d72fb56933b64b668994f284278be9bc593 \
-                    size    3057110
+description         Math::BigInt - arbitrary size integer math package
+long_description    {*}${description}
+
+checksums           rmd160  f6fc16b8c35e785488c51ee1a9c7d7735da2c40d \
+                    sha256  d9ce4697c40ac59f4b6fc3a474a69aa40f9e7ccc35eb7053d8d9aa69ac2fa9ba \
+                    size    2924108
 
 if {${perl5.major} != ""} {
     depends_lib-append \
                     port:p${perl5.major}-math-complex
-    
-    supported_archs noarch
+
+    # As of Math::BigInt 2.000000, previously separate module, Math::BigRat,
+    # has been merged into Math::BigInt proper. Deactivate obsolete port
+    # p${perl5.major}-math-bigrat if active to avoid activation conflicts.
+    pre-activate {
+        set pname p${perl5.major}-math-bigrat
+        if {![catch {set installed [lindex [registry_active $pname] 0]}]} {
+            registry_deactivate_composite $pname "" [list ports_nodepcheck 1]
+        }
+    }
 }

@@ -3,19 +3,20 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         Moose 2.2014 ../../authors/id/E/ET/ETHER
-
-platforms           darwin
-maintainers         nomaintainer
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         Moose 2.2206 ../../authors/id/E/ET/ETHER
+revision            0
 license             {Artistic-1 GPL}
+maintainers         nomaintainer
 
 description         A postmodern object system for Perl 5
-long_description    ${description}
+long_description    {*}${description}
 
-checksums           rmd160  5b84e289fc5725dd7750d2148052951744fab461 \
-                    sha256  33c75c11143d1943be9be61bb37e134fe4b0a316fa4494a380a2e3dd416f116a \
-                    size    899094
+platforms           darwin
+
+checksums           rmd160  cb22be6f8e50de570a07156a016f2ec7ed6f4b82 \
+                    sha256  67972c4e2bc39fbda38518177af0e67bbbeb548562e4ec4b759a1a7a583e505b \
+                    size    906783
 
 if {${perl5.major} != ""} {
     depends_build-append \
@@ -23,7 +24,6 @@ if {${perl5.major} != ""} {
                     port:p${perl5.major}-cpan-meta-requirements \
                     port:p${perl5.major}-dbm-deep \
                     port:p${perl5.major}-declare-constraints-simple \
-                    port:p${perl5.major}-io-string \
                     port:p${perl5.major}-list-moreutils \
                     port:p${perl5.major}-module-refresh \
                     port:p${perl5.major}-super \
@@ -32,7 +32,7 @@ if {${perl5.major} != ""} {
                     port:p${perl5.major}-test-fatal \
                     port:p${perl5.major}-test-memory-cycle \
                     port:p${perl5.major}-test-output \
-                    port:p${perl5.major}-test-requires \
+                    port:p${perl5.major}-test-needs \
                     port:p${perl5.major}-test-warnings \
                     port:p${perl5.major}-type-tiny
 
@@ -53,7 +53,6 @@ if {${perl5.major} != ""} {
                     port:p${perl5.major}-package-stash-xs \
                     port:p${perl5.major}-params-util \
                     port:p${perl5.major}-sub-exporter \
-                    port:p${perl5.major}-sub-name \
                     port:p${perl5.major}-task-weaken \
                     port:p${perl5.major}-try-tiny
 }

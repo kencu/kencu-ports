@@ -3,18 +3,20 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         Archive-Tar 2.38 ../../authors/id/B/BI/BINGOS/
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         Archive-Tar 3.02 ../../authors/id/B/BI/BINGOS
+revision            0
 license             {Artistic-1 GPL}
 maintainers         nomaintainer
-description         Creation and in-memory manipulation of tar files
-long_description    ${description}
+description         Archive::Tar - module for manipulations of tar archives
+long_description    {*}${description}
 
-platforms           darwin
+platforms           {darwin any}
+supported_archs     noarch
 
-checksums           rmd160  09260dcf8fdce77598c27d2b028ed5aadb2afa5c \
-                    sha256  c5e48f53514288185830ced93bf3e16fbdf5cddce97ded1d1d8a9b0a21ea287b \
-                    size    64790
+checksums           rmd160  b1481ee42cc7e325e05b75e7d9be457b80586438 \
+                    sha256  81633c87f737846183d35c0f4c9d402da947a846b4881b30cce6d9ebe3c89d19 \
+                    size    66232
 
 if {${perl5.major} != ""} {
     depends_lib-append \
@@ -27,5 +29,4 @@ if {${perl5.major} != ""} {
     configure.pre_args-append -d
 
     perl5.link_binaries no
-    supported_archs     noarch
 }

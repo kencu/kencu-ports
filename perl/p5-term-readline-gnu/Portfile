@@ -3,23 +3,26 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         Term-ReadLine-Gnu 1.37
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         Term-ReadLine-Gnu 1.46
 revision            0
-
 license             {Artistic-1 GPL}
 maintainers         nomaintainer
 description         Perl extension for the GNU Readline/History library
 long_description    This is an implementation of Term::ReadLine using the \
                     GNU Readline/History Library.
+
 platforms           darwin
 
-checksums           rmd160  eb8f854fdae7e80b1555f01c13d9b3c2377f2d5c \
-                    sha256  3bd31a998a9c14748ee553aed3e6b888ec47ff57c07fc5beafb04a38a72f0078 \
-                    size    136761
+checksums           rmd160  e10b9f393c7d9b3d5a065496f868e0a36f985436 \
+                    sha256  b13832132e50366c34feac12ce82837c0a9db34ca530ae5d27db97cf9c964c7b \
+                    size    204896
 
 if {${perl5.major} != ""} {
     depends_lib-append \
+                    port:p${perl5.major}-extutils-makemaker \
                     port:readline \
                     port:ncurses
+
+    patchfiles      Makefile.PL.patch
 }

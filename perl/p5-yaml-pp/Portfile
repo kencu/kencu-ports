@@ -3,26 +3,27 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         YAML-PP 0.026 ../../authors/id/T/TI/TINITA
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         YAML-PP v0.37.0 ../../authors/id/T/TI/TINITA
+revision            0
 license             {Artistic-1 GPL}
 maintainers         {devans @dbevans} openmaintainer
 description         YAML::PP - YAML 1.2 processor
-long_description    ${description}
+long_description    {*}${description}
 
-platforms           darwin
+platforms           {darwin any}
+supported_archs     noarch
 
-checksums           rmd160  760c92af52947f610dde06ceb9afe82713e915af \
-                    sha256  4b858e671cf3e966ecc54408e8031740c2f28f87c294ee9679fb02e02d5a45eb \
-                    size    189891
+checksums           rmd160  e1455920ed1adad17e04c89b63efc86be1b98c09 \
+                    sha256  9c4cb4e8801a69b44440c0dbcc40e6b6f0646f2016a5f30877aadef6b28071ad \
+                    size    213421
 
 if {${perl5.major} != ""} {
     depends_build-append \
+                    port:p${perl5.major}-boolean \
                     port:p${perl5.major}-test-deep \
                     port:p${perl5.major}-test-warn
 
     depends_lib-append \
                     port:p${perl5.major}-getopt-long
-
-    supported_archs noarch
 }

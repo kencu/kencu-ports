@@ -1,0 +1,29 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         Graphics-TIFF 20
+revision            0
+license             {Artistic-1 GPL}
+maintainers         nomaintainer
+description         Graphics::TIFF - Perl extension for the libtiff library
+long_description    {*}${description}
+
+checksums           rmd160  b8484f5e1e4df895028e744f1507159ce0e1a0c2 \
+                    sha256  3e55cc209465e064019a215a52f05ff51040297d020393fe9fb3de27ad020e35 \
+                    size    43261
+
+if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-extutils-depends \
+                    port:p${perl5.major}-extutils-pkgconfig \
+                    port:p${perl5.major}-test-deep \
+                    port:p${perl5.major}-test-requires \
+                    port:p${perl5.major}-test-simple
+
+    depends_lib-append \
+                    port:p${perl5.major}-readonly \
+                    port:tiff
+}

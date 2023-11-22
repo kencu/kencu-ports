@@ -3,16 +3,27 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         Log-Any 1.708
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         Log-Any 1.717 ../../authors/id/P/PR/PREACTION
+revision            0
 license             {Artistic-1 GPL}
 maintainers         nomaintainer
 description         Bringing loggers and listeners together
-long_description    ${description}
+long_description    {*}${description}
 
-platforms           darwin
+platforms           {darwin any}
 supported_archs     noarch
 
-checksums           rmd160  1bfff7dcc7644a67226d6784f75cfcbf16e038ec \
-                    sha256  e1407759dc9462ab096d4ddc89feaac8abb341c5429e38cf6f7b8a996a35ecd9 \
-                    size    56166
+checksums           rmd160  005ade1700c6298e7db28cc321fd2ad3795f0c9d \
+                    sha256  56649da0f3900230c9e3d29252cb0a74806fb2ddebd22805acd7368959a65bca \
+                    size    62565
+
+if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-devel-stacktrace-extract \
+                    port:p${perl5.major}-scalar-list-utils \
+                    port:p${perl5.major}-test-simple
+
+    depends_lib-append \
+                    port:p${perl5.major}-devel-stacktrace
+}

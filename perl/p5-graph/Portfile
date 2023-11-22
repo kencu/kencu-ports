@@ -3,8 +3,9 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         Graph 0.9714
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         Graph 0.9727
+revision            0
 license             {Artistic-1 GPL}
 maintainers         nomaintainer
 description         Graph - graph data structures and algorithms
@@ -12,12 +13,12 @@ long_description    This is Graph, a Perl module for creating abstract data stru
                     and for doing various operations on those. This module is not for drawing or \
                     rendering any sort of graphics or images, business, visualization, or otherwise.
 
-platforms           darwin
+platforms           {darwin any}
+supported_archs     noarch
 
-checksums           rmd160  183945160ac56b197a9db7136e797e7f17ad8bf0 \
-                    sha256  c5ee8cb355a0e8d1ff91ac517825f67e9f903e798516c000133cba37ea051538 \
-                    size    146863
-
+checksums           rmd160  ad1d11d32ed2fea99d2a3fba5eec4161df569d2e \
+                    sha256  392a8916dc95131abe8c913dfcac7698484bf4866b42af5f7043c0062e742229 \
+                    size    147842
 
 if {${perl5.major} != ""} {
     depends_build-append \
@@ -25,7 +26,6 @@ if {${perl5.major} != ""} {
                     port:p${perl5.major}-test-simple
 
     depends_lib-append \
-                    port:p${perl5.major}-heap
-
-    supported_archs noarch
+                    port:p${perl5.major}-heap \
+                    port:p${perl5.major}-set-object
 }

@@ -3,23 +3,23 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         IO-Compress-Zstd 2.100
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         IO-Compress-Zstd 2.206 ../../authors/id/P/PM/PMQS
+revision            0
 license             {Artistic-1 GPL}
-maintainers         {devans @dbevans} openmaintainer
+maintainers         nomaintainer
 description         IO::Compress::Zstd - Read/Write zstd files/buffers
-long_description    ${description}
+long_description    {*}${description}
 
-platforms           darwin
+platforms           {darwin any}
+supported_archs     noarch
 
-checksums           rmd160  f8dc416887aecf6c2faf85eb0d4283615709ba76 \
-                    sha256  e8031a309e74e2557afd024e7c57e90cf15088a7d6a2b7bb8f4c74f8c504a2d0 \
-                    size    76554
+checksums           rmd160  749e08cd4e678441739ac11e7b257c713775b7e1 \
+                    sha256  c69b3b508c1e616fd388968f169b74cb299a15085297c671535edf18ab0e6d92 \
+                    size    77965
 
 if {${perl5.major} != ""} {
     depends_lib-append \
                     port:p${perl5.major}-compress-stream-zstd \
                     port:p${perl5.major}-io-compress
-
-    supported_archs noarch
 }

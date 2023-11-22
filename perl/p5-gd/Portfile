@@ -3,33 +3,35 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         GD 2.73
-revision            1
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         GD 2.78
+revision            0
 license             {Artistic-2 GPL}
 maintainers         nomaintainer
 description         Module interface to libgd
-long_description    ${description}
+long_description    {*}${description}
 
 platforms           darwin
 
-checksums           rmd160  40cd4c0a1250ee10e2f5d86654b615b976cdbae5 \
-                    sha256  491c9e73238522e2987e66725a20935f4268a3864202ecbaf4659a1691ba322b \
-                    size    261203
+checksums           rmd160  6c73f95854a4ef0f56690cf946a1f951cd5b2fac \
+                    sha256  6831054bf5424b4f5c23d3627d3d1484480f6f9c2c66632222915f2851be6ee4 \
+                    size    265773
 
 if {${perl5.major} != ""} {
     depends_build-append \
                     port:p${perl5.major}-extutils-pkgconfig \
-                    port:p${perl5.major}-test-fork
+                    port:p${perl5.major}-test-fork \
+                    port:p${perl5.major}-test-nowarnings \
+                    port:p${perl5.major}-test-simple
 
     depends_lib-append \
-                    port:p${perl5.major}-list-moreutils \
-                    port:p${perl5.major}-text-csv_xs \
+                    port:p${perl5.major}-math-complex \
                     port:fontconfig \
                     port:freetype \
                     port:gd2 \
                     path:include/turbojpeg.h:libjpeg-turbo \
                     port:libiconv \
+                    port:libheif \
                     port:libpng \
                     port:tiff \
                     port:webp

@@ -2,18 +2,22 @@
 
 PortSystem          1.0
 PortGroup           perl5 1.0
+PortGroup           select 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         App-cpanminus 1.7044
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         App-cpanminus 1.7047 ../../authors/id/M/MI/MIYAGAWA
+revision            1
 license             {Artistic-1 GPL}
 maintainers         nomaintainer
 description         get, unpack, build and install modules from CPAN
-long_description    ${description}
+long_description    {*}${description}
 
-platforms           darwin
-
-checksums           rmd160  13a4a1dea0ccc143702b407e3bcc40487033fc66 \
-                    sha256  9b60767fe40752ef7a9d3f13f19060a63389a5c23acc3e9827e19b75500f81f3 \
-                    size    316368
-
+platforms           {darwin any}
 supported_archs     noarch
+
+checksums           rmd160  998754d5b99c185490dcd2e8039a74d1f66b9fa0 \
+                    sha256  963e63c6e1a8725ff2f624e9086396ae150db51dd0a337c3781d09a994af05a5 \
+                    size    316779
+
+select.group        cpanm
+select.file         ${filespath}/cpanm-${perl5.major}

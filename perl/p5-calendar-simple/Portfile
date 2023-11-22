@@ -3,20 +3,20 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         Calendar-Simple v2.0.0
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         Calendar-Simple v2.0.3
 revision            0
 license             {Artistic-1 GPL}
-platforms           darwin
 maintainers         nomaintainer
+description         Perl extension to create simple calendar
+long_description    {*}${description}
+
+platforms           {darwin any}
 supported_archs     noarch
 
-description         Perl extension to create simple calendar
-long_description    ${description}
-
-checksums           rmd160  4e799bc84709999381156d7a566eb92b747ef983 \
-                    sha256  f8944ad6cdac7f420dca417c5f0d126b24b81411930dfc75c873493006c37e9a \
-                    size    7024
+checksums           rmd160  2f49b5e6b384e8ce7d125598f52206f29c1ba955 \
+                    sha256  63935c8d659975a57d7d54b041ceccdc022bddf14eb5dae1149b41917880ea21 \
+                    size    7302
 
 if {${perl5.major} != ""} {
     depends_lib-append \

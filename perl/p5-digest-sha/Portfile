@@ -3,8 +3,9 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         Digest-SHA 6.02
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         Digest-SHA 6.04
+revision            0
 license             {Artistic-1 GPL}
 maintainers         nomaintainer
 description         Perl module for SHA-1 through SHA-512
@@ -15,8 +16,8 @@ long_description    Digest::SHA is a complete implementation of the NIST Secure 
 
 platforms           darwin
 
-checksums           rmd160  5983f858d35d79d1148da1cce7e13bcb13f2a886 \
-                    sha256  2c66a6bea3eac9c210315ac7bf0af3e2e35679c4b65d8bae1ad4be3a58039b06 \
-                    size    46484
+checksums           rmd160  6ceaa5e13ae3cf0c738a5bbcd48358ce0a73f299 \
+                    sha256  ee91f8f7db894ee7c6ee003daac10a99056c4948a674ef46acdbb63c81a4abeb \
+                    size    46428
 
 perl5.link_binaries no

@@ -3,25 +3,22 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         DBIx-Connector 0.56
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         DBIx-Connector 0.59
+revision            0
 license             {Artistic-1 GPL}
 maintainers         nomaintainer
 description         DBIx::Connector - Fast, safe DBI connection and transaction management
-long_description    ${description}
+long_description    {*}${description}
 
-platforms           darwin
+platforms           {darwin any}
+supported_archs     noarch
 
-checksums           rmd160  c9db90f06782bfaf6c8f76022723ab31623a9216 \
-                    sha256  57c08d2c1951486cb95cfb83f518f462a3dbf20d353f3eee4f46af44fa19c359
+checksums           rmd160  cd1bf91873be31fda840317be57bf1264825e9f3 \
+                    sha256  782994f13f49555840538494f8406b0bf2558f533ccda86c8d2b95e2301087f4 \
+                    size    38205
 
 if {${perl5.major} != ""} {
-    depends_build-append \
-                    port:p${perl5.major}-test-mockmodule
-
     depends_lib-append \
                     port:p${perl5.major}-dbi
-
-    perl5.use_module_build
-    supported_archs noarch
 }

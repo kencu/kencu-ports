@@ -3,18 +3,18 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         Convert-ASN1 0.31
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         Convert-ASN1 0.34
+revision            0
 license             {Artistic-1 GPL}
 maintainers         nomaintainer
 description         ASN1 Encode / Decode Library
 long_description    Encodes and decodes ASN.1 data structures using \
                     BER/DER rules
 
-platforms           darwin
-
-checksums           rmd160  40f8afcb54256552651c1c980abb28e830866a08 \
-                    sha256  6fe4c1ba744c3a8212bf2c9b2703d93530acc153435cf2f93633540b439fbbeb \
-                    size    79188
-
+platforms           {darwin any}
 supported_archs     noarch
+
+checksums           rmd160  11ac8015ab52801c5fed861f51366fd987ae164c \
+                    sha256  a628d7c9d390568fb76359975fa03f626ce57f10dc17980e8e3587d7713e4ee7 \
+                    size    79762

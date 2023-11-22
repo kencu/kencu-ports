@@ -3,8 +3,8 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         Compress-Raw-Bzip2 2.101 ../../authors/id/P/PM/PMQS
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         Compress-Raw-Bzip2 2.206 ../../authors/id/P/PM/PMQS
 revision            0
 license             {Artistic-1 GPL}
 maintainers         nomaintainer
@@ -13,14 +13,13 @@ long_description    Compress::Raw::Bzip2 provides an interface to the \
                     in-memory compression/uncompression functions from \
                     the bzip2 compression library for the modules \
                     IO::Compress::Bzip2 and IO::Compress::Bunzip2.
-platforms           darwin
 
-checksums           rmd160  8231976c3df4d8b9f91f9cf53845beeb51de023d \
-                    sha256  0c9b134fd388290e30e90fc9f63900966127f98e76b054ecd481eb3b5500b8d8 \
-                    size    138718
+checksums           rmd160  732ae0418d4ba6f7d776a3e70ce466294e6c64e7 \
+                    sha256  212b81db1c0ae822d19928619a603bd108cb5d5c4700fc67dc7cb169e0cc6525 \
+                    size    139663
 
 if {${perl5.major} ne ""} {
-    depends_test-append \
+    depends_build-append \
                     port:p${perl5.major}-test-cpan-meta \
                     port:p${perl5.major}-test-cpan-meta-json \
                     port:p${perl5.major}-test-pod

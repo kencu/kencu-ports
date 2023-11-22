@@ -3,12 +3,14 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         Moo 2.004004 ../../authors/id/H/HA/HAARG
-
-platforms           darwin
-maintainers         nomaintainer
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         Moo 2.005005 ../../authors/id/H/HA/HAARG
+revision            0
 license             {Artistic-1 GPL}
+maintainers         nomaintainer
+
+platforms           {darwin any}
+supported_archs     noarch
 
 description         Moo - Minimalist Object Orientation (with Moose compatibility)
 
@@ -25,22 +27,19 @@ long_description    This module is an extremely light-weight subset of Moose \
                     instead of provide full interoperability via the metaclass \
                     inflation capabilities described in \"MOO AND MOOSE\".
 
-checksums           rmd160  34f84d148355b6a9686f0a8851b41663e8714f95 \
-                    sha256  714b77b115788708c6d8ab6f18eea173f8109d397aecd34e32cc71a0ffcf2246 \
-                    size    108386
+checksums           rmd160  5c2203e4d3791570b01f9d0a60fbe3ad5602a756 \
+                    sha256  fb5a2952649faed07373f220b78004a9c6aba387739133740c1770e9b1f4b108 \
+                    size    108583
 
 if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-test-simple
+
     depends_lib-append \
                     port:p${perl5.major}-class-method-modifiers \
                     port:p${perl5.major}-class-xsaccessor \
                     port:p${perl5.major}-role-tiny \
                     port:p${perl5.major}-scalar-list-utils \
                     port:p${perl5.major}-strictures \
-                    port:p${perl5.major}-sub-name \
                     port:p${perl5.major}-sub-quote
-    
-    depends_build-append \
-                    port:p${perl5.major}-test-fatal
-
-    supported_archs noarch
 }

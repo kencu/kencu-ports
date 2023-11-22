@@ -3,23 +3,23 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         IPC-Run 20200505.0
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         IPC-Run 20231003.0
+revision            0
 maintainers         nomaintainer
 license             {Artistic-1 GPL}
 description         system() and background procs w/ piping, redirs, ptys
-long_description    ${description}
+long_description    {*}${description}
 
-platforms           darwin
+platforms           {darwin any}
+supported_archs     noarch
 
-checksums           rmd160  f783b1da6a0fcf570588e0aeaad7adb0e574616a \
-                    sha256  816ebf217fa0df99c583d73c0acc6ced78ac773787c664c75cbf140bb7e4c901 \
-                    size    127505
+checksums           rmd160  ec0b57cd3f0003f821f9f230e07f6eaaf6df4b38 \
+                    sha256  eb25bbdf5913d291797ef1bfe998f15130b455d3ed02aacde6856f0b25e4fe57 \
+                    size    135491
 
 if {${perl5.major} != ""} {
     depends_lib-append \
                     port:p${perl5.major}-io-tty \
                     port:p${perl5.major}-readonly
-
-    supported_archs noarch
 }

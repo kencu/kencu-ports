@@ -3,18 +3,19 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         DB_File 1.855 ../../authors/id/P/PM/PMQS/
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         DB_File 1.859
+revision            0
 license             {Artistic-1 GPL}
 maintainers         nomaintainer
 description         DB_File - Perl5 access to Berkeley DB version 1.x
-long_description    ${description}
+long_description    {*}${description}
 
 platforms           darwin
 
-checksums           rmd160  0c63f3c072bc4227047cebfa362525e2155285d1 \
-                    sha256  d9ffe2a25be6cdfee7a34d64235cdc899e99ba8b3fb8de8a9e7f4af20e4ca960 \
-                    size    146016
+checksums           rmd160  13ecee5eecef0f9f99cc729634c18ef0c1d955ce \
+                    sha256  5674e0d2cd0b060c4d1253670ea022c64d842a55257f9eb8edb19c0f53e2565c \
+                    size    214533
 
 if {${perl5.major} != ""} {
     depends_lib-append \

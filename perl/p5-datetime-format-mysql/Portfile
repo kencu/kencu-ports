@@ -3,16 +3,20 @@
 PortSystem              1.0
 PortGroup               perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup             DateTime-Format-MySQL 0.06
-platforms               darwin
+perl5.branches          5.28 5.30 5.32 5.34
+perl5.setup             DateTime-Format-MySQL 0.08
+revision                0
 license                 {Artistic-1 GPL}
 maintainers             fpassera.com:dev openmaintainer
 description             Parse and format MySQL dates and times
-long_description        ${description}
+long_description        {*}${description}
 
-checksums               rmd160  7678356aa18dac1e9155f4281e19afca307459b8 \
-                        sha256  9818d4162ec9cec6139ba97b39e0489d217581a1d43fbb713f3beffe80f98f1d
+platforms               {darwin any}
+supported_archs         noarch
+
+checksums               rmd160  e4a87874081d8c9e194688cde80610e5f5bf08da \
+                        sha256  19cb70e98584655e354d2d6a8e71cc5ca902dddc3ac44416712f9163d122b9e8 \
+                        size    13951
 
 if {${perl5.major} != ""} {
     depends_build-append \
@@ -23,5 +27,5 @@ if {${perl5.major} != ""} {
                         port:p${perl5.major}-datetime \
                         port:p${perl5.major}-datetime-format-builder
 
-    supported_archs     noarch
+    perl5.use_module_build
 }

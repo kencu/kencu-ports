@@ -3,18 +3,19 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         Math-BigInt-FastCalc 0.5009
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         Math-BigInt-FastCalc 0.5015
+revision            0
 license             {Artistic-1 GPL}
 maintainers         {devans @dbevans} openmaintainer
 description         Math::BigInt::FastCalc - Math::BigInt::Calc with some XS for more speed
-long_description    ${description}
+long_description    {*}${description}
 
 platforms           darwin
 
-checksums           rmd160  f15f0c9d62c04f14a5fbffc3b605f982140f4fe9 \
-                    sha256  b4eeecba81a75250c04f0e92c709b3f628ac12ec99edee97978e0db966a64330 \
-                    size    2449837
+checksums           rmd160  167551eb468ac889f79b12b8f16a971834060098 \
+                    sha256  5cfb0a205124c1e09694b2bbcb067cf0f197b9afb90e8e85fc7361164fc6285f \
+                    size    2600846
 
 if {${perl5.major} != ""} {
     depends_lib-append \

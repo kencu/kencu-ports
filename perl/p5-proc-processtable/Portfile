@@ -3,15 +3,16 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         Proc-ProcessTable 0.59
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         Proc-ProcessTable 0.636
+revision            0
 license             Artistic-2
 maintainers         {devans @dbevans} openmaintainer
 description         Proc::ProcessTable - Perl extension to access the unix process table
-long_description    ${description}
+long_description    {*}${description}
 
 platforms           darwin
 
-checksums           rmd160  ebc48b79b79f7ae060995bc22c8b745fffe5dc37 \
-                    sha256  f8cc5054d78c35a0ce39fb75430b4ef402e2a99013d2ec37e7997f316594606c \
-                    size    75949
+checksums           rmd160  54b7a226dc8bf3df95770e730d3b3f84148c1228 \
+                    sha256  944224ffb00fc1ef35069633770a0afda8623b5c7532d1e4ab48a9df394890fd \
+                    size    95667

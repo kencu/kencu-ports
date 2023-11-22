@@ -3,25 +3,31 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         URI 5.09
-revision            0
-platforms           darwin
-maintainers         nomaintainer
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         URI 5.21
+revision            1
 license             {Artistic-1 GPL}
+maintainers         nomaintainer
+
+platforms           {darwin any}
 supported_archs     noarch
 
 description         Uniform Resource Identifiers (absolute and relative)
-
 long_description    This package contains the URI.pm module with friends. The module \
                     implements the URI class. Objects of this class represent Uniform Resource \
                     Identifier references as specified in RFC 2396 and updated by RFC 2732.
 
-checksums           rmd160  6c354775323c6bde2661009659ca73330d1fc11a \
-                    sha256  03e63ada499d2645c435a57551f041f3943970492baa3b3338246dab6f1fae0a \
-                    size    108897
+checksums           rmd160  424aafc25fd4a8d4c26005b91cf3147ca4a3c20e \
+                    sha256  96265860cd61bde16e8415dcfbf108056de162caa0ac37f81eb695c9d2e0ab77 \
+                    size    119928
 
 if {${perl5.major} != ""} {
     depends_build-append \
-                     port:p${perl5.major}-test-needs
+                     port:p${perl5.major}-test-fatal \
+                     port:p${perl5.major}-test-needs \
+                     port:p${perl5.major}-test-simple \
+                     port:p${perl5.major}-test-warnings
+
+    depends_lib-append \
+                     port:p${perl5.major}-regexp-ipv6
 }

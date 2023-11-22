@@ -3,8 +3,9 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         Config-Tiny 2.24
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         Config-Tiny 2.30
+revision            0
 license             {Artistic-1 GPL}
 maintainers         nomaintainer
 description         Read/Write .ini style files with as little code as possible
@@ -21,12 +22,11 @@ long_description    "Config::Tiny" is a perl class to read and write .ini style 
                     does not preserve your comments, whitespace, or the order of your \
                     config file.
 
-platforms           darwin
+platforms           {darwin any}
+supported_archs     noarch
 
 extract.suffix      .tgz
 
-checksums           rmd160  39bc7cb9010f5a64d19c4088c8c5e484907463a0 \
-                    sha256  1064948e4bc57e86e318dbc8791c53ca5b9d95b958cc474367c3277981135232 \
-                    size    24329
-
-supported_archs     noarch
+checksums           rmd160  a745e8421b489ca2bc7f403722d9df77eb3b4ac2 \
+                    sha256  b2f7345619b3b8e636dd39ea010731c9dc2bfb8f022bcbd86ae6ad17866e110d \
+                    size    26973

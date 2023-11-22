@@ -3,29 +3,25 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         Test-Compile v2.4.1
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         Test-Compile v3.3.1 ../../authors/id/E/EG/EGILES
+revision            0
 maintainers         nomaintainer
 license             {Artistic-1 GPL}
-
 description         Check whether Perl files compile correctly
-long_description    ${description}
+long_description    {*}${description}
 
-checksums           rmd160  3b17f4a7cccfcc185e260b26b402cc80ea4ef04d \
-                    sha256  56a7a3459db5de0f92419029cf1b4d51c44dd02d4690cff3c4eedf666f6d8d46 \
-                    size    18425
+platforms           {darwin any}
+supported_archs     noarch
 
-platforms           darwin
+checksums           rmd160  bb73aa6c24aed7f23e843136884521618a587ca1 \
+                    sha256  808450f3d45e7f419aa4d668e298287689e9ea36388693bff180d7870ce3e621 \
+                    size    20205
 
 if {${perl5.major} != ""} {
     depends_build-append \
-                    port:p${perl5.major}-test-warnings
-
-    depends_lib-append \
-                    port:p${perl5.major}-devel-checkos \
-                    port:p${perl5.major}-universal-require \
+                    port:p${perl5.major}-test-warnings \
                     port:p${perl5.major}-version
 
     perl5.use_module_build
-    supported_archs noarch
 }

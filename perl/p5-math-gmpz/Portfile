@@ -3,19 +3,24 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         Math-GMPz 0.48
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         Math-GMPz 0.61
+revision            0
 license             {Artistic-1 GPL}
 maintainers         nomaintainer
 description         Math::GMPz - perl interface to the GMP library's integer (mpz) functions.
-long_description    ${description}
+long_description    {*}${description}
 
 platforms           darwin
 
-checksums           rmd160  aa2f85beffaf590621aff9e18e04d01c9e701eed \
-                    sha256  f4459ed32fb9bb793e2504fd442c515fd468a4a34d2a1f98e46ca41e275c73cb
+checksums           rmd160  2a50aa73ac2f429922bbc318beb1659436ff9ca0 \
+                    sha256  21b3e5ae04bef4260421a5845a7d042c7cd45be2fc4a9cd62d9ff09760110121 \
+                    size    108309
 
 if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-test-warn
+
     depends_lib-append \
                     port:gmp
 }

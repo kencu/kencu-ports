@@ -3,26 +3,34 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         Finance-Quote 1.51
-revision            1
-categories          perl
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         Finance-Quote 1.58 ../../authors/id/B/BP/BPSCHUCK
+revision            0
+license             GPL-2+
 maintainers         nomaintainer
 description         Perl module that allows for grabbing stock quotes.
 long_description    Finance::Quote is a perl module which can be used to \
                     obtain information from a variety of sources, including markets in \
                     Australia, USA, Canada, Europe, and a number of managed funds.
                 
-platforms           darwin
-license             GPL-2+
+platforms           {darwin any}
+supported_archs     noarch
 
-checksums           rmd160  2fe8a8dc9ae75eb265f1a0bd985f18e40e8fe524 \
-                    sha256  f441edd47772adfd1880af74fc87228bd704e273954c0fadc7006844254a8956 \
-                    size    231156
+checksums           rmd160  1539b485b3ecc14be2dac7f6c6391f414ce35f2b \
+                    sha256  8cddea0d3809a36695cee69a2862beaacd615357febafdb72641a77ab4676b80 \
+                    size    262288
 
 if {${perl5.major} != ""} {
+    depends_build-append  \
+                    port:p${perl5.major}-date-manip \
+                    port:p${perl5.major}-date-range \
+                    port:p${perl5.major}-datetime-format-iso8601 \
+                    port:p${perl5.major}-test-perl-critic \
+                    port:p${perl5.major}-test-pod \
+                    port:p${perl5.major}-test-pod-coverage \
+                    port:p${perl5.major}-test-simple
+
     depends_lib-append  \
-                    port:p${perl5.major}-cgi \
                     port:p${perl5.major}-datetime \
                     port:p${perl5.major}-datetime-format-strptime \
                     port:p${perl5.major}-encode \
@@ -30,19 +38,20 @@ if {${perl5.major} != ""} {
                     port:p${perl5.major}-html-tableextract \
                     port:p${perl5.major}-html-tokeparser-simple \
                     port:p${perl5.major}-html-tree \
+                    port:p${perl5.major}-http-cookiejar \
                     port:p${perl5.major}-http-cookies \
                     port:p${perl5.major}-http-message \
+                    port:p${perl5.major}-io-string \
                     port:p${perl5.major}-json \
-                    port:p${perl5.major}-json-parse \
                     port:p${perl5.major}-libwww-perl \
                     port:p${perl5.major}-lwp-protocol-https \
                     port:p${perl5.major}-mozilla-ca \
+                    port:p${perl5.major}-readonly \
                     port:p${perl5.major}-spreadsheet-xlsx \
                     port:p${perl5.major}-string-util \
                     port:p${perl5.major}-text-template \
                     port:p${perl5.major}-time-piece \
-                    port:p${perl5.major}-uri \
-                    port:p${perl5.major}-web-scraper
-
-    supported_archs noarch
+                    port:p${perl5.major}-try-tiny \
+                    port:p${perl5.major}-web-scraper \
+                    port:p${perl5.major}-xml-libxml
 }

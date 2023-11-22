@@ -3,27 +3,25 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         File-Listing 6.14
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         File-Listing 6.16
 revision            0
-platforms           darwin
-maintainers         nomaintainer
 license             {Artistic-1 GPL}
+maintainers         nomaintainer
+description         File::Listing - parse directory listing
+long_description    {*}${description}
+
+platforms           {darwin any}
 supported_archs     noarch
 
-description         File::Listing - parse directory listing
-
-long_description    ${description}
-
-checksums           rmd160  b3e355d4776870131cd95854adfa0db60af164a2 \
-                    sha256  15b3a4871e23164a36f226381b74d450af41f12cc94985f592a669fcac7b48ff \
-                    size    80562
+checksums           rmd160  f136b8d337847773e4d0c763c10fdac920fe960c \
+                    sha256  189b3a13fc0a1ba412b9d9ec5901e9e5e444cc746b9f0156d4399370d33655c6 \
+                    size    78506
 
 if {${perl5.major} != ""} {
     depends_build-append \
                     port:p${perl5.major}-test-simple
 
     depends_lib-append \
-                    port:p${perl5.major}-http-date \
-                    port:p${perl5.major}-time-local
+                    port:p${perl5.major}-http-date
 }
