@@ -28,7 +28,7 @@ if {![variant_isset proj6] && \
     ![variant_isset proj7] && \
     ![variant_isset proj8] && \
     ![variant_isset proj9]} {
-    default_variants +proj9
+    default_variants +proj8
 }
 
 if {${perl5.major} != ""} {
