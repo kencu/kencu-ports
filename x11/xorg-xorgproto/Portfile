@@ -3,13 +3,13 @@
 PortSystem          1.0
 
 name                xorg-xorgproto
-version             2021.5
+version             2023.2
 epoch               1
 revision            0
 
-checksums           rmd160  75f428d273aa51906346736a86d0e338b638e00b \
-                    sha256  aa2f663b8dbd632960b24f7477aa07d901210057f6ab1a1db5158732569ca015 \
-                    size    870473
+checksums           rmd160  7b21eba335897d8c3ff9d344f1bc7a05c9aa1f01 \
+                    sha256  b61fbc7db82b14ce2dc705ab590efc32b9ad800037113d1973811781d5118c2c \
+                    size    759040
 
 categories          x11 devel
 license             X11
@@ -26,7 +26,7 @@ master_sites        xorg:individual/proto/
 
 distname            xorgproto-${version}
 
-use_bzip2           yes
+use_xz              yes
 
 configure.args      --enable-legacy \
                     --without-xmlto \
@@ -42,19 +42,18 @@ post-destroot {
 # Depending on ghostscript for the PDF documentation creates a dependency
 # loop, so you may want to install first without the docs variant
 variant docs description "Install extra documentation" {
-    depends_build-append \
-        port:fop \
-        port:xmlto \
-        port:xorg-sgml-doctools
+    depends_build-append   port:fop \
+                           port:xmlto \
+                           port:xorg-sgml-doctools
 
-    configure.args-replace \
-        --without-xmlto --with-xmlto \
-        --without-fop --with-fop \
-        --disable-specs --enable-specs
+    depends_skip_archcheck-append xmlto
 
-    configure.env-append \
-        XMLTO=${prefix}/bin/xmlto \
-        FOP=${prefix}/bin/fop
+    configure.args-replace --without-xmlto --with-xmlto \
+                           --without-fop   --with-fop \
+                           --disable-specs --enable-specs
+
+    configure.env-append   XMLTO=${prefix}/bin/xmlto \
+                           FOP=${prefix}/bin/fop
 }
 
 livecheck.type  regex
