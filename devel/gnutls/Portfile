@@ -9,12 +9,11 @@ PortGroup       legacysupport 1.0
 PortGroup       muniversal 1.0
 
 name            gnutls
-version         3.7.10
+version         3.8.2
 revision        0
 categories      devel security
-# yes, some of the libs are GPL only
 license         LGPL-2.1+ GPL-3+
-maintainers     {mps @Schamschula} openmaintainer
+maintainers     nomaintainer
 description     GNU Transport Layer Security Library
 long_description \
                 GnuTLS is a portable ANSI C based library which implements the TLS 1.2, \
@@ -23,28 +22,11 @@ long_description \
                 Lesser General Public License (LGPL).
 homepage        http://www.gnutls.org/
 
-checksums       rmd160  e221dc4200d30b8644cfe1f2c8d5e7bccac8aca0 \
-                sha256  b6e4e8bac3a950a3a1b7bdb0904979d4ab420a81e74de8636dd50b467d36f5a9 \
-                size    6407852
-
-subport ${name} {
-    conflicts   ${name}-devel
-
-    patchfiles      patch-lib-system-certs.c.old.diff
-}
-
-subport ${name}-devel {
-    conflicts   ${name}
-    
-    version     3.8.2
-    revision    0
-
-    checksums   rmd160  94154bab53fef5b66365cb8ebd9caa616e3ed741 \
+checksums       rmd160  94154bab53fef5b66365cb8ebd9caa616e3ed741 \
                 sha256  e765e5016ffa9b9dd243e363a0460d577074444ee2491267db2e96c9c2adef77 \
                 size    6456540
 
-    patchfiles      patch-lib-system-certs.c.diff
-}
+patchfiles      patch-lib-system-certs.c.diff
 
 set branch      [join [lrange [split ${version} .] 0 1] .]
 set major       [join [lrange [split ${version} .] 0 2] .]
@@ -83,6 +65,11 @@ post-patch {
     reinplace {/^#/d} {*}[glob ${worksrcpath}/lib/accelerated/x86/macosx/*.s]
 }
 
+compiler.thread_local_storage yes
+
+# Undefined symbols for architecture x86_64: "___get_cpuid_count"
+compiler.blacklist-append {clang < 1000} {macports-clang-3.[0-9]} {macports-clang-[4-6].0}
+
 # Note: configure script detects zstd, but flags it as missing anyway
 configure.args-append \
                 --disable-dependency-tracking \
@@ -103,11 +90,6 @@ configure.args-append \
 
 # https://trac.macports.org/wiki/WimplicitFunctionDeclaration#strchr
 configure.checks.implicit_function_declaration.whitelist-append strchr
-
-compiler.thread_local_storage yes
-
-# Undefined symbols for architecture x86_64: "___get_cpuid_count"
-compiler.blacklist-append {clang < 1000} {macports-clang-3.[0-9]} {macports-clang-[4-6].0}
 
 if {${os.platform} eq "darwin" && ${os.major} < 10 && [string match *clang* ${configure.compiler}] } {
     depends_build-append    port:cctools
