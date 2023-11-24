@@ -4,6 +4,7 @@ PortSystem          1.0
 
 name                xorg-xtrans
 version             1.5.0
+revision            0
 
 categories          x11 devel
 license             X11
@@ -42,8 +43,8 @@ variant docs description "Install extra documentation" {
                            --without-fop   --with-fop \
                            --disable-docs  --enable-docs
 
-    configure.env-append  XMLTO=${prefix}/bin/xmlto \
-                          FOP=${prefix}/bin/fop
+    configure.env-append   XMLTO=${prefix}/bin/xmlto \
+                           FOP=${prefix}/bin/fop
 }
 
 livecheck.type      regex
