@@ -6,7 +6,7 @@ PortGroup select 1.0
 name                python310
 
 # Remember to keep py310-tkinter and py310-gdbm's versions sync'd with this
-version             3.10.7
+version             3.10.13
 
 set branch          [join [lrange [split ${version} .] 0 1] .]
 categories          lang
@@ -22,16 +22,17 @@ master_sites        ${homepage}ftp/python/${version}/
 
 distname            Python-${version}
 use_xz              yes
-checksums           md5 b8094f007b3a835ca3be6bdf8116cccc \
-                    rmd160 15cea01c9fa3fe2f60ac6f7ba67b6c04072f5c72 \
-                    sha256 6eed8415b7516fb2f260906db5d48dd4c06acc0cb24a7d6cc15296a604dcdc48
+checksums           md5 8847dc6458d1431d0ae0f55942deeb89 \
+                    rmd160 5abf603950b064a64882870760ca86af57bd176f \
+                    sha256 5c88848668640d3e152b35b4536ef1c23b2ca4bd2c957ef1ecbb053f571dd3f6
 
 patchfiles          patch-setup.py.diff \
                     patch-Lib-cgi.py.diff \
                     patch-configure.diff \
                     patch-Lib-ctypes-macholib-dyld.py.diff \
                     patch-configure-xcode4bug.diff \
-                    sysconfig.py.patch
+                    sysconfig.py.patch \
+                    libedit-types.patch
 
 if {${os.platform} eq "darwin" && ${os.major} <= 10} {
     # work around no copyfile and/or pthread_threadid_np on older systems
