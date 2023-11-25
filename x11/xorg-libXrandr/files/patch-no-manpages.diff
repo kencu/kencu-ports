@@ -1,0 +1,11 @@
+--- Makefile.in.orig	2023-11-24 19:56:58.000000000 -0800
++++ Makefile.in	2023-11-24 19:57:10.000000000 -0800
+@@ -403,7 +403,7 @@
+ top_build_prefix = @top_build_prefix@
+ top_builddir = @top_builddir@
+ top_srcdir = @top_srcdir@
+-SUBDIRS = src man
++SUBDIRS = src
+ pkgconfigdir = $(libdir)/pkgconfig
+ pkgconfig_DATA = xrandr.pc
+ MAINTAINERCLEANFILES = ChangeLog INSTALL
