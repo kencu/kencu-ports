@@ -37,12 +37,6 @@ if {${perl5.major} != ""} {
                     port:p${perl5.major}-perl-ostype \
                     port:p${perl5.major}-podlators \
                     port:p${perl5.major}-software-license
-
-    perl5.use_module_build
-
-    # Don't depend on ourself.
-    depends_build-delete \
-                    port:p${perl5.major}-module-build
 }
 
 perl5.link_binaries no
