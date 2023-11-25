@@ -1,0 +1,11 @@
+--- Makefile.in.orig	2023-11-24 19:31:27.000000000 -0800
++++ Makefile.in	2023-11-24 19:31:38.000000000 -0800
+@@ -423,7 +423,7 @@
+ top_build_prefix = @top_build_prefix@
+ top_builddir = @top_builddir@
+ top_srcdir = @top_srcdir@
+-SUBDIRS = util src include man specs test
++SUBDIRS = util src include specs test
+ ACLOCAL_AMFLAGS = -I m4
+ pkgconfigdir = $(libdir)/pkgconfig
+ pkgconfig_DATA = xt.pc
