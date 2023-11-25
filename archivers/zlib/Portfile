@@ -41,7 +41,7 @@ if {${os.platform} eq "darwin" && ${os.major} < 11 && ${configure.cxx_stdlib} eq
 configure.universal_args
 test.run                yes
 
-if {${name} eq "zlib"} {
+if {${name} eq ${subport}} {
     revision            0
 
     post-destroot {
