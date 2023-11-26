@@ -27,7 +27,7 @@ checksums           rmd160  13b6fbc3fa8ad7fb7948789dd748d91be95f49c4 \
                     sha256  1c6b67688e7a231c6c1da09b7a6a2210745c3f2507bdda70e2639faedbf68977 \
                     size    4611603
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     livecheck.type      none

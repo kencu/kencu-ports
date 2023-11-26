@@ -11,7 +11,7 @@ python.rootname     pygacode
 
 compilers.setup     default_fortran
 
-python.versions     37 38
+python.versions     27 37 38 39 310 311 312
 
 categories-append   science
 platforms           darwin

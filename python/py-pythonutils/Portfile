@@ -35,7 +35,7 @@ checksums           md5     f4d2fdd2a2e989d6ce02407be8a5932f \
                     rmd160  de19e74217a9c278f99447b05436afe1f99b1d03
 use_zip             yes
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 deprecated.upstream_support no
 livecheck.type      none

@@ -9,7 +9,7 @@ name                py-redmine
 
 
 maintainers         {danchr @danchr} openmaintainer
-python.versions     38
+python.versions     27 37 38 39 310 311 312
 
 description         A library for communicating with a Redmine project management application
 long_description    ${description}

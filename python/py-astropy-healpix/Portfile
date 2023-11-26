@@ -10,7 +10,7 @@ revision            1
 
 distname            astropy_healpix-${version}
 categories-append   science
-python.versions     37 38 39
+python.versions     27 37 38 39 310 311 312
 license             BSD
 platforms           darwin
 maintainers         {aronnax @lpsinger} openmaintainer

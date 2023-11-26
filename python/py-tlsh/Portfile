@@ -24,7 +24,7 @@ checksums           rmd160  90f6cb3e093bac0e3070d7032a48aaf9632463b6 \
 dist_subdir         tlsh
 worksrcdir          ${distname}/py_ext
 
-python.versions     37 38
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_build-append \

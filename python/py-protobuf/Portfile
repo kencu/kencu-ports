@@ -43,7 +43,7 @@ checksums           sha1    6421ee86d8fb4e39f21f56991daa892a3e8d314b \
                     rmd160  654acfce84b4ba738a0332d0c967d1399ff6e4c2 \
                     size    2021416
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 livecheck.type      none
 

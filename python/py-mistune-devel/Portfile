@@ -14,7 +14,7 @@ license             BSD
 maintainers         nomaintainer
 conflicts           py-${real_name}
 
-python.versions     38
+python.versions     27 37 38 39 310 311 312
 
 description         The fastest markdown parser in pure Python.
 long_description    ${description}

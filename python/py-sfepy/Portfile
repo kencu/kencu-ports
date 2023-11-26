@@ -28,7 +28,7 @@ worksrcdir              ${distname}
 checksums               rmd160  fd925d8866ebcae5d5d5a92a44edb6206f9e1d3a \
                         sha256  42b10f3c4b32ff811becef88cfeb76519f492a34d905ee83ca8b91d99357f637
 
-python.versions         27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_build-append \

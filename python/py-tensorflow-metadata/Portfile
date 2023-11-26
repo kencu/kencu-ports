@@ -23,7 +23,7 @@ checksums           rmd160  0a2f521f254c62a0d56547c997b606300210f2f8 \
                     sha256  414085638e580b5c5e2fab68d9f4c2e6dfaf1a51d03b027a30af41cf91e939f1 \
                     size    36167
 
-python.versions     37 38 39
+python.versions     27 37 38 39 310 311 312
 
 proc python_listify {tcl_list} {
     set python_list {}

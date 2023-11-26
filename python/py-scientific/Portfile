@@ -14,7 +14,7 @@ platforms           darwin
 maintainers         nomaintainer
 description         Scientific Python
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 long_description    ScientificPython is a collection of Python modules that \
                     are useful for scientific computing.

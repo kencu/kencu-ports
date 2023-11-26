@@ -25,7 +25,7 @@ checksums           md5     0763afa15a67738af94fb589ab5e8b7a \
                     rmd160  74c983e0fe49930bb83d666fd668c83e2a97f2e6 \
                     sha256  b58f6700910e9a188d0027bae4170df23bd1759578c6184cf6a8a32aea800c5f
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_lib     port:py${python.version}-numpy \

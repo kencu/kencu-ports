@@ -9,7 +9,7 @@ version                 6
 # Needed for change to meta-versioning
 epoch                   1
 name                    py-clang
-python.versions         27 37 38 39
+python.versions     27 37 38 39 310 311 312
 platforms               darwin
 license                 NCSA
 maintainers             {eborisch @eborisch} \

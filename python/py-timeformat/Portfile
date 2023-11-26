@@ -30,7 +30,7 @@ checksums           rmd160  dfcdd53ecb4082a5a51a259a1632c77e8df73286 \
 
 deprecated.upstream_support no
 livecheck.type      none
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     post-destroot {

@@ -20,7 +20,7 @@ checksums           rmd160  a8446672796fd882d44c7bb670f0a35e08a974b9 \
                     sha256  aed8ae2b1b20e41b6027c224b4f1150ef48d29b4e749c549b2cb80577e113548 \
                     size    46042
 
-python.versions     27 35 36
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_lib-append  port:tokyocabinet

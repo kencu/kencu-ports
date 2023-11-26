@@ -19,7 +19,7 @@ checksums               md5 8816fca8ba521e05d18dde3e1a11b0bd \
                         rmd160 472669a7a3714aae63710fd9bc5322b4b5214944
 worksrcdir              psyco-${version}
 
-python.versions         26
+python.versions     27 37 38 39 310 311 312
 
 if {$subport ne $name} {
     extract.post_args       "| tar -xf - --exclude '.cvsignore'"

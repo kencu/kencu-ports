@@ -19,7 +19,7 @@ distname            rtmidi-python-${version}
 checksums           rmd160  246334f69cf21659926f61cb1c61894b050beae0 \
                     sha256  a092ab3d9b45d43a342a602a60bfd94381dce39d8120f4d06152d7755d57ecf2
 
-python.versions     27 35 36
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_build-append \

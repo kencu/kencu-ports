@@ -6,7 +6,7 @@ PortGroup           github 1.0
 
 github.setup        pydicom pynetdicom 1.5.6 v
 name                py-pynetdicom
-python.versions     27 36 37 38 39
+python.versions     27 37 38 39 310 311 312
 platforms           darwin
 license             MIT BSD
 maintainers         {eborisch @eborisch} openmaintainer

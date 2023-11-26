@@ -32,7 +32,7 @@ checksums           md5     65577aea58479c4eea190dd93b72c42b \
                     sha1    58bb5e5b4443576c548bb795f5aa30c3d12ea8c5 \
                     rmd160  b08b6f303d43eb23bc3be165cdfc68c30ae8d82e
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {$subport ne $name} {
     depends_lib         port:py${python.version}-boto

@@ -20,7 +20,7 @@ dist_subdir         hyperestraier
 
 deprecated.upstream_support no
 livecheck.type      none
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     distfiles       hyper_estraier_wrappers-${version}.tar.gz:main \

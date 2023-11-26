@@ -25,7 +25,7 @@ distname            pychecker-${version}
 checksums           sha1    acbc469b4ecde0182e9be42dceeae5375a923ff3 \
                     rmd160  7c401f3d2025dec1438c623b161359ef9721d0bf
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     patchfiles          patch-setup.py.diff

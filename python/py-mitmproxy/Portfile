@@ -33,7 +33,7 @@ checksums           md5     9985f0dbd65ed41cf5f29aee387410b7 \
 
 patchfiles          patch-test_version.py.diff
 
-python.versions     37 38 39
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_build-append    port:py${python.version}-setuptools

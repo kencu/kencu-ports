@@ -27,7 +27,7 @@ checksums           rmd160  fc2e459c4a2b7135f71f4c7a95dcd29b7c6692a1 \
                     size    583045
 
 deprecated.upstream_support no
-python.versions     27 35 36 37
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_build-append    port:py${python.version}-setuptools

@@ -28,7 +28,7 @@ checksums           md5     e5d859659853809e5c7fc2e2970be88e \
 
 deprecated.upstream_support no
 livecheck.type      none
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {$subport ne $name} {
     depends_lib-append  port:py${python.version}-cvxopt

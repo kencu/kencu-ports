@@ -24,8 +24,8 @@ set patch       [lindex [split ${version} .] 2]
 
 # pre-declare provided subports
 
-python.versions 27 35 36 37 38 39 310 311 312
-python.default_version 27
+python.versions     27 37 38 39 310 311 312
+
 
 foreach py_ver ${python.versions} {
     subport py${py_ver}-pyqt4 {}

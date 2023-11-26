@@ -4,7 +4,7 @@ PortGroup           python 1.0
 name                py-zope-app-module
 set real_name       zope.app.module
 version             3.5.0
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 maintainers         nomaintainer
 platforms           darwin
 description         Zope 3 persistent code/module support

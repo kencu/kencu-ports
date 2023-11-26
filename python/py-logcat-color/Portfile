@@ -20,7 +20,7 @@ long_description    \
     command from the Android SDK
 platforms           darwin
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 checksums           rmd160  0870039c7c99bf2d9d08a660862a8941229a80fb \
                     sha256  ff4eb54063a063e6112f291c86b8e14ab6bcbfd458cca2116405d554557f202f \

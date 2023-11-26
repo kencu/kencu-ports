@@ -28,7 +28,7 @@ distname            ${python.rootname}-${version}
 checksums           rmd160  867ddc7312685999e966128893c2eeb11fa01f0a \
                     sha256  52db2745264624768bfd9b604acb38f631bde5c2ec9b23861677d747e4558626 \
                     size    12575
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     post-destroot {

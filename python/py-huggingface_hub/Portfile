@@ -19,7 +19,7 @@ description         Client library to download and publish models and \
 
 long_description    {*}${description}
 
-python.versions     38 39
+python.versions     27 37 38 39 310 311 312
 
 checksums           rmd160  3e1ec22b70825287216e042859b598c4d08b86bb \
                     sha256  20d8409e5efbe92d794ae84586a3243e83a60f14f1791acb18e6d305053883f1 \

@@ -23,7 +23,7 @@ checksums               rmd160  c0f93412d4010e5e0d8e14e61af9579b66065bb4 \
                         sha256  2a69597e0dd11caabe75fae133feca66387819fc9bc050f547e5551bce97e5be \
                         size    3258085
 
-python.versions 27
+python.versions     27 37 38 39 310 311 312
 subport "${name}-common" {}
 
 foreach py_ver ${python.versions} {

@@ -30,7 +30,7 @@ checksums           rmd160 5790e8357f6e7e5668b8750dd4809522ae44f812 \
 master_sites        pypi:p/${python.rootname}/
 patchfiles          pyobjc_setup.py.patch
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 subport py35-pyobjc-cocoa {
     python.versions 35

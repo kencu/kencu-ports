@@ -29,7 +29,7 @@ checksums           sha256  42c8cb3e42b439bc36b6ba3f090ddb72a214ca9264a2babf102c
 
 patchfiles          patch-remove-import-of-nested-scopes-from-future.diff
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 deprecated.upstream_support no
 livecheck.type      none
 

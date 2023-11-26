@@ -15,7 +15,7 @@ description         Non-validating SQL parser
 long_description    ${description} that provides support for parsing, splitting \
                     and formatting SQL statements.
 
-python.versions     27 35 36 37 38 39
+python.versions     27 37 38 39 310 311 312
 
 categories-append   textproc
 

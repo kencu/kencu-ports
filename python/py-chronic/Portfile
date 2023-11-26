@@ -17,7 +17,7 @@ long_description    ${description}  Add decorators or wrap code in with \
 platforms           darwin
 license             MIT
 
-python.versions     27 35 36
+python.versions     27 37 38 39 310 311 312
 
 if { ${subport} ne ${name} } {
     checksums           rmd160  4320705a0656fad02dfa4a73bdc044bbb1c593f2 \

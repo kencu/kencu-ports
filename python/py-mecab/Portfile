@@ -19,7 +19,7 @@ checksums           rmd160  2ab0878c8ebbe11ddce9946e025130ba9fffa551 \
 
 homepage            https://github.com/ikegami-yukino/mecab/tree/master/mecab/python
 
-python.versions     37 38 39
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_build-append \

@@ -19,7 +19,7 @@ description         A Cython MeCab wrapper for fast, pythonic Japanese tokenizat
 long_description    fugashi is a Cython wrapper for MeCab, a Japanese \
                     tokenizer and morphological analysis tool.
 
-python.versions     37 38 39
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_build-append \

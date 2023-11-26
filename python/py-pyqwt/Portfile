@@ -29,7 +29,7 @@ checksums           rmd160 e4c8a63d623d974cd500e29fbc62255746ca7feb \
 
 # PyQwt's Python scripts are not compatible with Python 3.4+, and
 # there are many changes required to make it compatible.
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
 

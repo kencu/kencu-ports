@@ -26,7 +26,7 @@ checksums           md5 25ba6ef98c164878acff1036fbd72a1d \
                     rmd160 dda3addb1adb671350d885e08ad598bc9dfbed4f \
                     sha256 703f484b47a6af502e743c9122595cc812b0271f661722403114f71a79d0f5a4
 
-python.versions     27 35 36 37 38 39
+python.versions     27 37 38 39 310 311 312
 
 if {$subport ne $name} {
     if {${python.version} <= 35} {

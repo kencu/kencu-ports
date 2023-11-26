@@ -18,7 +18,7 @@ description         Typer, build great CLIs. Easy to code. Based on Python type 
 
 long_description    {*}${description}
 
-python.versions     37 38 39
+python.versions     27 37 38 39 310 311 312
 
 checksums           rmd160  617149bb85566eb60b8412ff7cf3978bda21ec95 \
                     sha256  8faad31bd3721d2443cca7f0dda32a27c0e51fd96a78342b23b7ada50ed7ea80 \

@@ -17,7 +17,7 @@ platforms           darwin
 
 homepage            https://github.com/pikepdf/pikepdf
 
-python.versions     37 38 39
+python.versions     27 37 38 39 310 311 312
 
 checksums           rmd160  ff1d74b04f2e87b8a9de61e6aee454b84fd0a926 \
                     sha256  925494b335ac208cfba34fd097c2b809662e8c11f49806eac9471a6e99f54a44 \

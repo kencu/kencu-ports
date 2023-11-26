@@ -19,7 +19,7 @@ long_description    {*}${description}
 
 homepage            https://spacy.io/models
 
-python.versions     37 38 39
+python.versions     27 37 38 39 310 311 312
 
 distfiles
 build {}

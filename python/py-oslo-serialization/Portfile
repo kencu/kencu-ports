@@ -22,7 +22,7 @@ checksums           md5     ccbc5683ee4a772ae5e6379369a773b6 \
                     sha256  f465df171be564282cb3e86ec895f5b6ae5e5b0760e9af2be96a942a5255a860 \
                     size    30816
 
-python.versions     36 37 38
+python.versions     27 37 38 39 310 311 312
 
 if {${subport} ne ${name}} {
     livecheck.type  none

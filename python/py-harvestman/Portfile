@@ -32,7 +32,7 @@ checksums           md5     d1f921a6e045fbe9230fae467be5e9f2 \
 
 deprecated.upstream_support no
 livecheck.type      none
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_lib-append \

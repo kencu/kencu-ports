@@ -30,7 +30,7 @@ checksums           rmd160  70991cbd70c6942aa81626c96e4925215d296678 \
                     size    3128618
 
 # no Python 3 support
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     livecheck.type  none

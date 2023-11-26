@@ -5,7 +5,7 @@ PortGroup           github 1.0
 PortGroup           python 1.0
 
 github.setup        ninja-ide ninja-ide 2.3 v
-python.default_version 27
+
 maintainers         {g5pw @g5pw} openmaintainer
 
 categories          python devel

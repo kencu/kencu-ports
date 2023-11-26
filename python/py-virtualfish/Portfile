@@ -23,7 +23,7 @@ checksums               rmd160  cf2674dbbf218a0377364cd56dd675dd23ac076f \
 
 patchfiles              patch-setup.py.diff
 
-python.versions         27 35 36 37
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_lib-append  port:py${python.version}-virtualenv \

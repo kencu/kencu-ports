@@ -21,7 +21,7 @@ checksums           rmd160  e2fd77f11a5831484cb0bd0485655f41ff62bae6 \
 
 supported_archs     noarch
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_lib-append  port:py${python.version}-cairo \

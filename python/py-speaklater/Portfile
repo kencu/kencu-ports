@@ -26,7 +26,7 @@ checksums           rmd160  70c03aa32233a9f4a6dd352c4dca1fe0d1888ffe \
                     size    3582
 
 deprecated.upstream_support no
-python.versions     27 35 36
+python.versions     27 37 38 39 310 311 312
 
 if {${name} eq ${subport}} {
     livecheck.type  none

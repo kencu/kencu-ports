@@ -28,7 +28,7 @@ checksums           rmd160  540042ccb4d10fd201794654c7ac5aa198c9162d \
                     sha256  1eaac87bb8e4d4fb8343c7c8b734c296aacb5ed4226c883899c67ecb385da730 \
                     size    69436
 
-python.versions     27 35 36 37 38 39
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_lib-append  port:py${python.version}-dateutil \

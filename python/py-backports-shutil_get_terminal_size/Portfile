@@ -17,7 +17,7 @@ long_description    ${description}
 checksums           rmd160  41bd48f4df01ae8dc86fef916359624a6a78de05 \
                     sha256  9abf6d7e99f520b93a8ea83b7a20a1da528802ac946d7fe10592c833e8c61ff6
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${subport} ne ${name}} {
     depends_build-append    port:py${python.version}-nose \

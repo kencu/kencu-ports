@@ -26,7 +26,7 @@ checksums           rmd160  064690b1d3ed52349d352d598e6fbdf89a4ced69 \
                     sha256  c5eba5b51f9007e36eb1892b5b153143da1bac81d4fc73d8ce60bdf23a58b776 \
                     size    41044
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 deprecated.upstream_support no
 livecheck.type      no
 

@@ -25,7 +25,7 @@ checksums           rmd160  25c8572c976bf8e1cd043a2275809017c6e82f3b \
                     sha256  f6e9bcc0a8431a6dca4efafc636c5082dc0dd32798c8495d6280452dbc70208e \
                     size    5270757
 
-python.versions     37 38 39
+python.versions     27 37 38 39 310 311 312
 
 python.pep517       yes
 

@@ -27,7 +27,7 @@ checksums           md5     351380746f9eaa624221e6037736c618 \
                     sha256  23f48a8310397f6a53cc7a2a40656f3522d8271a7d31883585a7d32ac36d2603 \
                     size    38163
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     post-destroot {

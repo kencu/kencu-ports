@@ -31,7 +31,7 @@ checksums           rmd160  4552fa7f20de373426b9adb27f758efb4536fcf6 \
                     sha256  b0b294f435c6e6d2d4a80badf57d92cb66814dfe21e644a521901209e6a3f8ae \
                     size    1893908
 
-python.versions     27 35 36 37
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     # Python 3: use a different distfile

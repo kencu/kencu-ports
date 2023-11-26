@@ -18,7 +18,7 @@ checksums           rmd160  2493f090aa46af18693b985f2b7b1ac8879603cd \
                     size    8177303
 
 # python3 versions are currently broken
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 # TODO:
 # - add a port py-autobahn

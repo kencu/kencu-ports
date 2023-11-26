@@ -24,7 +24,7 @@ checksums           rmd160  115d6fb0d797d88d763a34960b917069cc182f5e \
                     sha256  43d59231556e9ed43d88c8c1ffcca30886b4db6436625599eeeb22bb9f74ab2b \
                     size    13928
 
-python.versions     35 36 37 38
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_test-append \

@@ -24,7 +24,7 @@ checksums           md5     9426e15cc34e2d38f70b7bc61bd326dc \
                     sha256  f435937d8c30e30f8fe034030e4ecbd0a69c3eaa4205e7280d5c9e19bf153df6
 
 deprecated.upstream_support no
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_build-append    port:py${python.version}-setuptools

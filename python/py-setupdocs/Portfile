@@ -26,7 +26,7 @@ checksums           sha1    135bc4a22b885016e3638e7cd7633eab85f8742f \
 deprecated.upstream_support no
 livecheck.type      none
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_build   port:py${python.version}-setuptools

@@ -16,7 +16,7 @@ long_description    ${description}
 homepage            https://github.com/john-kurkowski/tldextract
 platforms           darwin
 
-python.versions     36 37 38 39
+python.versions     27 37 38 39 310 311 312
 
 checksums           rmd160  ce71f52ed315e3d97f76d939b330bbe52476e38c \
                     sha256  d2034c3558651f7d8fdadea83fb681050b2d662dc67a00d950326dc902029444 \

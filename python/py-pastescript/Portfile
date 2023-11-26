@@ -4,7 +4,7 @@ PortGroup			python 1.0
 name				py-pastescript
 version				1.7.5
 revision            1
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 categories-append		www
 license				MIT
 maintainers			nomaintainer

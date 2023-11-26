@@ -34,7 +34,7 @@ checksums           rmd160 6c2f3aa3d444bc5d577a3b59a116241374787587 \
 
 master_sites        pypi:p/pyobjc-core/
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 subport py35-pyobjc {
     python.versions 35

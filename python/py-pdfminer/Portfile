@@ -7,7 +7,7 @@ github.setup        pdfminer pdfminer.six 20201018
 revision            2
 name                py-pdfminer
 
-python.versions     37 38 39
+python.versions     27 37 38 39 310 311 312
 
 platforms           darwin
 supported_archs     noarch

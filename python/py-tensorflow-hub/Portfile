@@ -28,7 +28,7 @@ checksums           rmd160  23470b87ca6c737f61edecd65f226b833eecd5da \
 
 extract.only
 
-python.versions     37 38 39
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_build-append \

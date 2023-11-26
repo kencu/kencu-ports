@@ -5,7 +5,7 @@ name                py-rudolf
 set real_name       rudolf2
 version             0.3
 revision            1
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 categories-append   devel
 platforms           darwin
 license             ZPL-2.1

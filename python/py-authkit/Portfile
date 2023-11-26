@@ -27,7 +27,7 @@ patchfiles          setup.py.diff
 
 deprecated.upstream_support no
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_build   port:py${python.version}-setuptools

@@ -26,7 +26,7 @@ checksums           md5 c297e49de35d923dd2da2a9d582e00e4 \
                     size    1457398
 
 deprecated.upstream_support no
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     post-destroot	{

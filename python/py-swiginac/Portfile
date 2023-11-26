@@ -21,7 +21,7 @@ checksums           \
     sha256  e019b40cac29b070e72432b97cc857682da416e55c26bde412bfaa7513893eb5 \
     rmd160  9b473942a8a4b010ddd4d51ec19b84d3f83a2c5c
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     patchfiles          patch-setup.py.diff

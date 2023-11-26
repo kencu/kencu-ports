@@ -24,7 +24,7 @@ checksums           rmd160  ff9615734cd3d471a62892ce8180353e4ba30594 \
                     sha256  7495fce5a71baf8ce7d078da4ec793f6c22cad5e187ad7af129587c4ac046161 \
                     size    1700471
 
-python.versions     36 37 38 39
+python.versions     27 37 38 39 310 311 312
 
 # these Python versions require an older qscintilla-qt5 version
 conflicts           py27-qscintilla-qt5 py35-qscintilla-qt5

@@ -24,7 +24,7 @@ checksums           rmd160  84ed62353955ecee3d44ecc3e52f8320c33fe8d1 \
 
 deprecated.upstream_support no
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_build-append	\

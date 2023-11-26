@@ -22,7 +22,7 @@ checksums               rmd160  cc169648a3c5df5e4aeeb169a8824a060035f332 \
 
 deprecated.upstream_support no
 
-python.versions         27
+python.versions     27 37 38 39 310 311 312
 python.link_binaries    no
 python.move_binaries    no
 

@@ -25,8 +25,8 @@ supported_archs     noarch
 master_sites        http://code.x2go.org/releases/source/python-x2go/
 distname            python-x2go-${version}
 
-python.versions     27 35 36
-python.default_version 27
+python.versions     27 37 38 39 310 311 312
+
 
 if {${name} ne ${subport}} {
     livecheck.type          none

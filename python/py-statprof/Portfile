@@ -18,7 +18,7 @@ distname            statprof-${version}
 checksums           rmd160  f52c929dc5a9a942e3fc6c2281b823b59047c01d \
                     sha256  adb8654edd5183e91e1538ee9112314f8129a52796bfa32cfa34b2f0e73295b4
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 python.link_binaries_suffix
 
 if {${name} ne ${subport}} {

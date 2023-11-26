@@ -17,7 +17,7 @@ long_description    ${description}
 
 homepage            https://github.com/sosy-lab/${python.rootname}/
 
-python.versions     27 36 37 38
+python.versions     27 37 38 39 310 311 312
 
 checksums           rmd160  bf83e1525c0bbe37b7b8015e03d5eea97d3e6253 \
                     sha256  3a9de71798fe003d26998c8c7b4b3ac442c2e891c0d471f752cc6ea91066f95a \

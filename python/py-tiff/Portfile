@@ -26,7 +26,7 @@ checksums           rmd160  5a473019cfe39e6448ca85326fb58a227ebce2d5 \
 deprecated.upstream_support no
 livecheck.type      none
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_lib-append  port:tiff

@@ -5,7 +5,7 @@ PortGroup           python 1.0
 PortGroup           github 1.0
 github.setup        pydicom pydicom 0.9.9.post1 v
 name                py-dicom
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 platforms           darwin
 license             MIT BSD
 maintainers         {eborisch @eborisch} \

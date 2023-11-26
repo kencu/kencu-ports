@@ -39,7 +39,7 @@ checksums           ${mainfile} \
                     sha256  2ea3517cd5779843de8a759c2349a3cd8d3893e03ab47053b66d5ec6f8bc4f93 \
                     size    15553718
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     build.env-append \

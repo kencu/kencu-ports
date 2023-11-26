@@ -49,7 +49,7 @@ xcode_workaround.os_versions           18 19
 xcode_workaround.fixed_xcode_version   11.4
 
 # Supported python versions
-python.versions  37 38 39
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
 

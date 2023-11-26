@@ -22,7 +22,7 @@ checksums           sha1    73104f4a351dc1450a16f07680d772817b05442d \
                     sha256  84c99d7b28fb6862ee60a5d1d52fad0da4c95f1934e9c101d3293ee7e8b5357d \
                     size    28803
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_lib-append  port:chmlib

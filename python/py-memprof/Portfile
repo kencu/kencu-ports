@@ -21,7 +21,7 @@ long_description    ${description} It logs and plots the memory usage of all\
                     the variables during the execution of the decorated methods.
 
 homepage            https://jmdana.github.io/memprof/
-python.versions     27 35 36
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_build-append \

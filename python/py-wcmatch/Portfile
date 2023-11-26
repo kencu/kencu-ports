@@ -6,7 +6,7 @@ PortGroup           python 1.0
 name                py-wcmatch
 version             8.2
 revision            0
-python.versions     36 37 38 39
+python.versions     27 37 38 39 310 311 312
 
 platforms           darwin
 license             MIT

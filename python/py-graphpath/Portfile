@@ -24,7 +24,7 @@ checksums           md5     fa81c0166a6be4bf437597362c4af163 \
                     sha256  3f4668c2f1e87a2905f6872845b8eb1d08897336370685dbdddb94578ea52dcc \
                     size    44232
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     test.run        yes

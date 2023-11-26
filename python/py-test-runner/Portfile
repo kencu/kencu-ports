@@ -20,7 +20,7 @@ checksums           rmd160  9e74f160f7e4ad0611ad0adbb498083a46801608 \
 homepage            https://github.com/pytesting/${python.rootname}
 
 # requires python36 or better
-python.versions     36 37 38
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_build-append \

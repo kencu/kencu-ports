@@ -25,7 +25,7 @@ checksums           rmd160  a68fe10d1311fb9fc123d86f85b4d2553b503127 \
 
 deprecated.upstream_support no
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     post-destroot {

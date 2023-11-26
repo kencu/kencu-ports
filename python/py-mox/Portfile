@@ -25,7 +25,7 @@ checksums           rmd160  81ecdb84b09e54019d905be736f178adc22ca87f \
                     sha256  424ee725ee12652802b4e86571f816059b0d392401ceae70bf6487d65602cba9 \
                     size    32397
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     test.run        yes

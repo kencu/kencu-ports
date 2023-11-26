@@ -16,7 +16,7 @@ long_description    {*}${description}
 platforms           darwin
 homepage            https://github.com/Unidata/MetPy
 
-python.versions     37 38 39
+python.versions     27 37 38 39 310 311 312
 
 checksums           rmd160  5e98c450277a28de8a8681ebf1ee83e694b96f60 \
                     sha256  e5ef6967a0721cccc92d6aeae27768bbc9eac66db252c36be6e233f43f228e53 \

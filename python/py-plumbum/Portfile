@@ -23,7 +23,7 @@ platforms           darwin
 
 homepage            https://plumbum.readthedocs.org
 
-python.versions     27 35 36 37 38
+python.versions     27 37 38 39 310 311 312
 
 if { ${subport} ne ${name} } {
     depends_lib         port:py${python.version}-six

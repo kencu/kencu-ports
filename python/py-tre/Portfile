@@ -29,7 +29,7 @@ checksums           rmd160  8031cc0c421dd0f473b4c98f49aef9805fa65b64 \
                     sha256  8dc642c2cde02b2dac6802cdbe2cda201daf79c4ebcbb3ea133915edf1636658
 
 deprecated.upstream_support no
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_lib-append \

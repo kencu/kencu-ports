@@ -18,7 +18,7 @@ long_description    {*}${description}
 platforms           darwin
 homepage            https://github.com/AnalogJ/lexicon
 
-python.versions     36 37 38 39
+python.versions     27 37 38 39 310 311 312
 
 checksums           rmd160  21537c2999ca64402b6a8ce89dcad165a421d6b7 \
                     sha256  18cb94862c8a71f77afd1ce3b83e06564e6e4822f49fcb9c7189782484696bbe \

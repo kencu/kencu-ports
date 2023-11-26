@@ -19,7 +19,7 @@ long_description    This is a python binding for Fast Artificial Neural Network 
                     implements multi-layer artificial neural networks with support for both fully-connected and sparsely-connected \
                     networks. It includes a framework for easily handling training data sets. It is easy to use, versatile, well-\ documented, and fast.
 
-python.versions     38
+python.versions     27 37 38 39 310 311 312
 
 github.tarball_from archive
 

@@ -21,7 +21,7 @@ checksums           rmd160  c8bac2cbad3f4a09aec0b74030d7fd8a8286e17f \
                     sha256  b231581203c08bb6809fbf3bed33bf881c012a0583f48a6f201713b789745b42 \
                     size    136675
 
-python.versions     27 37
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_lib-append  port:exodriver

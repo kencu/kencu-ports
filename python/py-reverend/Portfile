@@ -23,7 +23,7 @@ checksums           rmd160  6a35e41fbbd6eeb910ca39f34ccc5b63cf250c83 \
                     size    11892
 
 deprecated.upstream_support no
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     post-destroot {

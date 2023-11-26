@@ -35,7 +35,7 @@ checksums           rmd160  a319bd2f15fbbd3964e0751bd6e90596efdc6c0f \
                     sha256  08e5f1b0a3a0a7d3bc608c6d95f3cabcd22b23148a791418e64d8dcfe3e7a0a4 \
                     size    4934008
 
-python.versions     37 38 39
+python.versions     27 37 38 39 310 311 312
 
 # Needed to fix: constexpr constructor never produces a constant expression
 compiler.blacklist-append \

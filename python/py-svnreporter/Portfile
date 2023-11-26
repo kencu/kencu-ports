@@ -26,7 +26,7 @@ checksums           md5 92ce58d3d3c76752f56462df911d0b49 \
 
 deprecated.upstream_support no
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_lib-append	\

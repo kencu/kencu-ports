@@ -26,7 +26,7 @@ checksums                   md5     92ab71d027e50097505b68fda7341f51 \
 
 supported_archs             noarch
 
-python.versions             26
+python.versions     27 37 38 39 310 311 312
 
 if {$subport ne $name} {
     depends_run-append          port:py${python.version}-clnum

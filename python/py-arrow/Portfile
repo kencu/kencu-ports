@@ -27,7 +27,7 @@ checksums           rmd160  c66580d05f4cc05e15ddebb0eada8995aeaa75f1 \
 
 compiler.cxx_standard 2011
 
-python.versions     36 37 38 39
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_build-append \

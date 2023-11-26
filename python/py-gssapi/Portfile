@@ -21,7 +21,7 @@ checksums           rmd160  6352a7bb4826b282a1396d86ef485f7191037921 \
                     sha256  d8a9e8d96e8cf30162a026acc37383d2c7939748707d400528876828ac56acc2 \
                     size    3625728
 
-python.versions     38 39
+python.versions     27 37 38 39 310 311 312
 
 patchfiles          patch-setup.py.diff
 

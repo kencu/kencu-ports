@@ -23,7 +23,7 @@ master_sites        macports_distfiles
 distname            scanf-${version}
 checksums           md5 a617ca749a40c8f76dd98fc7b91a577d
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 deprecated.upstream_support no
 livecheck.type      none

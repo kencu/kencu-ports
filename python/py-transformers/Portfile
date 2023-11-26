@@ -26,7 +26,7 @@ long_description    🤗 Transformers provides thousands of pretrained \
 
 homepage            https://huggingface.co/transformers/
 
-python.versions     38 39
+python.versions     27 37 38 39 310 311 312
 
 checksums           rmd160  23746f0f09a90c2daf5d93b97181d8fe2e3702f6 \
                     sha256  73da66d863e4b85ff4f79ff55015d73346b7a8bd73dc1ccb746685ebb064f14b \

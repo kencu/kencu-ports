@@ -22,7 +22,7 @@ license             BSD
 
 homepage            http://www.astropy.org
 
-python.versions     37 38 39
+python.versions     27 37 38 39 310 311 312
 
 # see https://trac.macports.org/ticket/48941
 compiler.blacklist  {*llvm-gcc42}

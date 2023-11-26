@@ -31,7 +31,7 @@ checksums           rmd160  15dea167ea192a7b855c96298af8455e7c2e2aba \
 
 # keep version for PY27 and PY34, these are (indirect) dependencies of py-virtualenv
 # do not add subports for python 3.5 and later; module is in stdlib.
-python.versions     27 34
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_build-append \

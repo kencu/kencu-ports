@@ -16,7 +16,7 @@ long_description    {*}${description} with the versatility of Python and to prov
 categories-append   science
 homepage            https://github.com/nschloe/pygmsh
 
-python.versions     27 36 37 38 39
+python.versions     27 37 38 39 310 311 312
 
 platforms           darwin
 

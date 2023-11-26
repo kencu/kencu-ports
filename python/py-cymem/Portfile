@@ -25,8 +25,8 @@ description         Cython memory pool for RAII-style memory management
 long_description    ${description}
 
 # Support python versions
-python.versions     27 35 36 37 38 39
-python.default_version 38
+python.versions     27 37 38 39 310 311 312
+
 
 if {${name} ne ${subport}} {
 

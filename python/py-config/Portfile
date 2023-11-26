@@ -22,7 +22,7 @@ checksums           md5     0deb5f48cb3c3f1067f347b8093a1f78 \
                     sha256  9854d7fa3670dad9f0d638736252eb0aa16d3fec15196dfa6a328a3e9a9296f9 \
                     size    17821
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     use_zip         yes

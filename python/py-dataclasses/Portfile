@@ -22,7 +22,7 @@ checksums           rmd160  84c33b203979c37df503d9a6393fcd1d1a279daf \
                     size    36581
 
 # dataclasses are included in Python 3.7 and above, do not add any other versions here
-python.versions     36
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_build-append \

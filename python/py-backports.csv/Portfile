@@ -14,7 +14,7 @@ maintainers         {@xeron gmail.com:xeron.oskom} openmaintainer
 description         Backport of Python 3 csv module
 long_description    ${description}
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 homepage            https://pypi.python.org/pypi/${python.rootname}/
 

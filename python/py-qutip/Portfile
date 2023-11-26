@@ -24,7 +24,7 @@ worksrcdir              qutip-${version}
 checksums               rmd160  169eaaa6df3d8f5a62f172b89caab7c2f1ad4375 \
                         sha256  6db67ca5eb720e2cf5fb9651430c0d62a46198e2fe0c42c8d56ef11e2fc48cc6
 
-python.versions         27 35 36
+python.versions     27 37 38 39 310 311 312
 
 # py-scipy is not universal
 if {${name} ne ${subport}} {

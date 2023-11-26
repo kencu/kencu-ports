@@ -23,7 +23,7 @@ checksums           rmd160  5005209ad2174751b29fbb4810d8747a01dba77f \
                     sha256  6fc9f99c468130aab4174a7e32a67d982431508cba97fa6bcf091aa5735373aa \
                     size    36880
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     # fix permissions

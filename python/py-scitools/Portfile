@@ -15,7 +15,7 @@ long_description \
     Scientific computing tools for Python, built on other widely used packages \
     such as Numpy and Scipy.
 
-python.versions         27
+python.versions     27 37 38 39 310 311 312
 
 checksums           rmd160  c0c57bc2f248ca1721e66210c00df4241a7dd4ac \
                     sha256  312492e143317fca49045534407e0fc1a9edbaf1b6e290b9c95c11120787e555

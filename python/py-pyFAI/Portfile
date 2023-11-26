@@ -18,7 +18,7 @@ long_description    pyFAI is an azimuthal integration library that tries to be f
                     pixel weighted by the intensity of each pixel, but parallel version use a\
                     SparseMatrix-DenseVector multiplication.
 
-python.versions     27 35 36
+python.versions     27 37 38 39 310 311 312
 universal_variant   no
 
 if {${name} ne ${subport}} {

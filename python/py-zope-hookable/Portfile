@@ -19,7 +19,7 @@ platforms           darwin
 homepage            https://pypi.python.org/pypi/${real_name}
 master_sites        pypi:z/${real_name}
 
-python.versions     36 37 38 39
+python.versions     27 37 38 39 310 311 312
 
 checksums           rmd160  83fd5b6b2d0c1f2b1ea35a26de9c5faddb3799af \
                     sha256  8fc3e6cd0486c6af48e3317c299def719b57538332a194e0b3bc6a772f4faa0e \

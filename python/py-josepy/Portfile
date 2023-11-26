@@ -14,7 +14,7 @@ description         JOSE protocol implementation in Python using cryptography
 long_description    {*}${description}
 platforms           darwin
 
-python.versions     36 37 38 39
+python.versions     27 37 38 39 310 311 312
 
 checksums           rmd160  86a042baff672e731c3b72af6ee6559fd0126e5c \
                     sha256  e9bcaf605411cadaec04841ae2d5f77ebb178b7b6df7c9aed1d97399ac18685b \

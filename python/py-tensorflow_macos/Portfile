@@ -51,7 +51,7 @@ if {${os.platform} eq "darwin" && ${os.major} < 20} {
     }
 }
 
-python.versions 38
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     conflicts       py${python.version}-tensorflow \

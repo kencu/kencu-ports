@@ -28,7 +28,7 @@ checksums           rmd160  7c401f3d2025dec1438c623b161359ef9721d0bf \
                     sha256  44fb26668f74aca3738f02d072813762a37ce1242f50dbff573720fa2e953279 \
                     size    99783
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     patchfiles      patch-setup.py.diff

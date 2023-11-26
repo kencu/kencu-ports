@@ -22,7 +22,7 @@ checksums           rmd160  d91d62a591d11344b1c113d8710ece45b1cd80e9 \
                     sha256  cbfb5ebc0daf4da1dc88c77c7fc9b2316819a837ca1b9f10014ae588134b9838 \
                     size    11486
 
-python.default_version 37
+
 depends_lib         port:py${python.version}-click \
                     port:py${python.version}-virtualenv
 

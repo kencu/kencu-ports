@@ -19,7 +19,7 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 conflicts           py27-logcat-color
 
-python.versions     37
+python.versions     27 37 38 39 310 311 312
 
 checksums           rmd160  4d8614d734b5b1945b73365b02a3c4b5a3358681 \
                     sha256  57471841b59d0a456f6d3a971bb3701ca2fc9a8319735e9515c9de3cd2062c92 \

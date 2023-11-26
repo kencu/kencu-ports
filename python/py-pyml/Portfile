@@ -18,7 +18,7 @@ distname            PyML-${version}
 checksums           rmd160  3e1ac192c1ed12658cbf4f26c272099c4a855b4c \
                     sha256  8462c9ee50aaf14a225f632b9a945c1c6d8eb2c1689295b05932f493ca021edd
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_lib-append  port:py${python.version}-numpy \

@@ -29,7 +29,7 @@ checksums           rmd160  b4f7c730bf9f45f11d4c90d099b1665c134830c9 \
                     size    59051
 
 deprecated.upstream_support no
-python.versions     27 35 36
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_lib-append \

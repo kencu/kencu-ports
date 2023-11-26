@@ -25,7 +25,7 @@ checksums           rmd160  31f3512a9b3e0d94c426086187884f82da44fe29 \
                     sha256  8a4c7415254d75df8ff3c3b15cfe9042ecee628a1e40b44c15a98890fbfc2608 \
                     size    506225
 
-python.default_version  38
+
 
 depends_build-append    port:py${python.version}-pbr \
                         port:py${python.version}-setuptools

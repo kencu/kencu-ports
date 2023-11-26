@@ -28,7 +28,7 @@ checksums           md5     e411d6c8bb25faa9208387b1075895ad \
                     sha256  ea0ec9ebe995705ab19a301290365652e62bab5c9b05db5697c7bf2173335107 \
                     size    23608
 
-python.versions     27 35 36 37 38 39
+python.versions     27 37 38 39 310 311 312
 
 compiler.cxx_standard   2011
 

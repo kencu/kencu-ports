@@ -14,7 +14,7 @@ long_description    ${description}
 
 homepage            http://www.panstamp.com/
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
 

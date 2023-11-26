@@ -18,7 +18,7 @@ long_description    \
 platforms           darwin
 supported_archs     noarch
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 homepage            https://code.google.com/p/python-twitter/
 master_sites        googlecode:python-twitter

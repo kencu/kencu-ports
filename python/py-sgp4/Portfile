@@ -24,7 +24,7 @@ checksums           rmd160  302fec753fecc901d67d064427cde487c169ce4a \
                     sha256  c8464fa4252c251229f3ac2518836c82211dd600aacb1fbbb366e8f0e477e51b \
                     size    138501
 
-python.versions     37 38
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
 	depends_lib-append  port:py${python.version}-setuptools

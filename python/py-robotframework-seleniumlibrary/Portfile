@@ -23,8 +23,8 @@ checksums           rmd160  d249382978d17f4c245dd4f998f9ca9b4a219ccd \
                     size    156935
 
 platforms           darwin
-python.versions         36 37 38 39
-python.default_version  39
+python.versions     27 37 38 39 310 311 312
+
 
 master_sites        pypi:r/${rname}
 distname            ${rname}-${version}

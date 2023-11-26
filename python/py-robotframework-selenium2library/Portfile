@@ -17,7 +17,7 @@ license             Apache-2
 homepage	https://github.com/rtomac/${internal_name}/downloads
 
 platforms           darwin
-python.versions		27
+python.versions     27 37 38 39 310 311 312
 
 master_sites        pypi:r/${internal_name}/
 distname            ${internal_name}-${version}

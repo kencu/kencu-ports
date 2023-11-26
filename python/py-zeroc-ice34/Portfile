@@ -42,7 +42,7 @@ patchfiles      patch-py.config.Make.rules.Darwin.diff \
                 patch-fix-python-2.7.4-core-dump.diff
 platforms       darwin
 
-python.versions 27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_lib-append  port:zeroc-ice34

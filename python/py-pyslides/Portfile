@@ -23,7 +23,7 @@ checksums           md5     558b56742c9ce13d40a44d10949b242f \
                     size    6067
 # SHA256 as posted on pypi
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 #36 would work but some dependencies don't have py36 versions.
 
 if {${name} ne ${subport}} {

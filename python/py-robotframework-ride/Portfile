@@ -17,7 +17,7 @@ long_description    ${description}
 
 platforms           darwin
 # support for python 2 will be dropped, but we don't yet have wxPython 4 available
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 checksums           rmd160  69e75ae79cd32aa76109181d28a3606ad00228ae \
                     sha256  1a652edf4012bb21d8aad750c60bcbdc4cc84afeda524363fb872e536e1e2b1a \

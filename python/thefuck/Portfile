@@ -22,7 +22,7 @@ checksums           rmd160  a1c32711c0dc3de87ffc9b2dc9305cd2e4b8bf43 \
                     sha256  6e6083e6c94fe948fcb9c6083baee30ba4cf3f09ffd30cd9564d6473db271941 \
                     size    85523
 
-python.versions     39
+python.versions     27 37 38 39 310 311 312
 
 depends_build-append    port:py${python.version}-setuptools
 depends_lib-append      port:py${python.version}-colorama \

@@ -25,7 +25,7 @@ checksums           rmd160  a36a87b0d909d98bc4987dcd50f7422c439eb70f \
                     sha256  6e483f77dc5b862452c2888ec944fca5b79cffb741c7469786a442360681b4e8 \
                     size    4522523
 
-python.versions     27 36 37 38 39
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     use_zip         yes

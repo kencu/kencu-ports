@@ -21,7 +21,7 @@ checksums               rmd160  fa04b8820e7e0b66c47c2cc96e469bca9071a6c2 \
                         sha256  b63583a7cf7711e5ffb02a09c4ff840f0424cc9a374214f5c6dc2d5d70f6dd7a \
                         size    54898450
 
-python.versions         27 35 36
+python.versions     27 37 38 39 310 311 312
 
 livecheck.url           http://jplephem.s3.amazonaws.com/packages.html
 livecheck.regex         novas_de405-((\[0-9\]+)(\.\[0-9\]+)\*)[quotemeta ${extract.suffix}]

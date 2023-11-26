@@ -30,7 +30,7 @@ checksums           rmd160  15cd3ec85a8e64b622ded68ecc9ebd31feab6824 \
                     sha256  74a331f41e39a363b362dcadf861e3a300351d5ad5cfe033b5d47215c886f1e4 \
                     size    210928
 
-python.default_version 27
+
 
 depends_lib-append  port:py${python.version}-opengl \
                     port:py${python.version}-game \

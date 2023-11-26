@@ -19,7 +19,7 @@ distname            pysqlite-${version}
 checksums           rmd160  ec33a3083d8af35935c879796fce67ac0a9cf93d \
                     sha256  17d3335863e8cf8392eea71add33dab3f96d060666fe68ab7382469d307f4490
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_lib-append  port:sqlite3

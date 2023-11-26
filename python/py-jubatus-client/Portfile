@@ -6,8 +6,8 @@ PortGroup           python 1.0
 set real_name       jubatus
 name                py-${real_name}-client
 version             0.8.0
-python.versions     27
-python.default_version 27
+python.versions     27 37 38 39 310 311 312
+
 categories-append   devel
 maintainers         nomaintainer
 

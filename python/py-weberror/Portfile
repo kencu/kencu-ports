@@ -5,7 +5,7 @@ PortGroup           python 1.0
 
 name                py-weberror
 version             0.13.1
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 maintainers         nomaintainer
 platforms           darwin
 

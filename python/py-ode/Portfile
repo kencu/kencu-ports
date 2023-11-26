@@ -20,7 +20,7 @@ checksums           rmd160  ae23ba127a472407aa8fde7e33c5115f3efbacbe \
                     sha256  29062581255e1bf3cd91e5630225f1e5bc3e7e9446f94a325f9467cb9b08be67 \
                     size    233437
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 if {${name} ne ${subport}} {
     depends_lib-append  port:ode
 

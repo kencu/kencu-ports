@@ -32,7 +32,7 @@ long_description    PyTorch is a Python package that provides two\
 
 homepage            https://pytorch.org/
 
-python.versions     37 38 39
+python.versions     27 37 38 39 310 311 312
 
 patch.pre_args      -p1
 

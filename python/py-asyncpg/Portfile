@@ -23,7 +23,7 @@ long_description    asyncpg is a database interface library designed \
                     protocol for use with Python's asyncio \
                     framework.
 
-python.versions     37 38 39
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_build-append \

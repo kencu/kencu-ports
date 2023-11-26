@@ -34,7 +34,7 @@ mpi.setup
 build.env-append    USE_NCCONFIG=1
 destroot.env-append USE_NCCONFIG=1
 
-python.versions     27 35 36 37 38 39
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     if {${python.version} in "27 35"} {

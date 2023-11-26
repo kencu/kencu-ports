@@ -30,7 +30,7 @@ long_description    ${description}
 github.livecheck.regex  {([0-9.]+)}
 
 # Supported python versions
-python.versions        35 36 37 38 39
+python.versions     27 37 38 39 310 311 312
 
 # Compiler selection
 compiler.cxx_standard  2011

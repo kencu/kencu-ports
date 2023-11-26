@@ -30,7 +30,7 @@ checksums           md5     0dcd92b57626d6ee67d96b6132e713c5 \
                     size    23408
 use_bzip2           yes
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     post-destroot {

@@ -20,7 +20,7 @@ platforms           darwin linux freebsd
 supported_archs     noarch
 categories-append   sysutils
 
-python.versions     39
+python.versions     27 37 38 39 310 311 312
 
 checksums           rmd160  3efb2c4ac7a961095552169ac2ce83a81a84ce30 \
                     sha256  0c72d00e7883375bd39ae99758425f5e6cb86388417cf7cc84305c211b2192cf \

@@ -23,7 +23,7 @@ checksums           rmd160  58303926e0d100177ef296ce58a262fed80221f4 \
                     sha256  d4aad56da35e97b68c5501faaede5d75d11b7bf4358b5f76218499b7bc8080c4 \
                     size    406154
 
-python.versions     27 38 39
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     # 0.20 dropped support for Python 2.7

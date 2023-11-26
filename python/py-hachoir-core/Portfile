@@ -23,7 +23,7 @@ distname            hachoir-core-${version}
 checksums           rmd160  bc29a5433db1fe86fb90928be63b4af569f0d977 \
                     sha256  ecf5d16eccc76b22071d6062e54edb67595f70d827644d3a6dff04289b4058df
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     livecheck.type      none

@@ -12,8 +12,8 @@ platforms           darwin
 license             LGPL-2.1 MIT BSD
 maintainers         {bgilbert @bgilbert}
 
-python.versions     27 35 36 37 38 39
-python.default_version  38
+python.versions     27 37 38 39 310 311 312
+
 
 description         Python binding for the OpenSlide library.
 

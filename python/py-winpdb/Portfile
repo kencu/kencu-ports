@@ -7,8 +7,8 @@ PortGroup               wxWidgets 1.0
 name                    py-winpdb
 version                 1.4.8
 revision                2
-python.versions         27
-python.default_version  27
+python.versions     27 37 38 39 310 311 312
+
 platforms               darwin
 license                 GPL
 maintainers             {eborisch @eborisch} \

@@ -31,7 +31,7 @@ checksums           rmd160  64223fe6549cd2cf1ca6240ea7d90000b2c10f43 \
 extract.suffix      .whl
 extract.only
 
-python.versions     38
+python.versions     27 37 38 39 310 311 312
 
 depends_lib-append  port:fonttools
 

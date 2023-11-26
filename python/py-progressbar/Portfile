@@ -25,7 +25,7 @@ distname        progressbar-${version}
 checksums           rmd160  54da4c737c6e012804fcbca215f4be196b441a4a \
                     sha256  00a316c1a99b70a803d7430fd088da24f37dbfb64f81c4772b97fbc1e8031de4
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_build     port:py${python.version}-setuptools

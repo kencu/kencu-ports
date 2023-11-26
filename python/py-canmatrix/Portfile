@@ -18,7 +18,7 @@ long_description    Canmatrix implements a "Python Can Matrix Object" which desc
                     Canmatrix also includes two Tools (canconvert and cancompare) for converting and comparing \
                     CAN databases.
 
-python.versions     27 36 37
+python.versions     27 37 38 39 310 311 312
 
 checksums           rmd160  a73bf7be09a7ede94e4301b868e56d79b7b98650 \
                     sha256  086303b0ef4d3da4eeb86b61813f60b902254945ea4a44cf833b10c0ab7cfafe \

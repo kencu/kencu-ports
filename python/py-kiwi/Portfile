@@ -32,7 +32,7 @@ use_xz              yes
 checksums           rmd160  59e0659aaa535e962613d489934f9a1f89c9cc59 \
                     sha256  32e43540150c03fda8ad55d22a389cf25356fc5216f6ee3febc4a3df9862ecad
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
 

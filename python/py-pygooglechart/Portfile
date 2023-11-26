@@ -28,7 +28,7 @@ checksums           sha1    edb63a9f802183ab338210728e0f49ceff2c069d \
 
 deprecated.upstream_support no
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${subport} ne ${name}} {
     depends_build-append \

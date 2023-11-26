@@ -22,7 +22,7 @@ checksums           rmd160  c92e3b9508d59c73c723aebcf3f8a783967bba16 \
 
 supported_archs     noarch
 
-python.versions     37 38 39
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_lib-append \

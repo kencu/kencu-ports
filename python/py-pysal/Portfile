@@ -21,7 +21,7 @@ checksums               rmd160  6c31d796af9c36a17b47b5281a7338282a62c825 \
                         sha256  bfd78fa38ccb2d79fac10d5a9500e83a608214fb3bea69957b054f2684068e6f \
                         size    28025464
 
-python.versions         27 35 36
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_lib-append  port:py${python.version}-numpy \

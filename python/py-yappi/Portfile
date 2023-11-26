@@ -15,7 +15,7 @@ platforms           darwin
 maintainers         openmaintainer {adfernandes @adfernandes}
 
 supported_archs     noarch
-python.versions     27 36 37
+python.versions     27 37 38 39 310 311 312
 
 description         Yet Another Python Profiler.
 long_description    \

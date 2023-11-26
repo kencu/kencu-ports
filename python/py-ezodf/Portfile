@@ -22,7 +22,7 @@ checksums           rmd160  add33e930e302f84971099da2db86bca225d468a \
                     sha256  f73f56f38594e596e6ec3ca90f16b317858023ed340e73ce78fcac8010fed535 \
                     size    135962
 
-python.versions     27 35 36
+python.versions     27 37 38 39 310 311 312
 
 if {${subport} ne ${name}} {
     patchfiles      patch-ezodf-document.py.diff

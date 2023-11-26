@@ -21,7 +21,7 @@ checksums           rmd160  825e3830c785519220eab2998eb83f396cae13fd \
 
 homepage            https://www.crummy.com/software/BeautifulSoup/
 
-python.versions     27 35 36 37 38 39
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     if {${python.version} < 36} {

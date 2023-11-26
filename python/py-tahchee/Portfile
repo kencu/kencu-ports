@@ -7,7 +7,7 @@ PortGroup           python 1.0
 github.setup        sebastien tahchee 1.0.0
 name                py-tahchee
 # Does not work with python 3
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 categories          python www
 platforms           darwin
 license             BSD

@@ -10,7 +10,7 @@ platforms           darwin
 supported_archs     noarch
 license             MIT
 
-python.versions     38 39
+python.versions     27 37 38 39 310 311 312
 
 maintainers         nomaintainer
 

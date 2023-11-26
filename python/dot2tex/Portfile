@@ -24,7 +24,7 @@ depends_run         bin:dot:graphviz bin:latex:texlive bin:pdflatex:texlive
 
 PortGroup           python 1.0
 
-python.default_version  39
+
 depends_lib-append      port:py${python.version}-parsing port:py${python.version}-setuptools
 
 post-extract {

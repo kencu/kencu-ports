@@ -29,7 +29,7 @@ checksums           md5     b199bee7379e40737673573f5f0e5d9f \
 
 deprecated.upstream_support no
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     post-destroot {

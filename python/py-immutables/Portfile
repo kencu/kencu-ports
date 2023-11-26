@@ -10,7 +10,7 @@ platforms           darwin
 supported_archs     noarch
 license             Apache-2
 
-python.versions     35 36 37
+python.versions     27 37 38 39 310 311 312
 
 maintainers         {@jandemter demter.de:jan} openmaintainer
 

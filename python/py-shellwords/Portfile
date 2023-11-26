@@ -25,7 +25,7 @@ checksums           md5 919a92e9b320d48c063b6edf09e16411
 deprecated.upstream_support no
 livecheck.type      none
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     post-destroot {

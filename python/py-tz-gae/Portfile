@@ -25,7 +25,7 @@ checksums           rmd160  f704e2c99016d115d27f03fd47c5cb89721fc9d4 \
                     size    373359
 
 deprecated.upstream_support no
-python.versions     27 35 36
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     conflicts       py${python.version}-tz

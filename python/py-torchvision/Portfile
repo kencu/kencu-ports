@@ -24,7 +24,7 @@ checksums           rmd160  946000baedbc1cd14b7d8e59587d703449f2aa2c \
                     sha256  e836d7d7f256972f254b3a65099e25c2bdc76ccd39348fa0c46a083b51561b53 \
                     size    7219847
 
-python.versions     37 38 39
+python.versions     27 37 38 39 310 311 312
 
 if {${os.platform} eq "darwin" && ${os.major} <= 15} {
     known_fail yes

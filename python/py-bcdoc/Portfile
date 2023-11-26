@@ -25,7 +25,7 @@ checksums           rmd160  c82c8aa2033ccdcc29cd75c8ae21ee2381e963ed \
                     size    10909
 
 deprecated.upstream_support no
-python.versions     27 35 36
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_build-append \

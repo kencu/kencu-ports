@@ -26,7 +26,7 @@ checksums           rmd160 1cd4425de62d0c4cc567ea5f319cbd4e608d6d16 \
 deprecated.upstream_support no
 livecheck.type      none
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     pre-test {

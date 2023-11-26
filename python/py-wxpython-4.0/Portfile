@@ -31,7 +31,7 @@ checksums           rmd160  e0d66dfb24bd7738306e70588ed0a5f6f7116de1 \
 patchfiles-append   fix_cc_cxx.patch
 patch.pre_args      -p1
 
-python.versions     27 35 36 37 38 39
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     if {${python.version} == 27} {

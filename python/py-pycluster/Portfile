@@ -28,7 +28,7 @@ checksums           sha1    c53596e8bd8f64f24ddc9cb0c3fda2855e104d8f \
 deprecated.upstream_support no
 livecheck.type      none
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_lib-append  port:py${python.version}-numpy

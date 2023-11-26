@@ -18,7 +18,7 @@ homepage      https://launchpad.net/pyfftw
 master_sites  http://launchpad.net/pyfftw/trunk/${version}/+download/
 distname      PyFFTW3-${version}
 
-python.versions 27
+python.versions     27 37 38 39 310 311 312
 
 checksums     md5 0a98bbac3979abef4b87251530101331 \
               sha1 5c059745036e524f7a9ec17ea2f75648255c30ea \

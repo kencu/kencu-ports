@@ -29,4 +29,4 @@ checksums           md5 d636afd8b191f690f2b24a7e11dcc8db \
 deprecated.upstream_support no
 livecheck.type      none
 
-python.versions	    27
+python.versions     27 37 38 39 310 311 312

@@ -39,7 +39,7 @@ checksums           rmd160  d1efb27850fd4de348c21a9cb72f57f3111aa754 \
                     size    5188489
 
 
-python.default_version 39
+
 
 depends_lib-append \
     port:py${python.version}-pip \

@@ -11,7 +11,7 @@ license             Apache-2
 # build fails with python3
 # https://github.com/google/google-apputils/issues/9
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 maintainers         nomaintainer
 

@@ -21,7 +21,7 @@ checksums           rmd160  76bc090ef4166d0fdb85cf359eeee898f2c6b136 \
 revision            0
 
 python.rootname     scikit-commpy
-python.versions     27 35 36 37 38 39
+python.versions     27 37 38 39 310 311 312
 
 homepage            https://veeresht.info/CommPy/
 

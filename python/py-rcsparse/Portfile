@@ -25,4 +25,4 @@ long_description    ${description}
 checksums           rmd160  98783f8004d19a9cd7a4e9f1ba6c45b90d2a7d05 \
                     sha256  d0f7f05ec0e0c15e2ae60ba15489f9aa030edba7a9703939269bf8a0ef88481b
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312

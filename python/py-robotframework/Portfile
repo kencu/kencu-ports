@@ -20,8 +20,8 @@ homepage            http://robotframework.org/
 use_zip             yes
 
 platforms           darwin
-python.versions         27 36 37 38 39
-python.default_version  39
+python.versions     27 37 38 39 310 311 312
+
 
 universal_variant   yes
 

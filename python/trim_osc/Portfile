@@ -24,7 +24,7 @@ long_description    It is hard to maintain OSM tile service with a small \
                     extract or even run osm2pgsql on low memory. This \
                     package constains some scripts that help.
 
-python.default_version  39
+
 
 depends_lib-append  port:py${python.version}-lxml \
                     port:py${python.version}-psycopg2 \

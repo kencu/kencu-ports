@@ -24,7 +24,7 @@ checksums           rmd160  8d3253291bf7a20802b722790098948af7ebeafb \
                     size    585679
 
 # keep version for PY27 and PY34, these are (indirect) dependencies of py-virtualenv
-python.versions     27 34 35 36 37 38 39
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     test.run        yes

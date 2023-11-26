@@ -16,7 +16,7 @@ platforms           darwin
 maintainers         nomaintainer
 license             Apache-2
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 description         Python binding for the SleuthKit
 long_description    ${description}

@@ -24,7 +24,7 @@ distname            sogl-${version}
 checksums           rmd160  0311bc50552e3a0e2729a0f422b3b6ea0abfdedb \
                     sha256  b9bee189a15c4ab0ed43e0e154d383973db746aaf73a32d29cf90b28118b07c5
 
-python.versions     27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_build-append \

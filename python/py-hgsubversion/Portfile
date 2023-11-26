@@ -26,7 +26,7 @@ checksums               rmd160  08f1be76912ae81a56c8eb49e96d12bd47916742 \
                         sha256  daec4abab484ec63956964e18af36f401ba5f5b12981ffd2858b8466aac5e7ab \
                         size    306205
 
-python.versions         27
+python.versions     27 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_lib-append  port:mercurial \
