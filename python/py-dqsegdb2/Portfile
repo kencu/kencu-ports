@@ -28,8 +28,6 @@ checksums           rmd160 dc1275e619fb7bc9713903bde44a9a3f557fe936 \
 
 python.versions     27 37 38 39 310 311 312
 
-                    38
-
 if {${name} ne ${subport}} {
     depends_lib-append \
                     port:py${python.version}-gwdatafind \
