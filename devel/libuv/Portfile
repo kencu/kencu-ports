@@ -18,11 +18,11 @@ long_description    libuv is a multi-platform support library with a \
 
 homepage            https://libuv.org/
 
-github.setup        libuv libuv 1.44.2 v
+github.setup        libuv libuv 1.46.0 v
 revision            0
-checksums           rmd160  c26a497969603a4451e9536552deb73707e0c57d \
-                    sha256  6e442be888ff39eed50c9b96cccb078bf5de0cba143ae1a819baf658d0def3b2 \
-                    size    1308798
+checksums           rmd160  3a4fc307b6f1172e74f9f47a6daa1e9362d38eef \
+                    sha256  726d541fdcdfb613d8088e770f28c9a7b8ba2ec2f6643bb480573c8b8a02ce65 \
+                    size    1311192
 
 patchfiles          patch-libuv-unix-core-close-nocancel.diff
 
@@ -61,11 +61,11 @@ platform darwin {
         # prevent conflicting opentransport header from being pulled in
         configure.cppflags-append -D__OPENTRANSPORTPROVIDERS__
 
-        patchfiles          patch-libuv-unix-core-close-nocancel.diff \
-                            patch-libuv-legacy.diff
+        patchfiles          patch-libuv-1442-unix-core-close-nocancel.diff \
+                            patch-libuv-1442-legacy.diff
 
         # Tiger has no libutil
-        patchfiles-append   patch-makefile-am-no-libutil-on-Tiger.diff
+        patchfiles-append   patch-libuv-1442-no-libutil-on-Tiger.diff
 
     } elseif { ${os.major} == 9 || ${os.major} == 10 } {
 
@@ -82,8 +82,8 @@ platform darwin {
         # needed for the tests to compile correctly on Leopard
         configure.cppflags-append -D__DARWIN_64_BIT_INO_T
 
-        patchfiles          patch-libuv-unix-core-close-nocancel.diff \
-                            patch-libuv-legacy.diff
+        patchfiles          patch-libuv-1442-unix-core-close-nocancel.diff \
+                            patch-libuv-1442-legacy.diff
 
     }
 }
