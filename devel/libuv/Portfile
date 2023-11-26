@@ -1,92 +1,89 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
-PortSystem       1.0
-PortGroup        github 1.0
-PortGroup        legacysupport 1.0
-PortGroup        clang_dependency 1.0
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           legacysupport 1.0
+PortGroup           clang_dependency 1.0
 
-name             libuv
-categories       devel
-platforms        darwin
-maintainers      {michaelld @michaelld} \
-                 openmaintainer
-license          {MIT BSD}
+name                libuv
+categories          devel
+platforms           darwin
+maintainers         nomaintainer
+license             {MIT BSD}
 
-description      Cross-platform asychronous I/O
+description         Cross-platform asychronous I/O
 
-long_description libuv is a multi-platform support library with a \
-                 focus on cross-platform asynchronous I/O.
+long_description    libuv is a multi-platform support library with a \
+                    focus on cross-platform asynchronous I/O.
 
-homepage         https://libuv.org/
+homepage            https://libuv.org/
 
-platform darwin {
+github.setup        libuv libuv 1.44.2 v
+revision            0
+checksums           rmd160  c26a497969603a4451e9536552deb73707e0c57d \
+                    sha256  6e442be888ff39eed50c9b96cccb078bf5de0cba143ae1a819baf658d0def3b2 \
+                    size    1308798
 
-    # which port version depends on which OS version
-    if { ${os.major} == 8 } {
+patchfiles          patch-libuv-unix-core-close-nocancel.diff
 
-        # peg at version 1.42.0 with patches for 10.4 Tiger, updated occasionally
-        github.setup libuv libuv 1.42.0 v
-        checksums rmd160 09e85ff38d67be34eb467ecb72d9a092de298ec8 \
-                  sha256 1aa2d2b85899976f47313d80737a57cdac943ba39df993cfca36944ccbecaffa \
-                  size   1293521
-        revision  0
+use_autoconf        yes
+autoconf.cmd       ./autogen.sh
 
-        long_description {*}${long_description} This version is pegged for OSX 10.4 Tiger and is updated occasionally. \
-                         Improvements are welcome if you can improve the test suite success (a few tests fail).
+configure.args     --disable-silent-rules
 
-        configure.cppflags-append -D__DARWIN_UNIX03
-        # prevent conflicting opentransport header from being pulled in
-        configure.cppflags-append -D__OPENTRANSPORTPROVIDERS__
-
-        patchfiles-append    patch-libuv-unix-core-close-nocancel.diff
-        patchfiles-append    patch-libuv-legacy.diff
-
-        # Tiger has no libutil
-        patchfiles-append patch-makefile-am-no-libutil-on-Tiger.diff
-
-    } elseif { ${os.major} == 9 || ${os.major} == 10 } {
-
-        # peg at version 1.42.0, updated occasionally
-        # see https://trac.macports.org/ticket/57926
-        github.setup libuv libuv 1.42.0 v
-        checksums rmd160 09e85ff38d67be34eb467ecb72d9a092de298ec8 \
-                  sha256 1aa2d2b85899976f47313d80737a57cdac943ba39df993cfca36944ccbecaffa \
-                  size   1293521
-        revision  0
-
-        long_description {*}${long_description} This version is pegged for OSX 10.5 Leopard and 10.6 Snow Leopard and is updated occasionally. \
-                         Improvements are welcome if you can improve the test suite success (a few tests fail).
-
-        # needed for the tests to compile correctly on Leopard
-        configure.cppflags-append -D__DARWIN_64_BIT_INO_T
-
-        patchfiles-append patch-libuv-unix-core-close-nocancel.diff
-        patchfiles-append    patch-libuv-legacy.diff
-
-    } else {
-
-        # 10.7 Lion and newer use the current release
-        github.setup libuv libuv 1.42.0 v
-        checksums   rmd160  09e85ff38d67be34eb467ecb72d9a092de298ec8 \
-                    sha256  1aa2d2b85899976f47313d80737a57cdac943ba39df993cfca36944ccbecaffa \
-                    size    1293521
-        revision    0
-
-        patchfiles-append patch-libuv-unix-core-close-nocancel.diff
-
-    }
-
-    use_autoconf   yes
-    autoconf.cmd   ./autogen.sh
-
-    configure.args --disable-silent-rules
-
-    depends_build  port:automake \
+depends_build-append \
+                   port:automake \
                    port:autoconf \
                    port:libtool \
                    port:pkgconfig
 
-    test.run       yes
-    test.target    check
+test.run           yes
+test.target        check
 
+
+# pegged legacy versions for older systems
+platform darwin {
+
+    if { ${os.major} == 8 } {
+
+        # peg with patches for 10.4 Tiger, updated occasionally
+        github.setup        libuv libuv 1.44.2 v
+        revision            0
+        checksums           rmd160  c26a497969603a4451e9536552deb73707e0c57d \
+                            sha256  6e442be888ff39eed50c9b96cccb078bf5de0cba143ae1a819baf658d0def3b2 \
+                            size    1308798
+
+        long_description {*}${long_description} This version is pegged for OSX 10.4 Tiger and is updated occasionally. \
+                    Improvements are welcome if you can improve the test suite success (a few tests fail).
+
+        configure.cppflags-append -D__DARWIN_UNIX03
+
+        # prevent conflicting opentransport header from being pulled in
+        configure.cppflags-append -D__OPENTRANSPORTPROVIDERS__
+
+        patchfiles          patch-libuv-unix-core-close-nocancel.diff \
+                            patch-libuv-legacy.diff
+
+        # Tiger has no libutil
+        patchfiles-append   patch-makefile-am-no-libutil-on-Tiger.diff
+
+    } elseif { ${os.major} == 9 || ${os.major} == 10 } {
+
+        # peg, updated occasionally
+        github.setup        libuv libuv 1.44.2 v
+        revision            0
+        checksums           rmd160  c26a497969603a4451e9536552deb73707e0c57d \
+                            sha256  6e442be888ff39eed50c9b96cccb078bf5de0cba143ae1a819baf658d0def3b2 \
+                            size    1308798
+
+        long_description {*}${long_description} This version is pegged for OSX 10.5 Leopard and 10.6 Snow Leopard and is updated occasionally. \
+                    Improvements are welcome if you can improve the test suite success (a few tests fail).
+
+        # needed for the tests to compile correctly on Leopard
+        configure.cppflags-append -D__DARWIN_64_BIT_INO_T
+
+        patchfiles          patch-libuv-unix-core-close-nocancel.diff \
+                            patch-libuv-legacy.diff
+
+    }
 }
