@@ -18,7 +18,6 @@ if {[string match "${name}-qt5*" ${subport}]} {
 }
 # best included after the required Qt PG
 PortGroup               cmake 1.1
-PortGroup               cxx11 1.1
 
 categories              devel crypto security
 maintainers             {gmail.com:rjvbertin @RJVB} openmaintainer
@@ -59,6 +58,7 @@ configure.args          -DCMAKE_INSTALL_PREFIX:PATH=${qt_dir} \
                         -DOSX_FRAMEWORK:BOOL=OFF
 
 # botan requires C++11
+compiler.cxx_standard   2011
 configure.cxxflags-append \
                         -std=c++11
 
@@ -111,7 +111,7 @@ foreach qv ${qt.versions} {
     # the main ports
     if {${subport} eq "${name}${qv}"} {
         # revbump for botan2
-        revision                4
+        revision                5
         depends_lib-append      port:botan \
                                 port:libgcrypt \
                                 port:nss
