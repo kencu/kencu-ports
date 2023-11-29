@@ -1,0 +1,883 @@
+to run the tests
+make sure dbus is loaded
+open xorg-xserver
+go into build directory
+chown -R user:group ./*
+ninja test
+
+
+$ ninja test
+[0/1] Running all tests.
+  1/194 gtk+:gtk / accel                                                          OK               0.06s
+  2/194 gtk+:gtk / accessible                                                     OK               0.07s
+  3/194 gtk+:gtk / adjustment                                                     OK               0.07s
+  4/194 gtk+:gtk / bitmask                                                        OK               0.06s
+  5/194 gtk+:gtk / action                                                         OK               0.15s
+  6/194 gtk+:gtk / builderparser                                                  OK               0.20s
+  7/194 gtk+:gtk / check-icon-names                                               OK               0.23s
+  8/194 gtk+:gtk / cssprovider                                                    OK               0.06s
+  9/194 gtk+:gtk / check-cursor-names                                             OK               0.17s
+ 10/194 gtk+:gtk / builder                                                        OK               0.79s
+ 11/194 gtk+:gtk / cellarea                                                       OK               0.88s
+ 12/194 gtk+:gtk / firefox-stylecontext                                           OK               0.16s
+ 13/194 gtk+:gtk / entry                                                          OK               0.66s
+ 14/194 gtk+:gtk / floating                                                       OK               0.16s
+ 15/194 gtk+:gtk / grid                                                           OK               0.16s
+ 16/194 gtk+:gtk / gestures                                                       OK               0.21s
+ 17/194 gtk+:gtk / focus                                                          OK               0.74s
+ 18/194 gtk+:gtk / keyhash                                                        OK               0.06s
+ 19/194 gtk+:gtk / listbox                                                        OK               0.21s
+ 20/194 gtk+:gtk / icontheme                                                      OK               2.11s
+ 21/194 gtk+:gtk / no-gtk-init                                                    OK               0.03s
+ 22/194 gtk+:gtk / notify                                                         FAIL             3.69s   killed by signal 11 SIGSEGV
+>>> G_ENABLE_DIAGNOSTIC=0 GSETTINGS_SCHEMA_DIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/gtk G_TEST_SRCDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/gtk+-3.24.38/testsuite/gtk GTK_TEST_MESON=1 GIO_USE_VOLUME_MONITOR=unix GSK_RENDERER=cairo GTK_CSD=1 G_TEST_BUILDDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/gtk MALLOC_PERTURB_=117 GSETTINGS_BACKEND=memory /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/gtk/notify --tap -k
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Listing only the last 100 lines from a long log.
+ok 85 /Notification/GtkAppChooserDialog
+ok 86 /Notification/GtkAppChooser
+ok 87 /Notification/GtkAppChooserWidget
+ok 88 /Notification/GtkApplication
+ok 89 /Notification/GtkApplicationInhibitFlags
+ok 90 /Notification/GtkApplicationWindow
+ok 91 /Notification/GtkArrow
+ok 92 /Notification/GtkArrowPlacement
+ok 93 /Notification/GtkArrowType
+ok 94 /Notification/GtkAspectFrame
+ok 95 /Notification/GtkAssistant
+ok 96 /Notification/GtkAssistantPageType
+ok 97 /Notification/GtkAttachOptions
+ok 98 /Notification/GtkBaselinePosition
+ok 99 /Notification/GtkBin
+ok 100 /Notification/GtkBorder
+ok 101 /Notification/GtkBorderStyle
+ok 102 /Notification/GtkBox
+ok 103 /Notification/GtkBuildable
+ok 104 /Notification/GtkBuilderError
+ok 105 /Notification/GtkBuilder
+ok 106 /Notification/GtkButtonBox
+ok 107 /Notification/GtkButtonBoxStyle
+ok 108 /Notification/GtkButton
+ok 109 /Notification/GtkButtonRole
+ok 110 /Notification/GtkButtonsType
+ok 111 /Notification/GtkCalendarDisplayOptions
+ok 112 /Notification/GtkCalendar
+ok 113 /Notification/GtkCellAreaBox
+ok 114 /Notification/GtkCellAreaContext
+ok 115 /Notification/GtkCellArea
+ok 116 /Notification/GtkCellEditable
+ok 117 /Notification/GtkCellLayout
+ok 118 /Notification/GtkCellRendererAccel
+ok 119 /Notification/GtkCellRendererAccelMode
+ok 120 /Notification/GtkCellRendererCombo
+ok 121 /Notification/GtkCellRenderer
+ok 122 /Notification/GtkCellRendererMode
+ok 123 /Notification/GtkCellRendererPixbuf
+ok 124 /Notification/GtkCellRendererProgress
+ok 125 /Notification/GtkCellRendererSpin
+ok 126 /Notification/GtkCellRendererSpinner
+ok 127 /Notification/GtkCellRendererState
+ok 128 /Notification/GtkCellRendererText
+ok 129 /Notification/GtkCellRendererToggle
+ok 130 /Notification/GtkCellView
+ok 131 /Notification/GtkCheckButton
+ok 132 /Notification/GtkCheckMenuItem
+ok 133 /Notification/GtkClipboard
+ok 134 /Notification/GtkColorButton
+# GLib-GIO-DEBUG: _g_io_module_get_default: Found default implementation memory (GMemorySettingsBackend) for ?gsettings-backend?
+ok 135 /Notification/GtkColorChooserDialog
+ok 136 /Notification/GtkColorChooser
+ok 137 /Notification/GtkColorChooserWidget
+ok 138 /Notification/GtkColorSelectionDialog
+ok 139 /Notification/GtkColorSelection
+ok 140 /Notification/GtkComboBox
+ok 141 /Notification/GtkComboBoxText
+ok 142 /Notification/GtkContainer
+ok 143 /Notification/GtkCornerType
+ok 144 /Notification/GtkCssProviderError
+ok 145 /Notification/GtkCssProvider
+ok 146 /Notification/GtkCssSection
+ok 147 /Notification/GtkCssSectionType
+ok 148 /Notification/GtkDebugFlag
+ok 149 /Notification/GtkDeleteType
+ok 150 /Notification/GtkDestDefaults
+ok 151 /Notification/GtkDialogFlags
+ok 152 /Notification/GtkDialog
+ok 153 /Notification/GtkDirectionType
+ok 154 /Notification/GtkDragResult
+ok 155 /Notification/GtkDrawingArea
+ok 156 /Notification/GtkEditable
+ok 157 /Notification/GtkEntryBuffer
+ok 158 /Notification/GtkEntryCompletion
+ok 159 /Notification/GtkEntry
+ok 160 /Notification/GtkEntryIconPosition
+ok 161 /Notification/GtkEventBox
+ok 162 /Notification/GtkEventController
+ok 163 /Notification/GtkEventControllerKey
+ok 164 /Notification/GtkEventControllerMotion
+ok 165 /Notification/GtkEventControllerScrollFlags
+ok 166 /Notification/GtkEventControllerScroll
+ok 167 /Notification/GtkEventSequenceState
+ok 168 /Notification/GtkExpander
+ok 169 /Notification/GtkExpanderStyle
+ok 170 /Notification/GtkFileChooserAction
+ok 171 /Notification/GtkFileChooserButton
+ok 172 /Notification/GtkFileChooserConfirmation
+ok 173 /Notification/GtkFileChooserDialog
+ok 174 /Notification/GtkFileChooserError
+ok 175 /Notification/GtkFileChooser
+ok 176 /Notification/GtkFileChooserNative
+ok 177 /Notification/GtkFileChooserWidget
+ok 178 /Notification/GtkFileFilterFlags
+ok 179 /Notification/GtkFileFilter
+ok 180 /Notification/GtkFixed
+ok 181 /Notification/GtkFlowBoxChild
+ok 182 /Notification/GtkFlowBox
+ok 183 /Notification/GtkFontButton
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+ 23/194 gtk+:gtk / papersize                                                      OK               0.06s
+ 24/194 gtk+:gtk / object                                                         FAIL             2.45s   killed by signal 5 SIGTRAP
+>>> G_ENABLE_DIAGNOSTIC=0 GSETTINGS_SCHEMA_DIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/gtk G_TEST_SRCDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/gtk+-3.24.38/testsuite/gtk MALLOC_PERTURB_=94 GTK_TEST_MESON=1 GIO_USE_VOLUME_MONITOR=unix GSK_RENDERER=cairo GTK_CSD=1 G_TEST_BUILDDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/gtk GSETTINGS_BACKEND=memory /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/gtk/object --tap -k
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+stdout:
+TAP version 13
+# random seed: R02Sae76878cb3c7b11b8b3ff24cfd540e17
+1..130
+# Start of properties tests
+# GLib-GIO-DEBUG: _g_io_module_get_default: Found default implementation local (GLocalVfs) for ?gio-vfs?
+ok 1 /properties/GtkAboutDialog
+# slow test /properties/GtkAboutDialog executed in 0.55 secs
+ok 2 /properties/GtkAccelLabel
+ok 3 /properties/GtkActionBar
+ok 4 /properties/GtkAlignment
+ok 5 /properties/GtkAppChooserButton
+ok 6 /properties/GtkAppChooserDialog
+ok 7 /properties/GtkAppChooserWidget
+ok 8 /properties/GtkApplicationWindow
+ok 9 /properties/GtkArrow
+ok 10 /properties/GtkAspectFrame
+ok 11 /properties/GtkAssistant
+ok 12 /properties/GtkBox
+ok 13 /properties/GtkButtonBox
+ok 14 /properties/GtkButton
+ok 15 /properties/GtkCalendar
+ok 16 /properties/GtkCellView
+ok 17 /properties/GtkCheckButton
+ok 18 /properties/GtkCheckMenuItem
+ok 19 /properties/GtkColorButton
+# GLib-GIO-DEBUG: _g_io_module_get_default: Found default implementation memory (GMemorySettingsBackend) for ?gsettings-backend?
+ok 20 /properties/GtkColorChooserDialog
+ok 21 /properties/GtkColorChooserWidget
+ok 22 /properties/GtkColorSelectionDialog
+ok 23 /properties/GtkColorSelection
+ok 24 /properties/GtkComboBox
+ok 25 /properties/GtkComboBoxText
+ok 26 /properties/GtkDialog
+ok 27 /properties/GtkDrawingArea
+ok 28 /properties/GtkEntry
+ok 29 /properties/GtkEventBox
+ok 30 /properties/GtkExpander
+stderr:
+
+(/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/gtk/object:16211): Gtk-WARNING **: 14:02:11.575: Attempting to read the recently used resources file at '/Users/cunningh/.local/share/recently-used.xbel', but the parser failed: Failed to open file ?/Users/cunningh/.local/share/recently-used.xbel?: Permission denied.
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+ 25/194 gtk+:gtk / defaultvalue                                                   FAIL             6.40s   killed by signal 11 SIGSEGV
+>>> G_ENABLE_DIAGNOSTIC=0 GSETTINGS_SCHEMA_DIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/gtk G_TEST_SRCDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/gtk+-3.24.38/testsuite/gtk MALLOC_PERTURB_=167 GTK_TEST_MESON=1 GIO_USE_VOLUME_MONITOR=unix GSK_RENDERER=cairo GTK_CSD=1 G_TEST_BUILDDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/gtk GSETTINGS_BACKEND=memory /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/gtk/defaultvalue --tap -k
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Listing only the last 100 lines from a long log.
+ok 84 /Default Values/GtkAppChooserButton
+ok 85 /Default Values/GtkAppChooserDialog
+ok 86 /Default Values/GtkAppChooser
+ok 87 /Default Values/GtkAppChooserWidget
+ok 88 /Default Values/GtkApplication
+ok 89 /Default Values/GtkApplicationInhibitFlags
+ok 90 /Default Values/GtkApplicationWindow
+ok 91 /Default Values/GtkArrow
+ok 92 /Default Values/GtkArrowPlacement
+ok 93 /Default Values/GtkArrowType
+ok 94 /Default Values/GtkAspectFrame
+ok 95 /Default Values/GtkAssistant
+ok 96 /Default Values/GtkAssistantPageType
+ok 97 /Default Values/GtkAttachOptions
+ok 98 /Default Values/GtkBaselinePosition
+ok 99 /Default Values/GtkBin
+ok 100 /Default Values/GtkBorder
+ok 101 /Default Values/GtkBorderStyle
+ok 102 /Default Values/GtkBox
+ok 103 /Default Values/GtkBuildable
+ok 104 /Default Values/GtkBuilderError
+ok 105 /Default Values/GtkBuilder
+ok 106 /Default Values/GtkButtonBox
+ok 107 /Default Values/GtkButtonBoxStyle
+ok 108 /Default Values/GtkButton
+ok 109 /Default Values/GtkButtonRole
+ok 110 /Default Values/GtkButtonsType
+ok 111 /Default Values/GtkCalendarDisplayOptions
+ok 112 /Default Values/GtkCalendar
+ok 113 /Default Values/GtkCellAreaBox
+ok 114 /Default Values/GtkCellAreaContext
+ok 115 /Default Values/GtkCellArea
+ok 116 /Default Values/GtkCellEditable
+ok 117 /Default Values/GtkCellLayout
+ok 118 /Default Values/GtkCellRendererAccel
+ok 119 /Default Values/GtkCellRendererAccelMode
+ok 120 /Default Values/GtkCellRendererCombo
+ok 121 /Default Values/GtkCellRenderer
+ok 122 /Default Values/GtkCellRendererMode
+ok 123 /Default Values/GtkCellRendererPixbuf
+ok 124 /Default Values/GtkCellRendererProgress
+ok 125 /Default Values/GtkCellRendererSpin
+ok 126 /Default Values/GtkCellRendererSpinner
+ok 127 /Default Values/GtkCellRendererState
+ok 128 /Default Values/GtkCellRendererText
+ok 129 /Default Values/GtkCellRendererToggle
+ok 130 /Default Values/GtkCellView
+ok 131 /Default Values/GtkCheckButton
+ok 132 /Default Values/GtkCheckMenuItem
+ok 133 /Default Values/GtkClipboard
+ok 134 /Default Values/GtkColorButton
+# GLib-GIO-DEBUG: _g_io_module_get_default: Found default implementation memory (GMemorySettingsBackend) for ?gsettings-backend?
+ok 135 /Default Values/GtkColorChooserDialog
+ok 136 /Default Values/GtkColorChooser
+ok 137 /Default Values/GtkColorChooserWidget
+ok 138 /Default Values/GtkColorSelectionDialog
+ok 139 /Default Values/GtkColorSelection
+ok 140 /Default Values/GtkComboBox
+ok 141 /Default Values/GtkComboBoxText
+ok 142 /Default Values/GtkContainer
+ok 143 /Default Values/GtkCornerType
+ok 144 /Default Values/GtkCssProviderError
+ok 145 /Default Values/GtkCssProvider
+ok 146 /Default Values/GtkCssSection
+ok 147 /Default Values/GtkCssSectionType
+ok 148 /Default Values/GtkDebugFlag
+ok 149 /Default Values/GtkDeleteType
+ok 150 /Default Values/GtkDestDefaults
+ok 151 /Default Values/GtkDialogFlags
+ok 152 /Default Values/GtkDialog
+ok 153 /Default Values/GtkDirectionType
+ok 154 /Default Values/GtkDragResult
+ok 155 /Default Values/GtkDrawingArea
+ok 156 /Default Values/GtkEditable
+ok 157 /Default Values/GtkEntryBuffer
+ok 158 /Default Values/GtkEntryCompletion
+ok 159 /Default Values/GtkEntry
+ok 160 /Default Values/GtkEntryIconPosition
+ok 161 /Default Values/GtkEventBox
+ok 162 /Default Values/GtkEventController
+ok 163 /Default Values/GtkEventControllerKey
+ok 164 /Default Values/GtkEventControllerMotion
+ok 165 /Default Values/GtkEventControllerScrollFlags
+ok 166 /Default Values/GtkEventControllerScroll
+ok 167 /Default Values/GtkEventSequenceState
+ok 168 /Default Values/GtkExpander
+ok 169 /Default Values/GtkExpanderStyle
+ok 170 /Default Values/GtkFileChooserAction
+ok 171 /Default Values/GtkFileChooserButton
+ok 172 /Default Values/GtkFileChooserConfirmation
+ok 173 /Default Values/GtkFileChooserDialog
+ok 174 /Default Values/GtkFileChooserError
+ok 175 /Default Values/GtkFileChooser
+ok 176 /Default Values/GtkFileChooserWidget
+ok 177 /Default Values/GtkFileFilterFlags
+ok 178 /Default Values/GtkFileFilter
+ok 179 /Default Values/GtkFixed
+ok 180 /Default Values/GtkFlowBoxChild
+ok 181 /Default Values/GtkFlowBox
+ok 182 /Default Values/GtkFontButton
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+ 26/194 gtk+:gtk / regression-tests                                               OK               0.17s
+ 27/194 gtk+:gtk / scrolledwindow                                                 OK               0.25s
+ 28/194 gtk+:gtk / rbtree                                                         OK               1.73s
+ 29/194 gtk+:gtk / stylecontext                                                   OK               0.20s
+ 30/194 gtk+:gtk / gtkmenu                                                        OK               6.97s
+ 31/194 gtk+:gtk / spinbutton                                                     OK               1.06s
+ 32/194 gtk+:gtk / textiter                                                       OK               0.06s
+ 33/194 gtk+:gtk / recentmanager                                                  FAIL             2.83s   killed by signal 5 SIGTRAP
+>>> G_ENABLE_DIAGNOSTIC=0 GSETTINGS_SCHEMA_DIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/gtk G_TEST_SRCDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/gtk+-3.24.38/testsuite/gtk GTK_TEST_MESON=1 GIO_USE_VOLUME_MONITOR=unix GSK_RENDERER=cairo GTK_CSD=1 G_TEST_BUILDDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/gtk MALLOC_PERTURB_=104 GSETTINGS_BACKEND=memory /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/gtk/recentmanager --tap -k
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+stdout:
+TAP version 13
+# random seed: R02S328faf54eaf8dec7d63e39f0ca0c6de0
+1..8
+# Start of recent-manager tests
+# GLib-GIO-DEBUG: _g_io_module_get_default: Found default implementation local (GLocalVfs) for ?gio-vfs?
+stderr:
+
+(/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/gtk/recentmanager:16226): Gtk-WARNING **: 14:02:13.198: Attempting to read the recently used resources file at '/Users/cunningh/.local/share/recently-used.xbel', but the parser failed: Failed to open file ?/Users/cunningh/.local/share/recently-used.xbel?: Permission denied.
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+ 34/194 gtk+:gtk / treepath                                                       OK               0.10s
+ 35/194 gtk+:gtk / treemodel                                                      OK               1.01s
+ 36/194 gtk+:gtk / typename                                                       OK               0.02s
+ 37/194 gtk+:gtk / treeview                                                       OK               0.72s
+ 38/194 gtk+:gtk / displayclose                                                   OK               0.53s
+ 39/194 gtk+:gtk / templates                                                      FAIL             2.64s   killed by signal 5 SIGTRAP
+>>> G_ENABLE_DIAGNOSTIC=0 GSETTINGS_SCHEMA_DIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/gtk G_TEST_SRCDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/gtk+-3.24.38/testsuite/gtk GTK_TEST_MESON=1 GIO_USE_VOLUME_MONITOR=unix GSK_RENDERER=cairo GTK_CSD=1 G_TEST_BUILDDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/gtk GSETTINGS_BACKEND=memory MALLOC_PERTURB_=34 /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/gtk/templates --tap -k
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+stdout:
+TAP version 13
+# random seed: R02Sb3061be50d40adf97c3dca40961eadff
+1..24
+# Start of Template tests
+# Start of GtkDialog tests
+# GLib-GIO-DEBUG: _g_io_module_get_default: Found default implementation local (GLocalVfs) for ?gio-vfs?
+ok 1 /Template/GtkDialog/Basic
+ok 2 /Template/GtkDialog/OverrideProperty
+# End of GtkDialog tests
+# Start of GtkMessageDialog tests
+ok 3 /Template/GtkMessageDialog/Basic
+# End of GtkMessageDialog tests
+# Start of GtkAboutDialog tests
+ok 4 /Template/GtkAboutDialog/Basic
+# slow test /Template/GtkAboutDialog/Basic executed in 0.74 secs
+# End of GtkAboutDialog tests
+# Start of GtkInfoBar tests
+ok 5 /Template/GtkInfoBar/Basic
+# End of GtkInfoBar tests
+# Start of GtkLockButton tests
+ok 6 /Template/GtkLockButton/Basic
+# End of GtkLockButton tests
+# Start of GtkAssistant tests
+ok 7 /Template/GtkAssistant/Basic
+# End of GtkAssistant tests
+# Start of GtkScaleButton tests
+ok 8 /Template/GtkScaleButton/Basic
+# End of GtkScaleButton tests
+# Start of GtkVolumeButton tests
+ok 9 /Template/GtkVolumeButton/Basic
+# End of GtkVolumeButton tests
+# Start of GtkStatusBar tests
+ok 10 /Template/GtkStatusBar/Basic
+# End of GtkStatusBar tests
+# Start of GtkSearchBar tests
+ok 11 /Template/GtkSearchBar/Basic
+# End of GtkSearchBar tests
+# Start of GtkActionBar tests
+ok 12 /Template/GtkActionBar/Basic
+# End of GtkActionBar tests
+# Start of GtkAppChooserWidget tests
+ok 13 /Template/GtkAppChooserWidget/Basic
+# End of GtkAppChooserWidget tests
+# Start of GtkAppChooserDialog tests
+ok 14 /Template/GtkAppChooserDialog/Basic
+# slow test /Template/GtkAppChooserDialog/Basic executed in 0.60 secs
+# End of GtkAppChooserDialog tests
+# Start of GtkColorChooserDialog tests
+# GLib-GIO-DEBUG: _g_io_module_get_default: Found default implementation memory (GMemorySettingsBackend) for ?gsettings-backend?
+ok 15 /Template/GtkColorChooserDialog/Basic
+# End of GtkColorChooserDialog tests
+# Start of GtkFileChooserWidget tests
+stderr:
+
+(/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/gtk/templates:16236): Gtk-WARNING **: 14:02:16.423: Attempting to read the recently used resources file at '/Users/cunningh/.local/share/recently-used.xbel', but the parser failed: Failed to open file ?/Users/cunningh/.local/share/recently-used.xbel?: Permission denied.
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+ 40/194 gtk+:gtk / clipboard                                                      OK               0.19s
+ 41/194 gtk+:gtk / textbuffer                                                     OK               2.41s
+ 42/194 gtk+:gtk / c++ keywords                                                   OK               0.02s
+ 43/194 gtk+:gtk / revealer-size                                                  OK               0.59s
+ 44/194 gtk+:gdk / cairo                                                          OK               0.05s
+ 45/194 gtk+:gdk / encoding                                                       OK               0.04s
+ 46/194 gtk+:gdk / keysyms                                                        OK               0.04s
+ 47/194 gtk+:gdk / display                                                        OK               0.12s
+ 48/194 gtk+:gdk / rectangle                                                      OK               0.04s
+ 49/194 gtk+:gdk / rgba                                                           OK               0.04s
+ 50/194 gtk+:gdk / seat                                                           OK               0.04s
+ 51/194 gtk+:gdk / visual                                                         OK               0.04s
+ 52/194 gtk+ / css/parser/css-parser                                              OK               0.05s
+ 53/194 gtk+ / css/nodes/test-nodes                                               OK               0.05s
+ 54/194 gtk+ / css/api                                                            OK               0.04s
+ 55/194 gtk+:a11y / tree-performance                                              OK               0.04s
+ 56/194 gtk+ / css/style/test-style                                               OK               0.15s
+ 57/194 gtk+:a11y / children                                                      OK               0.51s
+ 58/194 gtk+:a11y / text                                                          OK               0.57s
+ 59/194 gtk+:gtk / window                                                         OK               2.29s
+ 60/194 gtk+:a11y / derive                                                        OK               0.13s
+ 61/194 gtk+:a11y / value                                                         OK               0.54s
+ 62/194 gtk+:a11y / util                                                          OK               0.04s
+ 63/194 gtk+:a11y / misc                                                          OK               0.55s
+ 64/194 gtk+:tools / test-simplify                                                OK               0.04s
+ 65/194 gtk+:tools / test-settings                                                OK               0.03s
+ 66/194 gtk+:a11y / tree-relationships                                            OK               0.56s
+ 67/194 gtk+:gtk / objects-finalize                                               FAIL             4.05s   killed by signal 5 SIGTRAP
+>>> G_ENABLE_DIAGNOSTIC=0 GSETTINGS_SCHEMA_DIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/gtk MALLOC_PERTURB_=13 G_TEST_SRCDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/gtk+-3.24.38/testsuite/gtk GTK_TEST_MESON=1 GIO_USE_VOLUME_MONITOR=unix GSK_RENDERER=cairo GTK_CSD=1 G_TEST_BUILDDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/gtk GSETTINGS_BACKEND=memory /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/gtk/objects-finalize --tap -k
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+stdout:
+TAP version 13
+# random seed: R02Sadff0f130de30451d7365d698768d13a
+1..214
+# Start of FinalizeObject tests
+ok 1 /FinalizeObject/GdkAppLaunchContext
+ok 2 /FinalizeObject/GdkDeviceTool
+ok 3 /FinalizeObject/GdkDisplay
+ok 4 /FinalizeObject/GdkDisplayManager
+ok 5 /FinalizeObject/GdkDragContext
+ok 6 /FinalizeObject/GdkKeymap
+ok 7 /FinalizeObject/GdkMonitor
+ok 8 /FinalizeObject/GdkScreen
+ok 9 /FinalizeObject/GdkVisual
+# GLib-GIO-DEBUG: _g_io_module_get_default: Found default implementation local (GLocalVfs) for ?gio-vfs?
+ok 10 /FinalizeObject/GtkAboutDialog
+# slow test /FinalizeObject/GtkAboutDialog executed in 0.51 secs
+ok 11 /FinalizeObject/GtkAccelGroup
+ok 12 /FinalizeObject/GtkAccelLabel
+ok 13 /FinalizeObject/GtkAccelMap
+ok 14 /FinalizeObject/GtkAccessible
+ok 15 /FinalizeObject/GtkActionBar
+ok 16 /FinalizeObject/GtkAction
+ok 17 /FinalizeObject/GtkActionGroup
+ok 18 /FinalizeObject/GtkAdjustment
+ok 19 /FinalizeObject/GtkAlignment
+ok 20 /FinalizeObject/GtkAppChooserButton
+ok 21 /FinalizeObject/GtkAppChooserDialog
+ok 22 /FinalizeObject/GtkAppChooserWidget
+ok 23 /FinalizeObject/GtkApplication
+ok 24 /FinalizeObject/GtkApplicationWindow
+ok 25 /FinalizeObject/GtkArrow
+ok 26 /FinalizeObject/GtkAspectFrame
+ok 27 /FinalizeObject/GtkAssistant
+ok 28 /FinalizeObject/GtkBox
+ok 29 /FinalizeObject/GtkBuilder
+ok 30 /FinalizeObject/GtkButtonBox
+ok 31 /FinalizeObject/GtkButton
+ok 32 /FinalizeObject/GtkCalendar
+ok 33 /FinalizeObject/GtkCellAreaBox
+ok 34 /FinalizeObject/GtkCellAreaContext
+ok 35 /FinalizeObject/GtkCellRendererAccel
+ok 36 /FinalizeObject/GtkCellRendererCombo
+ok 37 /FinalizeObject/GtkCellRendererPixbuf
+ok 38 /FinalizeObject/GtkCellRendererProgress
+ok 39 /FinalizeObject/GtkCellRendererSpin
+ok 40 /FinalizeObject/GtkCellRendererSpinner
+ok 41 /FinalizeObject/GtkCellRendererText
+ok 42 /FinalizeObject/GtkCellRendererToggle
+ok 43 /FinalizeObject/GtkCellView
+ok 44 /FinalizeObject/GtkCheckButton
+ok 45 /FinalizeObject/GtkCheckMenuItem
+ok 46 /FinalizeObject/GtkClipboard
+ok 47 /FinalizeObject/GtkColorButton
+# GLib-GIO-DEBUG: _g_io_module_get_default: Found default implementation memory (GMemorySettingsBackend) for ?gsettings-backend?
+ok 48 /FinalizeObject/GtkColorChooserDialog
+ok 49 /FinalizeObject/GtkColorChooserWidget
+ok 50 /FinalizeObject/GtkColorSelectionDialog
+ok 51 /FinalizeObject/GtkColorSelection
+ok 52 /FinalizeObject/GtkComboBox
+ok 53 /FinalizeObject/GtkComboBoxText
+ok 54 /FinalizeObject/GtkCssProvider
+ok 55 /FinalizeObject/GtkDialog
+ok 56 /FinalizeObject/GtkDrawingArea
+ok 57 /FinalizeObject/GtkEntryBuffer
+ok 58 /FinalizeObject/GtkEntryCompletion
+ok 59 /FinalizeObject/GtkEntry
+ok 60 /FinalizeObject/GtkEventBox
+ok 61 /FinalizeObject/GtkEventControllerKey
+ok 62 /FinalizeObject/GtkEventControllerMotion
+ok 63 /FinalizeObject/GtkEventControllerScroll
+ok 64 /FinalizeObject/GtkExpander
+stderr:
+
+(/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/gtk/objects-finalize:16265): Gtk-WARNING **: 14:02:21.669: Attempting to read the recently used resources file at '/Users/cunningh/.local/share/recently-used.xbel', but the parser failed: Failed to open file ?/Users/cunningh/.local/share/recently-used.xbel?: Permission denied.
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+ 68/194 gtk+:reftest / reftest 721800-0px-dotted-border.ui                        OK               0.52s
+ 69/194 gtk+:reftest / reftest actionbar.ui                                       OK               0.51s
+ 70/194 gtk+:reftest / reftest alignment-props.ui                                 OK               0.24s
+ 71/194 gtk+:reftest / reftest animation-direction.ui                             FAIL             1.24s   killed by signal 5 SIGTRAP
+>>> G_ENABLE_DIAGNOSTIC=0 GSETTINGS_SCHEMA_DIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/gtk GSETTINGS_BACKEND=memory MALLOC_PERTURB_=103 GTK_TEST_MESON=1 GTK_CSD=0 G_TEST_BUILDDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests G_TEST_SRCDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/gtk+-3.24.38/testsuite/reftests GTK_IM_MODULE=gtk-im-context-simple REFTEST_MODULE_DIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests/gtk-reftest --tap -k --verbose -o /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests/output /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/gtk+-3.24.38/testsuite/reftests/animation-direction.ui
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+stdout:
+TAP version 13
+# random seed: R02S47f5213b2e963187e3eb87d675d45ccc
+# GLib-GIO-DEBUG: _g_io_module_get_default: Found default implementation local (GLocalVfs) for ?gio-vfs?
+1..1
+# Start of opt tests
+# Start of local tests
+# Start of var tests
+# Start of macports tests
+# Start of build tests
+# Start of _opt_kencu-ports_gnome_gtk3 tests
+# Start of gtk3 tests
+# Start of work tests
+# Start of gtk+-3.24.38 tests
+# Start of testsuite tests
+# Start of reftests tests
+stderr:
+
+** (gtk-reftest:16321): ERROR **: 14:02:23.466: Could not load module 'reftest' from '/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests' when looking up 'reftest:strip_attributes_if_no_animation'
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+ 72/194 gtk+:reftest / reftest animation-fill-mode-iteration-count.ui             OK               1.68s
+ 73/194 gtk+:reftest / reftest background-area.ui                                 OK               0.24s
+ 74/194 gtk+:reftest / reftest background-blend-mode-clip-interaction.ui          OK               0.24s
+ 75/194 gtk+:reftest / reftest background-color-transparent.ui                    OK               1.52s
+ 76/194 gtk+:reftest / reftest background-image-multiple.ui                       OK               0.24s
+ 77/194 gtk+:reftest / reftest background-origin.ui                               OK               0.26s
+ 78/194 gtk+:reftest / reftest background-positioning-area-empty.ui               OK               0.29s
+ 79/194 gtk+:reftest / reftest background-position.ui                             OK               0.24s
+ 80/194 gtk+:reftest / reftest background-position-repeat.ui                      OK               0.23s
+ 81/194 gtk+:reftest / reftest background-position-simple.ui                      OK               0.22s
+ 82/194 gtk+:reftest / reftest background-size.ui                                 OK               0.55s
+ 83/194 gtk+:reftest / reftest background-size-keywords.ui                        OK               0.53s
+ 84/194 gtk+:reftest / reftest background-size-zero.ui                            OK               0.23s
+ 85/194 gtk+:reftest / reftest background-window-transparent.ui                   OK               0.23s
+ 86/194 gtk+:reftest / reftest bad-color-names.ui                                 OK               0.22s
+ 87/194 gtk+:reftest / reftest border-color-default.ui                            OK               0.21s
+ 88/194 gtk+:reftest / reftest border-corner-zero-width-rendering.ui              OK               0.53s
+ 89/194 gtk+:reftest / reftest border-half-pixel.ui                               OK               0.22s
+ 90/194 gtk+:reftest / reftest border-image-excess-size.ui                        OK               0.22s
+ 91/194 gtk+:reftest / reftest border-image-gradient.ui                           OK               0.55s
+ 92/194 gtk+:reftest / reftest border-image-url-scaled.ui                         OK               0.51s
+ 93/194 gtk+:reftest / reftest border-image-url.ui                                OK               0.52s
+ 94/194 gtk+:reftest / reftest border-radius-clamp.ui                             OK               0.22s
+ 95/194 gtk+:reftest / reftest border-style-none.ui                               OK               0.22s
+ 96/194 gtk+:reftest / reftest border-style.ui                                    OK               0.23s
+ 97/194 gtk+:reftest / reftest box-child-expand.ui                                OK               0.22s
+ 98/194 gtk+:reftest / reftest box-order.ui                                       OK               0.54s
+ 99/194 gtk+:reftest / reftest box-packing.ui                                     OK               0.24s
+100/194 gtk+:reftest / reftest box-pseudo-classes.ui                              OK               0.57s
+101/194 gtk+:reftest / reftest box-shadow-spec-inset.ui                           OK               0.27s
+102/194 gtk+:reftest / reftest box-shadow-spread.ui                               OK               0.52s
+103/194 gtk+:reftest / reftest box-shadow-with-blend-mode.ui                      OK               0.56s
+104/194 gtk+:reftest / reftest color-transition.ui                                OK               0.24s
+105/194 gtk+:reftest / reftest css-em-label-size.ui                               OK               0.59s
+106/194 gtk+:reftest / reftest css-currentcolor-alpha.ui                          OK               0.24s
+107/194 gtk+:reftest / reftest css-image-aspect-ratio.ui                          OK               0.26s
+108/194 gtk+:reftest / reftest css-image-color-aspect-ratio.ui                    OK               0.21s
+109/194 gtk+:reftest / reftest css-match-class.ui                                 OK               0.50s
+110/194 gtk+:reftest / reftest css-match-descendant-later.ui                      OK               0.23s
+111/194 gtk+:reftest / reftest css-match-exact.ui                                 OK               0.21s
+112/194 gtk+:reftest / reftest css-match-import.ui                                OK               0.52s
+113/194 gtk+:reftest / reftest css-match-inherit.ui                               OK               0.50s
+114/194 gtk+:reftest / reftest css-match-inherit-different-state.ui               OK               0.52s
+115/194 gtk+:reftest / reftest css-match-name.ui                                  OK               0.53s
+116/194 gtk+:reftest / reftest css-match-siblings.ui                              OK               0.54s
+117/194 gtk+:reftest / reftest css-match-type.ui                                  OK               0.52s
+118/194 gtk+:reftest / reftest css-multi-state.ui                                 OK               0.51s
+119/194 gtk+:reftest / reftest fixed-widget-stacking.ui                           OK               0.54s
+120/194 gtk+:reftest / reftest flipping-icons.ui                                  FAIL             0.91s   killed by signal 5 SIGTRAP
+>>> G_ENABLE_DIAGNOSTIC=0 GSETTINGS_SCHEMA_DIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/gtk GSETTINGS_BACKEND=memory GTK_TEST_MESON=1 GTK_CSD=0 MALLOC_PERTURB_=131 G_TEST_BUILDDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests G_TEST_SRCDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/gtk+-3.24.38/testsuite/reftests GTK_IM_MODULE=gtk-im-context-simple REFTEST_MODULE_DIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests/gtk-reftest --tap -k --verbose -o /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests/output /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/gtk+-3.24.38/testsuite/reftests/flipping-icons.ui
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+stdout:
+TAP version 13
+# random seed: R02S565b9960bdf108c5e7128b973d5cbdac
+# GLib-GIO-DEBUG: _g_io_module_get_default: Found default implementation local (GLocalVfs) for ?gio-vfs?
+1..1
+# Start of opt tests
+# Start of local tests
+# Start of var tests
+# Start of macports tests
+# Start of build tests
+# Start of _opt_kencu-ports_gnome_gtk3 tests
+# Start of gtk3 tests
+# Start of work tests
+# Start of gtk+-3.24.38 tests
+# Start of testsuite tests
+# Start of reftests tests
+stderr:
+
+** (gtk-reftest:16419): ERROR **: 14:02:44.400: Could not load module 'reftest' from '/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests' when looking up 'reftest:switch_default_direction'
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+121/194 gtk+:reftest / reftest font-sizes-names.ui                                OK               0.60s
+122/194 gtk+:reftest / reftest gtk-image-effect-inherit.ui                        OK               0.53s
+123/194 gtk+:reftest / reftest grid-empty-with-spacing.ui                         OK               0.24s
+124/194 gtk+:reftest / reftest grid-expand.ui                                     OK               0.23s
+125/194 gtk+:reftest / reftest grid-wfh.ui                                        OK               0.52s
+126/194 gtk+:reftest / reftest grid-homogeneous.ui                                OK               0.23s
+127/194 gtk+:reftest / reftest grid-spacing1.ui                                   OK               0.53s
+128/194 gtk+:reftest / reftest grid-spacing2.ui                                   OK               0.53s
+129/194 gtk+:reftest / reftest grid-spacing3.ui                                   OK               0.21s
+130/194 gtk+:reftest / reftest gtk-icontheme-sizing.ui                            OK               0.55s
+131/194 gtk+:reftest / reftest icon-effect-missing.ui                             OK               0.55s
+132/194 gtk+:reftest / reftest icon-shadow-no-transform.ui                        OK               0.21s
+133/194 gtk+:reftest / reftest icon-style-basics.ui                               OK               0.69s
+134/194 gtk+:reftest / reftest icon-vfuncs.ui                                     OK               1.54s
+135/194 gtk+:reftest / reftest iconview-empty.ui                                  OK               0.51s
+136/194 gtk+:reftest / reftest image-icon-name-use-fallback.ui                    OK               0.52s
+137/194 gtk+:reftest / reftest image-icon-shadow-clipping.ui                      OK               0.53s
+138/194 gtk+:reftest / reftest image-load-from-file.ui                            OK               0.65s
+139/194 gtk+:reftest / reftest image-recording-surface.ui                         FAIL             0.91s   killed by signal 5 SIGTRAP
+>>> G_ENABLE_DIAGNOSTIC=0 GSETTINGS_SCHEMA_DIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/gtk GSETTINGS_BACKEND=memory GTK_TEST_MESON=1 GTK_CSD=0 G_TEST_BUILDDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests MALLOC_PERTURB_=130 G_TEST_SRCDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/gtk+-3.24.38/testsuite/reftests GTK_IM_MODULE=gtk-im-context-simple REFTEST_MODULE_DIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests/gtk-reftest --tap -k --verbose -o /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests/output /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/gtk+-3.24.38/testsuite/reftests/image-recording-surface.ui
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+stdout:
+TAP version 13
+# random seed: R02S4e28b0f23275a06e2d0a94d14115de95
+# GLib-GIO-DEBUG: _g_io_module_get_default: Found default implementation local (GLocalVfs) for ?gio-vfs?
+1..1
+# Start of opt tests
+# Start of local tests
+# Start of var tests
+# Start of macports tests
+# Start of build tests
+# Start of _opt_kencu-ports_gnome_gtk3 tests
+# Start of gtk3 tests
+# Start of work tests
+# Start of gtk+-3.24.38 tests
+# Start of testsuite tests
+# Start of reftests tests
+stderr:
+
+** (gtk-reftest:16457): ERROR **: 14:02:54.734: Could not load module 'reftest' from '/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests' when looking up 'reftest:image_recording_surface_set'
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+140/194 gtk+:reftest / reftest info-bar-message-types.ui                          OK               0.60s
+141/194 gtk+:reftest / reftest inherit-and-initial.ui                             FAIL             1.25s   killed by signal 5 SIGTRAP
+>>> G_ENABLE_DIAGNOSTIC=0 GSETTINGS_SCHEMA_DIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/gtk GSETTINGS_BACKEND=memory MALLOC_PERTURB_=58 GTK_TEST_MESON=1 GTK_CSD=0 G_TEST_BUILDDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests G_TEST_SRCDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/gtk+-3.24.38/testsuite/reftests GTK_IM_MODULE=gtk-im-context-simple REFTEST_MODULE_DIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests/gtk-reftest --tap -k --verbose -o /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests/output /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/gtk+-3.24.38/testsuite/reftests/inherit-and-initial.ui
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+stdout:
+TAP version 13
+# random seed: R02S4e779158e6e304a481d14759730e12ab
+# GLib-GIO-DEBUG: _g_io_module_get_default: Found default implementation local (GLocalVfs) for ?gio-vfs?
+1..1
+# Start of opt tests
+# Start of local tests
+# Start of var tests
+# Start of macports tests
+# Start of build tests
+# Start of _opt_kencu-ports_gnome_gtk3 tests
+# Start of gtk3 tests
+# Start of work tests
+# Start of gtk+-3.24.38 tests
+# Start of testsuite tests
+# Start of reftests tests
+stderr:
+
+(gtk-reftest:16461): Gtk-WARNING **: 14:02:56.578: Attempting to read the recently used resources file at '/Users/cunningh/.local/share/recently-used.xbel', but the parser failed: Failed to open file ?/Users/cunningh/.local/share/recently-used.xbel?: Permission denied.
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+142/194 gtk+:reftest / reftest label-attribute-preference.ui                      OK               0.60s
+143/194 gtk+:reftest / reftest label-background.ui                                FAIL             0.52s   exit status 1
+>>> G_ENABLE_DIAGNOSTIC=0 GSETTINGS_SCHEMA_DIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/gtk GSETTINGS_BACKEND=memory GTK_TEST_MESON=1 GTK_CSD=0 MALLOC_PERTURB_=132 G_TEST_BUILDDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests G_TEST_SRCDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/gtk+-3.24.38/testsuite/reftests GTK_IM_MODULE=gtk-im-context-simple REFTEST_MODULE_DIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests/gtk-reftest --tap -k --verbose -o /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests/output /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/gtk+-3.24.38/testsuite/reftests/label-background.ui
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+TAP version 13
+# random seed: R02Sc2da79c476988a79a6a3708368708a30
+# GLib-GIO-DEBUG: _g_io_module_get_default: Found default implementation local (GLocalVfs) for ?gio-vfs?
+1..1
+# Start of opt tests
+# Start of local tests
+# Start of var tests
+# Start of macports tests
+# Start of build tests
+# Start of _opt_kencu-ports_gnome_gtk3 tests
+# Start of gtk3 tests
+# Start of work tests
+# Start of gtk+-3.24.38 tests
+# Start of testsuite tests
+# Start of reftests tests
+# Storing test result image at /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests/output/label-background.out.png
+# Storing test result image at /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests/output/label-background.ref.png
+# Storing test result image at /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests/output/label-background.diff.png
+not ok 1 /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/gtk+-3.24.38/testsuite/reftests/label-background.ui
+# End of reftests tests
+# End of testsuite tests
+# End of gtk+-3.24.38 tests
+# End of work tests
+# End of gtk3 tests
+# End of _opt_kencu-ports_gnome_gtk3 tests
+# End of build tests
+# End of macports tests
+# End of var tests
+# End of local tests
+# End of opt tests
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+144/194 gtk+:reftest / reftest label-box-shadow-clip.ui                           OK               0.51s
+145/194 gtk+:reftest / reftest label-clipping.ui                                  OK               0.60s
+146/194 gtk+:reftest / reftest label-ellipsize-small.ui                           OK               0.59s
+147/194 gtk+:reftest / reftest label-ellipsize-with-big.ui                        OK               0.55s
+148/194 gtk+:reftest / reftest label-fonts.ui                                     OK               0.25s
+149/194 gtk+:reftest / reftest label-shadows.ui                                   OK               0.58s
+150/194 gtk+:reftest / reftest label-small-ellipsized.ui                          OK               0.63s
+151/194 gtk+:reftest / reftest label-text-shadow-clipping.ui                      OK               0.63s
+152/194 gtk+:reftest / reftest label-width-chars-dont-shrink.ui                   OK               0.57s
+153/194 gtk+:reftest / reftest letter-spacing.ui                                  FAIL             1.27s   killed by signal 5 SIGTRAP
+>>> G_ENABLE_DIAGNOSTIC=0 GSETTINGS_SCHEMA_DIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/gtk GSETTINGS_BACKEND=memory GTK_TEST_MESON=1 GTK_CSD=0 G_TEST_BUILDDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests G_TEST_SRCDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/gtk+-3.24.38/testsuite/reftests GTK_IM_MODULE=gtk-im-context-simple REFTEST_MODULE_DIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests MALLOC_PERTURB_=7 /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests/gtk-reftest --tap -k --verbose -o /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests/output /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/gtk+-3.24.38/testsuite/reftests/letter-spacing.ui
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+stdout:
+TAP version 13
+# random seed: R02S0b187bc8acb42fb7c6050f61c7db67d7
+# GLib-GIO-DEBUG: _g_io_module_get_default: Found default implementation local (GLocalVfs) for ?gio-vfs?
+1..1
+# Start of opt tests
+# Start of local tests
+# Start of var tests
+# Start of macports tests
+# Start of build tests
+# Start of _opt_kencu-ports_gnome_gtk3 tests
+# Start of gtk3 tests
+# Start of work tests
+# Start of gtk+-3.24.38 tests
+# Start of testsuite tests
+# Start of reftests tests
+stderr:
+
+** (gtk-reftest:16491): ERROR **: 14:03:03.889: Could not load module 'reftest' from '/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests' when looking up 'reftest:set_letter_spacing'
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+154/194 gtk+:reftest / reftest linear-gradient.ui                                 OK               0.29s
+155/194 gtk+:reftest / reftest linear-gradient-transition-to-other.ui             OK               0.26s
+156/194 gtk+:reftest / reftest link-coloring.ui                                   OK               0.52s
+157/194 gtk+:reftest / reftest messagedialog-secondarytext.ui                     OK               0.52s
+158/194 gtk+:reftest / reftest misc-alignment.ui                                  OK               0.58s
+159/194 gtk+:reftest / reftest named-colors.ui                                    OK               0.64s
+160/194 gtk+:reftest / reftest no-colors.ui                                       OK               0.50s
+161/194 gtk+:reftest / reftest nonresizable-size.ui                               OK               0.50s
+162/194 gtk+:reftest / reftest notebook-childproperties.ui                        OK               0.50s
+163/194 gtk+:reftest / reftest notebook-tab-position.ui                           OK               0.51s
+164/194 gtk+:reftest / reftest nth-child.ui                                       OK               0.53s
+165/194 gtk+:reftest / reftest opacity.ui                                         OK               0.22s
+166/194 gtk+:reftest / reftest opacity-initial.ui                                 OK               0.52s
+167/194 gtk+:reftest / reftest overlay-no-main-widget.ui                          OK               1.51s
+168/194 gtk+:reftest / reftest paned-undersized.ui                                OK               0.50s
+169/194 gtk+:reftest / reftest pseudoclass-on-box.ui                              OK               0.51s
+170/194 gtk+:reftest / reftest pseudoclass-on-parent.ui                           OK               0.52s
+171/194 gtk+:reftest / reftest revealer-extra-size.ui                             OK               0.60s
+172/194 gtk+:reftest / reftest revealer-wrappable-contents.ui                     OK               0.57s
+173/194 gtk+:reftest / reftest rotated-layout.ui                                  OK               0.51s
+174/194 gtk+:reftest / reftest separator-size.ui                                  OK               0.57s
+175/194 gtk+:reftest / reftest set-default-direction.ui                           FAIL             0.96s   killed by signal 5 SIGTRAP
+>>> G_ENABLE_DIAGNOSTIC=0 GSETTINGS_SCHEMA_DIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/gtk GSETTINGS_BACKEND=memory GTK_TEST_MESON=1 GTK_CSD=0 G_TEST_BUILDDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests MALLOC_PERTURB_=62 G_TEST_SRCDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/gtk+-3.24.38/testsuite/reftests GTK_IM_MODULE=gtk-im-context-simple REFTEST_MODULE_DIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests/gtk-reftest --tap -k --verbose -o /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests/output /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/gtk+-3.24.38/testsuite/reftests/set-default-direction.ui
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+stdout:
+TAP version 13
+# random seed: R02Sfc0ef173e17feb001e648b6b5ef9ffaf
+# GLib-GIO-DEBUG: _g_io_module_get_default: Found default implementation local (GLocalVfs) for ?gio-vfs?
+1..1
+# Start of opt tests
+# Start of local tests
+# Start of var tests
+# Start of macports tests
+# Start of build tests
+# Start of _opt_kencu-ports_gnome_gtk3 tests
+# Start of gtk3 tests
+# Start of work tests
+# Start of gtk+-3.24.38 tests
+# Start of testsuite tests
+# Start of reftests tests
+stderr:
+
+** (gtk-reftest:16535): ERROR **: 14:03:16.283: Could not load module 'reftest' from '/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests' when looking up 'reftest:switch_default_direction'
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+176/194 gtk+:reftest / reftest shadow-clip-rounding.ui                            OK               0.58s
+177/194 gtk+:reftest / reftest shorthand-entry-border.ui                          OK               0.52s
+178/194 gtk+:reftest / reftest simple.ui                                          OK               0.23s
+179/194 gtk+:reftest / reftest sizegroups-basics.ui                               OK               0.68s
+180/194 gtk+:reftest / reftest sizegroups-evolution-identity-page.ui              OK               0.66s
+181/194 gtk+:reftest / reftest sizegroups-get-preferred-null.ui                   OK               0.52s
+182/194 gtk+:reftest / reftest statusbar-remove-all.ui                            FAIL             0.90s   killed by signal 5 SIGTRAP
+>>> G_ENABLE_DIAGNOSTIC=0 GSETTINGS_SCHEMA_DIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/gtk GSETTINGS_BACKEND=memory GTK_TEST_MESON=1 MALLOC_PERTURB_=48 GTK_CSD=0 G_TEST_BUILDDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests G_TEST_SRCDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/gtk+-3.24.38/testsuite/reftests GTK_IM_MODULE=gtk-im-context-simple REFTEST_MODULE_DIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests/gtk-reftest --tap -k --verbose -o /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests/output /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/gtk+-3.24.38/testsuite/reftests/statusbar-remove-all.ui
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+stdout:
+TAP version 13
+# random seed: R02S214501d29051750112b10d1803b19880
+# GLib-GIO-DEBUG: _g_io_module_get_default: Found default implementation local (GLocalVfs) for ?gio-vfs?
+1..1
+# Start of opt tests
+# Start of local tests
+# Start of var tests
+# Start of macports tests
+# Start of build tests
+# Start of _opt_kencu-ports_gnome_gtk3 tests
+# Start of gtk3 tests
+# Start of work tests
+# Start of gtk+-3.24.38 tests
+# Start of testsuite tests
+# Start of reftests tests
+stderr:
+
+** (gtk-reftest:16550): ERROR **: 14:03:20.431: Could not load module 'reftest' from '/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests' when looking up 'reftest:statusbar_remove_all'
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+183/194 gtk+:reftest / reftest style-context-save-inheritance.ui                  OK               0.59s
+184/194 gtk+:reftest / reftest style-properties-nth-child.ui                      OK               0.58s
+185/194 gtk+:reftest / reftest style-properties-only-child.ui                     OK               0.55s
+186/194 gtk+:reftest / reftest textview-border-windows.ui                         FAIL             1.14s   killed by signal 5 SIGTRAP
+>>> G_ENABLE_DIAGNOSTIC=0 GSETTINGS_SCHEMA_DIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/gtk GSETTINGS_BACKEND=memory GTK_TEST_MESON=1 GTK_CSD=0 G_TEST_BUILDDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests MALLOC_PERTURB_=11 G_TEST_SRCDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/gtk+-3.24.38/testsuite/reftests GTK_IM_MODULE=gtk-im-context-simple REFTEST_MODULE_DIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests/gtk-reftest --tap -k --verbose -o /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests/output /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/gtk+-3.24.38/testsuite/reftests/textview-border-windows.ui
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+stdout:
+TAP version 13
+# random seed: R02S174f40e067d1f8ee815cdf75127ba2c4
+# GLib-GIO-DEBUG: _g_io_module_get_default: Found default implementation local (GLocalVfs) for ?gio-vfs?
+1..1
+# Start of opt tests
+# Start of local tests
+# Start of var tests
+# Start of macports tests
+# Start of build tests
+# Start of _opt_kencu-ports_gnome_gtk3 tests
+# Start of gtk3 tests
+# Start of work tests
+# Start of gtk+-3.24.38 tests
+# Start of testsuite tests
+# Start of reftests tests
+stderr:
+
+** (gtk-reftest:16558): ERROR **: 14:03:23.315: Could not load module 'reftest' from '/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests' when looking up 'reftest:add_border_windows'
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+187/194 gtk+:reftest / reftest textview-margins.ui                                OK               0.63s
+188/194 gtk+:reftest / reftest textview-tags.ui                                   FAIL             1.15s   killed by signal 5 SIGTRAP
+>>> G_ENABLE_DIAGNOSTIC=0 GSETTINGS_SCHEMA_DIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/gtk GSETTINGS_BACKEND=memory MALLOC_PERTURB_=249 GTK_TEST_MESON=1 GTK_CSD=0 G_TEST_BUILDDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests G_TEST_SRCDIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/gtk+-3.24.38/testsuite/reftests GTK_IM_MODULE=gtk-im-context-simple REFTEST_MODULE_DIR=/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests/gtk-reftest --tap -k --verbose -o /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests/output /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/gtk+-3.24.38/testsuite/reftests/textview-tags.ui
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+stdout:
+TAP version 13
+# random seed: R02S3d4a40e35019bd42e859e72d56e7f30c
+# GLib-GIO-DEBUG: _g_io_module_get_default: Found default implementation local (GLocalVfs) for ?gio-vfs?
+1..1
+# Start of opt tests
+# Start of local tests
+# Start of var tests
+# Start of macports tests
+# Start of build tests
+# Start of _opt_kencu-ports_gnome_gtk3 tests
+# Start of gtk3 tests
+# Start of work tests
+# Start of gtk+-3.24.38 tests
+# Start of testsuite tests
+# Start of reftests tests
+stderr:
+
+** (gtk-reftest:16562): ERROR **: 14:03:25.106: Could not load module 'reftest' from '/opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/testsuite/reftests' when looking up 'reftest:apply_tags_blue'
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+189/194 gtk+:reftest / reftest treeview-fixed-height.ui                           OK               0.68s
+190/194 gtk+:reftest / reftest treeview-headers-hidden.ui                         OK               0.53s
+191/194 gtk+:reftest / reftest unresolvable.ui                                    OK               0.23s
+192/194 gtk+:reftest / reftest window-border-width.ui                             OK               0.52s
+193/194 gtk+:reftest / reftest window-default-size.ui                             OK               0.21s
+194/194 gtk+:reftest / reftest window-show-contents-on-map.ui                     OK               0.51s
+
+Summary of Failures:
+
+ 22/194 gtk+:gtk / notify                                                FAIL             3.69s   killed by signal 11 SIGSEGV
+ 24/194 gtk+:gtk / object                                                FAIL             2.45s   killed by signal 5 SIGTRAP
+ 25/194 gtk+:gtk / defaultvalue                                          FAIL             6.40s   killed by signal 11 SIGSEGV
+ 33/194 gtk+:gtk / recentmanager                                         FAIL             2.83s   killed by signal 5 SIGTRAP
+ 39/194 gtk+:gtk / templates                                             FAIL             2.64s   killed by signal 5 SIGTRAP
+ 67/194 gtk+:gtk / objects-finalize                                      FAIL             4.05s   killed by signal 5 SIGTRAP
+ 71/194 gtk+:reftest / reftest animation-direction.ui                    FAIL             1.24s   killed by signal 5 SIGTRAP
+120/194 gtk+:reftest / reftest flipping-icons.ui                         FAIL             0.91s   killed by signal 5 SIGTRAP
+139/194 gtk+:reftest / reftest image-recording-surface.ui                FAIL             0.91s   killed by signal 5 SIGTRAP
+141/194 gtk+:reftest / reftest inherit-and-initial.ui                    FAIL             1.25s   killed by signal 5 SIGTRAP
+143/194 gtk+:reftest / reftest label-background.ui                       FAIL             0.52s   exit status 1
+153/194 gtk+:reftest / reftest letter-spacing.ui                         FAIL             1.27s   killed by signal 5 SIGTRAP
+175/194 gtk+:reftest / reftest set-default-direction.ui                  FAIL             0.96s   killed by signal 5 SIGTRAP
+182/194 gtk+:reftest / reftest statusbar-remove-all.ui                   FAIL             0.90s   killed by signal 5 SIGTRAP
+186/194 gtk+:reftest / reftest textview-border-windows.ui                FAIL             1.14s   killed by signal 5 SIGTRAP
+188/194 gtk+:reftest / reftest textview-tags.ui                          FAIL             1.15s   killed by signal 5 SIGTRAP
+
+Ok:                 178 
+Expected Fail:      0   
+Fail:               16  
+Unexpected Pass:    0   
+Skipped:            0   
+Timeout:            0   
+
+Full log written to /opt/local/var/macports/build/_opt_kencu-ports_gnome_gtk3/gtk3/work/build/meson-logs/testlog.txt
+FAILED: meson-internal__test 
+/opt/local/bin/meson test --no-rebuild --print-errorlogs
+ninja: build stopped: subcommand failed.
