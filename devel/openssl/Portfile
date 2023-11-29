@@ -10,8 +10,8 @@ legacysupport.newest_darwin_requires_legacy 8
 
 name                openssl
 epoch               1
-version             3.0.5
-revision            0
+version             3.1.4
+revision            100
 
 # Please revbump these ports when updating OpenSSL.
 #  - freeradius (#43461)
@@ -46,18 +46,14 @@ master_sites        ${homepage}/source \
                     ftp://ftp.linux.hr/pub/openssl/source/ \
                     ftp://guest.kuria.katowice.pl/pub/openssl/source/
 
-checksums           rmd160  05b59b3e88da2aea3ea94018d8503161367bcbd1 \
-                    sha256  aa7d8d9bef71ad6525c55ba11e5f4397889ce49c2c9349dcea6d3e4f0b024a7a \
-                    size    15074407
+checksums           rmd160  44e8f5368a6f62508b8b83124239bf1ebbba8d18 \
+                    sha256  840af5366ab9b522bde525826be3ef0fb0af81c6a9ebd84caa600fea1731eee3 \
+                    size    15569450
 
 if {${os.platform} eq "darwin" && ${os.major} < 11} {
     # Having the stdlib set to libc++ on 10.6 causes a dependency on a
     # macports-clang compiler to be added, which would be a dep cycle.
 #    configure.cxx_stdlib
-}
-
-if {${os.platform} eq "darwin" && ${os.major} < 19} {
-    patchfiles-append patch-disable-avx512.diff
 }
 
 configure.ccache    no
