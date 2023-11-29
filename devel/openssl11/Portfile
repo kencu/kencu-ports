@@ -46,7 +46,11 @@ if {${os.platform} eq "darwin" && ${os.major} < 11} {
 }
 
 configure.ccache    no
-configure.perl      ${prefix}/bin/perl5
+configure.perl      /usr/bin/perl
+
+# 10.6 needs newer perl to run tests
+#configure.perl      ${prefix}/bin/perl5
+
 configure.cmd       ./Configure
 configure.args      -L${prefix}/lib \
                     --openssldir=${prefix}/etc/openssl \
