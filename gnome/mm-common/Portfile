@@ -4,10 +4,13 @@ PortSystem          1.0
 PortGroup           meson 1.0
 
 name                mm-common
-version             1.0.1
-revision            1
-license             GPL-2
-set branch          [join [lrange [split ${version} .] 0 1] .]
+version             1.0.5
+revision            0
+
+categories          gnome devel
+license             GPL-2+
+maintainers         nomaintainer
+supported_archs     noarch
 
 description         The mm-common module provides the build infrastructure and \
                     utilities shared among the GNOME C++ binding libraries.
@@ -18,39 +21,30 @@ long_description    The mm-common module provides the build infrastructure and \
                     from the gnome.org version control repository.  An installation \
                     of mm-common is not required for building tarball releases, \
                     unless configured to use maintainer-mode.
-
-maintainers         {devans @dbevans} openmaintainer
-categories          gnome devel
-platforms           darwin
 homepage            https://www.gnome.org/
-master_sites        gnome:sources/${name}/${branch}/
 
+# https://www.mirrorservice.org/sites/ftp.gnome.org/pub/GNOME/sources/mm-common/1.0/mm-common-1.0.5.tar.xz
+master_sites        gnome:sources/${name}/1.0/
 use_xz              yes
 
-checksums           sha256  28a2d775afbf05c5c957b24b220ed6e9b2023179b98ecde471d89e9754ea5ac9 \
-                    rmd160  12e745e01cf665123ca320ae30ab4105fe94e08d \
-                    size    271144
+checksums           sha256  705c6d29f4116a29bde4e36cfc1b046c92b6ef8c6dae4eaec85018747e6da5aa \
+                    rmd160  122bd124ca6e2cfd541c9902a069f0dbf6e71ce4 \
+                    size    290608
 
-supported_archs     noarch
+set py_ver          3.11
+set py_ver_nodot    311
 
-depends_build-append \
-                    port:gsed \
-                    port:curl \
-                    port:wget
+depends_lib-append  port:python${py_ver_nodot}
 
-depends_lib-append  port:python39
-
-patchfiles          patch-use-our-python3.diff
+configure.python    ${prefix}/bin/python${py_ver}
 
 post-patch {
-    reinplace "s|@@PYTHON3_BIN@@|${prefix}/bin/python3.9|" \
-                    ${worksrcpath}/meson.build \
-                    ${worksrcpath}/util/mm-common-get.in \
-                    ${worksrcpath}/util/build_scripts/check-dllexport-usage.py\
-                    ${worksrcpath}/util/build_scripts/dist-build-scripts.py \
-                    ${worksrcpath}/util/build_scripts/doc-reference.py \
-                    ${worksrcpath}/util/build_scripts/dist-changelog.py \
-                    ${worksrcpath}/util/build_scripts/generate-binding.py
+    fs-traverse f ${worksrcpath} {
+        if {[string match *.py ${f}]} {
+            ui_info "patching script: ${f}"
+            reinplace -q "s|/usr/bin/env python3$|${configure.python}|" ${f}
+        }
+    }
 }
 
 livecheck.type      gnome
