@@ -14,7 +14,7 @@ revision            14
 categories          graphics
 platforms           darwin
 license             MIT
-maintainers         {gmail.com:benjamin.seppke @BSeppke}
+maintainers         nomaintainer
 description         Generic Image Processing Library for C++
 long_description    VIGRA stands for \"Vision with Generic Algorithms\". \
                     It's a novel computer vision library that puts its \
@@ -38,6 +38,9 @@ depends_lib         path:include/turbojpeg.h:libjpeg-turbo \
                     port:hdf5
 
 compiler.cxx_standard   2011
+
+# works with clang-9.0, and not with clang-15. in between is unknows
+compiler.blacklist-append {macports-clang-1[0-9]}
 
 # modify tests for existence of c++11 std::unique_ptr
 # see https://github.com/ukoethe/vigra/pull/421
@@ -100,7 +103,7 @@ if {[variant_isset valgrind]} {
     configure.args-append -DWITH_VALGRIND=NO
 }
 
-set py_vers [list 2.7 3.5 3.6 3.7 3.8 3.9]
+set py_vers [list 2.7 3.5 3.6 3.7 3.8 3.9 3.10 3.11 3.12]
 
 proc py_conflict_list {py_vers py_ver} {
     set py_conf_vers [lsearch -inline -all -not -exact $py_vers $py_ver]
