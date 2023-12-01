@@ -4,23 +4,11 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           clang_dependency 1.0
 
-github.setup        facebook zstd 1.5.0 v
+github.setup        facebook zstd 1.5.5 v
 revision            0
-checksums           rmd160  0edbe1beaf89e9b565daa75cf96e3a8428064af3 \
-                    sha256  5194fbfa781fcf45b98c5e849651aa7b3b0a008c6b72d4a0db760f3002291e94 \
-                    size    1851389
-
-platform darwin 20 {
-    if {${version} eq "1.5.0"} {
-        incr revision
-    }
-    pre-configure {
-        if {[vercmp [macports_version] 2.7.0] < 0} {
-            ui_error "${subport} @${version} requires MacPorts 2.7.0 or greater"
-            return -code error "incompatible MacPorts version"
-        }
-    }
-}
+checksums           rmd160  afab9fe65b1c72babfc7b12ba31f2b49de14d32e \
+                    sha256  9c4396cc829cfae319a6e2615202e82aad41372073482fce286fac78646d3ee4 \
+                    size    2368543
 
 categories          archivers devel
 platforms           darwin
