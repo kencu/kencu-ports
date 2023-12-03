@@ -1,0 +1,10 @@
+--- amtk/meson.build.orig	2023-12-03 11:36:33.000000000 -0800
++++ amtk/meson.build	2023-12-03 11:39:12.000000000 -0800
+@@ -65,6 +65,7 @@
+ symbol_map = 'symbol.map'
+ amtk_lib_link_args = c_compiler.get_supported_link_arguments([
+   '-Wl,--version-script,@0@/@1@'.format(meson.current_source_dir(), symbol_map),
++  '-Wl,-compatibility_version,1.0.0,-current_version,@0@'.format(AMTK_API_VERSION),
+ ])
+ 
+ amtk_lib = library(
