@@ -1,0 +1,43 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem              1.0
+
+name                    atkmm-1.6
+set gnome_name          atkmm
+version                 2.28.0
+revision                0
+
+categories              gnome devel
+license                 LGPL-2.1+
+maintainers             nomaintainer
+
+description             atkmm is the C++ binding for the ATK library.
+long_description        ${description} This port is part of the GNOME C++ bindings suite.
+homepage                http://www.gtkmm.org/
+
+set branch              [join [lrange [split ${version} .] 0 1] .]
+master_sites            gnome:sources/${gnome_name}/${branch}/
+distname                ${gnome_name}-${version}
+dist_subdir             ${gnome_name}
+use_xz                  yes
+
+checksums               rmd160  15c97e7e8b61f157ca9360d5475df3b859278ec4 \
+                        sha256  4c4cfc917fd42d3879ce997b463428d6982affa0fb660cafcc0bc2d9afcedd3a \
+                        size    891904
+
+depends_build-append    port:pkgconfig \
+                        port:mm-common
+
+depends_lib-append      port:atk \
+                        port:glibmm
+
+# Teach glibtool about -stdlib=libc++
+use_autoreconf          yes
+autoreconf.args         -fvi
+
+# atkmm > 2.22.7 requires C++11 or better
+compiler.cxx_standard   2011
+
+configure.args-append   --disable-silent-rules
+
+livecheck.type          none
