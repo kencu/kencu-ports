@@ -11,7 +11,7 @@
 # Wrap mode handling for subprojects.
 # Possible values: default, nofallback, nodownload, forcefallback, nopromote
 options meson.wrap_mode
-default meson.wrap_mode     {default}
+default meson.wrap_mode     {nodownload}
 
 # meson builds need to be done out-of-source
 default build_dir           {${workpath}/build}
