@@ -3,7 +3,6 @@
 PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
-PortGroup           mpi 1.0
 
 github.setup        LLNL sundials 5.7.0 v
 revision            0
@@ -34,14 +33,20 @@ checksums           rmd160  2818d3d841b7e65df4997f2bf4881988064add30 \
 
 conflicts           sundials2
 
-depends_lib-append  port:SuiteSparse_KLU
+depends_build-append        port:gcc11
+configure.env-append        FC=${prefix}/bin/gfortran-mp-11
+configure.env-append        F77=${prefix}/bin/gfortran-mp-11
+configure.env-append        F90=${prefix}/bin/gfortran-mp-11
+
+configure.fflags-append     -fallow-argument-mismatch
+configure.fcflags-append    -fallow-argument-mismatch
+configure.f90flags-append   -fallow-argument-mismatch
+
+depends_lib-append  port:SuiteSparse_KLU \
+                    port:mpich
 
 compiler.cxx_standard \
                     2011
-
-mpi.setup \
-                    default \
-                    require_fortran
 
 configure.args-append \
                     -DEXAMPLES_ENABLE_C=OFF \
@@ -52,21 +57,7 @@ configure.args-append \
                     -DENABLE_KLU=ON \
                     -DKLU_LIBRARY_DIR=${prefix}/lib \
                     -DKLU_INCLUDE_DIR=${prefix}/include \
-                    -DMPI_ENABLE=OFF
-
-pre-configure {
-    if {[mpi_variant_isset]} {
-        configure.args-delete \
-                    -DENABLE_MPI=OFF
-        configure.args-append \
-                    -DENABLE_MPI=ON \
-                    -DMPI_MPICC=${prefix}/bin/${mpi.cc} \
-                    -DMPI_MPICXX=${prefix}/bin/${mpi.cxx} \
-                    -DMPI_MPIF77=${prefix}/bin/${mpi.f77} \
-                    -DMPI_MPIF90=${prefix}/bin/${mpi.f90} \
-                    -DMPI_RUN_COMMAND=${prefix}/bin/${mpi.exec}
-    }
-}
+                    -DMPI_ENABLE=ON
 
 # without this, previously installed sundials headers are found first
 # this can cause problem when upgrading
