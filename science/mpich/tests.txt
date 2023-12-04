@@ -1,0 +1,160 @@
+$ sudo port -v -o -k test mpich
+--->  Computing dependencies for mpich.
+--->  Testing mpich
+Executing:  cd "/opt/local/var/macports/build/_opt_kencu-ports_science_mpich/mpich/work/mpich-4.1.2" && /usr/bin/make check 
+make  check-recursive
+Making check in src/mpl
+make  strsep
+/opt/local/bin/clang-mp-15 -DHAVE_CONFIG_H -I. -I./include  -I./include -I./include -isystem/opt/local/include/LegacySupport -I/opt/local/include  -DNETMOD_INLINE=__netmod_inline_ofi__  -pipe -Os -arch x86_64  -fno-common  -DNDEBUG -DNVALGRIND -c -o test/strsep.o test/strsep.c
+/bin/sh ./libtool  --tag=CC   --mode=link /opt/local/bin/clang-mp-15  -pipe -Os -arch x86_64  -fno-common  -DNDEBUG -DNVALGRIND  -Wl,-headerpad_max_install_names -L/opt/local/lib -lMacportsLegacySupport -arch x86_64 -o strsep test/strsep.o libmpl.la -lpthread 
+libtool: link: /opt/local/bin/clang-mp-15 -pipe -Os -arch x86_64 -fno-common -DNDEBUG -DNVALGRIND -Wl,-headerpad_max_install_names -arch x86_64 -o strsep test/strsep.o  -L/opt/local/lib ./.libs/libmpl.a -lMacportsLegacySupport -lpthread
+make  check-TESTS
+PASS: strsep
+============================================================================
+Testsuite summary for MPL 0.1
+============================================================================
+# TOTAL: 1
+# PASS:  1
+# SKIP:  0
+# XFAIL: 0
+# FAIL:  0
+# XPASS: 0
+# ERROR: 0
+============================================================================
+Making check in /opt/local/var/macports/build/_opt_kencu-ports_science_mpich/mpich/work/mpich-4.1.2/modules/json-c
+Making check in .
+make[3]: Nothing to be done for `check-am'.
+Making check in tests
+make  test_util_file test_float test1 test2 test4 testReplaceExisting test_parse_int64 test_deep_copy test_null test_cast test_double_serializer test_parse test_locale test_charcase test_printbuf test_set_serializer test_compare test_set_value test_visit test_json_pointer test_int_add test1Formatted test2Formatted
+/opt/local/bin/clang-mp-15 -DHAVE_CONFIG_H -I. -I..  -I.. -I../tests -UNDEBUG -isystem/opt/local/include/LegacySupport -I/opt/local/include   -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -c -o test_util_file.o test_util_file.c
+/bin/sh ../libtool  --tag=CC   --mode=link /opt/local/bin/clang-mp-15  -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT  -Wl,-headerpad_max_install_names -L/opt/local/lib -lMacportsLegacySupport -arch x86_64 -o test_util_file test_util_file.o ../libjson-c.la 
+libtool: link: /opt/local/bin/clang-mp-15 -pipe -Os -arch x86_64 -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -Wl,-headerpad_max_install_names -arch x86_64 -o test_util_file test_util_file.o  -L/opt/local/lib ../.libs/libjson-c.a -lMacportsLegacySupport
+/opt/local/bin/clang-mp-15 -DHAVE_CONFIG_H -I. -I..  -I.. -I../tests -UNDEBUG -isystem/opt/local/include/LegacySupport -I/opt/local/include   -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -c -o test_float.o test_float.c
+/bin/sh ../libtool  --tag=CC   --mode=link /opt/local/bin/clang-mp-15  -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT  -Wl,-headerpad_max_install_names -L/opt/local/lib -lMacportsLegacySupport -arch x86_64 -o test_float test_float.o ../libjson-c.la 
+libtool: link: /opt/local/bin/clang-mp-15 -pipe -Os -arch x86_64 -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -Wl,-headerpad_max_install_names -arch x86_64 -o test_float test_float.o  -L/opt/local/lib ../.libs/libjson-c.a -lMacportsLegacySupport
+/opt/local/bin/clang-mp-15 -DHAVE_CONFIG_H -I. -I..  -I.. -I../tests -UNDEBUG -isystem/opt/local/include/LegacySupport -I/opt/local/include   -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -c -o test1.o test1.c
+/bin/sh ../libtool  --tag=CC   --mode=link /opt/local/bin/clang-mp-15  -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT  -Wl,-headerpad_max_install_names -L/opt/local/lib -lMacportsLegacySupport -arch x86_64 -o test1 test1.o ../libjson-c.la 
+libtool: link: /opt/local/bin/clang-mp-15 -pipe -Os -arch x86_64 -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -Wl,-headerpad_max_install_names -arch x86_64 -o test1 test1.o  -L/opt/local/lib ../.libs/libjson-c.a -lMacportsLegacySupport
+/opt/local/bin/clang-mp-15 -DHAVE_CONFIG_H -I. -I..  -I.. -I../tests -UNDEBUG -isystem/opt/local/include/LegacySupport -I/opt/local/include   -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -c -o test2.o test2.c
+/bin/sh ../libtool  --tag=CC   --mode=link /opt/local/bin/clang-mp-15  -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT  -Wl,-headerpad_max_install_names -L/opt/local/lib -lMacportsLegacySupport -arch x86_64 -o test2 test2.o ../libjson-c.la 
+libtool: link: /opt/local/bin/clang-mp-15 -pipe -Os -arch x86_64 -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -Wl,-headerpad_max_install_names -arch x86_64 -o test2 test2.o  -L/opt/local/lib ../.libs/libjson-c.a -lMacportsLegacySupport
+/opt/local/bin/clang-mp-15 -DHAVE_CONFIG_H -I. -I..  -I.. -I../tests -UNDEBUG -isystem/opt/local/include/LegacySupport -I/opt/local/include   -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -c -o test4.o test4.c
+/bin/sh ../libtool  --tag=CC   --mode=link /opt/local/bin/clang-mp-15  -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT  -Wl,-headerpad_max_install_names -L/opt/local/lib -lMacportsLegacySupport -arch x86_64 -o test4 test4.o ../libjson-c.la 
+libtool: link: /opt/local/bin/clang-mp-15 -pipe -Os -arch x86_64 -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -Wl,-headerpad_max_install_names -arch x86_64 -o test4 test4.o  -L/opt/local/lib ../.libs/libjson-c.a -lMacportsLegacySupport
+/opt/local/bin/clang-mp-15 -DHAVE_CONFIG_H -I. -I..  -I.. -I../tests -UNDEBUG -isystem/opt/local/include/LegacySupport -I/opt/local/include   -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -c -o testReplaceExisting.o testReplaceExisting.c
+/bin/sh ../libtool  --tag=CC   --mode=link /opt/local/bin/clang-mp-15  -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT  -Wl,-headerpad_max_install_names -L/opt/local/lib -lMacportsLegacySupport -arch x86_64 -o testReplaceExisting testReplaceExisting.o ../libjson-c.la 
+libtool: link: /opt/local/bin/clang-mp-15 -pipe -Os -arch x86_64 -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -Wl,-headerpad_max_install_names -arch x86_64 -o testReplaceExisting testReplaceExisting.o  -L/opt/local/lib ../.libs/libjson-c.a -lMacportsLegacySupport
+/opt/local/bin/clang-mp-15 -DHAVE_CONFIG_H -I. -I..  -I.. -I../tests -UNDEBUG -isystem/opt/local/include/LegacySupport -I/opt/local/include   -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -c -o test_parse_int64.o test_parse_int64.c
+/bin/sh ../libtool  --tag=CC   --mode=link /opt/local/bin/clang-mp-15  -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT  -Wl,-headerpad_max_install_names -L/opt/local/lib -lMacportsLegacySupport -arch x86_64 -o test_parse_int64 test_parse_int64.o ../libjson-c.la 
+libtool: link: /opt/local/bin/clang-mp-15 -pipe -Os -arch x86_64 -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -Wl,-headerpad_max_install_names -arch x86_64 -o test_parse_int64 test_parse_int64.o  -L/opt/local/lib ../.libs/libjson-c.a -lMacportsLegacySupport
+/opt/local/bin/clang-mp-15 -DHAVE_CONFIG_H -I. -I..  -I.. -I../tests -UNDEBUG -isystem/opt/local/include/LegacySupport -I/opt/local/include   -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -c -o test_deep_copy.o test_deep_copy.c
+/bin/sh ../libtool  --tag=CC   --mode=link /opt/local/bin/clang-mp-15  -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT  -Wl,-headerpad_max_install_names -L/opt/local/lib -lMacportsLegacySupport -arch x86_64 -o test_deep_copy test_deep_copy.o ../libjson-c.la 
+libtool: link: /opt/local/bin/clang-mp-15 -pipe -Os -arch x86_64 -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -Wl,-headerpad_max_install_names -arch x86_64 -o test_deep_copy test_deep_copy.o  -L/opt/local/lib ../.libs/libjson-c.a -lMacportsLegacySupport
+/opt/local/bin/clang-mp-15 -DHAVE_CONFIG_H -I. -I..  -I.. -I../tests -UNDEBUG -isystem/opt/local/include/LegacySupport -I/opt/local/include   -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -c -o test_null.o test_null.c
+/bin/sh ../libtool  --tag=CC   --mode=link /opt/local/bin/clang-mp-15  -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT  -Wl,-headerpad_max_install_names -L/opt/local/lib -lMacportsLegacySupport -arch x86_64 -o test_null test_null.o ../libjson-c.la 
+libtool: link: /opt/local/bin/clang-mp-15 -pipe -Os -arch x86_64 -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -Wl,-headerpad_max_install_names -arch x86_64 -o test_null test_null.o  -L/opt/local/lib ../.libs/libjson-c.a -lMacportsLegacySupport
+/opt/local/bin/clang-mp-15 -DHAVE_CONFIG_H -I. -I..  -I.. -I../tests -UNDEBUG -isystem/opt/local/include/LegacySupport -I/opt/local/include   -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -c -o test_cast.o test_cast.c
+/bin/sh ../libtool  --tag=CC   --mode=link /opt/local/bin/clang-mp-15  -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT  -Wl,-headerpad_max_install_names -L/opt/local/lib -lMacportsLegacySupport -arch x86_64 -o test_cast test_cast.o ../libjson-c.la 
+libtool: link: /opt/local/bin/clang-mp-15 -pipe -Os -arch x86_64 -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -Wl,-headerpad_max_install_names -arch x86_64 -o test_cast test_cast.o  -L/opt/local/lib ../.libs/libjson-c.a -lMacportsLegacySupport
+/opt/local/bin/clang-mp-15 -DHAVE_CONFIG_H -I. -I..  -I.. -I../tests -UNDEBUG -isystem/opt/local/include/LegacySupport -I/opt/local/include   -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -c -o test_double_serializer.o test_double_serializer.c
+/bin/sh ../libtool  --tag=CC   --mode=link /opt/local/bin/clang-mp-15  -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT  -Wl,-headerpad_max_install_names -L/opt/local/lib -lMacportsLegacySupport -arch x86_64 -o test_double_serializer test_double_serializer.o ../libjson-c.la 
+libtool: link: /opt/local/bin/clang-mp-15 -pipe -Os -arch x86_64 -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -Wl,-headerpad_max_install_names -arch x86_64 -o test_double_serializer test_double_serializer.o  -L/opt/local/lib ../.libs/libjson-c.a -lMacportsLegacySupport
+/opt/local/bin/clang-mp-15 -DHAVE_CONFIG_H -I. -I..  -I.. -I../tests -UNDEBUG -isystem/opt/local/include/LegacySupport -I/opt/local/include   -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -c -o test_parse.o test_parse.c
+/bin/sh ../libtool  --tag=CC   --mode=link /opt/local/bin/clang-mp-15  -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT  -Wl,-headerpad_max_install_names -L/opt/local/lib -lMacportsLegacySupport -arch x86_64 -o test_parse test_parse.o ../libjson-c.la 
+libtool: link: /opt/local/bin/clang-mp-15 -pipe -Os -arch x86_64 -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -Wl,-headerpad_max_install_names -arch x86_64 -o test_parse test_parse.o  -L/opt/local/lib ../.libs/libjson-c.a -lMacportsLegacySupport
+/opt/local/bin/clang-mp-15 -DHAVE_CONFIG_H -I. -I..  -I.. -I../tests -UNDEBUG -isystem/opt/local/include/LegacySupport -I/opt/local/include   -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -c -o test_locale.o test_locale.c
+/bin/sh ../libtool  --tag=CC   --mode=link /opt/local/bin/clang-mp-15  -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT  -Wl,-headerpad_max_install_names -L/opt/local/lib -lMacportsLegacySupport -arch x86_64 -o test_locale test_locale.o ../libjson-c.la 
+libtool: link: /opt/local/bin/clang-mp-15 -pipe -Os -arch x86_64 -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -Wl,-headerpad_max_install_names -arch x86_64 -o test_locale test_locale.o  -L/opt/local/lib ../.libs/libjson-c.a -lMacportsLegacySupport
+/opt/local/bin/clang-mp-15 -DHAVE_CONFIG_H -I. -I..  -I.. -I../tests -UNDEBUG -isystem/opt/local/include/LegacySupport -I/opt/local/include   -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -c -o test_charcase.o test_charcase.c
+/bin/sh ../libtool  --tag=CC   --mode=link /opt/local/bin/clang-mp-15  -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT  -Wl,-headerpad_max_install_names -L/opt/local/lib -lMacportsLegacySupport -arch x86_64 -o test_charcase test_charcase.o ../libjson-c.la 
+libtool: link: /opt/local/bin/clang-mp-15 -pipe -Os -arch x86_64 -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -Wl,-headerpad_max_install_names -arch x86_64 -o test_charcase test_charcase.o  -L/opt/local/lib ../.libs/libjson-c.a -lMacportsLegacySupport
+/opt/local/bin/clang-mp-15 -DHAVE_CONFIG_H -I. -I..  -I.. -I../tests -UNDEBUG -isystem/opt/local/include/LegacySupport -I/opt/local/include   -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -c -o test_printbuf.o test_printbuf.c
+/bin/sh ../libtool  --tag=CC   --mode=link /opt/local/bin/clang-mp-15  -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT  -Wl,-headerpad_max_install_names -L/opt/local/lib -lMacportsLegacySupport -arch x86_64 -o test_printbuf test_printbuf.o ../libjson-c.la 
+libtool: link: /opt/local/bin/clang-mp-15 -pipe -Os -arch x86_64 -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -Wl,-headerpad_max_install_names -arch x86_64 -o test_printbuf test_printbuf.o  -L/opt/local/lib ../.libs/libjson-c.a -lMacportsLegacySupport
+/opt/local/bin/clang-mp-15 -DHAVE_CONFIG_H -I. -I..  -I.. -I../tests -UNDEBUG -isystem/opt/local/include/LegacySupport -I/opt/local/include   -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -c -o test_set_serializer.o test_set_serializer.c
+/bin/sh ../libtool  --tag=CC   --mode=link /opt/local/bin/clang-mp-15  -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT  -Wl,-headerpad_max_install_names -L/opt/local/lib -lMacportsLegacySupport -arch x86_64 -o test_set_serializer test_set_serializer.o ../libjson-c.la 
+libtool: link: /opt/local/bin/clang-mp-15 -pipe -Os -arch x86_64 -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -Wl,-headerpad_max_install_names -arch x86_64 -o test_set_serializer test_set_serializer.o  -L/opt/local/lib ../.libs/libjson-c.a -lMacportsLegacySupport
+/opt/local/bin/clang-mp-15 -DHAVE_CONFIG_H -I. -I..  -I.. -I../tests -UNDEBUG -isystem/opt/local/include/LegacySupport -I/opt/local/include   -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -c -o test_compare.o test_compare.c
+/bin/sh ../libtool  --tag=CC   --mode=link /opt/local/bin/clang-mp-15  -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT  -Wl,-headerpad_max_install_names -L/opt/local/lib -lMacportsLegacySupport -arch x86_64 -o test_compare test_compare.o ../libjson-c.la 
+libtool: link: /opt/local/bin/clang-mp-15 -pipe -Os -arch x86_64 -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -Wl,-headerpad_max_install_names -arch x86_64 -o test_compare test_compare.o  -L/opt/local/lib ../.libs/libjson-c.a -lMacportsLegacySupport
+/opt/local/bin/clang-mp-15 -DHAVE_CONFIG_H -I. -I..  -I.. -I../tests -UNDEBUG -isystem/opt/local/include/LegacySupport -I/opt/local/include   -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -c -o test_set_value.o test_set_value.c
+/bin/sh ../libtool  --tag=CC   --mode=link /opt/local/bin/clang-mp-15  -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT  -Wl,-headerpad_max_install_names -L/opt/local/lib -lMacportsLegacySupport -arch x86_64 -o test_set_value test_set_value.o ../libjson-c.la 
+libtool: link: /opt/local/bin/clang-mp-15 -pipe -Os -arch x86_64 -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -Wl,-headerpad_max_install_names -arch x86_64 -o test_set_value test_set_value.o  -L/opt/local/lib ../.libs/libjson-c.a -lMacportsLegacySupport
+/opt/local/bin/clang-mp-15 -DHAVE_CONFIG_H -I. -I..  -I.. -I../tests -UNDEBUG -isystem/opt/local/include/LegacySupport -I/opt/local/include   -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -c -o test_visit.o test_visit.c
+/bin/sh ../libtool  --tag=CC   --mode=link /opt/local/bin/clang-mp-15  -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT  -Wl,-headerpad_max_install_names -L/opt/local/lib -lMacportsLegacySupport -arch x86_64 -o test_visit test_visit.o ../libjson-c.la 
+libtool: link: /opt/local/bin/clang-mp-15 -pipe -Os -arch x86_64 -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -Wl,-headerpad_max_install_names -arch x86_64 -o test_visit test_visit.o  -L/opt/local/lib ../.libs/libjson-c.a -lMacportsLegacySupport
+/opt/local/bin/clang-mp-15 -DHAVE_CONFIG_H -I. -I..  -I.. -I../tests -UNDEBUG -isystem/opt/local/include/LegacySupport -I/opt/local/include   -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -c -o test_json_pointer.o test_json_pointer.c
+/bin/sh ../libtool  --tag=CC   --mode=link /opt/local/bin/clang-mp-15  -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT  -Wl,-headerpad_max_install_names -L/opt/local/lib -lMacportsLegacySupport -arch x86_64 -o test_json_pointer test_json_pointer.o ../libjson-c.la 
+libtool: link: /opt/local/bin/clang-mp-15 -pipe -Os -arch x86_64 -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -Wl,-headerpad_max_install_names -arch x86_64 -o test_json_pointer test_json_pointer.o  -L/opt/local/lib ../.libs/libjson-c.a -lMacportsLegacySupport
+/opt/local/bin/clang-mp-15 -DHAVE_CONFIG_H -I. -I..  -I.. -I../tests -UNDEBUG -isystem/opt/local/include/LegacySupport -I/opt/local/include   -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -c -o test_int_add.o test_int_add.c
+/bin/sh ../libtool  --tag=CC   --mode=link /opt/local/bin/clang-mp-15  -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT  -Wl,-headerpad_max_install_names -L/opt/local/lib -lMacportsLegacySupport -arch x86_64 -o test_int_add test_int_add.o ../libjson-c.la 
+libtool: link: /opt/local/bin/clang-mp-15 -pipe -Os -arch x86_64 -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -Wl,-headerpad_max_install_names -arch x86_64 -o test_int_add test_int_add.o  -L/opt/local/lib ../.libs/libjson-c.a -lMacportsLegacySupport
+/opt/local/bin/clang-mp-15 -DHAVE_CONFIG_H -I. -I..  -I.. -I../tests -UNDEBUG -DTEST_FORMATTED -isystem/opt/local/include/LegacySupport -I/opt/local/include   -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -c -o test1Formatted-test1.o `test -f 'test1.c' || echo './'`test1.c
+/opt/local/bin/clang-mp-15 -DHAVE_CONFIG_H -I. -I..  -I.. -I../tests -UNDEBUG -DTEST_FORMATTED -isystem/opt/local/include/LegacySupport -I/opt/local/include   -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -c -o test1Formatted-parse_flags.o `test -f 'parse_flags.c' || echo './'`parse_flags.c
+/bin/sh ../libtool  --tag=CC   --mode=link /opt/local/bin/clang-mp-15  -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT  -Wl,-headerpad_max_install_names -L/opt/local/lib -lMacportsLegacySupport -arch x86_64 -o test1Formatted test1Formatted-test1.o test1Formatted-parse_flags.o ../libjson-c.la 
+libtool: link: /opt/local/bin/clang-mp-15 -pipe -Os -arch x86_64 -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -Wl,-headerpad_max_install_names -arch x86_64 -o test1Formatted test1Formatted-test1.o test1Formatted-parse_flags.o  -L/opt/local/lib ../.libs/libjson-c.a -lMacportsLegacySupport
+/opt/local/bin/clang-mp-15 -DHAVE_CONFIG_H -I. -I..  -I.. -I../tests -UNDEBUG -DTEST_FORMATTED -isystem/opt/local/include/LegacySupport -I/opt/local/include   -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -c -o test2Formatted-test2.o `test -f 'test2.c' || echo './'`test2.c
+/opt/local/bin/clang-mp-15 -DHAVE_CONFIG_H -I. -I..  -I.. -I../tests -UNDEBUG -DTEST_FORMATTED -isystem/opt/local/include/LegacySupport -I/opt/local/include   -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -c -o test2Formatted-parse_flags.o `test -f 'parse_flags.c' || echo './'`parse_flags.c
+/bin/sh ../libtool  --tag=CC   --mode=link /opt/local/bin/clang-mp-15  -pipe -Os -arch x86_64  -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT  -Wl,-headerpad_max_install_names -L/opt/local/lib -lMacportsLegacySupport -arch x86_64 -o test2Formatted test2Formatted-test2.o test2Formatted-parse_flags.o ../libjson-c.la 
+libtool: link: /opt/local/bin/clang-mp-15 -pipe -Os -arch x86_64 -fvisibility=hidden -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -D_GNU_SOURCE -D_REENTRANT -Wl,-headerpad_max_install_names -arch x86_64 -o test2Formatted test2Formatted-test2.o test2Formatted-parse_flags.o  -L/opt/local/lib ../.libs/libjson-c.a -lMacportsLegacySupport
+make  check-TESTS
+PASS: test_util_file.test
+PASS: test_float.test
+PASS: test1.test
+PASS: test2.test
+PASS: test4.test
+PASS: testReplaceExisting.test
+PASS: test_parse_int64.test
+PASS: test_deep_copy.test
+PASS: test_null.test
+PASS: test_cast.test
+PASS: test_double_serializer.test
+PASS: test_parse.test
+PASS: test_locale.test
+PASS: test_charcase.test
+PASS: test_printbuf.test
+PASS: test_set_serializer.test
+PASS: test_compare.test
+PASS: test_set_value.test
+PASS: test_visit.test
+PASS: test_json_pointer.test
+PASS: test_int_add.test
+============================================================================
+Testsuite summary for json-c 0.13.99
+============================================================================
+# TOTAL: 21
+# PASS:  21
+# SKIP:  0
+# XFAIL: 0
+# FAIL:  0
+# XPASS: 0
+# ERROR: 0
+============================================================================
+Making check in modules/yaksa
+make[2]: Nothing to be done for `check'.
+Making check in src/pmi
+make[3]: Nothing to be done for `check-am'.
+Making check in /opt/local/var/macports/build/_opt_kencu-ports_science_mpich/mpich/work/mpich-4.1.2/modules/libfabric
+make  check-am
+make  check-TESTS
+PASS: util/fi_info
+============================================================================
+Testsuite summary for libfabric 1.18.0
+============================================================================
+# TOTAL: 1
+# PASS:  1
+# SKIP:  0
+# XFAIL: 0
+# FAIL:  0
+# XPASS: 0
+# ERROR: 0
+============================================================================
+Making check in src/mpi/romio
+make[3]: Nothing to be done for `check-am'.
+Making check in src/pm/hydra
+Making check in .
+make[3]: Nothing to be done for `check-am'.
+Making check in .
+make[2]: Nothing to be done for `check-am'.
+Making check in examples
+make[2]: Nothing to be done for `check'.
