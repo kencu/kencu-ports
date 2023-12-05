@@ -148,6 +148,12 @@ compiler.blacklist-append {clang <= 802}
 # see see https://trac.macports.org/ticket/53044
 compiler.blacklist-append {*gcc-4.6}
 
+# building this with clang-15 on 10.6.8 generates an executable that segfault
+# at least at times, such as when running the post-activate script
+# the exact range of compilers that will do this is unknown
+# building it with clang-9.0 works fine
+compiler.whitelist macports-clang-9.0
+
 # see https://wiki.octave.org/Building for a list of dependencies
 
 # avoid depends_build-append port:coreutils
