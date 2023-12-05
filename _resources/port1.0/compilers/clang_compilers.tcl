@@ -13,10 +13,10 @@
 global os.major os.arch
 
 if { ${os.major} >= 10 } {
-    lappend compilers macports-clang-15
-    lappend compilers macports-clang-14
-    lappend compilers macports-clang-13
-    lappend compilers macports-clang-12
+#    lappend compilers macports-clang-15
+#    lappend compilers macports-clang-14
+#    lappend compilers macports-clang-13
+#    lappend compilers macports-clang-12
     lappend compilers macports-clang-11 
 }
 
