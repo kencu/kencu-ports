@@ -1,0 +1,11 @@
+--- configure.old	2023-12-06 13:00:09.000000000 -0800
++++ configure	2023-12-06 13:01:45.000000000 -0800
+@@ -18730,7 +18730,7 @@
+ fi
+ 
+ 
+-WARNING_FLAGS="-Wall -Werror -Wsign-compare -Wconversion -Wno-sign-conversion -Wno-error=conversion -Wno-error=unused-parameter -Wno-error=deprecated-declarations"
++WARNING_FLAGS="-Wall -Wsign-compare -Wconversion -Wno-sign-conversion -Wno-error=conversion -Wno-error=unused-parameter -Wno-error=deprecated-declarations"
+ 
+ CXXFLAGS="$CXXFLAGS $WARNING_FLAGS"
+ CFLAGS="$CFLAGS $WARNING_FLAGS"
