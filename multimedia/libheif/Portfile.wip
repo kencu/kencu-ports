@@ -1,0 +1,45 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem                  1.0
+PortGroup                   cmake 1.1
+PortGroup                   github 1.0
+
+github.setup                strukturag libheif 1.17.5 v
+revision                    0
+
+checksums                   rmd160  c6e3225dbb0fb777f281c0475ea45acd9041b531 \
+                            sha256  38ab01938ef419dbebb98346dc0b1c8bb503a0449ea61a0e409a988786c2af5b \
+                            size    1432433
+
+categories                  multimedia
+license                     LGPL-3+
+maintainers                 nomaintainer
+description                 a ISO/IEC 23008-12:2017 HEIF file format decoder and encoder
+long_description            ${description}.
+platforms                   darwin
+
+github.tarball_from         releases
+
+depends_build-append        port:pkgconfig
+
+depends_lib-append          port:dav1d \
+                            port:gdk-pixbuf2 \
+                            port:aom \
+                            path:include/turbojpeg.h:libjpeg-turbo \
+                            port:libde265 \
+                            port:libpng \
+                            port:rav1e \
+                            port:x265
+
+compiler.cxx_standard       2011
+
+#configure.args-append       --disable-go
+
+configure.args-append       -DBUILD_TESTING=ON
+test.run                    yes
+
+if {${os.platform} eq "darwin" && ${os.major} < 14} {
+    # see https://trac.macports.org/ticket/62614
+    depends_lib-delete      port:rav1e
+    configure.args-append   -DWITH_RAV1E=OFF
+}
