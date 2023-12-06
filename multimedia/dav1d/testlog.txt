@@ -1,0 +1,61 @@
+Log of Meson test suite run on 2023-12-06T12:23:18.240107
+
+Inherited environment: DEVELOPER_DIR=/Developer TMPDIR=/opt/local/var/macports/build/_opt_kencu-ports_multimedia_dav1d/dav1d/work/.tmp LIBRARY_PATH=/opt/local/lib NO_PROXY='*.local,169.254/16,vch.ca,8.8.8.8' USER=root CCACHE_DIR=/opt/local/var/macports/build/.ccache CPATH=/opt/local/include COLUMNS=80 MACPORTS_LEGACY_SUPPORT_DISABLED=1 PATH=/opt/local/bin:/opt/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin _=/opt/local/bin/meson CC_PRINT_OPTIONS=YES PWD=/opt/local/var/macports/build/_opt_kencu-ports_multimedia_dav1d/dav1d/work/build LANG=en_US.UTF-8 CC_PRINT_OPTIONS_FILE=/opt/local/var/macports/build/_opt_kencu-ports_multimedia_dav1d/dav1d/work/.CC_PRINT_OPTIONS LINES=24 HOME=/opt/local/var/macports/build/_opt_kencu-ports_multimedia_dav1d/dav1d/work/.home SHLVL=2 MACOSX_DEPLOYMENT_TARGET=10.6 DISPLAY=/tmp/launch-FUUkh9/org.macports:0 __CF_USER_TEXT_ENCODING=0x1F7:0:0 
+
+==================================== 1/6 =====================================
+test:         dav1d:checkasm / checkasm
+start time:   20:23:18
+duration:     0.02s
+result:       exit status 0
+command:      MALLOC_PERTURB_=50 /opt/local/var/macports/build/_opt_kencu-ports_multimedia_dav1d/dav1d/work/build/tests/checkasm
+----------------------------------- stderr -----------------------------------
+checkasm: reference functions unavailable
+==============================================================================
+
+==================================== 2/6 =====================================
+test:         dav1d:headers / common.h_test
+start time:   20:23:18
+duration:     0.04s
+result:       exit status 0
+command:      MALLOC_PERTURB_=108 /opt/local/var/macports/build/_opt_kencu-ports_multimedia_dav1d/dav1d/work/build/tests/common.h_test
+==============================================================================
+
+==================================== 3/6 =====================================
+test:         dav1d:headers / data.h_test
+start time:   20:23:18
+duration:     0.04s
+result:       exit status 0
+command:      MALLOC_PERTURB_=229 /opt/local/var/macports/build/_opt_kencu-ports_multimedia_dav1d/dav1d/work/build/tests/data.h_test
+==============================================================================
+
+==================================== 4/6 =====================================
+test:         dav1d:headers / dav1d.h_test
+start time:   20:23:18
+duration:     0.03s
+result:       exit status 0
+command:      MALLOC_PERTURB_=70 /opt/local/var/macports/build/_opt_kencu-ports_multimedia_dav1d/dav1d/work/build/tests/dav1d.h_test
+==============================================================================
+
+==================================== 5/6 =====================================
+test:         dav1d:headers / headers.h_test
+start time:   20:23:18
+duration:     0.02s
+result:       exit status 0
+command:      MALLOC_PERTURB_=29 /opt/local/var/macports/build/_opt_kencu-ports_multimedia_dav1d/dav1d/work/build/tests/headers.h_test
+==============================================================================
+
+==================================== 6/6 =====================================
+test:         dav1d:headers / picture.h_test
+start time:   20:23:18
+duration:     0.01s
+result:       exit status 0
+command:      MALLOC_PERTURB_=32 /opt/local/var/macports/build/_opt_kencu-ports_multimedia_dav1d/dav1d/work/build/tests/picture.h_test
+==============================================================================
+
+
+Ok:                 6   
+Expected Fail:      0   
+Fail:               0   
+Unexpected Pass:    0   
+Skipped:            0   
+Timeout:            0   
