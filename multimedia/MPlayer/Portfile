@@ -6,10 +6,10 @@ name                MPlayer
 conflicts           mplayer-devel
 version             1.5.0
 distname            ${name}-1.5
-revision            0
+revision            99
 categories          multimedia
 license             GPL-2+
-maintainers         {kencu @kencu} {jeremyhu @jeremyhu}
+maintainers         nomaintainer
 
 description         versatile movie player
 long_description    ${name} plays most movie files in popular and less popular formats.
