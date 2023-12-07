@@ -1,0 +1,78 @@
+/usr/bin/make  check-TESTS
+PASS: hashcheck
+PASS: BezierTest
+PASS: BitmapTest
+PASS: BoundingBoxTest
+PASS: CalculatorTest
+PASS: CMapManagerTest
+PASS: CMapReaderTest
+PASS: CMapTest
+PASS: ColorSpecialTest
+PASS: ColorTest
+PASS: CommandLineTest
+PASS: DependencyGraphTest
+PASS: DirectoryTest
+PASS: DVIReaderTest
+PASS: DvisvgmSpecialTest
+PASS: EllipticalArcTest
+PASS: EmSpecialTest
+PASS: FileFinderTest
+PASS: FilePathTest
+PASS: FileSystemTest
+PASS: FontCacheTest
+PASS: FontManagerTest
+PASS: FontMapTest
+PASS: GFGlyphTracerTest
+PASS: GFReaderTest
+PASS: GhostscriptTest
+PASS: GraphicsPathParserTest
+PASS: GraphicsPathTest
+PASS: HashFunctionTest
+PASS: JFMReaderTest
+PASS: LengthTest
+PASS: MapLineTest
+PASS: MatrixTest
+PASS: MessageExceptionTest
+PASS: OFMReaderTest
+PASS: PageRagesTest
+PASS: PageSizeTest
+PASS: PairTest
+PASS: PapersizeSpecialTest
+PASS: PDFParserTest
+PASS: PSInterpreterTest
+PASS: RangeMapTest
+PASS: ShadingPatchTest
+PASS: SpecialManagerTest
+PASS: SplittedCharInputBufferTest
+PASS: StreamInputBufferTest
+PASS: StreamReaderTest
+PASS: StreamWriterTest
+PASS: StringMatcherTest
+PASS: SubfontTest
+PASS: SVGOutputTest
+PASS: TensorProductPatchTest
+PASS: TFMReaderTest
+PASS: ToUnicodeMapTest
+PASS: TpicSpecialTest
+PASS: TriangularPatchTest
+PASS: UnicodeTest
+PASS: UtilityTest
+PASS: VectorIteratorTest
+PASS: VectorStreamTest
+PASS: XMLNodeTest
+PASS: XMLStringTest
+PASS: check-conv
+============================================================================
+Testsuite summary for dvisvgm 3.1.2
+============================================================================
+# TOTAL: 63
+# PASS:  63
+# SKIP:  0
+# XFAIL: 0
+# FAIL:  0
+# XPASS: 0
+# ERROR: 0
+============================================================================
+Making check in doc
+make[1]: Nothing to be done for `check'.
+make[1]: Nothing to be done for `check-am'.

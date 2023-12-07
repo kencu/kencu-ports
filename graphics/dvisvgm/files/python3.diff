@@ -1,0 +1,28 @@
+Replace python by python3 in Makfiles.
+---
+ src/Makefile.am   |    2 +-
+ tests/Makefile.am |    2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+
+--- src/Makefile.am
++++ src/Makefile.am
+@@ -211,7 +211,7 @@
+ # the command-line parser class is generated from options.xml by opt2cpp
+ $(srcdir)/CommandLine.hpp: options.xml
+ 	rm -f $@
+-	python $(srcdir)/opt2cpp.py $< >$@
++	@PYTHON@ $(srcdir)/opt2cpp.py $< >$@
+ 
+ # Create a C string definition containing the PostScript routines psdefs.ps needed by class PSInterpreter
+ $(srcdir)/psdefs.cpp: psdefs.ps
+--- tests/Makefile.am
++++ tests/Makefile.am
+@@ -43,7 +43,7 @@
+ hashcheck_LDADD = $(LIBS_LIBS)
+ 
+ hashcheck.cpp: genhashcheck.py $(dvisvgm_srcdir)/src/AGLTable.hpp $(dvisvgm_srcdir)/libs/xxHash/xxhash.h
+-	python $^ >$@
++	@PYTHON@ $^ >$@
+ 
+ TESTLIBS = libgtest.la ../src/libdvisvgm.la $(LIBS_LIBS) -lfreetype
+ TESTLIBS += $(CODE_COVERAGE_LDFLAGS)
