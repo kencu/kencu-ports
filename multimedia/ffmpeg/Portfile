@@ -103,9 +103,6 @@ configure.cflags-append     -DHAVE_LRINTF \
                             -Wno-deprecated-declarations \
                             ${configure.cppflags}
 
-set port_sharedir           ${prefix}/share
-set port_docdir             ${port_sharedir}/doc
-
 configure.pre_args-append   --cc="${configure.cc}" \
                             --mandir=${prefix}/share/man
 
@@ -159,7 +156,6 @@ configure.args-append       --disable-outdev=xv \
                             --disable-securetransport
 
 post-extract {
-    # fix file perms
     system "find ${worksrcpath} -type d -print0 | xargs -0 chmod a+rx"
     system "find ${worksrcpath} -type f -print0 | xargs -0 chmod a+r"
 }
@@ -238,14 +234,11 @@ platform darwin {
 
 
 platform darwin powerpc {
-
     if {[catch {sysctl hw.vectorunit} result] || $result == 0} {
         configure.args-append   --disable-altivec
-
         #  force non-buildbot build
         archive_sites
     }
-
     configure.ldflags-append   -latomic
 }
 
@@ -265,7 +258,7 @@ if {${universal_possible} && [variant_isset universal]} {
 } else {
     configure.args-append                  --arch=${configure.build_arch}
     configure.env-append                   ASFLAGS=[get_canonical_archflags]
-    if {${build_arch} eq "i386" || ${build_arch} eq "x86_64"} {
+    if {${configure.build_arch} eq "i386" || ${configure.build_arch} eq "x86_64"} {
         depends_build-append               port:nasm
         configure.args-append              --enable-x86asm
     }
@@ -281,6 +274,7 @@ variant x11 {
     depends_lib-append      port:xorg-libxcb \
                             port:xorg-libXext \
                             port:xorg-libXfixes
+
     configure.args-delete   --disable-xlib \
                             --disable-libxcb \
                             --disable-libxcb-shm \
@@ -299,7 +293,7 @@ variant libdc1394 description {Enable IIDC-1394 frame grabbing using libdc1394 (
 }
 
 variant jack description {Enable jack library and indev support} {
-    # jack will autoconfigure if not disabled
+    # jack is opportunistically found
     depends_lib-append      port:jack
     configure.args-replace  --disable-libjack \
                             --enable-libjack
@@ -309,7 +303,6 @@ variant jack description {Enable jack library and indev support} {
 
 variant gpl3 description {Enable GPL code, license will be GPL-3+} {
     license                 GPL-3+
-
     configure.args-append   --enable-libaribb24 \
                             --enable-libsmbclient \
                             --enable-version3
@@ -319,7 +312,6 @@ variant gpl3 description {Enable GPL code, license will be GPL-3+} {
 
 variant nonfree description {enable nonfree code, libraries and binaries will not be redistributable} {
     license                 Restrictive
-
     configure.args-append   --enable-libfdk-aac \
                             --enable-nonfree
     depends_lib-append      port:libfdk-aac
