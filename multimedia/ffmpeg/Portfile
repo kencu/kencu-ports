@@ -9,7 +9,6 @@ PortGroup                   legacysupport 1.1
 name                        ffmpeg
 conflicts                   ffmpeg-devel
 
-# Please increase the revision of mpv whenever ffmpeg's version is updated.
 version                     4.4.4
 revision                    3
 epoch                       1
@@ -32,40 +31,29 @@ checksums                   rmd160  ac9916e0915cfe3952993644d0a26d9e7c70e1b7 \
 
 patchfiles-append           patch-libavcodec-audiotoolboxenc.c.diff
 
-# Fix an upstream bug that overrides the max_b_frames setting
+# bug that overrides the max_b_frames setting
 # https://trac.ffmpeg.org/ticket/9231
-# Fixed via upstream commit: 55d9d6767967794edcdd6e1bbd8840fc6f4e9315
 patchfiles-append           patch-libavcodec-videotoolboxenc.c.diff
 
-# Patch for upstream bug related to non-B-frame encoding
+# bug related to non-B-frame encoding
 # https://trac.ffmpeg.org/ticket/9439
-# Fixed via upstream commit: b786bc7433dfe082441a57c1ba9ae9ea47904b78
 patchfiles-append           patch-issue-9439-non-b-frame-encoding.diff
 
-# Patch for upstream issue:
 # libavcodec/libsvtav1.c:124:53: error: no member named 'compressed_ten_bit_format' in 'struct EbSvtAv1EncConfiguration'
 #         (config->encoder_bit_depth > 8) && (config->compressed_ten_bit_format == 0) ? 1 : 0;
 #                                             ~~~~~~  ^
 # https://trac.macports.org/ticket/67327
-# Fixed via upstream commit: 031f1561cd286596cdb374da32f8aa816ce3b135
 patchfiles-append           patch-libavcodec-libsvtav1-ten_bit_format.diff
 
-# Patch for building docs with texinfo >= 7
-# https://trac.macports.org/ticket/68747
+# For building docs with texinfo >= 7
 # https://trac.ffmpeg.org/ticket/10636
-# Fixed via upstream commit: f01fdedb69e4accb1d1555106d8f682ff1f1ddc7
 patchfiles-append           patch-texinfo-7.diff
 
-# requires a C11 compiler
 compiler.c_standard         2011
 
 # warning: unknown warning option '-Werror=partial-availability'; did you mean '-Werror=availability'? [-Wunknown-warning-option]
 # warning: unknown warning option '-Wno-bool-operation'; did you mean '-Wno-bool-conversion'? [-Wunknown-warning-option]
 compiler.blacklist-append   {clang < 800}
-
-# The old ffmpeg port was GPL-2+ as base and had a no_gpl variant, so this keeps us consistent
-# Also, -gpl2 causes other ports to fail to build due to the missing libpostproc (#35473)
-default_variants-append     +gpl2
 
 if {[tbool configure.ccache]} {
     set ccache_path         ${prefix}/bin/ccache
@@ -110,7 +98,6 @@ depends_lib-append          port:aom \
                             port:zimg \
                             port:zlib \
                             port:zvbi
-
 
 configure.cflags-append     -DHAVE_LRINTF \
                             -Wno-deprecated-declarations \
@@ -172,7 +159,7 @@ configure.args-append       --disable-outdev=xv \
                             --disable-securetransport
 
 post-extract {
-    # fix file perms; tarball contents deny group and world read
+    # fix file perms
     system "find ${worksrcpath} -type d -print0 | xargs -0 chmod a+rx"
     system "find ${worksrcpath} -type f -print0 | xargs -0 chmod a+r"
 }
@@ -204,12 +191,11 @@ platform darwin {
 
     if {${os.major} < 10} {
 
-        # libvpx requires darwin 10+ -- CHECK THIS
+        # CHECK THIS
         depends_lib-delete      path:lib/pkgconfig/vpx.pc:libvpx
         configure.args-replace  --enable-libvpx \
                                 --disable-libvpx
 
-        # libsdl2 requires darwin 10+
         depends_lib-delete      port:libsdl2
         configure.args-replace  --enable-sdl2 \
                                 --disable-sdl2
@@ -230,8 +216,7 @@ platform darwin {
 
     if {${os.major} < 12} {
 
-        # VideoToolbox is supported on 10.8+
-        # It provides support for H265, H264, H263, MPEG1, MPEG2 and MPEG4.
+        # VideoToolbox provides support for H265, H264, H263, MPEG1, MPEG2 and MPEG4.
         configure.args-replace  --enable-videotoolbox \
                                 --disable-videotoolbox
 
@@ -239,15 +224,13 @@ platform darwin {
         configure.args-replace  --enable-opencl \
                                 --disable-opencl
 
-        # avfoundation is only available on 10.7+
-        # as of ffmpeg 3.4.1 build fails on 10.7 as well
+        # avfoundation is available on 10.7+ but ffmpeg 3.4.1 build fails on 10.7 as well
         # libavdevice/avfoundation.m:207:14: error: expected method to read dictionary element not found on object of type 'NSDictionary *'
         configure.args-append   --disable-indev=avfoundation
     }
-
 }
 
-    # Apple GCC has problems with SIMD intrinsics and -Werror=no-missing-prototypes.
+# Apple GCC has problems with SIMD intrinsics and -Werror=no-missing-prototypes.
 #    if {${os.major} < 11} {
 #        patchfiles-append \
 #                    patch-configure-no-error-on-missing-prototypes.diff
@@ -255,12 +238,11 @@ platform darwin {
 
 
 platform darwin powerpc {
-    # absence of altivec is not automatically detected
+
     if {[catch {sysctl hw.vectorunit} result] || $result == 0} {
         configure.args-append   --disable-altivec
 
-        # as this machine is a G3, force a local build so we don't download a buildbot-built
-        # version possibly built on a G4+ or cross-compiled from an Intel system
+        #  force non-buildbot build
         archive_sites
     }
 
@@ -276,28 +258,26 @@ if {${universal_possible} && [variant_isset universal]} {
         lappend merger_configure_env($arch)   "ASFLAGS=-arch ${arch}"
     }
     if {[string match "*86*" ${configure.universal_archs}]} {
-        depends_build-append    port:nasm
+        depends_build-append               port:nasm
     }
     lappend merger_configure_args(i386)    --enable-x86asm
     lappend merger_configure_args(x86_64)  --enable-x86asm
 } else {
-    configure.args-append       --arch=${configure.build_arch}
-    configure.env-append        ASFLAGS=[get_canonical_archflags]
+    configure.args-append                  --arch=${configure.build_arch}
+    configure.env-append                   ASFLAGS=[get_canonical_archflags]
     if {${build_arch} eq "i386" || ${build_arch} eq "x86_64"} {
-        depends_build-append    port:nasm
-        configure.args-append   --enable-x86asm
+        depends_build-append               port:nasm
+        configure.args-append              --enable-x86asm
     }
 }
 
 build.cmd           ${prefix}/bin/gmake
 build.env-append    V=1
+destroot.env-append V=1
 
 test.run            yes
 
-destroot.env-append V=1
-
 variant x11 {
-    # enable x11grab_xcb input device
     depends_lib-append      port:xorg-libxcb \
                             port:xorg-libXext \
                             port:xorg-libXfixes
@@ -328,7 +308,7 @@ variant jack description {Enable jack library and indev support} {
 }
 
 variant gpl3 description {Enable GPL code, license will be GPL-3+} {
-    license         GPL-3+
+    license                 GPL-3+
 
     configure.args-append   --enable-libaribb24 \
                             --enable-libsmbclient \
@@ -338,7 +318,7 @@ variant gpl3 description {Enable GPL code, license will be GPL-3+} {
 }
 
 variant nonfree description {enable nonfree code, libraries and binaries will not be redistributable} {
-    license         Restrictive
+    license                 Restrictive
 
     configure.args-append   --enable-libfdk-aac \
                             --enable-nonfree
