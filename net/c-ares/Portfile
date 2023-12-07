@@ -1,37 +1,34 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
-PortSystem          1.0
-PortGroup           cmake 1.1
-PortGroup           github 1.0
+PortSystem              1.0
+PortGroup               cmake 1.1
+PortGroup               github 1.0
 
-github.setup        c-ares c-ares 1.17.2 cares-
-set version_        [join [split ${github.version} .] _]
-git.branch          [join ${github.tag_prefix}]${version_}[join ${github.tag_suffix}]
-revision            0
-categories          net
-maintainers         {toby @tobypeterson}
-platforms           darwin
-license             MIT
-github.tarball_from releases
+github.setup            c-ares c-ares 1.23.0 cares-
+revision                0
+categories              net
+maintainers             nomaintainer
+platforms               darwin
+license                 MIT
+github.tarball_from     releases
 
-description         C library for asynchronous DNS requests (including name resolves)
+description             C library for asynchronous DNS requests (including name resolves)
 
-long_description    This is c-ares, an asynchronous resolver \
-                    library. It is intended for applications which \
-                    need to perform DNS queries without blocking, or \
-                    need to perform multiple DNS queries in \
-                    parallel. The primary examples of such \
-                    applications are servers which communicate with \
-                    multiple clients and programs with graphical user \
-                    interfaces.
+long_description        This is c-ares, an asynchronous resolver \
+                        library. It is intended for applications which \
+                        need to perform DNS queries without blocking, or \
+                        need to perform multiple DNS queries in \
+                        parallel. The primary examples of such \
+                        applications are servers which communicate with \
+                        multiple clients and programs with graphical user \
+                        interfaces.
 
-homepage            https://c-ares.haxx.se/
+homepage                https://c-ares.haxx.se/
 
-checksums           rmd160 facbdff9395ab01e313d21565c87ee5e06aed1ab \
-                    sha256 4803c844ce20ce510ef0eb83f8ea41fa24ecaae9d280c468c582d2bb25b3913d \
-                    size   1538276
+checksums               rmd160 85a91363396ec077a329d5b8d5213a82f1c5d545 \
+                        sha256 cb614ecf78b477d35963ebffcf486fc9d55cc3d3216f00700e71b7d4868f79f5 \
+                        size   1681336
 
-configure.args-append \
-                    -DCARES_SHARED:BOOL=ON
+configure.args-append   -DCARES_SHARED:BOOL=ON
 
-livecheck.version   ${version_}
+livecheck.version       [string map {. _} ${version}]
