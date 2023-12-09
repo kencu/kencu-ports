@@ -1,38 +1,36 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
-PortSystem          1.0
+PortSystem              1.0
 
-name                bmake
-version             20201101
-revision            0
-checksums           rmd160  347b4eb3a1935ebf27e069a6bcfdeeb8bd60db5f \
-                    sha256  892a483dee9e855c0b31ca84848a503d8d02e435880341ecbcccd44028cc259b \
-                    size    676718
+name                    bmake
+version                 20231124
+revision                0
+checksums               rmd160  0ea1dd41c98a2d5fbefd5bdaa46db39f71c2d582 \
+                        sha256  6453bde27880d384f20b9c3e05c33647e706d67ed385d48856783fb56120c530 \
+                        size    859026
 
-categories          devel
-platforms           darwin
-maintainers         {ryandesign @ryandesign} openmaintainer
-license             BSD
+categories              devel
+platforms               darwin
+maintainers             nomaintainer
+license                 BSD
 
-homepage            http://www.crufty.net/help/sjg/bmake.html
-master_sites        http://www.crufty.net/ftp/pub/sjg/
+homepage                http://www.crufty.net/help/sjg/bmake.html
+master_sites            http://www.crufty.net/ftp/pub/sjg/
 
-description         Portable NetBSD make
-long_description    bmake is the portable version of NetBSD make.
+description             Portable NetBSD make
+long_description        bmake is the portable version of NetBSD make.
 
-worksrcdir          ${name}
+worksrcdir              ${name}
 
-configure.cmd       ./boot-strap
-configure.args-append \
-                    op=configure
+configure.cmd           ./boot-strap
+configure.args-append    op=configure
 
-build.cmd           ./boot-strap
-build.target        op=build
+build.cmd               ./boot-strap
+build.target            op=build
 
-destroot.target     op=install
-destroot.args-append \
-                    --prefix=${prefix}
+destroot.target         op=install
+destroot.args-append    --prefix=${prefix}
 
-livecheck.type      regex
-livecheck.url       ${master_sites}
-livecheck.regex     "${name}-(\[\\d\]+)${extract.suffix}"
+livecheck.type          regex
+livecheck.url           ${master_sites}
+livecheck.regex         "${name}-(\[\\d\]+)${extract.suffix}"
