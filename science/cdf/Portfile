@@ -6,11 +6,11 @@ PortGroup               makefile 1.0
 
 name                    cdf
 epoch                   1
-version                 3.8.0.1
+version                 3.9.0
 revision                0
-checksums               rmd160  f920a1613dae5da87e871142b440a16e31bcc47e \
-                        sha256  0cc27a14275bd0a6f41f0f03f85c44bf6c6f10f8ad9778853fbe272bdca447b6 \
-                        size    2263743
+checksums               rmd160  a5567603757d3e984f06154efa9e4cfe4a6c4114 \
+                        sha256  b8566cfc8733e8a32341da634bfebad579cd277515d5afa49a3db3489d232419 \
+                        size    2448203
 
 set my_branch           [join [lrange [split ${version} .] 0 1] ""]
 set my_version          ${my_branch}_[join [lrange [split ${version} .] 2 end] "_"]
@@ -28,7 +28,7 @@ long_description        The Common Data Format (CDF) is a self-describing \
                         discipline independent fashion.
 
 homepage                https://cdf.gsfc.nasa.gov
-master_sites            https://cdaweb.sci.gsfc.nasa.gov/pub/software/cdf/dist/${name}${my_short_version}/unix/
+master_sites            https://spdf.gsfc.nasa.gov/pub/software/cdf/dist/${name}${my_short_version}/unix/
 
 dist_subdir             ${name}/${version}
 distname                ${name}${my_short_version}-dist
