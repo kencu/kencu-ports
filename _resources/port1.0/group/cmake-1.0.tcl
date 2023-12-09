@@ -61,7 +61,6 @@ default configure.pre_args {-DCMAKE_INSTALL_PREFIX='${cmake.install_prefix}'}
 
 default configure.args {[list \
                     -DCMAKE_BUILD_TYPE=Release \
-#                    -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON \
                    {*}[cmake_ccaching_flags] \
                    {-DCMAKE_C_COMPILER="$CC"} \
                     -DCMAKE_COLOR_MAKEFILE=ON \

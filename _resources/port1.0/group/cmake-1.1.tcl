@@ -102,13 +102,11 @@ proc cmake::rpath_flags {} {
             cmake.install_rpath-append [option cmake.install_prefix]/lib
         }
         return [list \
-#            -DCMAKE_BUILD_WITH_INSTALL_RPATH:BOOL=ON \
             -DCMAKE_INSTALL_RPATH="[join [option cmake.install_rpath] \;]"
         ]
     }
     # always build with full RPATH; this is the default on Mac.
     # Let ports deactivate it explicitly if they need to.
-#    return -DCMAKE_BUILD_WITH_INSTALL_RPATH:BOOL=ON
 }
 
 proc cmake::system_prefix_path {} {
