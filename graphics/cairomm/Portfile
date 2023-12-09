@@ -7,7 +7,7 @@ PortGroup               boost 1.0
 PortGroup               meson 1.0
 
 name                    cairomm
-version                 1.16.2
+version                 1.18.0
 revision                0
 
 categories              graphics
@@ -24,9 +24,9 @@ homepage                https://www.cairographics.org
 master_sites            ${homepage}/releases/
 use_xz                  yes
 
-checksums               rmd160  a3d749af53be09c5fbe629a394a69a70cfcf8359 \
-                        sha256  6a63bf98a97dda2b0f55e34d1b5f3fb909ef8b70f9b8d382cb1ff3978e7dc13f \
-                        size    593504
+checksums               rmd160  f1854e3e0737d8cb1c68124d67fc3e8863346fc1 \
+                        sha256  b81255394e3ea8e8aa887276d22afa8985fc8daef60692eb2407d23049f03cfb \
+                        size    632520
 
 depends_build-append    port:mm-common \
                         port:pkgconfig
