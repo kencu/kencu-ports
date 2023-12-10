@@ -1,0 +1,2426 @@
+--->  Testing cmake
+Executing:  cd "/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0" && /usr/bin/make test 
+Running tests...
+Test project /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0
+Guessing configuration NoConfig
+        Start   1: SystemInformationNew
+  1/732 Test   #1: SystemInformationNew ...............................   Passed    3.57 sec
+        Start   2: kwsys.testEncode
+  2/732 Test   #2: kwsys.testEncode ...................................   Passed    0.00 sec
+        Start   3: kwsys.testTerminal
+  3/732 Test   #3: kwsys.testTerminal .................................   Passed    0.00 sec
+        Start   4: kwsys.testConfigure
+  4/732 Test   #4: kwsys.testConfigure ................................   Passed    0.01 sec
+        Start   5: kwsys.testStatus
+  5/732 Test   #5: kwsys.testStatus ...................................   Passed    0.01 sec
+        Start   6: kwsys.testSystemTools
+  6/732 Test   #6: kwsys.testSystemTools ..............................   Passed    0.02 sec
+        Start   7: kwsys.testCommandLineArguments
+  7/732 Test   #7: kwsys.testCommandLineArguments .....................   Passed    0.00 sec
+        Start   8: kwsys.testCommandLineArguments1
+  8/732 Test   #8: kwsys.testCommandLineArguments1 ....................   Passed    0.00 sec
+        Start   9: kwsys.testDirectory
+  9/732 Test   #9: kwsys.testDirectory ................................   Passed    0.02 sec
+        Start  10: kwsys.testEncoding
+ 10/732 Test  #10: kwsys.testEncoding .................................   Passed    0.00 sec
+        Start  11: kwsys.testFStream
+ 11/732 Test  #11: kwsys.testFStream ..................................   Passed    0.01 sec
+        Start  12: kwsys.testConsoleBuf
+ 12/732 Test  #12: kwsys.testConsoleBuf ...............................   Passed    0.00 sec
+        Start  13: kwsys.testSystemInformation
+ 13/732 Test  #13: kwsys.testSystemInformation ........................   Passed    0.22 sec
+        Start  14: kwsys.testDynamicLoader
+ 14/732 Test  #14: kwsys.testDynamicLoader ............................   Passed    0.00 sec
+        Start  15: kwsys.testProcess-1
+ 15/732 Test  #15: kwsys.testProcess-1 ................................   Passed    0.66 sec
+        Start  16: kwsys.testProcess-2
+ 16/732 Test  #16: kwsys.testProcess-2 ................................   Passed    0.00 sec
+        Start  17: kwsys.testProcess-3
+ 17/732 Test  #17: kwsys.testProcess-3 ................................   Passed   10.01 sec
+        Start  18: kwsys.testProcess-4
+ 18/732 Test  #18: kwsys.testProcess-4 ................................   Passed    0.05 sec
+        Start  19: kwsys.testProcess-5
+ 19/732 Test  #19: kwsys.testProcess-5 ................................   Passed    0.03 sec
+        Start  20: kwsys.testProcess-6
+ 20/732 Test  #20: kwsys.testProcess-6 ................................   Passed   10.01 sec
+        Start  21: kwsys.testProcess-9
+ 21/732 Test  #21: kwsys.testProcess-9 ................................   Passed    9.01 sec
+        Start  22: kwsys.testProcess-10
+ 22/732 Test  #22: kwsys.testProcess-10 ...............................   Passed    2.00 sec
+        Start  23: kwiml.test
+ 23/732 Test  #23: kwiml.test .........................................   Passed    0.00 sec
+        Start  24: CMake.Copyright
+ 24/732 Test  #24: CMake.Copyright ....................................   Passed    0.02 sec
+        Start  25: CommandLineTest
+ 25/732 Test  #25: CommandLineTest ....................................   Passed   11.13 sec
+        Start  26: FindPackageTest
+ 26/732 Test  #26: FindPackageTest ....................................   Passed    8.98 sec
+        Start  27: StringFileTest
+ 27/732 Test  #27: StringFileTest .....................................   Passed    4.49 sec
+        Start  28: TryCompile
+ 28/732 Test  #28: TryCompile .........................................   Passed   49.90 sec
+        Start  29: SystemInformation
+ 29/732 Test  #29: SystemInformation ..................................   Passed    3.37 sec
+        Start  30: MathTest
+ 30/732 Test  #30: MathTest ...........................................   Passed    3.08 sec
+        Start  31: CompileFeatures
+ 31/732 Test  #31: CompileFeatures ....................................   Passed   28.04 sec
+        Start  32: CMakeCommands.target_compile_features
+ 32/732 Test  #32: CMakeCommands.target_compile_features ..............   Passed    8.22 sec
+        Start  33: MSManifest
+ 33/732 Test  #33: MSManifest .........................................   Passed    5.39 sec
+        Start  34: Simple
+ 34/732 Test  #34: Simple .............................................   Passed    3.83 sec
+        Start  35: PreOrder
+ 35/732 Test  #35: PreOrder ...........................................   Passed    3.64 sec
+        Start  36: MissingSourceFile
+ 36/732 Test  #36: MissingSourceFile ..................................   Passed    0.94 sec
+        Start  37: FortranOnly
+ 37/732 Test  #37: FortranOnly ........................................   Passed   10.44 sec
+        Start  38: VSGNUFortran
+ 38/732 Test  #38: VSGNUFortran .......................................   Passed   12.72 sec
+        Start  39: COnly
+ 39/732 Test  #39: COnly ..............................................   Passed    3.20 sec
+        Start  40: CxxOnly
+ 40/732 Test  #40: CxxOnly ............................................   Passed    3.78 sec
+        Start  41: CxxSubdirC
+ 41/732 Test  #41: CxxSubdirC .........................................   Passed    3.49 sec
+        Start  42: OutDir
+ 42/732 Test  #42: OutDir .............................................   Passed    3.80 sec
+        Start  43: OutName
+ 43/732 Test  #43: OutName ............................................   Passed    1.71 sec
+        Start  44: ObjectLibrary
+ 44/732 Test  #44: ObjectLibrary ......................................   Passed   25.33 sec
+        Start  45: NewlineArgs
+ 45/732 Test  #45: NewlineArgs ........................................   Passed    2.64 sec
+        Start  46: SetLang
+ 46/732 Test  #46: SetLang ............................................   Passed    4.09 sec
+        Start  47: EmptyProperty
+ 47/732 Test  #47: EmptyProperty ......................................   Passed    5.98 sec
+        Start  48: ExternalOBJ
+ 48/732 Test  #48: ExternalOBJ ........................................   Passed    5.64 sec
+        Start  49: LoadCommand
+ 49/732 Test  #49: LoadCommand ........................................   Passed    6.59 sec
+        Start  50: LinkDirectory
+ 50/732 Test  #50: LinkDirectory ......................................   Passed    5.01 sec
+        Start  51: LinkLanguage
+ 51/732 Test  #51: LinkLanguage .......................................   Passed    3.44 sec
+        Start  52: LinkLine
+ 52/732 Test  #52: LinkLine ...........................................   Passed    3.95 sec
+        Start  53: MacroTest
+ 53/732 Test  #53: MacroTest ..........................................   Passed    3.54 sec
+        Start  54: FunctionTest
+ 54/732 Test  #54: FunctionTest .......................................   Passed    3.14 sec
+        Start  55: ReturnTest
+ 55/732 Test  #55: ReturnTest .........................................   Passed    3.16 sec
+        Start  56: Properties
+ 56/732 Test  #56: Properties .........................................   Passed    8.53 sec
+        Start  57: Assembler
+ 57/732 Test  #57: Assembler ..........................................   Passed    2.39 sec
+        Start  58: SourceGroups
+ 58/732 Test  #58: SourceGroups .......................................   Passed    5.06 sec
+        Start  59: Preprocess
+ 59/732 Test  #59: Preprocess .........................................   Passed    3.35 sec
+        Start  60: ExportImport
+ 60/732 Test  #60: ExportImport .......................................   Passed   77.15 sec
+        Start  61: Unset
+ 61/732 Test  #61: Unset ..............................................   Passed    1.76 sec
+        Start  62: PolicyScope
+ 62/732 Test  #62: PolicyScope ........................................   Passed    1.76 sec
+        Start  63: EmptyLibrary
+ 63/732 Test  #63: EmptyLibrary .......................................   Passed    2.39 sec
+        Start  64: CompileDefinitions
+ 64/732 Test  #64: CompileDefinitions .................................   Passed    6.30 sec
+        Start  65: CompileOptions
+ 65/732 Test  #65: CompileOptions .....................................   Passed    3.65 sec
+        Start  66: CompatibleInterface
+ 66/732 Test  #66: CompatibleInterface ................................   Passed    6.08 sec
+        Start  67: AliasTarget
+ 67/732 Test  #67: AliasTarget ........................................   Passed    7.28 sec
+        Start  68: StagingPrefix
+ 68/732 Test  #68: StagingPrefix ......................................   Passed    9.92 sec
+        Start  69: ImportedSameName
+ 69/732 Test  #69: ImportedSameName ...................................   Passed    2.72 sec
+        Start  70: InterfaceLibrary
+ 70/732 Test  #70: InterfaceLibrary ...................................   Passed    9.46 sec
+        Start  71: ConfigSources
+ 71/732 Test  #71: ConfigSources ......................................   Passed    7.76 sec
+        Start  72: SourcesProperty
+ 72/732 Test  #72: SourcesProperty ....................................   Passed    3.55 sec
+        Start  73: SourceFileProperty
+ 73/732 Test  #73: SourceFileProperty .................................   Passed    1.81 sec
+        Start  74: SourceFileIncludeDirProperty
+ 74/732 Test  #74: SourceFileIncludeDirProperty .......................   Passed    1.70 sec
+        Start  75: CxxDialect
+ 75/732 Test  #75: CxxDialect .........................................   Passed    4.49 sec
+        Start  76: CrossCompile
+ 76/732 Test  #76: CrossCompile .......................................   Passed    2.81 sec
+        Start  77: Policy0002
+ 77/732 Test  #77: Policy0002 .........................................   Passed    2.30 sec
+        Start  78: Architecture
+ 78/732 Test  #78: Architecture .......................................   Passed    2.28 sec
+        Start  79: BundleUtilities
+ 79/732 Test  #79: BundleUtilities ....................................   Passed   16.58 sec
+        Start  80: CMakeBuildTest
+ 80/732 Test  #80: CMakeBuildTest .....................................   Passed    3.88 sec
+        Start  81: CMakeDoubleProject
+ 81/732 Test  #81: CMakeDoubleProject .................................   Passed    3.28 sec
+        Start  82: Module.CheckTypeSize
+ 82/732 Test  #82: Module.CheckTypeSize ...............................   Passed   15.09 sec
+        Start  83: Module.CheckIPOSupported-C
+ 83/732 Test  #83: Module.CheckIPOSupported-C .........................   Passed    4.53 sec
+        Start  84: Module.CheckIPOSupported-CXX
+ 84/732 Test  #84: Module.CheckIPOSupported-CXX .......................   Passed    4.00 sec
+        Start  85: Module.CheckIPOSupported-Fortran
+ 85/732 Test  #85: Module.CheckIPOSupported-Fortran ...................   Passed    3.53 sec
+        Start  86: Module.ExternalData
+ 86/732 Test  #86: Module.ExternalData ................................   Passed    6.54 sec
+        Start  87: Module.FindDependency
+ 87/732 Test  #87: Module.FindDependency ..............................   Passed    3.15 sec
+        Start  88: Module.WriteCompilerDetectionHeader
+ 88/732 Test  #88: Module.WriteCompilerDetectionHeader ................   Passed    8.84 sec
+        Start  89: PositionIndependentTargets
+ 89/732 Test  #89: PositionIndependentTargets .........................   Passed   10.21 sec
+        Start  90: LinkFlags-prepare
+ 90/732 Test  #90: LinkFlags-prepare ..................................   Passed    3.34 sec
+        Start  91: LinkFlags-lib
+ 91/732 Test  #91: LinkFlags-lib ......................................   Passed    0.31 sec
+        Start  92: LinkFlags-dll
+ 92/732 Test  #92: LinkFlags-dll ......................................   Passed    0.35 sec
+        Start  93: LinkFlags-mod
+ 93/732 Test  #93: LinkFlags-mod ......................................   Passed    0.36 sec
+        Start  94: LinkFlags-exe
+ 94/732 Test  #94: LinkFlags-exe ......................................   Passed    0.35 sec
+        Start  95: LinkFlags-lib_config
+ 95/732 Test  #95: LinkFlags-lib_config ...............................   Passed    0.31 sec
+        Start  96: LinkFlags-dll_config
+ 96/732 Test  #96: LinkFlags-dll_config ...............................   Passed    0.35 sec
+        Start  97: LinkFlags-mod_config
+ 97/732 Test  #97: LinkFlags-mod_config ...............................   Passed    0.35 sec
+        Start  98: LinkFlags-exe_config
+ 98/732 Test  #98: LinkFlags-exe_config ...............................   Passed    0.35 sec
+        Start  99: LinkFlags-lib_flags
+ 99/732 Test  #99: LinkFlags-lib_flags ................................   Passed    0.33 sec
+        Start 100: LinkFlags-dll_flags
+100/732 Test #100: LinkFlags-dll_flags ................................   Passed    0.37 sec
+        Start 101: LinkFlags-mod_flags
+101/732 Test #101: LinkFlags-mod_flags ................................   Passed    0.37 sec
+        Start 102: LinkFlags-exe_flags
+102/732 Test #102: LinkFlags-exe_flags ................................   Passed    0.42 sec
+        Start 103: LinkFlags-lib_flags_config
+103/732 Test #103: LinkFlags-lib_flags_config .........................   Passed    0.34 sec
+        Start 104: LinkFlags-dll_flags_config
+104/732 Test #104: LinkFlags-dll_flags_config .........................   Passed    0.37 sec
+        Start 105: LinkFlags-mod_flags_config
+105/732 Test #105: LinkFlags-mod_flags_config .........................   Passed    0.35 sec
+        Start 106: LinkFlags-exe_flags_config
+106/732 Test #106: LinkFlags-exe_flags_config .........................   Passed    0.35 sec
+        Start 107: SubProject
+107/732 Test #107: SubProject .........................................   Passed    3.23 sec
+        Start 108: SubProject-Stage2
+108/732 Test #108: SubProject-Stage2 ..................................   Passed    1.32 sec
+        Start 109: Framework
+109/732 Test #109: Framework ..........................................***Failed    2.33 sec
+        Start 110: TargetName
+110/732 Test #110: TargetName .........................................   Passed    3.32 sec
+        Start 111: LibName
+111/732 Test #111: LibName ............................................   Passed    6.05 sec
+        Start 112: CustComDepend
+112/732 Test #112: CustComDepend ......................................   Passed    3.55 sec
+        Start 113: ArgumentExpansion
+113/732 Test #113: ArgumentExpansion ..................................   Passed    2.34 sec
+        Start 114: GeneratorExpression
+114/732 Test #114: GeneratorExpression ................................   Passed   16.57 sec
+        Start 115: CustomCommand
+115/732 Test #115: CustomCommand ......................................   Passed   17.26 sec
+        Start 116: CustomCommandByproducts
+116/732 Test #116: CustomCommandByproducts ............................   Passed   11.90 sec
+        Start 117: CommandLength
+117/732 Test #117: CommandLength ......................................   Passed   20.41 sec
+        Start 118: EmptyDepends
+118/732 Test #118: EmptyDepends .......................................   Passed    6.11 sec
+        Start 119: CustomCommandWorkingDirectory
+119/732 Test #119: CustomCommandWorkingDirectory ......................   Passed    4.97 sec
+        Start 120: OutOfSource
+120/732 Test #120: OutOfSource ........................................   Passed    5.76 sec
+        Start 121: BuildDepends
+121/732 Test #121: BuildDepends .......................................   Passed   19.77 sec
+        Start 122: MissingInstall
+122/732 Test #122: MissingInstall .....................................   Passed    3.09 sec
+        Start 123: CPackUseDefaultVersion
+123/732 Test #123: CPackUseDefaultVersion .............................   Passed    0.38 sec
+        Start 124: CPackUseProjectVersion
+124/732 Test #124: CPackUseProjectVersion .............................   Passed    0.37 sec
+        Start 125: CPackUseShortProjectVersion
+125/732 Test #125: CPackUseShortProjectVersion ........................   Passed    0.37 sec
+        Start 126: CPackComponents
+126/732 Test #126: CPackComponents ....................................***Failed    7.23 sec
+        Start 127: CPackComponentsForAll-RPM-default
+127/732 Test #127: CPackComponentsForAll-RPM-default ..................***Failed    4.65 sec
+        Start 128: CPackComponentsForAll-RPM-OnePackPerGroup
+128/732 Test #128: CPackComponentsForAll-RPM-OnePackPerGroup ..........***Failed    4.63 sec
+        Start 129: CPackComponentsForAll-RPM-IgnoreGroup
+129/732 Test #129: CPackComponentsForAll-RPM-IgnoreGroup ..............***Failed    4.67 sec
+        Start 130: CPackComponentsForAll-RPM-AllInOne
+130/732 Test #130: CPackComponentsForAll-RPM-AllInOne .................***Failed    4.79 sec
+        Start 131: CPackComponentsForAll-ZIP-default
+131/732 Test #131: CPackComponentsForAll-ZIP-default ..................   Passed    4.34 sec
+        Start 132: CPackComponentsForAll-ZIP-OnePackPerGroup
+132/732 Test #132: CPackComponentsForAll-ZIP-OnePackPerGroup ..........   Passed    4.28 sec
+        Start 133: CPackComponentsForAll-ZIP-IgnoreGroup
+133/732 Test #133: CPackComponentsForAll-ZIP-IgnoreGroup ..............   Passed    4.36 sec
+        Start 134: CPackComponentsForAll-ZIP-AllInOne
+134/732 Test #134: CPackComponentsForAll-ZIP-AllInOne .................   Passed    4.33 sec
+        Start 135: CPackComponentsForAll-DragNDrop-default
+135/732 Test #135: CPackComponentsForAll-DragNDrop-default ............***Failed    7.30 sec
+        Start 136: CPackComponentsForAll-DragNDrop-OnePackPerGroup
+136/732 Test #136: CPackComponentsForAll-DragNDrop-OnePackPerGroup ....***Failed    7.28 sec
+        Start 137: CPackComponentsForAll-DragNDrop-IgnoreGroup
+137/732 Test #137: CPackComponentsForAll-DragNDrop-IgnoreGroup ........***Failed    7.42 sec
+        Start 138: CPackComponentsForAll-DragNDrop-AllInOne
+138/732 Test #138: CPackComponentsForAll-DragNDrop-AllInOne ...........***Failed    7.40 sec
+        Start 139: CPackTestAllGenerators
+139/732 Test #139: CPackTestAllGenerators .............................   Passed   11.46 sec
+        Start 140: CPackComponentsPrefix
+140/732 Test #140: CPackComponentsPrefix ..............................***Failed    3.59 sec
+        Start 141: X11
+141/732 Test #141: X11 ................................................   Passed    8.51 sec
+        Start 142: CMakeTestAllGenerators
+142/732 Test #142: CMakeTestAllGenerators .............................   Passed    9.17 sec
+        Start 143: LoadedCommandOneConfig
+143/732 Test #143: LoadedCommandOneConfig .............................   Passed    6.69 sec
+        Start 145: complexOneConfig
+144/732 Test #145: complexOneConfig ...................................   Passed    8.13 sec
+        Start 144: complex
+145/732 Test #144: complex ............................................   Passed    9.12 sec
+        Start 146: Environment
+146/732 Test #146: Environment ........................................   Passed    2.96 sec
+        Start 147: QtAutomocNoQt
+147/732 Test #147: QtAutomocNoQt ......................................   Passed    2.78 sec
+        Start 148: ExternalProject
+148/732 Test #148: ExternalProject ....................................   Passed   82.44 sec
+        Start 149: ExternalProjectSubdir
+149/732 Test #149: ExternalProjectSubdir ..............................   Passed    1.24 sec
+        Start 150: ExternalProjectSourceSubdir
+150/732 Test #150: ExternalProjectSourceSubdir ........................   Passed    3.32 sec
+        Start 151: ExternalProjectSourceSubdirNotCMake
+151/732 Test #151: ExternalProjectSourceSubdirNotCMake ................   Passed    0.87 sec
+        Start 152: ExternalProjectLocal
+152/732 Test #152: ExternalProjectLocal ...............................   Passed   39.65 sec
+        Start 153: ExternalProjectUpdateSetup
+153/732 Test #153: ExternalProjectUpdateSetup .........................   Passed   11.25 sec
+        Start 154: ExternalProjectUpdate
+154/732 Test #154: ExternalProjectUpdate ..............................   Passed   67.46 sec
+        Start 155: InstallMode-COPY
+155/732 Test #155: InstallMode-COPY ...................................   Passed   19.77 sec
+        Start 156: InstallMode-REL_SYMLINK
+156/732 Test #156: InstallMode-REL_SYMLINK ............................   Passed   19.78 sec
+        Start 157: InstallMode-REL_SYMLINK_OR_COPY
+157/732 Test #157: InstallMode-REL_SYMLINK_OR_COPY ....................   Passed   19.72 sec
+        Start 158: InstallMode-ABS_SYMLINK
+158/732 Test #158: InstallMode-ABS_SYMLINK ............................   Passed   19.57 sec
+        Start 159: InstallMode-ABS_SYMLINK_OR_COPY
+159/732 Test #159: InstallMode-ABS_SYMLINK_OR_COPY ....................   Passed   19.64 sec
+        Start 160: InstallMode-SYMLINK
+160/732 Test #160: InstallMode-SYMLINK ................................   Passed   19.78 sec
+        Start 161: InstallMode-SYMLINK_OR_COPY
+161/732 Test #161: InstallMode-SYMLINK_OR_COPY ........................   Passed   19.68 sec
+        Start 162: TutorialStep2
+162/732 Test #162: TutorialStep2 ......................................   Passed    3.22 sec
+        Start 163: TutorialStep3
+163/732 Test #163: TutorialStep3 ......................................   Passed    4.50 sec
+        Start 164: TutorialStep4
+164/732 Test #164: TutorialStep4 ......................................   Passed    4.61 sec
+        Start 165: TutorialStep5
+165/732 Test #165: TutorialStep5 ......................................   Passed    4.62 sec
+        Start 166: TutorialStep6
+166/732 Test #166: TutorialStep6 ......................................   Passed    4.67 sec
+        Start 167: TutorialStep7
+167/732 Test #167: TutorialStep7 ......................................   Passed    6.72 sec
+        Start 168: TutorialStep8
+168/732 Test #168: TutorialStep8 ......................................   Passed    7.65 sec
+        Start 169: TutorialStep9
+169/732 Test #169: TutorialStep9 ......................................   Passed    7.72 sec
+        Start 170: TutorialStep10
+170/732 Test #170: TutorialStep10 .....................................   Passed    7.73 sec
+        Start 171: TutorialStep11
+171/732 Test #171: TutorialStep11 .....................................   Passed    7.68 sec
+        Start 172: TutorialStep12
+172/732 Test #172: TutorialStep12 .....................................   Passed    5.67 sec
+        Start 173: TutorialComplete
+173/732 Test #173: TutorialComplete ...................................   Passed    5.75 sec
+        Start 174: TutorialStep3_MYMATH
+174/732 Test #174: TutorialStep3_MYMATH ...............................   Passed    3.72 sec
+        Start 175: TutorialStep4_MYMATH
+175/732 Test #175: TutorialStep4_MYMATH ...............................   Passed    3.74 sec
+        Start 176: TutorialStep5_MYMATH
+176/732 Test #176: TutorialStep5_MYMATH ...............................   Passed    3.76 sec
+        Start 177: TutorialStep6_MYMATH
+177/732 Test #177: TutorialStep6_MYMATH ...............................   Passed    3.73 sec
+        Start 178: TutorialStep7_MYMATH
+178/732 Test #178: TutorialStep7_MYMATH ...............................   Passed    5.77 sec
+        Start 179: TutorialStep8_MYMATH
+179/732 Test #179: TutorialStep8_MYMATH ...............................   Passed    5.80 sec
+        Start 180: TutorialStep9_MYMATH
+180/732 Test #180: TutorialStep9_MYMATH ...............................   Passed    5.77 sec
+        Start 181: TutorialStep10_MYMATH
+181/732 Test #181: TutorialStep10_MYMATH ..............................   Passed    5.81 sec
+        Start 182: TutorialStep11_MYMATH
+182/732 Test #182: TutorialStep11_MYMATH ..............................   Passed    5.80 sec
+        Start 183: TutorialStep12_MYMATH
+183/732 Test #183: TutorialStep12_MYMATH ..............................   Passed    3.77 sec
+        Start 184: TutorialComplete_MYMATH
+184/732 Test #184: TutorialComplete_MYMATH ............................   Passed    3.77 sec
+        Start 185: Guide.ImportExport.MyExe
+185/732 Test #185: Guide.ImportExport.MyExe ...........................   Passed    3.25 sec
+        Start 186: Guide.ImportExport.Importing
+186/732 Test #186: Guide.ImportExport.Importing .......................   Passed    2.76 sec
+        Start 187: Guide.ImportExport.MathFunctions
+187/732 Test #187: Guide.ImportExport.MathFunctions ...................   Passed    2.88 sec
+        Start 188: Guide.ImportExport.Downstream
+188/732 Test #188: Guide.ImportExport.Downstream ......................   Passed    3.17 sec
+        Start 189: Guide.ImportExport.MathFunctionsComponents
+189/732 Test #189: Guide.ImportExport.MathFunctionsComponents .........   Passed    3.43 sec
+        Start 190: Guide.ImportExport.DownstreamComponents
+190/732 Test #190: Guide.ImportExport.DownstreamComponents ............   Passed    3.15 sec
+        Start 191: testing
+191/732 Test #191: testing ............................................   Passed    6.64 sec
+        Start 192: wrapping
+192/732 Test #192: wrapping ...........................................   Passed    5.43 sec
+        Start 193: qtwrapping
+193/732 Test #193: qtwrapping .........................................   Passed    3.07 sec
+        Start 194: testdriver1
+194/732 Test #194: testdriver1 ........................................   Passed    3.67 sec
+        Start 195: testdriver2
+195/732 Test #195: testdriver2 ........................................   Passed    3.74 sec
+        Start 196: testdriver3
+196/732 Test #196: testdriver3 ........................................   Passed    3.73 sec
+        Start 197: testdriver4
+197/732 Test #197: testdriver4 ........................................   Passed    3.68 sec
+        Start 198: testdriver5
+198/732 Test #198: testdriver5 ........................................   Passed    3.69 sec
+        Start 199: Dependency
+199/732 Test #199: Dependency .........................................   Passed   18.08 sec
+        Start 200: JumpWithLibOut
+200/732 Test #200: JumpWithLibOut .....................................   Passed    3.76 sec
+        Start 201: JumpNoLibOut
+201/732 Test #201: JumpNoLibOut .......................................   Passed    3.74 sec
+        Start 202: Plugin
+202/732 Test #202: Plugin .............................................   Passed    4.21 sec
+        Start 203: RuntimePath
+203/732 Test #203: RuntimePath ........................................   Passed    4.25 sec
+        Start 204: MacRuntimePath
+204/732 Test #204: MacRuntimePath .....................................   Passed   11.86 sec
+        Start 205: linkorder1
+205/732 Test #205: linkorder1 .........................................   Passed    6.91 sec
+        Start 206: linkorder2
+206/732 Test #206: linkorder2 .........................................   Passed    4.82 sec
+        Start 207: SubDirSpaces
+207/732 Test #207: SubDirSpaces .......................................   Passed    5.03 sec
+        Start 208: SubDir
+208/732 Test #208: SubDir .............................................   Passed    4.60 sec
+        Start 209: CheckCompilerRelatedVariables
+209/732 Test #209: CheckCompilerRelatedVariables ......................   Passed    2.88 sec
+        Start 210: MakeClean
+210/732 Test #210: MakeClean ..........................................   Passed    4.64 sec
+        Start 211: BundleTest
+211/732 Test #211: BundleTest .........................................   Passed    5.06 sec
+        Start 212: CFBundleTest
+212/732 Test #212: CFBundleTest .......................................   Passed    3.18 sec
+        Start 213: BundleGeneratorTest
+213/732 Test #213: BundleGeneratorTest ................................***Failed    7.23 sec
+        Start 214: WarnUnusedCliUnused
+214/732 Test #214: WarnUnusedCliUnused ................................   Passed    2.70 sec
+        Start 215: WarnUnusedCliUsed
+215/732 Test #215: WarnUnusedCliUsed ..................................   Passed    2.32 sec
+        Start 216: WarnUninitialized
+216/732 Test #216: WarnUninitialized ..................................   Passed    2.32 sec
+        Start 217: TestsWorkingDirectory
+217/732 Test #217: TestsWorkingDirectory ..............................   Passed    2.80 sec
+        Start 218: CTest.NoNewline
+218/732 Test #218: CTest.NoNewline ....................................   Passed    0.01 sec
+        Start 219: CTest.UpdateSVN
+219/732 Test #219: CTest.UpdateSVN ....................................   Passed    8.93 sec
+        Start 220: CTest.UpdateCVS
+220/732 Test #220: CTest.UpdateCVS ....................................   Passed    7.93 sec
+        Start 221: CTest.UpdateGIT
+221/732 Test #221: CTest.UpdateGIT ....................................   Passed   20.20 sec
+        Start 222: CTest.UpdateHG
+222/732 Test #222: CTest.UpdateHG .....................................   Passed   12.12 sec
+        Start 223: CTestTestUpload
+223/732 Test #223: CTestTestUpload ....................................   Passed    5.07 sec
+        Start 224: CTestCoverageCollectGCOV
+224/732 Test #224: CTestCoverageCollectGCOV ...........................   Passed    3.84 sec
+        Start 225: CTestTestEmptyBinaryDirectory
+225/732 Test #225: CTestTestEmptyBinaryDirectory ......................   Passed    0.05 sec
+        Start 226: CTestGTMCoverage
+226/732 Test #226: CTestGTMCoverage ...................................   Passed    0.09 sec
+        Start 227: CTestCacheCoverage
+227/732 Test #227: CTestCacheCoverage .................................   Passed    0.09 sec
+        Start 228: CTestPythonCoverage
+228/732 Test #228: CTestPythonCoverage ................................   Passed    0.10 sec
+        Start 229: CTestCoberturaCoverage
+229/732 Test #229: CTestCoberturaCoverage .............................   Passed    0.10 sec
+        Start 230: CTestJacocoCoverage
+230/732 Test #230: CTestJacocoCoverage ................................   Passed    0.09 sec
+        Start 231: CTestJavascriptCoverage
+231/732 Test #231: CTestJavascriptCoverage ............................   Passed    0.10 sec
+        Start 232: CTestDelphiCoverage
+232/732 Test #232: CTestDelphiCoverage ................................   Passed    0.10 sec
+        Start 233: CTestConfig.Script.Debug
+233/732 Test #233: CTestConfig.Script.Debug ...........................   Passed    3.99 sec
+        Start 234: CTestConfig.Dashboard.Debug
+234/732 Test #234: CTestConfig.Dashboard.Debug ........................   Passed    4.99 sec
+        Start 235: CTestConfig.Script.MinSizeRel
+235/732 Test #235: CTestConfig.Script.MinSizeRel ......................   Passed    4.07 sec
+        Start 236: CTestConfig.Dashboard.MinSizeRel
+236/732 Test #236: CTestConfig.Dashboard.MinSizeRel ...................   Passed    4.91 sec
+        Start 237: CTestConfig.Script.Release
+237/732 Test #237: CTestConfig.Script.Release .........................   Passed    3.99 sec
+        Start 238: CTestConfig.Dashboard.Release
+238/732 Test #238: CTestConfig.Dashboard.Release ......................   Passed    4.96 sec
+        Start 239: CTestConfig.Script.RelWithDebInfo
+239/732 Test #239: CTestConfig.Script.RelWithDebInfo ..................   Passed    3.98 sec
+        Start 240: CTestConfig.Dashboard.RelWithDebInfo
+240/732 Test #240: CTestConfig.Dashboard.RelWithDebInfo ...............   Passed    4.91 sec
+        Start 241: CTestConfig.ScriptWithArgs
+241/732 Test #241: CTestConfig.ScriptWithArgs .........................   Passed    0.03 sec
+        Start 242: CMakeCommands.add_compile_definitions
+242/732 Test #242: CMakeCommands.add_compile_definitions ..............   Passed    2.03 sec
+        Start 243: CMakeCommands.add_compile_options
+243/732 Test #243: CMakeCommands.add_compile_options ..................   Passed    2.89 sec
+        Start 244: CMakeCommands.target_link_libraries
+244/732 Test #244: CMakeCommands.target_link_libraries ................   Passed   19.24 sec
+        Start 245: CMakeCommands.target_include_directories
+245/732 Test #245: CMakeCommands.target_include_directories ...........   Passed    3.90 sec
+        Start 246: CMakeCommands.target_compile_definitions
+246/732 Test #246: CMakeCommands.target_compile_definitions ...........   Passed    3.39 sec
+        Start 247: CMakeCommands.target_compile_options
+247/732 Test #247: CMakeCommands.target_compile_options ...............   Passed    3.49 sec
+        Start 248: CMakeCommands.target_sources
+248/732 Test #248: CMakeCommands.target_sources .......................   Passed    4.82 sec
+        Start 249: CMakeCommands.add_link_options
+249/732 Test #249: CMakeCommands.add_link_options .....................   Passed    1.31 sec
+        Start 250: CMakeCommands.target_link_options
+250/732 Test #250: CMakeCommands.target_link_options ..................   Passed    2.05 sec
+        Start 251: CMakeCommands.link_directories
+251/732 Test #251: CMakeCommands.link_directories .....................   Passed    1.30 sec
+        Start 252: CMakeCommands.target_link_directories
+252/732 Test #252: CMakeCommands.target_link_directories ..............   Passed    2.28 sec
+        Start 253: CTestTestCrash
+253/732 Test #253: CTestTestCrash .....................................   Passed    3.99 sec
+        Start 254: CTestTestBadExe
+254/732 Test #254: CTestTestBadExe ....................................   Passed    3.68 sec
+        Start 255: CTestTestBadGenerator
+255/732 Test #255: CTestTestBadGenerator ..............................   Passed    0.09 sec
+        Start 256: CTestTestParallel
+256/732 Test #256: CTestTestParallel ..................................   Passed    4.08 sec
+        Start 257: CTestTestVerboseOutput
+257/732 Test #257: CTestTestVerboseOutput .............................   Passed    3.93 sec
+        Start 258: CTestTestSkipReturnCode
+258/732 Test #258: CTestTestSkipReturnCode ............................   Passed    3.68 sec
+        Start 259: CTestTestSerialInDepends
+259/732 Test #259: CTestTestSerialInDepends ...........................   Passed    8.52 sec
+        Start 260: CTestTestMissingDependsExe
+260/732 Test #260: CTestTestMissingDependsExe .........................   Passed    2.39 sec
+        Start 261: CTestTestSerialOrder
+261/732 Test #261: CTestTestSerialOrder ...............................   Passed    2.65 sec
+        Start 262: CTestLimitDashJ
+262/732 Test #262: CTestLimitDashJ ....................................   Passed   32.07 sec
+        Start 263: CTestTestPrintLabels
+263/732 Test #263: CTestTestPrintLabels ...............................   Passed    0.11 sec
+        Start 264: CTestTestLabelRegExp
+264/732 Test #264: CTestTestLabelRegExp ...............................   Passed    0.23 sec
+        Start 265: CTestTestResourceLock
+265/732 Test #265: CTestTestResourceLock ..............................   Passed    4.03 sec
+        Start 266: CTestTestScheduler
+266/732 Test #266: CTestTestScheduler .................................   Passed   36.01 sec
+        Start 267: CTestTestCostSerial
+267/732 Test #267: CTestTestCostSerial ................................   Passed   10.21 sec
+        Start 268: CTestTestStopTime
+268/732 Test #268: CTestTestStopTime ..................................   Passed   18.71 sec
+        Start 269: CTestTestSubdir
+269/732 Test #269: CTestTestSubdir ....................................   Passed    4.83 sec
+        Start 270: CTestTestTimeout
+270/732 Test #270: CTestTestTimeout ...................................***Failed  Required regular expression not found. Regex=[TestTimeout *\.+ *\*\*\*Timeout.*TestSleep *\.+ *Passed.*timeout correctly killed child
+] 16.01 sec
+        Start 271: CTestTestRerunFailed
+271/732 Test #271: CTestTestRerunFailed ...............................   Passed    4.02 sec
+        Start 272: CTestTestDepends
+272/732 Test #272: CTestTestDepends ...................................   Passed    3.97 sec
+        Start 273: CTestTestCycle
+273/732 Test #273: CTestTestCycle .....................................   Passed    3.96 sec
+        Start 274: CTestTestRunScript
+274/732 Test #274: CTestTestRunScript .................................   Passed    0.05 sec
+        Start 275: CTestTestShowOnly
+275/732 Test #275: CTestTestShowOnly ..................................   Passed    0.18 sec
+        Start 276: CTestTestFdSetSize
+276/732 Test #276: CTestTestFdSetSize .................................   Passed    4.16 sec
+        Start 277: Fortran
+277/732 Test #277: Fortran ............................................   Passed    5.45 sec
+        Start 278: FortranModules
+278/732 Test #278: FortranModules .....................................   Passed   25.25 sec
+        Start 279: FortranC.Flags
+279/732 Test #279: FortranC.Flags .....................................***Failed    3.84 sec
+        Start 280: CompileCommandOutput
+280/732 Test #280: CompileCommandOutput ...............................   Passed    3.32 sec
+        Start 281: IncludeDirectories
+281/732 Test #281: IncludeDirectories .................................   Passed   22.43 sec
+        Start 282: IncludeDirectoriesCPATH
+282/732 Test #282: IncludeDirectoriesCPATH ............................   Passed    2.87 sec
+        Start 283: InterfaceLinkLibraries
+283/732 Test #283: InterfaceLinkLibraries .............................   Passed   12.12 sec
+        Start 284: InterfaceLinkLibrariesDirect
+284/732 Test #284: InterfaceLinkLibrariesDirect .......................   Passed   21.04 sec
+        Start 285: CMakeLib.testArgumentParser
+285/732 Test #285: CMakeLib.testArgumentParser ........................   Passed    0.07 sec
+        Start 286: CMakeLib.testCTestBinPacker
+286/732 Test #286: CMakeLib.testCTestBinPacker ........................   Passed    0.01 sec
+        Start 287: CMakeLib.testCTestResourceAllocator
+287/732 Test #287: CMakeLib.testCTestResourceAllocator ................   Passed    0.01 sec
+        Start 288: CMakeLib.testCTestResourceSpec
+288/732 Test #288: CMakeLib.testCTestResourceSpec .....................   Passed    0.02 sec
+        Start 289: CMakeLib.testCTestResourceGroups
+289/732 Test #289: CMakeLib.testCTestResourceGroups ...................   Passed    0.01 sec
+        Start 290: CMakeLib.testDebug
+290/732 Test #290: CMakeLib.testDebug .................................   Passed    0.01 sec
+        Start 291: CMakeLib.testGccDepfileReader
+291/732 Test #291: CMakeLib.testGccDepfileReader ......................   Passed    0.02 sec
+        Start 292: CMakeLib.testGeneratedFileStream
+292/732 Test #292: CMakeLib.testGeneratedFileStream ...................   Passed    0.05 sec
+        Start 293: CMakeLib.testJSONHelpers
+293/732 Test #293: CMakeLib.testJSONHelpers ...........................   Passed    0.01 sec
+        Start 294: CMakeLib.testRST
+294/732 Test #294: CMakeLib.testRST ...................................   Passed    0.02 sec
+        Start 295: CMakeLib.testRange
+295/732 Test #295: CMakeLib.testRange .................................   Passed    0.02 sec
+        Start 296: CMakeLib.testOptional
+296/732 Test #296: CMakeLib.testOptional ..............................   Passed    0.02 sec
+        Start 297: CMakeLib.testString
+297/732 Test #297: CMakeLib.testString ................................   Passed    0.01 sec
+        Start 298: CMakeLib.testStringAlgorithms
+298/732 Test #298: CMakeLib.testStringAlgorithms ......................   Passed    0.02 sec
+        Start 299: CMakeLib.testSystemTools
+299/732 Test #299: CMakeLib.testSystemTools ...........................   Passed    0.01 sec
+        Start 300: CMakeLib.testUTF8
+300/732 Test #300: CMakeLib.testUTF8 ..................................   Passed    0.01 sec
+        Start 301: CMakeLib.testXMLParser
+301/732 Test #301: CMakeLib.testXMLParser .............................   Passed    0.02 sec
+        Start 302: CMakeLib.testXMLSafe
+302/732 Test #302: CMakeLib.testXMLSafe ...............................   Passed    0.01 sec
+        Start 303: CMakeLib.testFindPackageCommand
+303/732 Test #303: CMakeLib.testFindPackageCommand ....................   Passed    0.01 sec
+        Start 304: CMakeLib.testUVProcessChain
+304/732 Test #304: CMakeLib.testUVProcessChain ........................   Passed   61.03 sec
+        Start 305: CMakeLib.testUVRAII
+305/732 Test #305: CMakeLib.testUVRAII ................................   Passed    2.02 sec
+        Start 306: CMakeLib.testUVStreambuf
+306/732 Test #306: CMakeLib.testUVStreambuf ...........................   Passed    0.08 sec
+        Start 307: CMakeLib.testCMExtMemory
+307/732 Test #307: CMakeLib.testCMExtMemory ...........................   Passed    0.01 sec
+        Start 308: CMakeLib.testCMExtAlgorithm
+308/732 Test #308: CMakeLib.testCMExtAlgorithm ........................   Passed    0.02 sec
+        Start 309: CMakeLib.testCMExtEnumSet
+309/732 Test #309: CMakeLib.testCMExtEnumSet ..........................   Passed    0.02 sec
+        Start 310: CMakeLib.testList
+310/732 Test #310: CMakeLib.testList ..................................   Passed    0.02 sec
+        Start 311: CMakeLib.testCMakePath
+311/732 Test #311: CMakeLib.testCMakePath .............................   Passed    0.02 sec
+        Start 312: CMakeLib.testDebuggerAdapter
+312/732 Test #312: CMakeLib.testDebuggerAdapter .......................   Passed    0.02 sec
+        Start 313: CMakeLib.testDebuggerAdapterPipe
+313/732 Test #313: CMakeLib.testDebuggerAdapterPipe ...................   Passed    0.02 sec
+        Start 314: CMakeLib.testDebuggerBreakpointManager
+314/732 Test #314: CMakeLib.testDebuggerBreakpointManager .............   Passed    0.02 sec
+        Start 315: CMakeLib.testDebuggerVariables
+315/732 Test #315: CMakeLib.testDebuggerVariables .....................   Passed    0.02 sec
+        Start 316: CMakeLib.testDebuggerVariablesHelper
+316/732 Test #316: CMakeLib.testDebuggerVariablesHelper ...............   Passed    0.02 sec
+        Start 317: CMakeLib.testDebuggerVariablesManager
+317/732 Test #317: CMakeLib.testDebuggerVariablesManager ..............   Passed    0.02 sec
+        Start 318: CMakeLib.testCMFilesystemPath
+318/732 Test #318: CMakeLib.testCMFilesystemPath ......................   Passed    0.01 sec
+        Start 319: CMakeLib.testDebuggerNamedPipe-Project
+319/732 Test #319: CMakeLib.testDebuggerNamedPipe-Project .............   Passed    1.62 sec
+        Start 320: CMakeLib.testDebuggerNamedPipe-Script
+320/732 Test #320: CMakeLib.testDebuggerNamedPipe-Script ..............   Passed    1.62 sec
+        Start 321: CMakeOnly.LinkInterfaceLoop
+321/732 Test #321: CMakeOnly.LinkInterfaceLoop ........................   Passed    1.18 sec
+        Start 322: CMakeOnly.CheckSymbolExists
+322/732 Test #322: CMakeOnly.CheckSymbolExists ........................   Passed    3.20 sec
+        Start 323: CMakeOnly.CheckCXXSymbolExists
+323/732 Test #323: CMakeOnly.CheckCXXSymbolExists .....................   Passed    4.94 sec
+        Start 324: CMakeOnly.CheckCXXCompilerFlag
+324/732 Test #324: CMakeOnly.CheckCXXCompilerFlag .....................   Passed    3.18 sec
+        Start 325: CMakeOnly.CheckLanguage
+325/732 Test #325: CMakeOnly.CheckLanguage ............................   Passed    7.39 sec
+        Start 326: CMakeOnly.CheckStructHasMember
+326/732 Test #326: CMakeOnly.CheckStructHasMember .....................   Passed   14.73 sec
+        Start 327: CMakeOnly.CompilerIdC
+327/732 Test #327: CMakeOnly.CompilerIdC ..............................   Passed    0.97 sec
+        Start 328: CMakeOnly.CompilerIdCXX
+328/732 Test #328: CMakeOnly.CompilerIdCXX ............................   Passed    1.37 sec
+        Start 329: CMakeOnly.CompilerIdOBJC
+329/732 Test #329: CMakeOnly.CompilerIdOBJC ...........................   Passed    0.97 sec
+        Start 330: CMakeOnly.CheckOBJCCompilerFlag
+330/732 Test #330: CMakeOnly.CheckOBJCCompilerFlag ....................   Passed    1.41 sec
+        Start 331: CMakeOnly.CompilerIdOBJCXX
+331/732 Test #331: CMakeOnly.CompilerIdOBJCXX .........................   Passed    0.97 sec
+        Start 332: CMakeOnly.CheckOBJCXXCompilerFlag
+332/732 Test #332: CMakeOnly.CheckOBJCXXCompilerFlag ..................   Passed    1.40 sec
+        Start 333: CMakeOnly.CompilerIdFortran
+333/732 Test #333: CMakeOnly.CompilerIdFortran ........................   Passed    1.41 sec
+        Start 334: CMakeOnly.AllFindModules
+334/732 Test #334: CMakeOnly.AllFindModules ...........................   Passed   62.04 sec
+        Start 335: CMakeOnly.SelectLibraryConfigurations
+335/732 Test #335: CMakeOnly.SelectLibraryConfigurations ..............   Passed    0.14 sec
+        Start 336: CMakeOnly.TargetScope
+336/732 Test #336: CMakeOnly.TargetScope ..............................   Passed    0.25 sec
+        Start 337: CMakeOnly.find_library
+337/732 Test #337: CMakeOnly.find_library .............................   Passed    0.16 sec
+        Start 338: CMakeOnly.find_path
+338/732 Test #338: CMakeOnly.find_path ................................   Passed    0.21 sec
+        Start 339: CMakeOnly.ProjectInclude
+339/732 Test #339: CMakeOnly.ProjectInclude ...........................   Passed    0.14 sec
+        Start 340: CMakeOnly.ProjectIncludeAny
+340/732 Test #340: CMakeOnly.ProjectIncludeAny ........................   Passed    0.14 sec
+        Start 341: CMakeOnly.ProjectIncludeBefore
+341/732 Test #341: CMakeOnly.ProjectIncludeBefore .....................   Passed    0.13 sec
+        Start 342: CMakeOnly.ProjectIncludeBeforeAny
+342/732 Test #342: CMakeOnly.ProjectIncludeBeforeAny ..................   Passed    0.14 sec
+        Start 343: CMakeOnly.MajorVersionSelection-PythonLibs_2
+343/732 Test #343: CMakeOnly.MajorVersionSelection-PythonLibs_2 .......   Passed    2.23 sec
+        Start 344: CMakeOnly.MajorVersionSelection-PythonLibs_3
+344/732 Test #344: CMakeOnly.MajorVersionSelection-PythonLibs_3 .......   Passed    2.29 sec
+        Start 345: CMakeOnly.MajorVersionSelection-PythonInterp_3
+345/732 Test #345: CMakeOnly.MajorVersionSelection-PythonInterp_3 .....   Passed    0.22 sec
+        Start 346: CMakeOnly.MajorVersionSelection-Qt_3
+346/732 Test #346: CMakeOnly.MajorVersionSelection-Qt_3 ...............   Passed    4.44 sec
+        Start 347: CMakeOnly.MajorVersionSelection-Qt_4
+347/732 Test #347: CMakeOnly.MajorVersionSelection-Qt_4 ...............   Passed    4.30 sec
+        Start 348: RunCMake.CMP0019
+348/732 Test #348: RunCMake.CMP0019 ...................................   Passed    0.65 sec
+        Start 349: RunCMake.CMP0022
+349/732 Test #349: RunCMake.CMP0022 ...................................   Passed   26.55 sec
+        Start 350: RunCMake.CMP0026
+350/732 Test #350: RunCMake.CMP0026 ...................................   Passed   18.68 sec
+        Start 351: RunCMake.CMP0027
+351/732 Test #351: RunCMake.CMP0027 ...................................   Passed    4.48 sec
+        Start 352: RunCMake.CMP0037
+352/732 Test #352: RunCMake.CMP0037 ...................................   Passed   14.43 sec
+        Start 353: RunCMake.CMP0038
+353/732 Test #353: RunCMake.CMP0038 ...................................   Passed    4.48 sec
+        Start 354: RunCMake.CMP0039
+354/732 Test #354: RunCMake.CMP0039 ...................................   Passed    4.28 sec
+        Start 355: RunCMake.CMP0040
+355/732 Test #355: RunCMake.CMP0040 ...................................   Passed    7.25 sec
+        Start 356: RunCMake.CMP0041
+356/732 Test #356: RunCMake.CMP0041 ...................................   Passed    8.97 sec
+        Start 357: RunCMake.CMP0042
+357/732 Test #357: RunCMake.CMP0042 ...................................   Passed    4.76 sec
+        Start 358: RunCMake.CMP0043
+358/732 Test #358: RunCMake.CMP0043 ...................................   Passed    4.45 sec
+        Start 359: RunCMake.CMP0045
+359/732 Test #359: RunCMake.CMP0045 ...................................   Passed    4.18 sec
+        Start 360: RunCMake.CMP0046
+360/732 Test #360: RunCMake.CMP0046 ...................................   Passed    8.84 sec
+        Start 361: RunCMake.CMP0049
+361/732 Test #361: RunCMake.CMP0049 ...................................   Passed    4.30 sec
+        Start 362: RunCMake.CMP0050
+362/732 Test #362: RunCMake.CMP0050 ...................................   Passed    4.35 sec
+        Start 363: RunCMake.CMP0051
+363/732 Test #363: RunCMake.CMP0051 ...................................   Passed    4.76 sec
+        Start 364: RunCMake.CMP0053
+364/732 Test #364: RunCMake.CMP0053 ...................................   Passed    4.27 sec
+        Start 365: RunCMake.CMP0054
+365/732 Test #365: RunCMake.CMP0054 ...................................   Passed    1.33 sec
+        Start 366: RunCMake.CMP0055
+366/732 Test #366: RunCMake.CMP0055 ...................................   Passed    0.62 sec
+        Start 367: RunCMake.CMP0057
+367/732 Test #367: RunCMake.CMP0057 ...................................   Passed    0.25 sec
+        Start 368: RunCMake.CMP0059
+368/732 Test #368: RunCMake.CMP0059 ...................................   Passed    0.38 sec
+        Start 369: RunCMake.CMP0060
+369/732 Test #369: RunCMake.CMP0060 ...................................   Passed    7.24 sec
+        Start 370: RunCMake.CMP0064
+370/732 Test #370: RunCMake.CMP0064 ...................................   Passed    0.38 sec
+        Start 371: RunCMake.CMP0068
+371/732 Test #371: RunCMake.CMP0068 ...................................   Passed    4.75 sec
+        Start 372: RunCMake.CMP0069
+372/732 Test #372: RunCMake.CMP0069 ...................................   Passed    5.86 sec
+        Start 373: RunCMake.CMP0081
+373/732 Test #373: RunCMake.CMP0081 ...................................   Passed    4.44 sec
+        Start 374: RunCMake.CMP0102
+374/732 Test #374: RunCMake.CMP0102 ...................................   Passed    0.51 sec
+        Start 375: RunCMake.CMP0106
+375/732 Test #375: RunCMake.CMP0106 ...................................   Passed    0.56 sec
+        Start 376: RunCMake.CMP0111
+376/732 Test #376: RunCMake.CMP0111 ...................................   Passed    4.40 sec
+        Start 377: RunCMake.CMP0115
+377/732 Test #377: RunCMake.CMP0115 ...................................   Passed    2.70 sec
+        Start 378: RunCMake.CMP0118
+378/732 Test #378: RunCMake.CMP0118 ...................................   Passed   19.51 sec
+        Start 379: RunCMake.CMP0119
+379/732 Test #379: RunCMake.CMP0119 ...................................   Passed    5.74 sec
+        Start 380: RunCMake.CMP0121
+380/732 Test #380: RunCMake.CMP0121 ...................................   Passed    1.69 sec
+        Start 381: RunCMake.CMP0125
+381/732 Test #381: RunCMake.CMP0125 ...................................   Passed    2.67 sec
+        Start 382: RunCMake.CMP0126
+382/732 Test #382: RunCMake.CMP0126 ...................................   Passed    0.74 sec
+        Start 383: RunCMake.CMP0132
+383/732 Test #383: RunCMake.CMP0132 ...................................   Passed    2.91 sec
+        Start 384: RunCMake.CMP0135
+384/732 Test #384: RunCMake.CMP0135 ...................................   Passed    3.69 sec
+        Start 385: RunCMake.CMP0139
+385/732 Test #385: RunCMake.CMP0139 ...................................   Passed    0.25 sec
+        Start 386: RunCMake.CMP0150
+386/732 Test #386: RunCMake.CMP0150 ...................................   Passed   16.47 sec
+        Start 387: RunCMake.CMP0152
+387/732 Test #387: RunCMake.CMP0152 ...................................   Passed    0.38 sec
+        Start 388: RunCMake.CMP0153
+388/732 Test #388: RunCMake.CMP0153 ...................................   Passed    0.10 sec
+        Start 389: RunCMake.CMP0065
+389/732 Test #389: RunCMake.CMP0065 ...................................   Passed    8.74 sec
+        Start 390: RunCMake.Make
+390/732 Test #390: RunCMake.Make ......................................   Passed    6.29 sec
+        Start 391: RunCMake.CTest
+391/732 Test #391: RunCMake.CTest .....................................   Passed    8.70 sec
+        Start 392: RunCMake.ctest_memcheck
+392/732 Test #392: RunCMake.ctest_memcheck ............................   Passed   40.80 sec
+        Start 393: RunCMake.ABI
+393/732 Test #393: RunCMake.ABI .......................................   Passed    9.04 sec
+        Start 394: RunCMake.AndroidTestUtilities
+394/732 Test #394: RunCMake.AndroidTestUtilities ......................   Passed    1.65 sec
+        Start 395: RunCMake.AutogenQt5
+395/732 Test #395: RunCMake.AutogenQt5 ................................***Failed   28.92 sec
+        Start 396: RunCMake.BuildDepends
+396/732 Test #396: RunCMake.BuildDepends ..............................   Passed   68.96 sec
+        Start 397: RunCMake.Byproducts
+397/732 Test #397: RunCMake.Byproducts ................................   Passed   49.10 sec
+        Start 398: RunCMake.CMakeDependentOption
+398/732 Test #398: RunCMake.CMakeDependentOption ......................   Passed    0.11 sec
+        Start 399: RunCMake.CMakeRoleGlobalProperty
+399/732 Test #399: RunCMake.CMakeRoleGlobalProperty ...................   Passed    2.64 sec
+        Start 400: RunCMake.CMakeRelease
+400/732 Test #400: RunCMake.CMakeRelease ..............................   Passed    0.02 sec
+        Start 401: RunCMake.Color
+401/732 Test #401: RunCMake.Color .....................................   Passed    5.51 sec
+        Start 402: RunCMake.CompilerChange
+402/732 Test #402: RunCMake.CompilerChange ............................   Passed    3.40 sec
+        Start 403: RunCMake.CompilerNotFound
+403/732 Test #403: RunCMake.CompilerNotFound ..........................   Passed    1.49 sec
+        Start 404: RunCMake.CompilerTest
+404/732 Test #404: RunCMake.CompilerTest ..............................   Passed    6.24 sec
+        Start 405: RunCMake.Configure
+405/732 Test #405: RunCMake.Configure .................................   Passed    5.68 sec
+        Start 406: RunCMake.DisallowedCommands
+406/732 Test #406: RunCMake.DisallowedCommands ........................   Passed    1.54 sec
+        Start 407: RunCMake.ExportCompileCommands
+407/732 Test #407: RunCMake.ExportCompileCommands .....................   Passed    4.43 sec
+        Start 408: RunCMake.ExcludeFromAll
+408/732 Test #408: RunCMake.ExcludeFromAll ............................   Passed    5.10 sec
+        Start 409: RunCMake.ExportImport
+409/732 Test #409: RunCMake.ExportImport ..............................   Passed    5.47 sec
+        Start 410: RunCMake.ExternalData
+410/732 Test #410: RunCMake.ExternalData ..............................   Passed    4.94 sec
+        Start 411: RunCMake.FeatureSummary
+411/732 Test #411: RunCMake.FeatureSummary ............................   Passed    2.28 sec
+        Start 412: RunCMake.FPHSA
+412/732 Test #412: RunCMake.FPHSA .....................................   Passed    3.17 sec
+        Start 413: RunCMake.FileAPI
+413/732 Test #413: RunCMake.FileAPI ...................................   Passed   24.67 sec
+        Start 414: RunCMake.FindBoost
+414/732 Test #414: RunCMake.FindBoost .................................   Passed    2.33 sec
+        Start 415: RunCMake.FindLua
+415/732 Test #415: RunCMake.FindLua ...................................   Passed    1.33 sec
+        Start 416: RunCMake.FindOpenGL
+416/732 Test #416: RunCMake.FindOpenGL ................................   Passed    1.70 sec
+        Start 417: RunCMake.InitialFlags
+417/732 Test #417: RunCMake.InitialFlags ..............................   Passed    2.41 sec
+        Start 418: RunCMake.GenerateExportHeader
+418/732 Test #418: RunCMake.GenerateExportHeader ......................   Passed   34.60 sec
+        Start 419: RunCMake.GenEx-COMPILE_LANGUAGE
+419/732 Test #419: RunCMake.GenEx-COMPILE_LANGUAGE ....................   Passed    4.06 sec
+        Start 420: RunCMake.GenEx-COMPILE_LANG_AND_ID
+420/732 Test #420: RunCMake.GenEx-COMPILE_LANG_AND_ID .................   Passed    4.04 sec
+        Start 421: RunCMake.GenEx-LINK_LANGUAGE
+421/732 Test #421: RunCMake.GenEx-LINK_LANGUAGE .......................   Passed    9.35 sec
+        Start 422: RunCMake.GenEx-LINK_LANG_AND_ID
+422/732 Test #422: RunCMake.GenEx-LINK_LANG_AND_ID ....................   Passed    8.29 sec
+        Start 423: RunCMake.GenEx-HOST_LINK
+423/732 Test #423: RunCMake.GenEx-HOST_LINK ...........................   Passed    9.62 sec
+        Start 424: RunCMake.GenEx-DEVICE_LINK
+424/732 Test #424: RunCMake.GenEx-DEVICE_LINK .........................   Passed    9.68 sec
+        Start 425: RunCMake.GenEx-LINK_LIBRARY
+425/732 Test #425: RunCMake.GenEx-LINK_LIBRARY ........................   Passed   34.65 sec
+        Start 426: RunCMake.GenEx-LINK_GROUP
+426/732 Test #426: RunCMake.GenEx-LINK_GROUP ..........................   Passed   35.08 sec
+        Start 427: RunCMake.GenEx-TARGET_FILE
+427/732 Test #427: RunCMake.GenEx-TARGET_FILE .........................   Passed   19.76 sec
+        Start 428: RunCMake.GenEx-TARGET_IMPORT_FILE
+428/732 Test #428: RunCMake.GenEx-TARGET_IMPORT_FILE ..................   Passed    6.88 sec
+        Start 429: RunCMake.GenEx-GENEX_EVAL
+429/732 Test #429: RunCMake.GenEx-GENEX_EVAL ..........................   Passed    6.91 sec
+        Start 430: RunCMake.GenEx-TARGET_PROPERTY
+430/732 Test #430: RunCMake.GenEx-TARGET_PROPERTY .....................   Passed   20.13 sec
+        Start 431: RunCMake.GenEx-TARGET_RUNTIME_DLLS
+431/732 Test #431: RunCMake.GenEx-TARGET_RUNTIME_DLLS .................   Passed    5.53 sec
+        Start 432: RunCMake.GenEx-PATH
+432/732 Test #432: RunCMake.GenEx-PATH ................................   Passed    6.19 sec
+        Start 433: RunCMake.GenEx-PATH_EQUAL
+433/732 Test #433: RunCMake.GenEx-PATH_EQUAL ..........................   Passed    0.33 sec
+        Start 434: RunCMake.GenEx-LIST
+434/732 Test #434: RunCMake.GenEx-LIST ................................   Passed   10.97 sec
+        Start 435: RunCMake.GeneratorExpression
+435/732 Test #435: RunCMake.GeneratorExpression .......................   Passed    9.41 sec
+        Start 436: RunCMake.GeneratorExpressionShortCircuit
+436/732 Test #436: RunCMake.GeneratorExpressionShortCircuit ...........   Passed    1.04 sec
+        Start 437: RunCMake.GeneratorInstance
+437/732 Test #437: RunCMake.GeneratorInstance .........................   Passed    0.15 sec
+        Start 438: RunCMake.GeneratorPlatform
+438/732 Test #438: RunCMake.GeneratorPlatform .........................   Passed    0.16 sec
+        Start 439: RunCMake.GeneratorToolset
+439/732 Test #439: RunCMake.GeneratorToolset ..........................   Passed    0.16 sec
+        Start 440: RunCMake.GetPrerequisites
+440/732 Test #440: RunCMake.GetPrerequisites ..........................   Passed    0.23 sec
+        Start 441: RunCMake.GNUInstallDirs
+441/732 Test #441: RunCMake.GNUInstallDirs ............................   Passed    0.79 sec
+        Start 442: RunCMake.GoogleTest
+442/732 Test #442: RunCMake.GoogleTest ................................   Passed   50.21 sec
+        Start 443: RunCMake.Graphviz
+443/732 Test #443: RunCMake.Graphviz ..................................   Passed   61.37 sec
+        Start 444: RunCMake.Languages
+444/732 Test #444: RunCMake.Languages .................................   Passed    3.42 sec
+        Start 445: RunCMake.LinkItemValidation
+445/732 Test #445: RunCMake.LinkItemValidation ........................   Passed   11.84 sec
+        Start 446: RunCMake.LinkStatic
+446/732 Test #446: RunCMake.LinkStatic ................................   Passed    3.96 sec
+        Start 447: RunCMake.ObjectLibrary
+447/732 Test #447: RunCMake.ObjectLibrary .............................   Passed   40.47 sec
+        Start 448: RunCMake.ParseImplicitIncludeInfo
+448/732 Test #448: RunCMake.ParseImplicitIncludeInfo ..................   Passed    0.80 sec
+        Start 449: RunCMake.ParseImplicitLinkInfo
+449/732 Test #449: RunCMake.ParseImplicitLinkInfo .....................   Passed    3.43 sec
+        Start 450: RunCMake.ScriptMode
+450/732 Test #450: RunCMake.ScriptMode ................................   Passed    0.04 sec
+        Start 451: RunCMake.Swift
+451/732 Test #451: RunCMake.Swift .....................................   Passed    0.08 sec
+        Start 452: RunCMake.TargetArtifacts
+452/732 Test #452: RunCMake.TargetArtifacts ...........................   Passed    4.27 sec
+        Start 453: RunCMake.TargetObjects
+453/732 Test #453: RunCMake.TargetObjects .............................   Passed    0.28 sec
+        Start 454: RunCMake.TargetProperties
+454/732 Test #454: RunCMake.TargetProperties ..........................   Passed    2.48 sec
+        Start 455: RunCMake.ToolchainFile
+455/732 Test #455: RunCMake.ToolchainFile .............................   Passed   11.42 sec
+        Start 456: RunCMake.find_dependency
+456/732 Test #456: RunCMake.find_dependency ...........................   Passed    0.65 sec
+        Start 457: RunCMake.CompileDefinitions
+457/732 Test #457: RunCMake.CompileDefinitions ........................   Passed    2.01 sec
+        Start 458: RunCMake.CompileWarningAsError
+458/732 Test #458: RunCMake.CompileWarningAsError .....................   Passed   10.11 sec
+        Start 459: RunCMake.CompileFeatures
+459/732 Test #459: RunCMake.CompileFeatures ...........................   Passed   47.07 sec
+        Start 460: RunCMake.Policy
+460/732 Test #460: RunCMake.Policy ....................................   Passed    0.69 sec
+        Start 461: RunCMake.PolicyScope
+461/732 Test #461: RunCMake.PolicyScope ...............................   Passed    3.33 sec
+        Start 462: RunCMake.WriteBasicConfigVersionFile
+462/732 Test #462: RunCMake.WriteBasicConfigVersionFile ...............   Passed   12.90 sec
+        Start 463: RunCMake.WriteCompilerDetectionHeader
+463/732 Test #463: RunCMake.WriteCompilerDetectionHeader ..............   Passed   29.67 sec
+        Start 464: RunCMake.SourceProperties
+464/732 Test #464: RunCMake.SourceProperties ..........................   Passed    1.10 sec
+        Start 465: RunCMake.PositionIndependentCode
+465/732 Test #465: RunCMake.PositionIndependentCode ...................   Passed   23.63 sec
+        Start 466: RunCMake.VisibilityPreset
+466/732 Test #466: RunCMake.VisibilityPreset ..........................   Passed   11.65 sec
+        Start 467: RunCMake.CompatibleInterface
+467/732 Test #467: RunCMake.CompatibleInterface .......................   Passed   18.35 sec
+        Start 468: RunCMake.Syntax
+468/732 Test #468: RunCMake.Syntax ....................................   Passed   14.47 sec
+        Start 469: RunCMake.WorkingDirectory
+469/732 Test #469: RunCMake.WorkingDirectory ..........................   Passed    1.70 sec
+        Start 470: RunCMake.MaxRecursionDepth
+470/732 Test #470: RunCMake.MaxRecursionDepth .........................   Passed   13.54 sec
+        Start 471: RunCMake.add_custom_command
+471/732 Test #471: RunCMake.add_custom_command ........................   Passed    5.60 sec
+        Start 472: RunCMake.add_custom_target
+472/732 Test #472: RunCMake.add_custom_target .........................   Passed    2.40 sec
+        Start 473: RunCMake.add_dependencies
+473/732 Test #473: RunCMake.add_dependencies ..........................   Passed    2.32 sec
+        Start 474: RunCMake.add_executable
+474/732 Test #474: RunCMake.add_executable ............................   Passed    3.12 sec
+        Start 475: RunCMake.add_library
+475/732 Test #475: RunCMake.add_library ...............................   Passed   20.04 sec
+        Start 476: RunCMake.add_subdirectory
+476/732 Test #476: RunCMake.add_subdirectory ..........................   Passed    9.52 sec
+        Start 477: RunCMake.add_test
+477/732 Test #477: RunCMake.add_test ..................................   Passed   42.93 sec
+        Start 478: RunCMake.build_command
+478/732 Test #478: RunCMake.build_command .............................   Passed    0.73 sec
+        Start 479: RunCMake.execute_process
+479/732 Test #479: RunCMake.execute_process ...........................   Passed    5.65 sec
+        Start 480: RunCMake.export
+480/732 Test #480: RunCMake.export ....................................   Passed   16.52 sec
+        Start 481: RunCMake.cmake_host_system_information
+481/732 Test #481: RunCMake.cmake_host_system_information .............   Passed    2.21 sec
+        Start 482: RunCMake.cmake_language
+482/732 Test #482: RunCMake.cmake_language ............................   Passed    7.76 sec
+        Start 483: RunCMake.cmake_minimum_required
+483/732 Test #483: RunCMake.cmake_minimum_required ....................   Passed    0.84 sec
+        Start 484: RunCMake.cmake_parse_arguments
+484/732 Test #484: RunCMake.cmake_parse_arguments .....................   Passed    1.23 sec
+        Start 485: RunCMake.cmake_path
+485/732 Test #485: RunCMake.cmake_path ................................   Passed    5.14 sec
+        Start 486: RunCMake.continue
+486/732 Test #486: RunCMake.continue ..................................   Passed    0.75 sec
+        Start 487: RunCMake.ctest_build
+487/732 Test #487: RunCMake.ctest_build ...............................   Passed   14.49 sec
+        Start 488: RunCMake.ctest_cmake_error
+488/732 Test #488: RunCMake.ctest_cmake_error .........................   Passed    0.07 sec
+        Start 489: RunCMake.ctest_configure
+489/732 Test #489: RunCMake.ctest_configure ...........................   Passed    1.47 sec
+        Start 490: RunCMake.ctest_coverage
+490/732 Test #490: RunCMake.ctest_coverage ............................   Passed    1.70 sec
+        Start 491: RunCMake.ctest_start
+491/732 Test #491: RunCMake.ctest_start ...............................   Passed    1.45 sec
+        Start 492: RunCMake.ctest_submit
+492/732 Test #492: RunCMake.ctest_submit ..............................   Passed   31.76 sec
+        Start 493: RunCMake.ctest_test
+493/732 Test #493: RunCMake.ctest_test ................................***Failed   56.25 sec
+        Start 494: RunCMake.ctest_disabled_test
+494/732 Test #494: RunCMake.ctest_disabled_test .......................   Passed    9.85 sec
+        Start 495: RunCMake.ctest_skipped_test
+495/732 Test #495: RunCMake.ctest_skipped_test ........................   Passed   10.44 sec
+        Start 496: RunCMake.ctest_update
+496/732 Test #496: RunCMake.ctest_update ..............................   Passed    0.20 sec
+        Start 497: RunCMake.ctest_upload
+497/732 Test #497: RunCMake.ctest_upload ..............................   Passed    0.07 sec
+        Start 498: RunCMake.ctest_environment
+498/732 Test #498: RunCMake.ctest_environment .........................   Passed    8.24 sec
+        Start 499: RunCMake.ctest_fixtures
+499/732 Test #499: RunCMake.ctest_fixtures ............................   Passed   32.58 sec
+        Start 500: RunCMake.define_property
+500/732 Test #500: RunCMake.define_property ...........................   Passed    1.60 sec
+        Start 501: RunCMake.file
+501/732 Test #501: RunCMake.file ......................................   Passed   12.87 sec
+        Start 502: RunCMake.file-CHMOD
+502/732 Test #502: RunCMake.file-CHMOD ................................   Passed    0.19 sec
+        Start 503: RunCMake.file-DOWNLOAD
+503/732 Test #503: RunCMake.file-DOWNLOAD .............................   Passed    1.54 sec
+        Start 504: RunCMake.file-RPATH
+504/732 Test #504: RunCMake.file-RPATH ................................   Passed    0.23 sec
+        Start 505: RunCMake.find_file
+505/732 Test #505: RunCMake.find_file .................................   Passed    2.95 sec
+        Start 506: RunCMake.find_library
+506/732 Test #506: RunCMake.find_library ..............................   Passed    2.24 sec
+        Start 507: RunCMake.find_package
+507/732 Test #507: RunCMake.find_package ..............................   Passed   39.00 sec
+        Start 508: RunCMake.find_path
+508/732 Test #508: RunCMake.find_path .................................   Passed    2.76 sec
+        Start 509: RunCMake.find_program
+509/732 Test #509: RunCMake.find_program ..............................   Passed    1.55 sec
+        Start 510: RunCMake.foreach
+510/732 Test #510: RunCMake.foreach ...................................   Passed    1.65 sec
+        Start 511: RunCMake.function
+511/732 Test #511: RunCMake.function ..................................   Passed    0.14 sec
+        Start 512: RunCMake.block
+512/732 Test #512: RunCMake.block .....................................   Passed    1.50 sec
+        Start 513: RunCMake.get_filename_component
+513/732 Test #513: RunCMake.get_filename_component ....................   Passed    0.27 sec
+        Start 514: RunCMake.get_property
+514/732 Test #514: RunCMake.get_property ..............................   Passed    5.14 sec
+        Start 515: RunCMake.if
+515/732 Test #515: RunCMake.if ........................................   Passed    1.39 sec
+        Start 516: RunCMake.include
+516/732 Test #516: RunCMake.include ...................................   Passed    4.64 sec
+        Start 517: RunCMake.include_directories
+517/732 Test #517: RunCMake.include_directories .......................   Passed    8.45 sec
+        Start 518: RunCMake.include_guard
+518/732 Test #518: RunCMake.include_guard .............................   Passed    0.68 sec
+        Start 519: RunCMake.list
+519/732 Test #519: RunCMake.list ......................................   Passed    7.19 sec
+        Start 520: RunCMake.load_cache
+520/732 Test #520: RunCMake.load_cache ................................   Passed    0.20 sec
+        Start 521: RunCMake.math
+521/732 Test #521: RunCMake.math ......................................   Passed    0.58 sec
+        Start 522: RunCMake.message
+522/732 Test #522: RunCMake.message ...................................   Passed    1.38 sec
+        Start 523: RunCMake.option
+523/732 Test #523: RunCMake.option ....................................   Passed    5.77 sec
+        Start 524: RunCMake.PrintHelpers
+524/732 Test #524: RunCMake.PrintHelpers ..............................   Passed    3.35 sec
+        Start 525: RunCMake.project
+525/732 Test #525: RunCMake.project ...................................   Passed   10.05 sec
+        Start 526: RunCMake.project_injected
+526/732 Test #526: RunCMake.project_injected ..........................   Passed    2.41 sec
+        Start 527: RunCMake.property_init
+527/732 Test #527: RunCMake.property_init .............................   Passed   21.94 sec
+        Start 528: RunCMake.DependencyProviders
+528/732 Test #528: RunCMake.DependencyProviders .......................   Passed    5.59 sec
+        Start 529: RunCMake.return
+529/732 Test #529: RunCMake.return ....................................   Passed    0.99 sec
+        Start 530: RunCMake.separate_arguments
+530/732 Test #530: RunCMake.separate_arguments ........................   Passed    1.38 sec
+        Start 531: RunCMake.set_property
+531/732 Test #531: RunCMake.set_property ..............................   Passed    3.30 sec
+        Start 532: RunCMake.string
+532/732 Test #532: RunCMake.string ....................................   Passed    3.29 sec
+        Start 533: RunCMake.test_include_dirs
+533/732 Test #533: RunCMake.test_include_dirs .........................   Passed    4.69 sec
+        Start 534: RunCMake.BundleUtilities
+534/732 Test #534: RunCMake.BundleUtilities ...........................   Passed    0.44 sec
+        Start 535: RunCMake.INSTALL_NAME_DIR
+535/732 Test #535: RunCMake.INSTALL_NAME_DIR ..........................   Passed   12.74 sec
+        Start 536: RunCMake.MacOSVersions
+536/732 Test #536: RunCMake.MacOSVersions .............................   Passed    1.61 sec
+        Start 537: RunCMake.AppleTextStubs
+537/732 Test #537: RunCMake.AppleTextStubs ............................   Passed   15.44 sec
+        Start 538: RunCMake.try_compile
+538/732 Test #538: RunCMake.try_compile ...............................   Passed   77.27 sec
+        Start 539: RunCMake.try_run
+539/732 Test #539: RunCMake.try_run ...................................   Passed   29.84 sec
+        Start 540: RunCMake.set
+540/732 Test #540: RunCMake.set .......................................   Passed    0.69 sec
+        Start 541: RunCMake.variable_watch
+541/732 Test #541: RunCMake.variable_watch ............................   Passed    0.65 sec
+        Start 542: RunCMake.while
+542/732 Test #542: RunCMake.while .....................................   Passed    0.68 sec
+        Start 543: RunCMake.CMP0004
+543/732 Test #543: RunCMake.CMP0004 ...................................   Passed    0.94 sec
+        Start 544: RunCMake.TargetPolicies
+544/732 Test #544: RunCMake.TargetPolicies ............................   Passed    1.50 sec
+        Start 545: RunCMake.alias_targets
+545/732 Test #545: RunCMake.alias_targets .............................   Passed   26.11 sec
+        Start 546: RunCMake.InterfaceLibrary
+546/732 Test #546: RunCMake.InterfaceLibrary ..........................   Passed    5.90 sec
+        Start 547: RunCMake.no_install_prefix
+547/732 Test #547: RunCMake.no_install_prefix .........................   Passed    0.30 sec
+        Start 548: RunCMake.configure_file
+548/732 Test #548: RunCMake.configure_file ............................   Passed    9.28 sec
+        Start 549: RunCMake.CTestTimeout
+549/732 Test #549: RunCMake.CTestTimeout ..............................***Failed   73.45 sec
+        Start 550: RunCMake.CTestTimeoutAfterMatch
+550/732 Test #550: RunCMake.CTestTimeoutAfterMatch ....................***Failed   18.32 sec
+        Start 551: RunCMake.DependencyGraph
+551/732 Test #551: RunCMake.DependencyGraph ...........................   Passed   47.95 sec
+        Start 552: RunCMake.CXXModules
+552/732 Test #552: RunCMake.CXXModules ................................   Passed    2.65 sec
+        Start 553: RunCMake.CTestResourceAllocation
+553/732 Test #553: RunCMake.CTestResourceAllocation ...................   Passed  150.07 sec
+        Start 554: RunCMake.FindPkgConfig
+554/732 Test #554: RunCMake.FindPkgConfig .............................   Passed   19.53 sec
+        Start 555: RunCMake.File_Archive
+555/732 Test #555: RunCMake.File_Archive ..............................   Passed    3.05 sec
+        Start 556: RunCMake.File_Configure
+556/732 Test #556: RunCMake.File_Configure ............................   Passed    1.34 sec
+        Start 557: RunCMake.File_Generate
+557/732 Test #557: RunCMake.File_Generate .............................   Passed   19.65 sec
+        Start 558: RunCMake.ExportWithoutLanguage
+558/732 Test #558: RunCMake.ExportWithoutLanguage .....................   Passed    0.21 sec
+        Start 559: RunCMake.target_link_directories
+559/732 Test #559: RunCMake.target_link_directories ...................   Passed   11.96 sec
+        Start 560: RunCMake.target_link_libraries
+560/732 Test #560: RunCMake.target_link_libraries .....................   Passed   27.52 sec
+        Start 561: RunCMake.target_link_libraries-ALIAS
+561/732 Test #561: RunCMake.target_link_libraries-ALIAS ...............   Passed    4.64 sec
+        Start 562: RunCMake.target_link_libraries-LINK_LANGUAGE
+562/732 Test #562: RunCMake.target_link_libraries-LINK_LANGUAGE .......   Passed   16.27 sec
+        Start 563: RunCMake.target_link_libraries-LINK_LANG_AND_ID
+563/732 Test #563: RunCMake.target_link_libraries-LINK_LANG_AND_ID ....   Passed   13.41 sec
+        Start 564: RunCMake.target_link_libraries-LINK_LIBRARY
+564/732 Test #564: RunCMake.target_link_libraries-LINK_LIBRARY ........   Passed   52.57 sec
+        Start 565: RunCMake.target_link_libraries-LINK_GROUP
+565/732 Test #565: RunCMake.target_link_libraries-LINK_GROUP ..........   Passed    9.00 sec
+        Start 566: RunCMake.add_link_options
+566/732 Test #566: RunCMake.add_link_options ..........................   Passed   15.61 sec
+        Start 567: RunCMake.target_link_options
+567/732 Test #567: RunCMake.target_link_options .......................   Passed   24.65 sec
+        Start 568: RunCMake.add_compile_definitions
+568/732 Test #568: RunCMake.add_compile_definitions ...................   Passed    1.51 sec
+        Start 569: RunCMake.target_compile_definitions
+569/732 Test #569: RunCMake.target_compile_definitions ................   Passed    2.11 sec
+        Start 570: RunCMake.target_compile_features
+570/732 Test #570: RunCMake.target_compile_features ...................   Passed   14.00 sec
+        Start 571: RunCMake.target_compile_options
+571/732 Test #571: RunCMake.target_compile_options ....................   Passed    3.67 sec
+        Start 572: RunCMake.target_include_directories
+572/732 Test #572: RunCMake.target_include_directories ................   Passed    3.47 sec
+        Start 573: RunCMake.target_sources
+573/732 Test #573: RunCMake.target_sources ............................   Passed   44.51 sec
+        Start 574: RunCMake.CheckCompilerFlag
+574/732 Test #574: RunCMake.CheckCompilerFlag .........................***Failed   17.07 sec
+        Start 575: RunCMake.CheckSourceCompiles
+575/732 Test #575: RunCMake.CheckSourceCompiles .......................   Passed   25.48 sec
+        Start 576: RunCMake.CheckSourceRuns
+576/732 Test #576: RunCMake.CheckSourceRuns ...........................   Passed   26.03 sec
+        Start 577: RunCMake.CheckModules
+577/732 Test #577: RunCMake.CheckModules ..............................   Passed   29.63 sec
+        Start 578: RunCMake.CheckIPOSupported
+578/732 Test #578: RunCMake.CheckIPOSupported .........................   Passed   13.65 sec
+        Start 579: RunCMake.CheckLinkerFlag
+579/732 Test #579: RunCMake.CheckLinkerFlag ...........................   Passed   10.87 sec
+        Start 580: RunCMake.CommandLine
+580/732 Test #580: RunCMake.CommandLine ...............................   Passed   32.21 sec
+        Start 581: RunCMake.CommandLineTar
+581/732 Test #581: RunCMake.CommandLineTar ............................   Passed    2.40 sec
+        Start 582: RunCMake.install
+582/732 Test #582: RunCMake.install ...................................   Passed   54.13 sec
+        Start 583: RunCMake.file-GET_RUNTIME_DEPENDENCIES
+583/732 Test #583: RunCMake.file-GET_RUNTIME_DEPENDENCIES .............   Passed   29.59 sec
+        Start 584: RunCMake.CPackCommandLine
+584/732 Test #584: RunCMake.CPackCommandLine ..........................   Passed    0.10 sec
+        Start 585: RunCMake.CPackConfig
+585/732 Test #585: RunCMake.CPackConfig ...............................   Passed   21.85 sec
+        Start 586: RunCMake.CPackInstallProperties
+586/732 Test #586: RunCMake.CPackInstallProperties ....................   Passed   10.77 sec
+        Start 587: RunCMake.ExternalProject
+587/732 Test #587: RunCMake.ExternalProject ...........................   Passed   45.54 sec
+        Start 588: RunCMake.FetchContent
+588/732 Test #588: RunCMake.FetchContent ..............................   Passed   31.38 sec
+        Start 589: RunCMake.FetchContent_find_package
+589/732 Test #589: RunCMake.FetchContent_find_package .................   Passed    6.85 sec
+        Start 590: RunCMake.CTestCommandLine
+590/732 Test #590: RunCMake.CTestCommandLine ..........................***Failed   14.85 sec
+        Start 591: RunCMake.CacheNewline
+591/732 Test #591: RunCMake.CacheNewline ..............................   Passed    0.15 sec
+        Start 592: RunCMake.CPackSymlinks
+592/732 Test #592: RunCMake.CPackSymlinks .............................   Passed    0.26 sec
+        Start 593: RunCMake.IfacePaths_INCDIRS
+593/732 Test #593: RunCMake.IfacePaths_INCDIRS ........................   Passed   26.86 sec
+        Start 594: RunCMake.IfacePaths_SOURCES
+594/732 Test #594: RunCMake.IfacePaths_SOURCES ........................   Passed   20.77 sec
+        Start 595: RunCMake.CrosscompilingEmulator
+595/732 Test #595: RunCMake.CrosscompilingEmulator ....................   Passed   16.32 sec
+        Start 596: RunCMake.ClangTidy
+596/732 Test #596: RunCMake.ClangTidy .................................   Passed   18.07 sec
+        Start 597: RunCMake.IncludeWhatYouUse
+597/732 Test #597: RunCMake.IncludeWhatYouUse .........................   Passed    9.53 sec
+        Start 598: RunCMake.Cpplint
+598/732 Test #598: RunCMake.Cpplint ...................................   Passed   16.40 sec
+        Start 599: RunCMake.Cppcheck
+599/732 Test #599: RunCMake.Cppcheck ..................................   Passed    9.09 sec
+        Start 600: RunCMake.MultiLint
+600/732 Test #600: RunCMake.MultiLint .................................   Passed   17.96 sec
+        Start 601: RunCMake.CompilerLauncher
+601/732 Test #601: RunCMake.CompilerLauncher ..........................   Passed   32.82 sec
+        Start 602: RunCMake.ctest_labels_for_subprojects
+602/732 Test #602: RunCMake.ctest_labels_for_subprojects ..............   Passed   19.96 sec
+        Start 603: RunCMake.CompilerArgs
+603/732 Test #603: RunCMake.CompilerArgs ..............................   Passed   15.52 sec
+        Start 604: RunCMake.LinkerLauncher
+604/732 Test #604: RunCMake.LinkerLauncher ............................   Passed   25.47 sec
+        Start 605: RunCMake.CPack_RPM.CUSTOM_BINARY_SPEC_FILE
+605/732 Test #605: RunCMake.CPack_RPM.CUSTOM_BINARY_SPEC_FILE .........***Failed    3.42 sec
+        Start 606: RunCMake.CPack_RPM.CUSTOM_NAMES
+606/732 Test #606: RunCMake.CPack_RPM.CUSTOM_NAMES ....................***Failed    2.05 sec
+        Start 607: RunCMake.CPack_RPM.DEBUGINFO
+607/732 Test #607: RunCMake.CPack_RPM.DEBUGINFO .......................   Passed    0.03 sec
+        Start 608: RunCMake.CPack_RPM.DEFAULT_PERMISSIONS
+608/732 Test #608: RunCMake.CPack_RPM.DEFAULT_PERMISSIONS .............***Failed   16.95 sec
+        Start 609: RunCMake.CPack_RPM.DEPENDENCIES
+609/732 Test #609: RunCMake.CPack_RPM.DEPENDENCIES ....................   Passed    0.03 sec
+        Start 610: RunCMake.CPack_RPM.DIST
+610/732 Test #610: RunCMake.CPack_RPM.DIST ............................***Failed    1.66 sec
+        Start 611: RunCMake.CPack_RPM.EMPTY_DIR
+611/732 Test #611: RunCMake.CPack_RPM.EMPTY_DIR .......................***Failed    3.89 sec
+        Start 612: RunCMake.CPack_RPM.VERSION
+612/732 Test #612: RunCMake.CPack_RPM.VERSION .........................***Failed    3.48 sec
+        Start 613: RunCMake.CPack_RPM.INSTALL_SCRIPTS
+613/732 Test #613: RunCMake.CPack_RPM.INSTALL_SCRIPTS .................***Failed    3.68 sec
+        Start 614: RunCMake.CPack_RPM.MAIN_COMPONENT
+614/732 Test #614: RunCMake.CPack_RPM.MAIN_COMPONENT ..................***Failed    3.43 sec
+        Start 615: RunCMake.CPack_RPM.MINIMAL
+615/732 Test #615: RunCMake.CPack_RPM.MINIMAL .........................***Failed    6.88 sec
+        Start 616: RunCMake.CPack_RPM.PARTIALLY_RELOCATABLE_WARNING
+616/732 Test #616: RunCMake.CPack_RPM.PARTIALLY_RELOCATABLE_WARNING ...***Failed    1.71 sec
+        Start 617: RunCMake.CPack_RPM.PER_COMPONENT_FIELDS
+617/732 Test #617: RunCMake.CPack_RPM.PER_COMPONENT_FIELDS ............***Failed    1.74 sec
+        Start 618: RunCMake.CPack_RPM.SINGLE_DEBUGINFO
+618/732 Test #618: RunCMake.CPack_RPM.SINGLE_DEBUGINFO ................***Failed    2.61 sec
+        Start 619: RunCMake.CPack_RPM.EXTRA_SLASH_IN_PATH
+619/732 Test #619: RunCMake.CPack_RPM.EXTRA_SLASH_IN_PATH .............   Passed    0.03 sec
+        Start 620: RunCMake.CPack_RPM.SOURCE_PACKAGE
+620/732 Test #620: RunCMake.CPack_RPM.SOURCE_PACKAGE ..................***Failed    2.08 sec
+        Start 621: RunCMake.CPack_RPM.SUGGESTS
+621/732 Test #621: RunCMake.CPack_RPM.SUGGESTS ........................***Failed    1.71 sec
+        Start 622: RunCMake.CPack_RPM.SYMLINKS
+622/732 Test #622: RunCMake.CPack_RPM.SYMLINKS ........................***Failed    3.54 sec
+        Start 623: RunCMake.CPack_RPM.USER_FILELIST
+623/732 Test #623: RunCMake.CPack_RPM.USER_FILELIST ...................***Failed    1.66 sec
+        Start 624: RunCMake.CPack_RPM.PROJECT_META
+624/732 Test #624: RunCMake.CPack_RPM.PROJECT_META ....................***Failed    5.26 sec
+        Start 625: RunCMake.CPack_7Z
+625/732 Test #625: RunCMake.CPack_7Z ..................................   Passed    6.72 sec
+        Start 626: RunCMake.CPack_TBZ2
+626/732 Test #626: RunCMake.CPack_TBZ2 ................................   Passed    6.57 sec
+        Start 627: RunCMake.CPack_TGZ
+627/732 Test #627: RunCMake.CPack_TGZ .................................   Passed   28.20 sec
+        Start 628: RunCMake.CPack_TXZ
+628/732 Test #628: RunCMake.CPack_TXZ .................................   Passed   13.89 sec
+        Start 629: RunCMake.CPack_TZ
+629/732 Test #629: RunCMake.CPack_TZ ..................................   Passed    6.64 sec
+        Start 630: RunCMake.CPack_ZIP
+630/732 Test #630: RunCMake.CPack_ZIP .................................   Passed   16.80 sec
+        Start 631: RunCMake.CPack_STGZ
+631/732 Test #631: RunCMake.CPack_STGZ ................................   Passed    6.78 sec
+        Start 632: RunCMake.CPack_External
+632/732 Test #632: RunCMake.CPack_External ............................   Passed   30.63 sec
+        Start 633: RunCMake.CPack_DragNDrop
+633/732 Test #633: RunCMake.CPack_DragNDrop ...........................***Failed   18.53 sec
+        Start 634: RunCMake.AutoExportDll
+634/732 Test #634: RunCMake.AutoExportDll .............................   Passed    5.29 sec
+        Start 635: RunCMake.AndroidMK
+635/732 Test #635: RunCMake.AndroidMK .................................   Passed    2.61 sec
+        Start 636: RunCMake.CTestCommandExpandLists
+636/732 Test #636: RunCMake.CTestCommandExpandLists ...................   Passed    3.25 sec
+        Start 637: RunCMake.PrecompileHeaders
+637/732 Test #637: RunCMake.PrecompileHeaders .........................***Failed   47.38 sec
+        Start 638: RunCMake.UnityBuild
+638/732 Test #638: RunCMake.UnityBuild ................................   Passed   36.47 sec
+        Start 639: RunCMake.CMakePresets
+639/732 Test #639: RunCMake.CMakePresets ..............................   Passed   12.59 sec
+        Start 640: RunCMake.CMakePresetsBuild
+640/732 Test #640: RunCMake.CMakePresetsBuild .........................   Passed    2.79 sec
+        Start 641: RunCMake.CMakePresetsTest
+641/732 Test #641: RunCMake.CMakePresetsTest ..........................   Passed    1.33 sec
+        Start 642: RunCMake.CMakePresetsPackage
+642/732 Test #642: RunCMake.CMakePresetsPackage .......................   Passed    3.18 sec
+        Start 643: RunCMake.CMakePresetsWorkflow
+643/732 Test #643: RunCMake.CMakePresetsWorkflow ......................   Passed    1.48 sec
+        Start 644: RunCMake.VerifyHeaderSets
+644/732 Test #644: RunCMake.VerifyHeaderSets ..........................   Passed   17.92 sec
+        Start 645: RunCMake.set_tests_properties
+645/732 Test #645: RunCMake.set_tests_properties ......................   Passed    0.41 sec
+        Start 646: RunCMake.TransformDepfile
+646/732 Test #646: RunCMake.TransformDepfile ..........................   Passed    0.15 sec
+        Start 647: FindPackageModeMakefileTest
+647/732 Test #647: FindPackageModeMakefileTest ........................***Failed    0.65 sec
+        Start 648: ObjC.simple-build-test
+648/732 Test #648: ObjC.simple-build-test .............................   Passed    4.17 sec
+        Start 649: ObjC.c-file-extension-test
+649/732 Test #649: ObjC.c-file-extension-test .........................   Passed    1.80 sec
+        Start 650: ObjC.cxx-file-extension-test
+650/732 Test #650: ObjC.cxx-file-extension-test .......................   Passed    3.07 sec
+        Start 651: ObjC.objc-file-extension-test
+651/732 Test #651: ObjC.objc-file-extension-test ......................   Passed    4.07 sec
+        Start 652: ObjCXX.ObjC++
+652/732 Test #652: ObjCXX.ObjC++ ......................................***Failed    5.07 sec
+        Start 653: ObjCXX.simple-build-test
+653/732 Test #653: ObjCXX.simple-build-test ...........................   Passed    6.70 sec
+        Start 654: ObjCXX.cxx-file-extension-test
+654/732 Test #654: ObjCXX.cxx-file-extension-test .....................   Passed    2.19 sec
+        Start 655: ObjCXX.objcxx-file-extension-test
+655/732 Test #655: ObjCXX.objcxx-file-extension-test ..................   Passed    6.55 sec
+        Start 656: ObjCXX.cxx-as-objcxx
+656/732 Test #656: ObjCXX.cxx-as-objcxx ...............................   Passed    3.21 sec
+        Start 657: Qt5Autogen.AutogenOriginDependsOff
+657/732 Test #657: Qt5Autogen.AutogenOriginDependsOff .................   Passed   16.23 sec
+        Start 658: Qt5Autogen.AutogenOriginDependsOn
+658/732 Test #658: Qt5Autogen.AutogenOriginDependsOn ..................   Passed   22.91 sec
+        Start 659: Qt5Autogen.AutogenTargetDepends
+659/732 Test #659: Qt5Autogen.AutogenTargetDepends ....................   Passed   13.32 sec
+        Start 660: Qt5Autogen.AutoMocGeneratedFile
+660/732 Test #660: Qt5Autogen.AutoMocGeneratedFile ....................   Passed    3.52 sec
+        Start 661: Qt5Autogen.Complex
+661/732 Test #661: Qt5Autogen.Complex .................................   Passed   53.86 sec
+        Start 662: Qt5Autogen.GlobalAutogenSystemUseInclude
+662/732 Test #662: Qt5Autogen.GlobalAutogenSystemUseInclude ...........   Passed    3.51 sec
+        Start 663: Qt5Autogen.GlobalAutogenTarget
+663/732 Test #663: Qt5Autogen.GlobalAutogenTarget .....................   Passed   10.47 sec
+        Start 664: Qt5Autogen.GlobalAutogenExecutable
+664/732 Test #664: Qt5Autogen.GlobalAutogenExecutable .................   Passed    3.10 sec
+        Start 665: Qt5Autogen.LowMinimumVersion
+665/732 Test #665: Qt5Autogen.LowMinimumVersion .......................   Passed    9.28 sec
+        Start 666: Qt5Autogen.ManySources
+666/732 Test #666: Qt5Autogen.ManySources .............................   Passed   80.48 sec
+        Start 667: Qt5Autogen.MocInterfaceMacroNames
+667/732 Test #667: Qt5Autogen.MocInterfaceMacroNames ..................   Passed    7.10 sec
+        Start 668: Qt5Autogen.MocOnly
+668/732 Test #668: Qt5Autogen.MocOnly .................................   Passed   12.57 sec
+        Start 669: Qt5Autogen.MocOptions
+669/732 Test #669: Qt5Autogen.MocOptions ..............................   Passed    6.74 sec
+        Start 670: Qt5Autogen.MocOptions2
+670/732 Test #670: Qt5Autogen.MocOptions2 .............................   Passed    6.70 sec
+        Start 671: Qt5Autogen.ObjectLibrary
+671/732 Test #671: Qt5Autogen.ObjectLibrary ...........................   Passed   12.66 sec
+        Start 672: Qt5Autogen.Parallel
+672/732 Test #672: Qt5Autogen.Parallel ................................   Passed   22.84 sec
+        Start 673: Qt5Autogen.Parallel1
+673/732 Test #673: Qt5Autogen.Parallel1 ...............................   Passed   24.10 sec
+        Start 674: Qt5Autogen.Parallel2
+674/732 Test #674: Qt5Autogen.Parallel2 ...............................   Passed   22.90 sec
+        Start 675: Qt5Autogen.Parallel3
+675/732 Test #675: Qt5Autogen.Parallel3 ...............................   Passed   22.60 sec
+        Start 676: Qt5Autogen.Parallel4
+676/732 Test #676: Qt5Autogen.Parallel4 ...............................   Passed   22.41 sec
+        Start 677: Qt5Autogen.ParallelAUTO
+677/732 Test #677: Qt5Autogen.ParallelAUTO ............................   Passed   22.84 sec
+        Start 678: Qt5Autogen.RccAutogenBuildDir
+678/732 Test #678: Qt5Autogen.RccAutogenBuildDir ......................   Passed    4.40 sec
+        Start 679: Qt5Autogen.RccEmpty
+679/732 Test #679: Qt5Autogen.RccEmpty ................................   Passed    3.25 sec
+        Start 680: Qt5Autogen.RccOffMocLibrary
+680/732 Test #680: Qt5Autogen.RccOffMocLibrary ........................   Passed    6.32 sec
+        Start 681: Qt5Autogen.RccOnly
+681/732 Test #681: Qt5Autogen.RccOnly .................................   Passed    3.32 sec
+        Start 682: Qt5Autogen.RccSkipSource
+682/732 Test #682: Qt5Autogen.RccSkipSource ...........................   Passed    4.52 sec
+        Start 683: Qt5Autogen.RerunMocBasic
+683/732 Test #683: Qt5Autogen.RerunMocBasic ...........................   Passed   33.43 sec
+        Start 684: Qt5Autogen.RerunMocOnAddFile
+684/732 Test #684: Qt5Autogen.RerunMocOnAddFile .......................   Passed   14.34 sec
+        Start 685: Qt5Autogen.RerunMocOnMissingDependency
+685/732 Test #685: Qt5Autogen.RerunMocOnMissingDependency .............   Passed    9.54 sec
+        Start 686: Qt5Autogen.RerunRccConfigChange
+686/732 Test #686: Qt5Autogen.RerunRccConfigChange ....................   Passed    5.46 sec
+        Start 687: Qt5Autogen.RerunRccDepends
+687/732 Test #687: Qt5Autogen.RerunRccDepends .........................   Passed   24.15 sec
+        Start 688: Qt5Autogen.RerunUicOnFileChange
+688/732 Test #688: Qt5Autogen.RerunUicOnFileChange ....................   Passed   22.62 sec
+        Start 689: Qt5Autogen.SameName
+689/732 Test #689: Qt5Autogen.SameName ................................   Passed   24.07 sec
+        Start 690: Qt5Autogen.StaticLibraryCycle
+690/732 Test #690: Qt5Autogen.StaticLibraryCycle ......................   Passed   13.62 sec
+        Start 691: Qt5Autogen.UicInclude
+691/732 Test #691: Qt5Autogen.UicInclude ..............................   Passed    5.16 sec
+        Start 692: Qt5Autogen.UicInterface
+692/732 Test #692: Qt5Autogen.UicInterface ............................   Passed   15.71 sec
+        Start 693: Qt5Autogen.UicNoGui
+693/732 Test #693: Qt5Autogen.UicNoGui ................................   Passed    6.09 sec
+        Start 694: Qt5Autogen.UicOnly
+694/732 Test #694: Qt5Autogen.UicOnly .................................   Passed    7.22 sec
+        Start 695: Qt5Autogen.UicSkipSource
+695/732 Test #695: Qt5Autogen.UicSkipSource ...........................   Passed   12.51 sec
+        Start 696: Qt5Autogen.UnityMocSource
+696/732 Test #696: Qt5Autogen.UnityMocSource ..........................   Passed    5.37 sec
+        Start 697: Qt5Autogen.MocCMP0071
+697/732 Test #697: Qt5Autogen.MocCMP0071 ..............................   Passed   13.04 sec
+        Start 698: Qt5Autogen.MocCMP0100
+698/732 Test #698: Qt5Autogen.MocCMP0100 ..............................   Passed   15.84 sec
+        Start 699: Qt5Autogen.MocInclude
+699/732 Test #699: Qt5Autogen.MocInclude ..............................   Passed   65.58 sec
+        Start 700: Qt5Autogen.MocIncludeSymlink
+700/732 Test #700: Qt5Autogen.MocIncludeSymlink .......................   Passed  123.61 sec
+        Start 701: Qt5Autogen.MocSkipSource
+701/732 Test #701: Qt5Autogen.MocSkipSource ...........................   Passed   26.83 sec
+        Start 702: Qt5Autogen.MocMacroName
+702/732 Test #702: Qt5Autogen.MocMacroName ............................   Passed   10.56 sec
+        Start 703: Qt5Autogen.MocOsMacros
+703/732 Test #703: Qt5Autogen.MocOsMacros .............................   Passed    2.34 sec
+        Start 704: Qt5Autogen.RerunMocPlugin
+704/732 Test #704: Qt5Autogen.RerunMocPlugin ..........................   Passed   36.92 sec
+        Start 705: Qt5Autogen.WrappedFindPackage
+705/732 Test #705: Qt5Autogen.WrappedFindPackage ......................   Passed    4.44 sec
+        Start 706: Qt5Autogen.MacOsFW
+706/732 Test #706: Qt5Autogen.MacOsFW .................................   Passed   10.28 sec
+        Start 707: FindThreads.C-only
+707/732 Test #707: FindThreads.C-only .................................   Passed    1.96 sec
+        Start 708: FindThreads.CXX-only
+708/732 Test #708: FindThreads.CXX-only ...............................   Passed    2.39 sec
+        Start 709: CMake.List
+709/732 Test #709: CMake.List .........................................   Passed    0.23 sec
+        Start 710: CMake.VariableWatch
+710/732 Test #710: CMake.VariableWatch ................................   Passed    0.02 sec
+        Start 711: CMake.Include
+711/732 Test #711: CMake.Include ......................................   Passed    0.02 sec
+        Start 712: CMake.FindBase
+712/732 Test #712: CMake.FindBase .....................................   Passed    0.32 sec
+        Start 713: CMake.Toolchain
+713/732 Test #713: CMake.Toolchain ....................................   Passed    0.05 sec
+        Start 714: CMake.GetFilenameComponentRealpath
+714/732 Test #714: CMake.GetFilenameComponentRealpath .................   Passed    0.02 sec
+        Start 715: CMake.Version
+715/732 Test #715: CMake.Version ......................................   Passed    0.03 sec
+        Start 716: CMake.Message
+716/732 Test #716: CMake.Message ......................................   Passed    0.03 sec
+        Start 717: CMake.File
+717/732 Test #717: CMake.File .........................................   Passed    1.34 sec
+        Start 718: CMake.ImplicitLinkInfo
+718/732 Test #718: CMake.ImplicitLinkInfo .............................   Passed    0.32 sec
+        Start 719: CMake.ModuleNotices
+719/732 Test #719: CMake.ModuleNotices ................................   Passed    0.14 sec
+        Start 720: CMake.GetProperty
+720/732 Test #720: CMake.GetProperty ..................................   Passed    0.02 sec
+        Start 721: CMake.If
+721/732 Test #721: CMake.If ...........................................   Passed    0.03 sec
+        Start 722: CMake.String
+722/732 Test #722: CMake.String .......................................   Passed    1.53 sec
+        Start 723: CMake.Math
+723/732 Test #723: CMake.Math .........................................   Passed    0.07 sec
+        Start 724: CMake.CMakeMinimumRequired
+724/732 Test #724: CMake.CMakeMinimumRequired .........................   Passed    0.13 sec
+        Start 725: CMake.CompilerIdVendor
+725/732 Test #725: CMake.CompilerIdVendor .............................   Passed    0.05 sec
+        Start 726: CMake.ProcessorCount
+726/732 Test #726: CMake.ProcessorCount ...............................   Passed    0.24 sec
+        Start 727: CMake.PushCheckState
+727/732 Test #727: CMake.PushCheckState ...............................   Passed    0.02 sec
+        Start 728: CMake.While
+728/732 Test #728: CMake.While ........................................   Passed    0.02 sec
+        Start 729: CMake.FileUpload
+729/732 Test #729: CMake.FileUpload ...................................   Passed    0.05 sec
+        Start 730: CMake.EndStuff
+730/732 Test #730: CMake.EndStuff .....................................   Passed    0.26 sec
+        Start 731: CMake.GetPrerequisites
+731/732 Test #731: CMake.GetPrerequisites .............................   Passed    0.62 sec
+        Start 732: CMake.PolicyCheck
+732/732 Test #732: CMake.PolicyCheck ..................................   Passed    0.02 sec
+
+94% tests passed, 41 tests failed out of 732
+
+Label Time Summary:
+CMake      = 3109.56 sec*proc (294 tests)
+CUDA       = 316.73 sec*proc (11 tests)
+HIP        = 118.52 sec*proc (6 tests)
+ISPC       = 213.01 sec*proc (6 tests)
+Label1     =   0.11 sec*proc (1 test)
+Label2     =   0.11 sec*proc (1 test)
+Qt5        = 930.68 sec*proc (50 tests)
+command    =   5.57 sec*proc (24 tests)
+policy     = 255.84 sec*proc (45 tests)
+run        = 3104.00 sec*proc (270 tests)
+
+Total Test time (real) = 6303.92 sec
+
+The following tests FAILED:
+	109 - Framework (Failed)
+	126 - CPackComponents (Failed)
+	127 - CPackComponentsForAll-RPM-default (Failed)
+	128 - CPackComponentsForAll-RPM-OnePackPerGroup (Failed)
+	129 - CPackComponentsForAll-RPM-IgnoreGroup (Failed)
+	130 - CPackComponentsForAll-RPM-AllInOne (Failed)
+	135 - CPackComponentsForAll-DragNDrop-default (Failed)
+	136 - CPackComponentsForAll-DragNDrop-OnePackPerGroup (Failed)
+	137 - CPackComponentsForAll-DragNDrop-IgnoreGroup (Failed)
+	138 - CPackComponentsForAll-DragNDrop-AllInOne (Failed)
+	140 - CPackComponentsPrefix (Failed)
+	213 - BundleGeneratorTest (Failed)
+	270 - CTestTestTimeout (Failed)
+	279 - FortranC.Flags (Failed)
+	395 - RunCMake.AutogenQt5 (Failed)
+	493 - RunCMake.ctest_test (Failed)
+	549 - RunCMake.CTestTimeout (Failed)
+	550 - RunCMake.CTestTimeoutAfterMatch (Failed)
+	574 - RunCMake.CheckCompilerFlag (Failed)
+	590 - RunCMake.CTestCommandLine (Failed)
+	605 - RunCMake.CPack_RPM.CUSTOM_BINARY_SPEC_FILE (Failed)
+	606 - RunCMake.CPack_RPM.CUSTOM_NAMES (Failed)
+	608 - RunCMake.CPack_RPM.DEFAULT_PERMISSIONS (Failed)
+	610 - RunCMake.CPack_RPM.DIST (Failed)
+	611 - RunCMake.CPack_RPM.EMPTY_DIR (Failed)
+	612 - RunCMake.CPack_RPM.VERSION (Failed)
+	613 - RunCMake.CPack_RPM.INSTALL_SCRIPTS (Failed)
+	614 - RunCMake.CPack_RPM.MAIN_COMPONENT (Failed)
+	615 - RunCMake.CPack_RPM.MINIMAL (Failed)
+	616 - RunCMake.CPack_RPM.PARTIALLY_RELOCATABLE_WARNING (Failed)
+	617 - RunCMake.CPack_RPM.PER_COMPONENT_FIELDS (Failed)
+	618 - RunCMake.CPack_RPM.SINGLE_DEBUGINFO (Failed)
+	620 - RunCMake.CPack_RPM.SOURCE_PACKAGE (Failed)
+	621 - RunCMake.CPack_RPM.SUGGESTS (Failed)
+	622 - RunCMake.CPack_RPM.SYMLINKS (Failed)
+	623 - RunCMake.CPack_RPM.USER_FILELIST (Failed)
+	624 - RunCMake.CPack_RPM.PROJECT_META (Failed)
+	633 - RunCMake.CPack_DragNDrop (Failed)
+	637 - RunCMake.PrecompileHeaders (Failed)
+	647 - FindPackageModeMakefileTest (Failed)
+	652 - ObjCXX.ObjC++ (Failed)
+Errors while running CTest
+Output from these tests are in: /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Testing/Temporary/LastTest.log
+Use "--rerun-failed --output-on-failure" to re-run the failed cases verbosely.
+
+
+$ sudo bin/ctest --rerun-failed --output-on-failure
+Password:
+Test project /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-v3.28.0-618fdc1c42e127e5807c4b863dd7823a8093c15e
+Guessing configuration NoConfig
+      Start 109: Framework
+ 1/41 Test #109: Framework ..........................................***Failed    0.10 sec
+Internal cmake changing into directory: /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/Framework
+Error: cmake execution failed
+CMake Error at /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Modules/ExternalProject.cmake:3238 (message):
+  No download info given for 'ExternalFramework' and its source directory:
+
+   /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/Framework/External
+
+  is not an existing non-empty directory.  Please specify one of:
+
+   * SOURCE_DIR with an existing non-empty directory
+   * DOWNLOAD_COMMAND
+   * URL
+   * GIT_REPOSITORY
+   * SVN_REPOSITORY
+   * HG_REPOSITORY
+   * CVS_REPOSITORY and CVS_MODULE
+Call Stack (most recent call first):
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Modules/ExternalProject.cmake:4422 (_ep_add_download_command)
+  CMakeLists.txt:103 (ExternalProject_Add)
+
+
+Configuring incomplete, errors occurred!
+
+
+      Start 126: CPackComponents
+ 2/41 Test #126: CPackComponents ....................................   Passed    8.32 sec
+      Start 127: CPackComponentsForAll-RPM-default
+ 3/41 Test #127: CPackComponentsForAll-RPM-default ..................   Passed    2.68 sec
+      Start 128: CPackComponentsForAll-RPM-OnePackPerGroup
+ 4/41 Test #128: CPackComponentsForAll-RPM-OnePackPerGroup ..........   Passed    3.15 sec
+      Start 129: CPackComponentsForAll-RPM-IgnoreGroup
+ 5/41 Test #129: CPackComponentsForAll-RPM-IgnoreGroup ..............   Passed    3.88 sec
+      Start 130: CPackComponentsForAll-RPM-AllInOne
+ 6/41 Test #130: CPackComponentsForAll-RPM-AllInOne .................   Passed    2.61 sec
+      Start 135: CPackComponentsForAll-DragNDrop-default
+ 7/41 Test #135: CPackComponentsForAll-DragNDrop-default ............   Passed    7.48 sec
+      Start 136: CPackComponentsForAll-DragNDrop-OnePackPerGroup
+ 8/41 Test #136: CPackComponentsForAll-DragNDrop-OnePackPerGroup ....   Passed   16.98 sec
+      Start 137: CPackComponentsForAll-DragNDrop-IgnoreGroup
+ 9/41 Test #137: CPackComponentsForAll-DragNDrop-IgnoreGroup ........   Passed   23.00 sec
+      Start 138: CPackComponentsForAll-DragNDrop-AllInOne
+10/41 Test #138: CPackComponentsForAll-DragNDrop-AllInOne ...........   Passed    8.01 sec
+      Start 140: CPackComponentsPrefix
+11/41 Test #140: CPackComponentsPrefix ..............................   Passed    6.63 sec
+      Start 213: BundleGeneratorTest
+12/41 Test #213: BundleGeneratorTest ................................   Passed    8.32 sec
+      Start 270: CTestTestTimeout
+13/41 Test #270: CTestTestTimeout ...................................   Passed   15.42 sec
+      Start 279: FortranC.Flags
+14/41 Test #279: FortranC.Flags .....................................***Failed    1.31 sec
+-- The C compiler identification is unknown
+-- The Fortran compiler identification is GNU 11.2.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - failed
+-- Check for working C compiler: /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/FortranC/Flags/cc.sh
+-- Check for working C compiler: /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/FortranC/Flags/cc.sh - broken
+CMake Error at /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Modules/CMakeTestCCompiler.cmake:67 (message):
+  The C compiler
+
+    "/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/FortranC/Flags/cc.sh"
+
+  is not able to compile a simple test program.
+
+  It fails with the following output:
+
+    Change Dir: '/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-v3.28.0-618fdc1c42e127e5807c4b863dd7823a8093c15e/Tests/FortranC/Flags/CMakeFiles/CMakeScratch/TryCompile-pPzwlV'
+    
+    Run Build Command(s): /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-v3.28.0-618fdc1c42e127e5807c4b863dd7823a8093c15e/bin/cmake -E env VERBOSE=1 /opt/local/bin/gmake -f Makefile cmTC_ab7e2/fast
+    /opt/local/bin/gmake  -f CMakeFiles/cmTC_ab7e2.dir/build.make CMakeFiles/cmTC_ab7e2.dir/build
+    gmake[1]: Entering directory '/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-v3.28.0-618fdc1c42e127e5807c4b863dd7823a8093c15e/Tests/FortranC/Flags/CMakeFiles/CMakeScratch/TryCompile-pPzwlV'
+    Building C object CMakeFiles/cmTC_ab7e2.dir/testCCompiler.c.o
+    /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/FortranC/Flags/cc.sh   -pipe -Os -arch x86_64  -o CMakeFiles/cmTC_ab7e2.dir/testCCompiler.c.o -c /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-v3.28.0-618fdc1c42e127e5807c4b863dd7823a8093c15e/Tests/FortranC/Flags/CMakeFiles/CMakeScratch/TryCompile-pPzwlV/testCCompiler.c
+    ccache: invalid option -- i
+    gmake[1]: *** [CMakeFiles/cmTC_ab7e2.dir/build.make:78: CMakeFiles/cmTC_ab7e2.dir/testCCompiler.c.o] Error 1
+    gmake[1]: Leaving directory '/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-v3.28.0-618fdc1c42e127e5807c4b863dd7823a8093c15e/Tests/FortranC/Flags/CMakeFiles/CMakeScratch/TryCompile-pPzwlV'
+    gmake: *** [Makefile:127: cmTC_ab7e2/fast] Error 2
+    
+    
+
+  
+
+  CMake will not be able to correctly generate this project.
+Call Stack (most recent call first):
+  CMakeLists.txt:2 (project)
+
+
+-- Configuring incomplete, errors occurred!
+CMake Error at /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/FortranC/Flags.cmake:35 (message):
+  Configuration failed: 1
+
+
+
+      Start 395: RunCMake.AutogenQt5
+15/41 Test #395: RunCMake.AutogenQt5 ................................***Failed   27.92 sec
+-- NoQt - PASSED
+-- QtInFunction - PASSED
+-- QtInFunctionNested - PASSED
+-- QtInFunctionProperty - PASSED
+-- CMP0111-imported-target-full - PASSED
+-- CMP0111-imported-target-libname - PASSED
+-- CMP0111-imported-target-implib-only - PASSED
+-- MocPredefs - PASSED
+CMake Error at /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/RunCMake.cmake:277 (message):
+  MocPredefs-build - FAILED:
+
+  Result is [2], not [0].
+
+  Command was:
+
+   command> "/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-v3.28.0-618fdc1c42e127e5807c4b863dd7823a8093c15e/bin/cmake" "--build" "." "--config" "Debug"
+
+  Actual stdout:
+
+   actual-stdout> [ 12%] Automatic MOC for target MocPredefs
+   actual-stdout> [ 12%] Built target MocPredefs_autogen
+   actual-stdout> [ 25%] Building CXX object CMakeFiles/MocPredefs.dir/MocPredefs_autogen/mocs_compilation.cpp.o
+   actual-stdout> [ 37%] Building CXX object CMakeFiles/MocPredefs.dir/MocPredefs.cxx.o
+   actual-stdout> [ 50%] Linking CXX static library libMocPredefs.a
+
+  Expected stderr to match:
+
+   expect-stderr> .*
+
+  Actual stderr:
+
+   actual-stderr> /opt/local/bin/ranlib: file: libMocPredefs.a(mocs_compilation.cpp.o) has no symbols
+   actual-stderr> /opt/local/bin/ranlib: file: libMocPredefs.a(mocs_compilation.cpp.o) has no symbols
+   actual-stderr> CMake Error at /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/Autogen/MocPredefs-prefix.cmake:1 (file):
+   actual-stderr>   file failed to open for reading (No such file or directory):
+   actual-stderr> 
+   actual-stderr>     /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/AutogenQt5/MocPredefs-build/MocPredefs_autogen/moc_predefs.h
+   actual-stderr> 
+   actual-stderr> 
+   actual-stderr> gmake[2]: *** [CMakeFiles/MocPredefs.dir/build.make:115: libMocPredefs.a] Error 1
+   actual-stderr> gmake[2]: *** Deleting file 'libMocPredefs.a'
+   actual-stderr> gmake[1]: *** [CMakeFiles/Makefile2:89: CMakeFiles/MocPredefs.dir/all] Error 2
+   actual-stderr> gmake: *** [Makefile:91: all] Error 2
+
+Call Stack (most recent call first):
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/RunCMake.cmake:285 (run_cmake)
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/Autogen/RunCMakeTest.cmake:23 (run_cmake_command)
+
+
+-- Inspect - PASSED
+-- CMP0151-new - PASSED
+-- RunCMake_TEST_EXPECT_stdout: -*-isystem  *("[^"]*|([^ ]|\ )*)[\/]dummy_autogen[\/]include
+-- CMP0151-new-build - PASSED
+-- AutogenUseSystemIncludeOn - PASSED
+-- RunCMake_TEST_EXPECT_stdout: -*-isystem  *("[^"]*|([^ ]|\ )*)[\/]dummy_autogen[\/]include
+-- AutogenUseSystemIncludeOn - PASSED
+-- CMP0151-old - PASSED
+-- RunCMake_TEST_EXPECT_stdout: -*-I *("[^"]*|([^ ]|\ )*)[\/]dummy_autogen[\/]include
+-- CMP0151-old-build - PASSED
+-- AutogenUseSystemIncludeOff - PASSED
+-- RunCMake_TEST_EXPECT_stdout: -*-I *("[^"]*|([^ ]|\ )*)[\/]dummy_autogen[\/]include
+-- AutogenUseSystemIncludeOff - PASSED
+-- AutogenSkipLinting - PASSED
+-- AutogenSkipLinting-build - PASSED
+
+      Start 493: RunCMake.ctest_test
+16/41 Test #493: RunCMake.ctest_test ................................   Passed   53.37 sec
+      Start 549: RunCMake.CTestTimeout
+17/41 Test #549: RunCMake.CTestTimeout ..............................   Passed   71.02 sec
+      Start 550: RunCMake.CTestTimeoutAfterMatch
+18/41 Test #550: RunCMake.CTestTimeoutAfterMatch ....................   Passed   17.91 sec
+      Start 574: RunCMake.CheckCompilerFlag
+19/41 Test #574: RunCMake.CheckCompilerFlag .........................***Failed   15.54 sec
+-- NotEnabledLanguage - PASSED
+-- NonExistentLanguage - PASSED
+-- CheckCCompilerFlag - PASSED
+-- CheckCXXCompilerFlag - PASSED
+-- CheckCompilerFlagC - PASSED
+-- CheckCompilerFlagCXX - PASSED
+-- CheckCompilerFlagOBJC - PASSED
+-- CheckCompilerFlagOBJCXX - PASSED
+-- CheckCompilerFlagFortran - PASSED
+CMake Error at /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/RunCMake.cmake:277 (message):
+  HeaderpadWorkaround - FAILED:
+
+  Result is [1], not [0].
+
+  stderr does not match that expected.
+
+  Command was:
+
+   command> "/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-v3.28.0-618fdc1c42e127e5807c4b863dd7823a8093c15e/bin/cmake" "/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CheckCompilerFlag" "-G" "Unix Makefiles" "-DRunCMake_TEST=HeaderpadWorkaround" "--no-warn-unused-cli" "-DCMAKE_POLICY_DEFAULT_CMP0025=NEW" "-DCMAKE_MAKE_PROGRAM=/opt/local/bin/gmake"
+
+  Actual stdout:
+
+   actual-stdout> Not searching for unused variables given on the command line.
+   actual-stdout> -- The C compiler identification is Clang 15.0.1
+   actual-stdout> -- Detecting C compiler ABI info
+   actual-stdout> -- Detecting C compiler ABI info - done
+   actual-stdout> -- Check for working C compiler: /opt/local/bin/cc - skipped
+   actual-stdout> -- Detecting C compile features
+   actual-stdout> -- Detecting C compile features - done
+   actual-stdout> -- Performing Test result1
+   actual-stdout> -- Performing Test result1 - Success
+   actual-stdout> -- Performing Test result2
+   actual-stdout> -- Performing Test result2 - Failed
+   actual-stdout> -- Configuring incomplete, errors occurred!
+
+  Expected stderr to match:
+
+   expect-stderr> ^$
+
+  Actual stderr:
+
+   actual-stderr> CMake Error at HeaderpadWorkaround.cmake:17 (message):
+   actual-stderr>   False negative when -fembed-bitcode set in CMAKE_C_FLAGS
+   actual-stderr> Call Stack (most recent call first):
+   actual-stderr>   CMakeLists.txt:3 (include)
+
+Call Stack (most recent call first):
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CheckCompilerFlag/RunCMakeTest.cmake:33 (run_cmake)
+
+
+
+      Start 590: RunCMake.CTestCommandLine
+20/41 Test #590: RunCMake.CTestCommandLine ..........................   Passed   14.77 sec
+      Start 605: RunCMake.CPack_RPM.CUSTOM_BINARY_SPEC_FILE
+21/41 Test #605: RunCMake.CPack_RPM.CUSTOM_BINARY_SPEC_FILE .........   Passed    3.96 sec
+      Start 606: RunCMake.CPack_RPM.CUSTOM_NAMES
+22/41 Test #606: RunCMake.CPack_RPM.CUSTOM_NAMES ....................   Passed    2.47 sec
+      Start 608: RunCMake.CPack_RPM.DEFAULT_PERMISSIONS
+23/41 Test #608: RunCMake.CPack_RPM.DEFAULT_PERMISSIONS .............   Passed   16.89 sec
+      Start 610: RunCMake.CPack_RPM.DIST
+24/41 Test #610: RunCMake.CPack_RPM.DIST ............................   Passed    1.90 sec
+      Start 611: RunCMake.CPack_RPM.EMPTY_DIR
+25/41 Test #611: RunCMake.CPack_RPM.EMPTY_DIR .......................   Passed    3.80 sec
+      Start 612: RunCMake.CPack_RPM.VERSION
+26/41 Test #612: RunCMake.CPack_RPM.VERSION .........................***Failed    3.84 sec
+-- VERSION-MONOLITHIC-type - PASSED
+CMake Error at /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/RunCMake.cmake:277 (message):
+  RPM/VERSION-MONOLITHIC-type - FAILED:
+
+  Result is [1], not [0].
+
+  stderr does not match that expected.
+
+  Command was:
+
+   command> "/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-v3.28.0-618fdc1c42e127e5807c4b863dd7823a8093c15e/bin/cmake" "-DRunCMake_TEST=VERSION-MONOLITHIC-type" "-DRunCMake_TEST_FILE_PREFIX=VERSION" "-DRunCMake_SUBTEST_SUFFIX=" "-DGENERATOR_TYPE=RPM" "-DPACKAGING_TYPE=MONOLITHIC" "-Dsrc_dir=/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack" "-Dbin_dir=/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/RPM.VERSION/CPack/VERSION-build" "-Dconfig_file=/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/conf/RPM.VERSION_config.cmake" "-P" "/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/VerifyResult.cmake"
+
+  Actual stdout:
+
+   actual-stdout> 
+
+  Expected stderr to match:
+
+   expect-stderr> ^(CPackRPM: Will use GENERATED spec file: (/[^/]*)*/Tests/RunCMake/RPM\.[^/]*/CPack/[^-]*(-package-target)?-build((-[^-]*-subtest/)|/)_CPack_Packages/.*/RPM/SPECS/[^\.]*\.spec(
+   expect-stderr> |$))*$
+
+  Actual stderr:
+
+   actual-stderr> CMake Error at /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/tests/VERSION/VerifyResult.cmake:4 (message):
+   actual-stderr>   Unexpected epoch version in 'version-0.1.1-Darwin.rpm' 0.1.1 1; file info:
+   actual-stderr>   'Name : version Relocations: /usr
+   actual-stderr> 
+   actual-stderr>   Version : 0.1.1 Vendor: Humanity
+   actual-stderr> 
+   actual-stderr>   Release : 1 Build Date: Sun Dec 10 13:26:19 2023
+   actual-stderr> 
+   actual-stderr>   Install Date: (not installed) Build Host: kensmacbookpro
+   actual-stderr> 
+   actual-stderr>   Group : unknown Source RPM: version-0.1.1-1.src.rpm
+   actual-stderr> 
+   actual-stderr>   Size : 638 License: unknown
+   actual-stderr> 
+   actual-stderr>   Signature : (none)
+   actual-stderr> 
+   actual-stderr>   Summary : VERSION-MONOLITHIC-type built using CMake
+   actual-stderr> 
+   actual-stderr>   Description :
+   actual-stderr> 
+   actual-stderr>   DESCRIPTION
+   actual-stderr> 
+   actual-stderr>   ===========
+   actual-stderr> 
+   actual-stderr> 
+   actual-stderr> 
+   actual-stderr>   This is an installer created using CPack (https://cmake.org).  No
+   actual-stderr>   additional installation instructions provided.'
+   actual-stderr> Call Stack (most recent call first):
+   actual-stderr>   /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/tests/VERSION/VerifyResult.cmake:13 (checkPackageInfo_)
+   actual-stderr>   /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/VerifyResult.cmake:148 (include)
+
+Call Stack (most recent call first):
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/RunCMake.cmake:285 (run_cmake)
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/CPackTestHelpers.cmake:119 (run_cmake_command)
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/CPackTestHelpers.cmake:137 (run_cpack_test_common_)
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/RunCMakeTest.cmake:27 (run_cpack_test)
+
+
+-- VERSION-COMPONENT-type - PASSED
+CMake Error at /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/RunCMake.cmake:277 (message):
+  RPM/VERSION-COMPONENT-type - FAILED:
+
+  Result is [1], not [0].
+
+  stderr does not match that expected.
+
+  Command was:
+
+   command> "/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-v3.28.0-618fdc1c42e127e5807c4b863dd7823a8093c15e/bin/cmake" "-DRunCMake_TEST=VERSION-COMPONENT-type" "-DRunCMake_TEST_FILE_PREFIX=VERSION" "-DRunCMake_SUBTEST_SUFFIX=" "-DGENERATOR_TYPE=RPM" "-DPACKAGING_TYPE=COMPONENT" "-Dsrc_dir=/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack" "-Dbin_dir=/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/RPM.VERSION/CPack/VERSION-build" "-Dconfig_file=/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/conf/RPM.VERSION_config.cmake" "-P" "/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/VerifyResult.cmake"
+
+  Actual stdout:
+
+   actual-stdout> 
+
+  Expected stderr to match:
+
+   expect-stderr> ^(CPackRPM: Will use GENERATED spec file: (/[^/]*)*/Tests/RunCMake/RPM\.[^/]*/CPack/[^-]*(-package-target)?-build((-[^-]*-subtest/)|/)_CPack_Packages/.*/RPM/SPECS/[^\.]*\.spec(
+   expect-stderr> |$))*$
+
+  Actual stderr:
+
+   actual-stderr> CMake Error at /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/tests/VERSION/VerifyResult.cmake:4 (message):
+   actual-stderr>   Unexpected epoch version in 'version-0.1.1-Darwin-test.rpm' 0.1.1 1; file
+   actual-stderr>   info: 'Name : version-test Relocations: /usr
+   actual-stderr> 
+   actual-stderr>   Version : 0.1.1 Vendor: Humanity
+   actual-stderr> 
+   actual-stderr>   Release : 1 Build Date: Sun Dec 10 13:26:20 2023
+   actual-stderr> 
+   actual-stderr>   Install Date: (not installed) Build Host: kensmacbookpro
+   actual-stderr> 
+   actual-stderr>   Group : unknown Source RPM: version-test-0.1.1-1.src.rpm
+   actual-stderr> 
+   actual-stderr>   Size : 638 License: unknown
+   actual-stderr> 
+   actual-stderr>   Signature : (none)
+   actual-stderr> 
+   actual-stderr>   Summary : VERSION-COMPONENT-type built using CMake
+   actual-stderr> 
+   actual-stderr>   Description :
+   actual-stderr> 
+   actual-stderr>   DESCRIPTION
+   actual-stderr> 
+   actual-stderr>   ===========
+   actual-stderr> 
+   actual-stderr> 
+   actual-stderr> 
+   actual-stderr>   This is an installer created using CPack (https://cmake.org).  No
+   actual-stderr>   additional installation instructions provided.'
+   actual-stderr> Call Stack (most recent call first):
+   actual-stderr>   /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/tests/VERSION/VerifyResult.cmake:13 (checkPackageInfo_)
+   actual-stderr>   /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/VerifyResult.cmake:148 (include)
+
+Call Stack (most recent call first):
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/RunCMake.cmake:285 (run_cmake)
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/CPackTestHelpers.cmake:119 (run_cmake_command)
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/CPackTestHelpers.cmake:137 (run_cpack_test_common_)
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/RunCMakeTest.cmake:27 (run_cpack_test)
+
+
+
+      Start 613: RunCMake.CPack_RPM.INSTALL_SCRIPTS
+27/41 Test #613: RunCMake.CPack_RPM.INSTALL_SCRIPTS .................   Passed    4.36 sec
+      Start 614: RunCMake.CPack_RPM.MAIN_COMPONENT
+28/41 Test #614: RunCMake.CPack_RPM.MAIN_COMPONENT ..................   Passed    4.66 sec
+      Start 615: RunCMake.CPack_RPM.MINIMAL
+29/41 Test #615: RunCMake.CPack_RPM.MINIMAL .........................   Passed    7.48 sec
+      Start 616: RunCMake.CPack_RPM.PARTIALLY_RELOCATABLE_WARNING
+30/41 Test #616: RunCMake.CPack_RPM.PARTIALLY_RELOCATABLE_WARNING ...   Passed    1.84 sec
+      Start 617: RunCMake.CPack_RPM.PER_COMPONENT_FIELDS
+31/41 Test #617: RunCMake.CPack_RPM.PER_COMPONENT_FIELDS ............   Passed    2.80 sec
+      Start 618: RunCMake.CPack_RPM.SINGLE_DEBUGINFO
+32/41 Test #618: RunCMake.CPack_RPM.SINGLE_DEBUGINFO ................***Failed    2.56 sec
+CMake Error at /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/RunCMake.cmake:277 (message):
+  SINGLE_DEBUGINFO-no_main_component-subtest-CUSTOM-type - FAILED:
+
+  stderr does not match that expected.
+
+  Command was:
+
+   command> "/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-v3.28.0-618fdc1c42e127e5807c4b863dd7823a8093c15e/bin/cmake" "/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack" "-G" "Unix Makefiles" "-DRunCMake_TEST=SINGLE_DEBUGINFO-no_main_component-subtest-CUSTOM-type" "--no-warn-unused-cli" "-DGENERATOR_TYPE=RPM" "-DRunCMake_TEST_FILE_PREFIX=SINGLE_DEBUGINFO" "-DRunCMake_SUBTEST_SUFFIX=no_main_component" "-DPACKAGING_TYPE=CUSTOM" "-DCMAKE_POLICY_DEFAULT_CMP0025=NEW" "-DCMAKE_MAKE_PROGRAM=/opt/local/bin/gmake"
+
+  Actual stdout:
+
+   actual-stdout> Not searching for unused variables given on the command line.
+   actual-stdout> -- The CXX compiler identification is GNU 6.5.0
+   actual-stdout> -- Checking whether CXX compiler has -isysroot
+   actual-stdout> -- Checking whether CXX compiler has -isysroot - yes
+   actual-stdout> -- Checking whether CXX compiler supports OSX deployment target flag
+   actual-stdout> -- Checking whether CXX compiler supports OSX deployment target flag - yes
+   actual-stdout> -- Detecting CXX compiler ABI info
+   actual-stdout> -- Detecting CXX compiler ABI info - done
+   actual-stdout> -- Check for working CXX compiler: /opt/local/bin/c++ - skipped
+   actual-stdout> -- Detecting CXX compile features
+   actual-stdout> -- Detecting CXX compile features - done
+   actual-stdout> -- Configuring done (1.3s)
+   actual-stdout> -- Generating done (0.2s)
+   actual-stdout> -- Build files have been written to: /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/RPM.SINGLE_DEBUGINFO/CPack/SINGLE_DEBUGINFO-build-no_main_component-subtest
+
+  Expected stderr to match:
+
+   expect-stderr> ^$
+
+  Actual stderr:
+
+   actual-stderr> CMake Warning (dev):
+   actual-stderr>   Policy CMP0068 is not set: RPATH settings on macOS do not affect
+   actual-stderr>   install_name.  Run "cmake --help-policy CMP0068" for policy details.  Use
+   actual-stderr>   the cmake_policy command to set the policy and suppress this warning.
+   actual-stderr> 
+   actual-stderr>   For compatibility with older versions of CMake, the install_name fields for
+   actual-stderr>   the following targets are still affected by RPATH settings:
+   actual-stderr> 
+   actual-stderr>    test_lib
+   actual-stderr> 
+   actual-stderr> This warning is for project developers.  Use -Wno-dev to suppress it.
+
+Call Stack (most recent call first):
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/CPackTestHelpers.cmake:64 (run_cmake)
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/CPackTestHelpers.cmake:150 (run_cpack_test_common_)
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/RunCMakeTest.cmake:44 (run_cpack_test_subtests)
+
+
+-- SINGLE_DEBUGINFO-no_main_component-subtest-CUSTOM-type-Build - PASSED
+-- RPM/SINGLE_DEBUGINFO-no_main_component-subtest-CUSTOM-type - PASSED
+
+      Start 620: RunCMake.CPack_RPM.SOURCE_PACKAGE
+33/41 Test #620: RunCMake.CPack_RPM.SOURCE_PACKAGE ..................   Passed    4.51 sec
+      Start 621: RunCMake.CPack_RPM.SUGGESTS
+34/41 Test #621: RunCMake.CPack_RPM.SUGGESTS ........................   Passed    1.84 sec
+      Start 622: RunCMake.CPack_RPM.SYMLINKS
+35/41 Test #622: RunCMake.CPack_RPM.SYMLINKS ........................   Passed    3.77 sec
+      Start 623: RunCMake.CPack_RPM.USER_FILELIST
+36/41 Test #623: RunCMake.CPack_RPM.USER_FILELIST ...................   Passed    1.88 sec
+      Start 624: RunCMake.CPack_RPM.PROJECT_META
+37/41 Test #624: RunCMake.CPack_RPM.PROJECT_META ....................***Failed    5.44 sec
+-- PROJECT_META-MONOLITHIC-type - PASSED
+CMake Error at /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/RunCMake.cmake:277 (message):
+  RPM/PROJECT_META-MONOLITHIC-type - FAILED:
+
+  Result is [1], not [0].
+
+  stderr does not match that expected.
+
+  Command was:
+
+   command> "/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-v3.28.0-618fdc1c42e127e5807c4b863dd7823a8093c15e/bin/cmake" "-DRunCMake_TEST=PROJECT_META-MONOLITHIC-type" "-DRunCMake_TEST_FILE_PREFIX=PROJECT_META" "-DRunCMake_SUBTEST_SUFFIX=" "-DGENERATOR_TYPE=RPM" "-DPACKAGING_TYPE=MONOLITHIC" "-Dsrc_dir=/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack" "-Dbin_dir=/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/RPM.PROJECT_META/CPack/PROJECT_META-build" "-Dconfig_file=/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/conf/RPM.PROJECT_META_config.cmake" "-P" "/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/VerifyResult.cmake"
+
+  Actual stdout:
+
+   actual-stdout> 
+
+  Expected stderr to match:
+
+   expect-stderr> ^(CPackRPM: Will use GENERATED spec file: (/[^/]*)*/Tests/RunCMake/RPM\.[^/]*/CPack/[^-]*(-package-target)?-build((-[^-]*-subtest/)|/)_CPack_Packages/.*/RPM/SPECS/[^\.]*\.spec(
+   expect-stderr> |$))*$
+
+  Actual stderr:
+
+   actual-stderr> CMake Error at /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/tests/PROJECT_META/VerifyResult.cmake:16 (message):
+   actual-stderr>   The package `project_meta-1.2.3-Darwin.rpm` do not have URL as expected
+   actual-stderr> Call Stack (most recent call first):
+   actual-stderr>   /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/tests/PROJECT_META/VerifyResult.cmake:28 (checkPackageURL)
+   actual-stderr>   /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/VerifyResult.cmake:148 (include)
+
+Call Stack (most recent call first):
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/RunCMake.cmake:285 (run_cmake)
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/CPackTestHelpers.cmake:119 (run_cmake_command)
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/CPackTestHelpers.cmake:137 (run_cpack_test_common_)
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/RunCMakeTest.cmake:70 (run_cpack_test)
+
+
+-- PROJECT_META-COMPONENT-type - PASSED
+CMake Error at /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/RunCMake.cmake:277 (message):
+  RPM/PROJECT_META-COMPONENT-type - FAILED:
+
+  Result is [1], not [0].
+
+  stderr does not match that expected.
+
+  Command was:
+
+   command> "/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-v3.28.0-618fdc1c42e127e5807c4b863dd7823a8093c15e/bin/cmake" "-DRunCMake_TEST=PROJECT_META-COMPONENT-type" "-DRunCMake_TEST_FILE_PREFIX=PROJECT_META" "-DRunCMake_SUBTEST_SUFFIX=" "-DGENERATOR_TYPE=RPM" "-DPACKAGING_TYPE=COMPONENT" "-Dsrc_dir=/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack" "-Dbin_dir=/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/RPM.PROJECT_META/CPack/PROJECT_META-build" "-Dconfig_file=/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/conf/RPM.PROJECT_META_config.cmake" "-P" "/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/VerifyResult.cmake"
+
+  Actual stdout:
+
+   actual-stdout> 
+
+  Expected stderr to match:
+
+   expect-stderr> ^(CPackRPM: Will use GENERATED spec file: (/[^/]*)*/Tests/RunCMake/RPM\.[^/]*/CPack/[^-]*(-package-target)?-build((-[^-]*-subtest/)|/)_CPack_Packages/.*/RPM/SPECS/[^\.]*\.spec(
+   expect-stderr> |$))*$
+
+  Actual stderr:
+
+   actual-stderr> CMake Error at /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/tests/PROJECT_META/VerifyResult.cmake:16 (message):
+   actual-stderr>   The package `project_meta-1.2.3-Darwin-test.rpm` do not have URL as
+   actual-stderr>   expected
+   actual-stderr> Call Stack (most recent call first):
+   actual-stderr>   /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/tests/PROJECT_META/VerifyResult.cmake:28 (checkPackageURL)
+   actual-stderr>   /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/VerifyResult.cmake:148 (include)
+
+Call Stack (most recent call first):
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/RunCMake.cmake:285 (run_cmake)
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/CPackTestHelpers.cmake:119 (run_cmake_command)
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/CPackTestHelpers.cmake:137 (run_cpack_test_common_)
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/CPack/RunCMakeTest.cmake:70 (run_cpack_test)
+
+
+
+      Start 633: RunCMake.CPack_DragNDrop
+Agree Y/N? Y
+38/41 Test #633: RunCMake.CPack_DragNDrop ...........................   Passed  826.98 sec
+      Start 637: RunCMake.PrecompileHeaders
+39/41 Test #637: RunCMake.PrecompileHeaders .........................***Failed   41.16 sec
+-- DisabledPch - PASSED
+-- PchDebugGenex - PASSED
+-- PchInterface - PASSED
+-- PchInterface-build - PASSED
+-- PchInterface-test - PASSED
+-- PchPrologueEpilogue - PASSED
+-- SkipPrecompileHeaders - PASSED
+CMake Error at /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/RunCMake.cmake:277 (message):
+  SkipPrecompileHeaders-build - FAILED:
+
+  stderr does not match that expected.
+
+  Command was:
+
+   command> "/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-v3.28.0-618fdc1c42e127e5807c4b863dd7823a8093c15e/bin/cmake" "--build" "." "--config" "Debug"
+
+  Actual stdout:
+
+   actual-stdout> [ 25%] Building CXX object CMakeFiles/pch-test.dir/cmake_pch.hxx.gch
+   actual-stdout> [ 50%] Building CXX object CMakeFiles/pch-test.dir/main.cpp.o
+   actual-stdout> [ 75%] Building CXX object CMakeFiles/pch-test.dir/non-pch.cpp.o
+   actual-stdout> [100%] Linking CXX executable pch-test
+   actual-stdout> [100%] Built target pch-test
+
+  Expected stderr to match:
+
+   expect-stderr> ^$
+
+  Actual stderr:
+
+   actual-stderr> cc1plus: warning: /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/PrecompileHeaders/SkipPrecompileHeaders-build/CMakeFiles/pch-test.dir/cmake_pch.hxx.gch: had text segment at different address
+
+Call Stack (most recent call first):
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/RunCMake.cmake:285 (run_cmake)
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/PrecompileHeaders/RunCMakeTest.cmake:8 (run_cmake_command)
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/PrecompileHeaders/RunCMakeTest.cmake:16 (run_test)
+
+
+-- SkipPrecompileHeaders-test - PASSED
+-- CXXnotC - PASSED
+CMake Error at /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/RunCMake.cmake:277 (message):
+  CXXnotC-build - FAILED:
+
+  stderr does not match that expected.
+
+  Command was:
+
+   command> "/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-v3.28.0-618fdc1c42e127e5807c4b863dd7823a8093c15e/bin/cmake" "--build" "." "--config" "Debug"
+
+  Actual stdout:
+
+   actual-stdout> [ 25%] Building CXX object CMakeFiles/main.dir/cmake_pch.hxx.gch
+   actual-stdout> [ 50%] Building C object CMakeFiles/main.dir/no_pch.c.o
+   actual-stdout> [ 75%] Building CXX object CMakeFiles/main.dir/use_pch.cxx.o
+   actual-stdout> [100%] Linking CXX executable main
+   actual-stdout> [100%] Built target main
+
+  Expected stderr to match:
+
+   expect-stderr> ^$
+
+  Actual stderr:
+
+   actual-stderr> cc1plus: warning: /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/PrecompileHeaders/CXXnotC-build/CMakeFiles/main.dir/cmake_pch.hxx.gch: had text segment at different address
+
+Call Stack (most recent call first):
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/RunCMake.cmake:285 (run_cmake)
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/PrecompileHeaders/RunCMakeTest.cmake:8 (run_cmake_command)
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/PrecompileHeaders/RunCMakeTest.cmake:17 (run_test)
+
+
+-- CXXnotC-test - PASSED
+-- PchReuseFrom-CMP0141-OLD - PASSED
+-- PchReuseFrom-CMP0141-OLD-build - PASSED
+-- PchReuseFrom-CMP0141-OLD-test - PASSED
+-- PchReuseFrom-CMP0141-NEW - PASSED
+-- PchReuseFrom-CMP0141-NEW-build - PASSED
+-- PchReuseFrom-CMP0141-NEW-test - PASSED
+-- PchReuseFromPrefixed - PASSED
+-- PchReuseFromPrefixed-build - PASSED
+-- PchReuseFromPrefixed-test - PASSED
+-- PchReuseFromSubdir - PASSED
+-- PchReuseFromSubdir-build - PASSED
+-- PchReuseFromSubdir-test - PASSED
+-- PchMultilanguage - PASSED
+-- PchWarnInvalid - PASSED
+-- PchInstantiateTemplates - PASSED
+-- PchReuseFromObjLib - PASSED
+-- PchReuseFromObjLib-build - PASSED
+-- PchReuseFromObjLib-test - PASSED
+-- PchIncludedAllLanguages - PASSED
+CMake Error at /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/RunCMake.cmake:277 (message):
+  PchIncludedAllLanguages-build - FAILED:
+
+  stderr does not match that expected.
+
+  Command was:
+
+   command> "/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-v3.28.0-618fdc1c42e127e5807c4b863dd7823a8093c15e/bin/cmake" "--build" "." "--config" "Debug"
+
+  Actual stdout:
+
+   actual-stdout> [ 16%] Building CXX object CMakeFiles/main.dir/cmake_pch.hxx.gch
+   actual-stdout> [ 33%] Building C object CMakeFiles/main.dir/cmake_pch.h.gch
+   actual-stdout> [ 50%] Building CXX object CMakeFiles/main.dir/main.cpp.o
+   actual-stdout> [ 66%] Building C object CMakeFiles/main.dir/pch-included.c.o
+   actual-stdout> [ 83%] Building CXX object CMakeFiles/main.dir/pch-included.cpp.o
+   actual-stdout> [100%] Linking CXX executable main
+   actual-stdout> [100%] Built target main
+
+  Expected stderr to match:
+
+   expect-stderr> ^$
+
+  Actual stderr:
+
+   actual-stderr> cc1plus: warning: /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/PrecompileHeaders/PchIncludedAllLanguages-build/CMakeFiles/main.dir/cmake_pch.hxx.gch: had text segment at different address
+   actual-stderr> cc1plus: warning: /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/PrecompileHeaders/PchIncludedAllLanguages-build/CMakeFiles/main.dir/cmake_pch.hxx.gch: had text segment at different address
+
+Call Stack (most recent call first):
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/RunCMake.cmake:285 (run_cmake)
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/PrecompileHeaders/RunCMakeTest.cmake:8 (run_cmake_command)
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/PrecompileHeaders/RunCMakeTest.cmake:36 (run_test)
+
+
+-- PchIncludedAllLanguages-test - PASSED
+-- PchIncludedOneLanguage - PASSED
+CMake Error at /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/RunCMake.cmake:277 (message):
+  PchIncludedOneLanguage-build - FAILED:
+
+  stderr does not match that expected.
+
+  Command was:
+
+   command> "/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-v3.28.0-618fdc1c42e127e5807c4b863dd7823a8093c15e/bin/cmake" "--build" "." "--config" "Debug"
+
+  Actual stdout:
+
+   actual-stdout> [ 20%] Building CXX object CMakeFiles/main.dir/cmake_pch.hxx.gch
+   actual-stdout> [ 40%] Building CXX object CMakeFiles/main.dir/main.cpp.o
+   actual-stdout> [ 60%] Building C object CMakeFiles/main.dir/empty.c.o
+   actual-stdout> [ 80%] Building CXX object CMakeFiles/main.dir/pch-included.cpp.o
+   actual-stdout> [100%] Linking CXX executable main
+   actual-stdout> [100%] Built target main
+
+  Expected stderr to match:
+
+   expect-stderr> ^$
+
+  Actual stderr:
+
+   actual-stderr> cc1plus: warning: /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/PrecompileHeaders/PchIncludedOneLanguage-build/CMakeFiles/main.dir/cmake_pch.hxx.gch: had text segment at different address
+   actual-stderr> cc1plus: warning: /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/PrecompileHeaders/PchIncludedOneLanguage-build/CMakeFiles/main.dir/cmake_pch.hxx.gch: had text segment at different address
+
+Call Stack (most recent call first):
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/RunCMake.cmake:285 (run_cmake)
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/PrecompileHeaders/RunCMakeTest.cmake:8 (run_cmake_command)
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/PrecompileHeaders/RunCMakeTest.cmake:37 (run_test)
+
+
+-- PchIncludedOneLanguage-test - PASSED
+-- PchLibObjLibExe - PASSED
+CMake Error at /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/RunCMake.cmake:277 (message):
+  PchLibObjLibExe-build - FAILED:
+
+  stderr does not match that expected.
+
+  Command was:
+
+   command> "/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-v3.28.0-618fdc1c42e127e5807c4b863dd7823a8093c15e/bin/cmake" "--build" "." "--config" "Debug"
+
+  Actual stdout:
+
+   actual-stdout> [ 11%] Building CXX object CMakeFiles/base_lib_static.dir/cmake_pch.hxx.gch
+   actual-stdout> [ 22%] Building CXX object CMakeFiles/base_lib_static.dir/empty1.cpp.o
+   actual-stdout> [ 33%] Linking CXX static library libbase_lib_static.a
+   actual-stdout> [ 33%] Built target base_lib_static
+   actual-stdout> [ 44%] Building CXX object CMakeFiles/object_lib.dir/empty2.cpp.o
+   actual-stdout> [ 44%] Built target object_lib
+   actual-stdout> [ 55%] Building CXX object CMakeFiles/mid_lib_static.dir/empty3.cpp.o
+   actual-stdout> [ 66%] Linking CXX static library libmid_lib_static.a
+   actual-stdout> [ 66%] Built target mid_lib_static
+   actual-stdout> [ 77%] Building CXX object CMakeFiles/exec.dir/cmake_pch.hxx.gch
+   actual-stdout> [ 88%] Building CXX object CMakeFiles/exec.dir/main.cpp.o
+   actual-stdout> [100%] Linking CXX executable exec
+   actual-stdout> [100%] Built target exec
+
+  Expected stderr to match:
+
+   expect-stderr> ^$
+
+  Actual stderr:
+
+   actual-stderr> cc1plus: warning: /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/PrecompileHeaders/PchLibObjLibExe-build/CMakeFiles/base_lib_static.dir/cmake_pch.hxx.gch: had text segment at different address
+   actual-stderr> cc1plus: warning: /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/PrecompileHeaders/PchLibObjLibExe-build/CMakeFiles/base_lib_static.dir/cmake_pch.hxx.gch: had text segment at different address
+   actual-stderr> cc1plus: warning: /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/PrecompileHeaders/PchLibObjLibExe-build/CMakeFiles/exec.dir/cmake_pch.hxx.gch: had text segment at different address
+
+Call Stack (most recent call first):
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/RunCMake.cmake:285 (run_cmake)
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/PrecompileHeaders/RunCMakeTest.cmake:8 (run_cmake_command)
+  /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/RunCMake/PrecompileHeaders/RunCMakeTest.cmake:38 (run_test)
+
+
+-- PchLibObjLibExe-test - PASSED
+
+      Start 647: FindPackageModeMakefileTest
+40/41 Test #647: FindPackageModeMakefileTest ........................***Failed    0.20 sec
+rm -f tmp.txt *.o pngtest
+"/opt/local/bin/ccache" -pipe -Os -stdlib=libc++ -arch x86_64 -isysroot / -I/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/FindPackageModeMakefileTest -I"/some/path/with a space/include"  -c main.cpp
+ccache: invalid option -- i
+gmake: *** [/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/FindPackageModeMakefileTest/ConfMakefile:20: main.o] Error 1
+
+      Start 652: ObjCXX.ObjC++
+41/41 Test #652: ObjCXX.ObjC++ ......................................***Failed    2.52 sec
+Internal cmake changing into directory: /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/ObjCXX/ObjC++
+======== CMake output     ======
+CMake Warning (dev) at CMakeLists.txt:2 (project):
+  cmake_minimum_required() should be called prior to this top-level project()
+  call.  Please see the cmake-commands(7) manual for usage documentation of
+  both commands.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+Configuring done (0.0s)
+Generating done (0.1s)
+Build files have been written to: /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/ObjCXX/ObjC++
+CMake Warning (dev) at CMakeLists.txt:2 (project):
+  cmake_minimum_required() should be called prior to this top-level project()
+  call.  Please see the cmake-commands(7) manual for usage documentation of
+  both commands.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+Configuring done (0.0s)
+Generating done (0.1s)
+Build files have been written to: /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/ObjCXX/ObjC++
+======== End CMake output ======
+Change Dir: '/opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/ObjCXX/ObjC++'
+
+Run Clean Command: /opt/local/bin/gmake -f Makefile clean
+
+Run Build Command(s): /opt/local/bin/gmake -f Makefile
+[ 50%] Building CXX object CMakeFiles/ObjC++.dir/objc++.mm.o
+In file included from /Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Security.framework/Headers/Security.h:59:0,
+                 from /Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSURLCredential.h:9,
+                 from /Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.h:70,
+                 from /Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h:12,
+                 from /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/ObjCXX/ObjC++/objc++.mm:1:
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Security.framework/Headers/SecKeychain.h:102:46: error: shift expression '(1853123693 << 8)' overflows [-fpermissive]
+     kSecAuthenticationTypeNTLM             = AUTH_TYPE_FIX_ ('ntlm'),
+                                              ^
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Security.framework/Headers/SecKeychain.h:102:46: error: enumerator value for 'kSecAuthenticationTypeNTLM' is not an integer constant
+     kSecAuthenticationTypeNTLM             = AUTH_TYPE_FIX_ ('ntlm'),
+                                              ^
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Security.framework/Headers/SecKeychain.h:103:46: error: shift expression '(1836281441 << 8)' overflows [-fpermissive]
+     kSecAuthenticationTypeMSN              = AUTH_TYPE_FIX_ ('msna'),
+                                              ^
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Security.framework/Headers/SecKeychain.h:103:46: error: enumerator value for 'kSecAuthenticationTypeMSN' is not an integer constant
+     kSecAuthenticationTypeMSN              = AUTH_TYPE_FIX_ ('msna'),
+                                              ^
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Security.framework/Headers/SecKeychain.h:104:46: error: shift expression '(1685086561 << 8)' overflows [-fpermissive]
+     kSecAuthenticationTypeDPA              = AUTH_TYPE_FIX_ ('dpaa'),
+                                              ^
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Security.framework/Headers/SecKeychain.h:104:46: error: enumerator value for 'kSecAuthenticationTypeDPA' is not an integer constant
+     kSecAuthenticationTypeDPA              = AUTH_TYPE_FIX_ ('dpaa'),
+                                              ^
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Security.framework/Headers/SecKeychain.h:105:46: error: shift expression '(1919967585 << 8)' overflows [-fpermissive]
+     kSecAuthenticationTypeRPA              = AUTH_TYPE_FIX_ ('rpaa'),
+                                              ^
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Security.framework/Headers/SecKeychain.h:105:46: error: enumerator value for 'kSecAuthenticationTypeRPA' is not an integer constant
+     kSecAuthenticationTypeRPA              = AUTH_TYPE_FIX_ ('rpaa'),
+                                              ^
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Security.framework/Headers/SecKeychain.h:106:46: error: shift expression '(1752462448 << 8)' overflows [-fpermissive]
+     kSecAuthenticationTypeHTTPBasic        = AUTH_TYPE_FIX_ ('http'),
+                                              ^
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Security.framework/Headers/SecKeychain.h:106:46: error: enumerator value for 'kSecAuthenticationTypeHTTPBasic' is not an integer constant
+     kSecAuthenticationTypeHTTPBasic        = AUTH_TYPE_FIX_ ('http'),
+                                              ^
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Security.framework/Headers/SecKeychain.h:107:46: error: shift expression '(1752462436 << 8)' overflows [-fpermissive]
+     kSecAuthenticationTypeHTTPDigest       = AUTH_TYPE_FIX_ ('httd'),
+                                              ^
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Security.framework/Headers/SecKeychain.h:107:46: error: enumerator value for 'kSecAuthenticationTypeHTTPDigest' is not an integer constant
+     kSecAuthenticationTypeHTTPDigest       = AUTH_TYPE_FIX_ ('httd'),
+                                              ^
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Security.framework/Headers/SecKeychain.h:108:46: error: shift expression '(1718579821 << 8)' overflows [-fpermissive]
+     kSecAuthenticationTypeHTMLForm         = AUTH_TYPE_FIX_ ('form'),
+                                              ^
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Security.framework/Headers/SecKeychain.h:108:46: error: enumerator value for 'kSecAuthenticationTypeHTMLForm' is not an integer constant
+     kSecAuthenticationTypeHTMLForm         = AUTH_TYPE_FIX_ ('form'),
+                                              ^
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Security.framework/Headers/SecKeychain.h:109:46: error: shift expression '(1684434036 << 8)' overflows [-fpermissive]
+     kSecAuthenticationTypeDefault          = AUTH_TYPE_FIX_ ('dflt'),
+                                              ^
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Security.framework/Headers/SecKeychain.h:109:46: error: enumerator value for 'kSecAuthenticationTypeDefault' is not an integer constant
+     kSecAuthenticationTypeDefault          = AUTH_TYPE_FIX_ ('dflt'),
+                                              ^
+In file included from /Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.h:120:0,
+                 from /Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h:12,
+                 from /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/ObjCXX/ObjC++/objc++.mm:1:
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSTask.h:75:24: error: expected unqualified-id before '^' token
+ @property (copy) void (^terminationHandler)(NSTask *) NS_AVAILABLE(10_7, NA);
+                        ^
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSTask.h:75:24: error: expected ')' before '^' token
+In file included from /Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSResponder.h:9:0,
+                 from /Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSView.h:8,
+                 from /Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSText.h:8,
+                 from /Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSCell.h:10,
+                 from /Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSActionCell.h:8,
+                 from /Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AppKit.framework/Headers/AppKit.h:15,
+                 from /Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h:13,
+                 from /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/ObjCXX/ObjC++/objc++.mm:1:
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSEvent.h:403:177: error: expected ')' before '(' token
+ - (void)trackSwipeEventWithOptions:(NSEventSwipeTrackingOptions)options dampenAmountThresholdMin:(CGFloat)minDampenThreshold max:(CGFloat)maxDampenThreshold usingHandler:(void (^)(CGFloat gestureAmount, NSEventPhase phase, BOOL isComplete, BOOL *stop))trackingHandler NS_AVAILABLE_MAC(10_7);
+                                                                                                                                                                                 ^
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSEvent.h:403:177: error: expected identifier before '(' token
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSEvent.h:403:177: error: expected ';' before '(' token
+In file included from /Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AppKit.framework/Headers/AppKit.h:17:0,
+                 from /Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h:13,
+                 from /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/ObjCXX/ObjC++/objc++.mm:1:
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSAnimationContext.h:20:33: error: expected ')' before '(' token
+ + (void)runAnimationGroup:(void (^)(NSAnimationContext *context))changes completionHandler:(void (^)(void))completionHandler NS_AVAILABLE_MAC(10_7);
+                                 ^
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSAnimationContext.h:20:33: error: expected identifier before '(' token
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSAnimationContext.h:20:33: error: expected ';' before '(' token
+In file included from /Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AppKit.framework/Headers/AppKit.h:54:0,
+                 from /Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h:13,
+                 from /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/ObjCXX/ObjC++/objc++.mm:1:
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSDraggingItem.h:52:15: error: expected unqualified-id before '^' token
+     NSArray *(^_componentsProvider)(void);
+               ^
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSDraggingItem.h:52:15: error: expected ')' before '^' token
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSDraggingItem.h:52:15: error: expected ';' before '^' token
+In file included from /Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AppKit.framework/Headers/AppKit.h:73:0,
+                 from /Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h:13,
+                 from /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/ObjCXX/ObjC++/objc++.mm:1:
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSSpellChecker.h:168:246: error: expected ')' before '(' token
+ - (void)showCorrectionIndicatorOfType:(NSCorrectionIndicatorType)type primaryString:(NSString *)primaryString alternativeStrings:(NSArray *)alternativeStrings forStringInRect:(NSRect)rectOfTypedString view:(NSView *)view completionHandler:(void (^)(NSString *acceptedString))completionBlock NS_AVAILABLE_MAC(10_7);
+                                                                                                                                                                                                                                                      ^
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSSpellChecker.h:168:246: error: expected identifier before '(' token
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSSpellChecker.h:168:246: error: expected ';' before '(' token
+In file included from /Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AppKit.framework/Headers/AppKit.h:194:0,
+                 from /Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h:13,
+                 from /opt/local/var/macports/build/_opt_kencu-ports_devel_cmake/cmake/work/cmake-3.28.0/Tests/ObjCXX/ObjC++/objc++.mm:1:
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSWindowRestoration.h:119:115: error: expected ')' before '(' token
+ - (void)restoreDocumentWindowWithIdentifier:(NSString *)identifier state:(NSCoder *)state completionHandler:(void (^)(NSWindow *, NSError *))completionHandler NS_AVAILABLE_MAC(10_7);
+                                                                                                                   ^
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSWindowRestoration.h:119:115: error: expected identifier before '(' token
+/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSWindowRestoration.h:119:115: error: expected ';' before '(' token
+gmake[2]: *** [CMakeFiles/ObjC++.dir/build.make:76: CMakeFiles/ObjC++.dir/objc++.mm.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:83: CMakeFiles/ObjC++.dir/all] Error 2
+gmake: *** [Makefile:91: all] Error 2
+
+
+
+76% tests passed, 10 tests failed out of 41
+
+Label Time Summary:
+CMake    = 241.71 sec*proc (7 tests)
+CUDA     =  15.54 sec*proc (1 test)
+HIP      =  15.54 sec*proc (1 test)
+ISPC     =  15.54 sec*proc (1 test)
+run      = 241.71 sec*proc (7 tests)
+
+Total Test time (real) = 1253.44 sec
+
+The following tests FAILED:
+	109 - Framework (Failed)
+	279 - FortranC.Flags (Failed)
+	395 - RunCMake.AutogenQt5 (Failed)
+	574 - RunCMake.CheckCompilerFlag (Failed)
+	612 - RunCMake.CPack_RPM.VERSION (Failed)
+	618 - RunCMake.CPack_RPM.SINGLE_DEBUGINFO (Failed)
+	624 - RunCMake.CPack_RPM.PROJECT_META (Failed)
+	637 - RunCMake.PrecompileHeaders (Failed)
+	647 - FindPackageModeMakefileTest (Failed)
+	652 - ObjCXX.ObjC++ (Failed)
+Errors while running CTest
