@@ -1,0 +1,25 @@
+--->  Testing cmark
+Executing:  cd "/opt/local/var/macports/build/_opt_kencu-ports_devel_cmark/cmark/work/build" && /usr/bin/make test 
+Running tests...
+/opt/local/bin/ctest --force-new-ctest-process 
+Test project /opt/local/var/macports/build/_opt_kencu-ports_devel_cmark/cmark/work/build
+    Start 1: api_test
+1/9 Test #1: api_test .........................   Passed    0.01 sec
+    Start 2: html_normalization
+2/9 Test #2: html_normalization ...............   Passed    0.32 sec
+    Start 3: spectest_library
+3/9 Test #3: spectest_library .................   Passed    0.20 sec
+    Start 4: pathological_tests_library
+4/9 Test #4: pathological_tests_library .......   Passed   73.56 sec
+    Start 5: roundtriptest_library
+5/9 Test #5: roundtriptest_library ............   Passed    0.54 sec
+    Start 6: entity_library
+6/9 Test #6: entity_library ...................   Passed    0.18 sec
+    Start 7: spectest_executable
+7/9 Test #7: spectest_executable ..............   Passed    3.04 sec
+    Start 8: smartpuncttest_executable
+8/9 Test #8: smartpuncttest_executable ........   Passed    0.23 sec
+    Start 9: regressiontest_executable
+9/9 Test #9: regressiontest_executable ........   Passed    0.22 sec
+
+100% tests passed, 0 tests failed out of 9
