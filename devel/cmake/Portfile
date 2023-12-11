@@ -151,7 +151,7 @@ subport ${name}-gui {
     configure.args-replace  --no-qt-gui \
                             --qt-gui
 
-    configure.args-append   -qt-qmake=${qt_qmake_cmd}
+    configure.args-append   --qt-qmake=${qt_qmake_cmd}
 
     post-destroot {
         ui_debug "${subport}: removing files in cmake port"
