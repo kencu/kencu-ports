@@ -193,12 +193,6 @@ subport ${name}-docs {
         foreach f [exec port contents cmake] {
             delete ${destroot}${f}
         }
-
-        # FIXME: Remove help files; disable generation instead?
-        foreach d [glob ${destroot}${prefix}/share/cmake*] {
-            ui_info "${subport}: deleting dir: ${d}"
-            delete ${d}
-        }
     }
 }
 
