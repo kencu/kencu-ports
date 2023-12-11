@@ -10,7 +10,7 @@ maintainers         nomaintainer
 license             {Artistic-1 GPL}
 supported_archs     noarch
 
-description         Encode::IMAPUTF7 - Determine the locale encoding
+description         Encode::IMAPUTF7 - modification of UTF-7 encoding for IMAP
 
 long_description    ${description}
 
