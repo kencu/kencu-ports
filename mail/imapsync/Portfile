@@ -4,8 +4,12 @@ PortSystem          1.0
 PortGroup           perl5 1.0
 PortGroup           github 1.0
 
-#github.setup        imapsync imapsync 2.140 imapsync-
 github.setup        imapsync imapsync 2.229 imapsync-
+revision            99
+checksums           rmd160  29e4891c34858c58568a4bb315f96bca00a93ed4 \
+                    sha256  6c86254a780651be594b313fbecf22c322ad689835d85648497f72eeedac70ef \
+                    size    1923705
+
 categories          mail perl
 platforms           darwin
 maintainers         nomaintainer
@@ -14,18 +18,7 @@ description         imapsync is an IMAP synchronization, copy or migration tool.
 long_description    imapsync is an IMAP synchronization, copy or migration \
                     tool. Synchronize mailboxes between two imap servers. It is \
                     especially good at IMAP migration.
-
 homepage            https://imapsync.lamiral.info/
-
-# 2.140
-#checksums           rmd160  06df220de2bcedaa64308b9e70691d8a217eb0fe \
-#                    sha256  88ae0c142bf4b707c87de5b465f352ccd5bf489d9f13e180d4b23cfa86940f1b \
-#                    size    1805727
-
-# 1.945
-checksums           rmd160  29e4891c34858c58568a4bb315f96bca00a93ed4 \
-                    sha256  6c86254a780651be594b313fbecf22c322ad689835d85648497f72eeedac70ef \
-                    size    1923705
 
 perl5.require_variant   yes
 perl5.conflict_variants yes
@@ -63,14 +56,12 @@ depends_run         port:p${perl5.major}-crypt-openssl-rsa \
                     port:p${perl5.major}-unicode-string \
                     port:p${perl5.major}-uri
 
-supported_archs     noarch
-
 post-patch {
     reinplace -locale C "s|^#!.*|#!${perl5.bin}|g" ${worksrcpath}/imapsync
 }
 
+supported_archs     noarch
 use_configure       no
-
 build               {}
 
 destroot {
