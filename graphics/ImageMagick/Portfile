@@ -20,14 +20,10 @@ description                 Tools and libraries to manipulate images in many for
 long_description            ImageMagick is a robust collection of tools and \
                             libraries to create, edit and compose bitmap images \
                             in a wide variety of formats.
-
 homepage                    https://legacy.imagemagick.org
-master_sites                https://download.imagemagick.org/ImageMagick/download/releases/ \
-                            http://mirror.checkdomain.de/imagemagick/releases/ \
-                            ftp://ftp.u-aizu.ac.jp/pub/graphics/image/ImageMagick/imagemagick.org/releases/ \
-                            ftp://sunsite.icm.edu.pl/packages/ImageMagick/releases/
+master_sites                https://download.imagemagick.org/ImageMagick/download/releases/
 
-depends_lib                 port:bzip2 \
+depends_lib-append          port:bzip2 \
                             port:djvulibre \
                             port:xz \
                             port:jbigkit \
@@ -42,13 +38,18 @@ depends_lib                 port:bzip2 \
                             port:freetype \
                             port:fontconfig \
                             port:ghostscript \
+                            path:bin/dot:graphviz \
                             port:libiconv \
                             port:libtool \
                             port:openjpeg \
                             port:openexr \
+                            path:lib/pkgconfig/pango.pc:pango \
                             port:expat \
                             port:libxml2 \
-                            port:libheif
+                            port:libheif \
+                            port:xorg-libX11 \
+                            port:xorg-libXext \
+                            port:xorg-libXt
 
 # Magick-config etc. use pkg-config
 depends_lib-append          port:pkgconfig
@@ -81,11 +82,11 @@ configure.args              --enable-shared \
                             --without-perl \
                             --without-fpx \
                             --without-wmf \
-                            --without-gvc \
+                            --with-gvc \
                             --without-rsvg \
                             --without-lqr \
-                            --without-pango \
-                            --without-x \
+                            --with-pango \
+                            --with-x \
                             --without-zstd \
                             --with-gs-font-dir=${prefix}/share/fonts/urw-fonts \
                             --disable-openmp
@@ -100,44 +101,10 @@ if {${os.platform} eq "darwin" && ${os.major} < 11} {
 
 test.run                    yes
 test.target                 check
-test.env                    DYLD_LIBRARY_PATH=${worksrcpath}/magick/.libs
+test.env-append             DYLD_LIBRARY_PATH=${worksrcpath}/magick/.libs
 
 # ImageMagick uses .la files at runtime to find its coder modules.
 destroot.delete_la_files    no
-
-variant graphviz description {Support Graphviz} {
-    depends_lib-append      path:bin/dot:graphviz
-    configure.args-replace  --without-gvc --with-gvc
-}
-
-variant lqr description {Support Liquid Rescale (experimental)} {
-    depends_lib-append      port:liblqr
-    configure.args-replace  --without-lqr --with-lqr
-}
-
-variant pango description {Support Pango} {
-    depends_lib-append      path:lib/pkgconfig/pango.pc:pango
-    configure.args-replace  --without-pango --with-pango
-}
-
-variant rsvg description {Support SVG using librsvg} {
-    depends_lib-append      port:librsvg
-    configure.args-replace  --without-rsvg --with-rsvg
-}
-
-variant wmf description {Support the Windows Metafile Format} {
-    depends_lib-append      port:libwmf
-    configure.args-replace  --without-wmf --with-wmf
-}
-
-variant x11 {
-    depends_lib-append      port:xorg-libX11 \
-                            port:xorg-libXext \
-                            port:xorg-libXt
-    configure.args-replace  --without-x --with-x
-}
-
-default_variants            +x11
 
 livecheck.type              regex
 livecheck.url               [lindex ${master_sites} 0]
