@@ -4,14 +4,7 @@ PortSystem                  1.0
 PortGroup                   conflicts_build 1.0
 PortGroup                   legacysupport 1.1
 
-# Keep relevant lines in sync between ImageMagick and p5-perlmagick.
-
-# Before updating to a newer version, install phpNN-imagick. After updating, run `phpNN -v`. If the following warning appears, revbump php-imagick.
-# PHP Warning:  Version warning: Imagick was compiled against Image Magick version XXXX but version YYYY is loaded. Imagick will run but may behave surprisingly in Unknown on line 0
-
 name                        ImageMagick
-# 6.9.11-61 changes the major version of libMagickCore which will
-# require increasing the revision of all ports that link with it.
 version                     6.9.13-0
 revision                    99
 checksums                   rmd160  8fa22a4342a37ccb8e65abd5f3734eb1d8c6c764 \
@@ -23,23 +16,10 @@ maintainers                 nomaintainer
 license                     Apache-2
 use_xz                      yes
 platforms                   darwin
-use_parallel_build          yes
-
 description                 Tools and libraries to manipulate images in many formats
-
 long_description            ImageMagick is a robust collection of tools and \
                             libraries to create, edit and compose bitmap images \
-                            in a wide variety of formats. You can crop, resize, \
-                            rotate, sharpen, color reduce or add effects or text \
-                            or straight or curved lines to an image or image \
-                            sequence and save your completed work in the same or \
-                            differing image format. You can even create images \
-                            from scratch. Image processing operations are \
-                            available from the command line as well as through \
-                            C, Ch, C++, Java, Perl, PHP, Python, Ruby and Tcl/Tk \
-                            programming interfaces. Over 90 image formats are \
-                            supported, including GIF, JPEG, JPEG 2000, PNG, PDF, \
-                            PhotoCD and TIFF.
+                            in a wide variety of formats.
 
 homepage                    https://legacy.imagemagick.org
 master_sites                https://download.imagemagick.org/ImageMagick/download/releases/ \
@@ -73,9 +53,7 @@ depends_lib                 port:bzip2 \
 # Magick-config etc. use pkg-config
 depends_lib-append          port:pkgconfig
 
-depends_run                 port:urw-fonts
-
-#configure.ccache            no
+depends_run-append          port:urw-fonts
 
 configure.args              --enable-shared \
                             --enable-static \
@@ -116,11 +94,8 @@ if {${os.platform} eq "darwin" && ${os.major} < 11} {
     configure.args-append   --disable-opencl
 } else {
     configure.args-append   --enable-opencl
-    # On case-insensitive filesystems, ImageMagick finds cryptlib's libcl and
-    # tries to use it as if it were Apple's OpenCL, which fails; see #23354.
-    if {[file exists ${prefix}/lib/libCL.dylib]} {
-        conflicts_build         cryptlib
-    }
+    # On case-insensitive filesystems, ImageMagick finds cryptlib's libcl
+    conflicts_build         cryptlib
 }
 
 test.run                    yes
