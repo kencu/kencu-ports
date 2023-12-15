@@ -9,7 +9,7 @@ name                    aom
 version                 3.8.0
 revision                0
 categories              multimedia
-maintainers             {mcalhoun @MarcusCalhoun-Lopez} openmaintainer
+maintainers             nomaintainer
 platforms               darwin
 license                 BSD
 
@@ -24,10 +24,7 @@ homepage                https://aomedia.googlesource.com/aom
 fetch.type              git
 git.url                 https://aomedia.googlesource.com/aom.git
 git.branch              v${version}
-#master_sites            https://aomedia.googlesource.com/aom/+archive
-#distname                v${version}
 
-# see build/cmake/aom_configure.cmake
 compiler.cxx_standard   2011
 compiler.c_standard     2011
 
@@ -47,7 +44,7 @@ configure.args-append   -DBUILD_SHARED_LIBS=ON \
                         -DPYTHON_EXECUTABLE=${prefix}/bin/python${pyver}
 
 platform darwin 10 {
-    PortGroup               active_variants 1.1
+    PortGroup           active_variants 1.1
 
     # on SL, need a newer ld64 than ld64-127
     # ld64-latest works. The others are untested
@@ -56,11 +53,7 @@ platform darwin 10 {
     require_active_variants ld64 {} {ld64-97 ld64_127 ld64-236 ld64-274}
 }
 
-# a `native` variant is not needed since aom does runtime CPU detection
-# see https://github.com/macports/macports-ports/commit/6a1f839833a71be9b6c69d7e6ddca7a039d46673#commitcomment-49053438
-
-# ensure all AVX2 functions are defined
-# see https://trac.macports.org/ticket/62608
+# AVX2
 compiler.blacklist-append           {clang < 800}
 
 # possible values of AOM_TARGET_CPU: arm64 x86_64 x86 ppc generic
