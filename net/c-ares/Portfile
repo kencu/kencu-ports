@@ -4,7 +4,7 @@ PortSystem              1.0
 PortGroup               cmake 1.1
 PortGroup               github 1.0
 
-github.setup            c-ares c-ares 1.23.0 cares-
+github.setup            c-ares c-ares 1.25.0 cares-
 revision                0
 categories              net
 maintainers             nomaintainer
@@ -25,9 +25,9 @@ long_description        This is c-ares, an asynchronous resolver \
 
 homepage                https://c-ares.haxx.se/
 
-checksums               rmd160 85a91363396ec077a329d5b8d5213a82f1c5d545 \
-                        sha256 cb614ecf78b477d35963ebffcf486fc9d55cc3d3216f00700e71b7d4868f79f5 \
-                        size   1681336
+checksums               rmd160 06c775794faddd378b620b6d1160b1ee3bbc7baa \
+                        sha256 71832b93a48f5ff579c505f4869120c14e57b783275367207f1a98314aa724e5 \
+                        size   1264129
 
 configure.args-append   -DCARES_SHARED:BOOL=ON
 
