@@ -5,33 +5,23 @@ PortSystem          1.0
 PortGroup           compiler_blacklist_versions 1.0
 
 name                openssh
-version             8.4p1
-revision            7
+version             9.5p1
+revision            99
 categories          net
-platforms           darwin
 maintainers         nomaintainer
 license             BSD
 installs_libs       no
 conflicts           lsh
+#conflicts          pkixssh
 
 description         OpenSSH secure login server
-
-long_description    OpenSSH is a FREE version of the SSH protocol suite of \
-                    network connectivity tools that increasing numbers of people on the \
-                    Internet are coming to rely on. Many users of telnet, rlogin, ftp, \
-                    and other such programs might not realize that their password is \
-                    transmitted across the Internet unencrypted, but it is. OpenSSH \
-                    encrypts all traffic (including passwords) to effectively eliminate \
-                    eavesdropping, connection hijacking, and other network-level \
-                    attacks. Additionally, OpenSSH provides a myriad of secure \
-                    tunneling capabilities, as well as a variety of authentication \
-                    methods.
+long_description    ${description}
 
 homepage            https://www.openbsd.org/openssh/
 
-checksums           rmd160  2d3eec0b56f7edef5d50b8defa2f143ffee5c65a \
-                    sha256  5a01d22e407eb1c05ba8a8f7c654d388a13e9f226e4ed33bd38748dafa1d2b24 \
-                    size    1742201
+checksums           rmd160  aaad588d62a86ed3291c2ed6e034c60752942708 \
+                    sha256  f026e7b79ba7fb540f75182af96dc8a8f1db395f922bbc9f6ca603672686086b \
+                    size    1843001
 
 master_sites        openbsd:OpenSSH/portable \
                     ftp://ftp.cise.ufl.edu/pub/mirrors/openssh/portable/ \
@@ -44,17 +34,18 @@ if {${name} eq ${subport}} {
                         port:zlib
     depends_run         port:ssh-copy-id
 
-    # the HPN patch needs this, so rewrite all other patches to support it, too
-    patch.args          -p1
+    platform darwin 10 {
+        # /usr/bin/ranlib: object: libopenbsd-compat.a(base64.o) malformed object (unknown load command 2)
+        depends_build-append port:cctools
+    }
+
+    patch.pre_args      -p1
     patchfiles          launchd.patch \
                         agent.patch \
                         pam.patch \
                         patch-sandbox-darwin.c-apple-sandbox-named-external.diff \
                         patch-sshd.c-apple-sandbox-named-external.diff \
-                        macports-config.patch
-
-    # OpenBSD patch for CVE-2021-28041, remove after upgrading to >= 8.5p1
-    patchfiles-append   patch-zz-8.4-CVE-2021-28041.diff
+                        macports-config.patch \
 
     # We need a couple of patches
     # - pam.patch
@@ -73,8 +64,6 @@ if {${name} eq ${subport}} {
     #   Adds -l flag to ssh-agent to work with launchd.
 
     post-patch {
-        # reinplace prefix in path to sandbox definition added by
-        # patch-sandbox-darwin.c-apple-sandbox-named-external.diff
         reinplace "s|@PREFIX@|${prefix}|g" ${worksrcpath}/sandbox-darwin.c
     }
 
@@ -92,27 +81,27 @@ if {${name} eq ${subport}} {
     configure.cppflags-append -D__APPLE_LAUNCHD__
 
     configure.ldflags-append  -Wl,-search_paths_first
-    configure.args      --with-ssl-dir=${prefix} \
-                        --sysconfdir=${prefix}/etc/ssh \
-                        --with-privsep-path=/var/empty \
-                        --with-md5-passwords \
-                        --with-pid-dir=${prefix}/var/run \
-                        --with-pam \
-                        --mandir=${prefix}/share/man \
-                        --with-zlib=${prefix} \
-                        --without-kerberos5 \
-                        --with-libedit \
-                        --with-pie \
-                        --without-xauth \
-                        --without-ldns \
-                        --with-audit=bsm \
-                        --with-keychain=apple
 
-    use_parallel_build  yes
+    configure.args          --with-ssl-dir=${prefix} \
+                            --sysconfdir=${prefix}/etc/ssh \
+                            --with-privsep-path=/var/empty \
+                            --with-md5-passwords \
+                            --with-pid-dir=${prefix}/var/run \
+                            --with-pam \
+                            --mandir=${prefix}/share/man \
+                            --with-zlib=${prefix} \
+                            --without-kerberos5 \
+                            --with-libedit \
+                            --with-pie \
+                            --without-xauth \
+                            --without-ldns \
+                            --with-audit=bsm \
+                            --with-keychain=apple
 
-    platform macosx {
+    platform darwin {
         if {${os.major} < 10} {
             # See: https://trac.macports.org/ticket/60385
+            # See also: https://trac.macports.org/ticket/65613
             configure.args-delete   --with-keychain=apple
         } elseif {${os.major} <= 11} {
             # clang is required to build the new Apple Keychain integration due
@@ -126,6 +115,8 @@ if {${name} eq ${subport}} {
             # support Object Subscripting and the oldest version in our tree is
             # now 3.3.
             compiler.blacklist-append   *gcc* cc {clang < 421}
+        } elseif {(${os.major} >= 22 && ${configure.build_arch} eq "x86_64")} {
+            compiler.blacklist-append   {clang >= 1403 < 1500}
         }
     }
 
@@ -163,17 +154,6 @@ if {${name} eq ${subport}} {
         depends_run-append      port:xauth
     }
 
-    variant gsskex requires kerberos5 description "Add OpenSSH GSSAPI key exchange patch" {
-        patchfiles-append       openssh-8.1p1-gsskex-all-20141021-mp-20201216.patch
-        configure.ldflags-append \
-                                -Wl,-pie
-        configure.cflags-append -fPIE
-        configure.args-append   --with-4in6 \
-                                --disable-utmp \
-                                --disable-wtmp \
-                                --with-privsep-user=_sshd
-    }
-
     variant kerberos5 description "Add Kerberos5 support" {
         depends_lib-append      port:kerberos5
         configure.args-delete   --without-kerberos5
@@ -204,11 +184,9 @@ if {${name} eq ${subport}} {
     variant fido2 description "Enable fido2 support" {
         configure.args-delete  --without-security-key-builtin
         configure.args-append  --with-security-key-builtin
-        patchfiles-append      openssh-8.4p1-fido2.patch
         depends_lib-append      port:libfido2
     }
 
-    default_variants            +kerberos5 +xauth
 
     platform darwin {
         # create link to /usr/include/pam because 'security' was renamed to 'pam'
@@ -259,11 +237,11 @@ if {${name} eq ${subport}} {
 
 subport ssh-copy-id {
     revision            0
-    platforms           darwin freebsd
+    platforms           any
     supported_archs     noarch
-    maintainers         {l2dy @l2dy} openmaintainer
+    maintainers         nonmaintainer
     description         Shell script to install your public key(s) on a remote machine
-    long_description    ${description}
+    long_description    {*}${description}
 
     # Make sure to not create multiple copies of the same distfile.
     distname            openssh-${version}
