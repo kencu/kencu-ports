@@ -1,79 +1,109 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
+PortGroup           cmake 1.1
 PortGroup           github 1.0
+PortGroup           legacysupport 1.1
 
-github.setup        transmission transmission 3.00
-revision            1
+github.setup        transmission transmission 4.0.5
+revision            0
 name                transmission-x11
-categories          net x11
+conflicts           transmission-qt
+categories          net x11 p2p
 license             {GPL-2 OpenSSLException}
-maintainers         {@i0ntempest me.com:szf1234} openmaintainer
+maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
 description         Lightweight BitTorrent client
 long_description    Transmission is a free, lightweight BitTorrent client. \
-                    It features a simple, intuitive interface on top of an \
-                    efficient, cross-platform back-end. Transmission is open \
+                    It features a simple, intuitive interface on top of \
+                    an efficient, cross-platform back-end. Transmission is open \
                     source (MIT license) and runs on Mac OS X (Cocoa interface), \
                     Linux/NetBSD/FreeBSD/OpenBSD (GTK+ interface) and BeOS \
                     (native interface). This is the GTK+ version.
 
 homepage            https://transmissionbt.com
 
+checksums           rmd160  afe8124820daa9d8eb44c808b0d583463bcd263a \
+                    sha256  fd68ff114a479200043c30c7e69dba4c1932f7af36ca4c5b5d2edcb5866e6357 \
+                    size    9745756
+
 github.tarball_from releases
 use_xz              yes
-
-checksums           rmd160  5286c3e183474cba6ed1c6cfc022f4f5afab4fda \
-                    sha256  9144652fe742f7f7dd6657716e378da60b751aaeda8bef8344b3eefc4db255f2 \
-                    size    3329220
-
-platforms           darwin freebsd
 
 # Do not remove this as it allows transmission and this port to share files
 dist_subdir         transmission
 
-depends_build       port:intltool \
-                    port:pkgconfig \
-                    port:autoconf \
-                    port:automake \
-                    port:libtool
+depends_build-append \
+                    port:intltool \
+                    port:libtool \
+                    port:pkgconfig
 
-depends_lib         port:miniupnpc \
-                    path:lib/libssl.dylib:openssl \
-                    port:curl \
+depends_lib-append  port:curl \
                     port:gettext \
-                    port:libevent
+                    port:libb64 \
+                    port:libevent \
+                    port:miniupnpc \
+                    port:zlib
 
-# reconfigure using upstream autogen.sh for intltool 0.51 compatibility
+configure.args-append \
+                    -DENABLE_CLI=ON \
+                    -DENABLE_DAEMON=ON \
+                    -DENABLE_GTK=OFF \
+                    -DINSTALL_DOC=OFF \
+                    -DENABLE_MAC=OFF \
+                    -DENABLE_QT=OFF \
+                    -DUSE_SYSTEM_B64=ON \
+                    -DENABLE_TESTS=OFF \
+                    -DENABLE_NLS=OFF
 
-#configure.cmd       ./autogen.sh
-
-configure.args      --enable-daemon \
-                    --enable-cli \
-                    --without-gtk \
-                    --disable-mac
+compiler.c_standard 2011
+compiler.cxx_standard 2017
 
 post-extract {
     # https://gitweb.gentoo.org/repo/gentoo.git/commit/?id=c13b5e88c6e9c7bd2698d844cb5ed127ed809f7e
     # Prevent m4_copy error when running aclocal
-    #  m4_copy: won't overwrite defined macro: glib_DEFUN
+    # m4_copy: won't overwrite defined macro: glib_DEFUN
     delete ${worksrcpath}/m4/glib-gettext.m4
-
 }
 
-default_variants    +gtk
+default_variants +gtk
+
+# transmission-gtk(47187) malloc: *** error for object 0x33480a4: Non-aligned pointer being freed
+legacysupport.redirect_bins transmission-cli transmission-create transmission-daemon transmission-edit transmission-gtk transmission-remote transmission-show
+
+if {${os.platform} eq "darwin" && ${os.major} < 15} {
+    patchfiles-append patch-transmission-x11-allow-build-with-older-darwin-systems.diff
+}
+
+if [string match macports-gcc-7 ${configure.compiler}] {
+
+    # two patches that I believe are only needed to build with gcc7
+
+    # work around std::tolower not being a constexpr. I am not sure how this
+    # works on other compilers, as it seems it should not
+    patchfiles-append   patch-transmission-x11-gcc7-crypto-utils-constexpr.diff
+
+    # work around std::ios_base::failure not deriving from std:system_error as
+    # it should. This may be related to the way we force the CXX11_ABI off in
+    # MacPorts. At any rate, the code has to be adjusted as std::ios_base::failure
+    # derives from std::exception when building with gcc7 on older Darwin, even if
+    # the c++ standard is set to c++11 or newer
+    patchfiles-append   patch-transmission-x11-gcc7-messagelogwindow-errorcode-fix.diff
+}
 
 variant aqua description {Build Aqua front-end} {
-    configure.args-replace  --disable-mac --enable-mac
+    configure.args-replace -DENABLE_QT=OFF -DENABLE_QT=ON \
+                           -DENABLE_MAC=OFF -DENABLE_MAC=ON
 }
 
 variant gtk description {Build Gtk3 front-end} {
-    depends_lib-append      port:gtk3 \
+    depends_lib-append      path:lib/pkgconfig/gtk+-3.0.pc:gtk3 \
+                            port:gtkmm3 \
                             port:libnotify \
                             port:desktop-file-utils
 
-    depends_run             port:adwaita-icon-theme
+    configure.args-replace  -DENABLE_GTK=OFF -DENABLE_GTK=ON
 
-    configure.args-replace  --without-gtk --with-gtk
+    depends_run             port:adwaita-icon-theme
 
     post-activate {
         system "${prefix}/bin/update-desktop-database ${prefix}/share/applications"
@@ -81,7 +111,10 @@ variant gtk description {Build Gtk3 front-end} {
     }
 }
 
-platform darwin 8 {
+# As on now, GUI has troubles on PowerPC: https://trac.macports.org/ticket/67654
+# CLI works perfectly fine, downloads are working.
+
+if {${os.platform} eq "darwin" && ${os.major} < 9} {
     pre-fetch {
         ui_error "${name} requires Mac OS X 10.5 or greater."
         return -code error "incompatible Mac OS X version"

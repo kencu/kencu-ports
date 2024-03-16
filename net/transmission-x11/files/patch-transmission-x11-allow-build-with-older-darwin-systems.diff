@@ -1,0 +1,36 @@
+diff --git libtransmission/CMakeLists.txt libtransmission/CMakeLists.txt
+index 8648a19..6b7b82b 100644
+--- libtransmission/CMakeLists.txt
++++ libtransmission/CMakeLists.txt
+@@ -201,10 +201,10 @@ tr_allow_compile_if(
+         watchdir-inotify.cc
+     [=[[WITH_KQUEUE]]=]
+         watchdir-kqueue.cc
+-    [=[[APPLE AND CMAKE_CXX_COMPILER_ID MATCHES "Clang"]]=]
++    [=[[FALSE]]=]
+         tr-assert.mm
+         utils.mm
+-    [=[[NOT (APPLE AND CMAKE_CXX_COMPILER_ID MATCHES "Clang")]]=]
++    [=[[TRUE]]=]
+         tr-assert.cc
+     [=[[WIN32]]=]
+         file-win32.cc
+diff --git libtransmission/utils.cc libtransmission/utils.cc
+index 70524b0..1283e28 100644
+--- libtransmission/utils.cc
++++ libtransmission/utils.cc
+@@ -301,14 +301,12 @@ double tr_getRatio(uint64_t numerator, uint64_t denominator)
+ 
+ // ---
+ 
+-#if !(defined(__APPLE__) && defined(__clang__))
+ 
+ std::string tr_strv_convert_utf8(std::string_view sv)
+ {
+     return tr_strv_replace_invalid(sv);
+ }
+ 
+-#endif
+ 
+ std::string tr_strv_replace_invalid(std::string_view sv, uint32_t replacement)
+ {
