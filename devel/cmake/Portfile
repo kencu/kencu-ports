@@ -19,12 +19,12 @@ homepage                https://cmake.org
 platforms               darwin
 gitlab.instance         https://gitlab.kitware.com
 
-gitlab.setup            cmake cmake 3.28.0 v
-revision                99
+gitlab.setup            cmake cmake 3.28.3 v
+revision                0
 epoch                   1
-checksums               rmd160  48a580e36fde8dba360999f100de872b132c4326 \
-                        sha256  c66db0b7549684988db317bef12a651c8d6d7790011a081a47941a2b577c2adf \
-                        size    8476216
+checksums               rmd160  c009aa9e043d98bf87af46ba4157fa4207be8ec3 \
+                        sha256  df65d374a73fcb31e0f77e1c0655f86ffcaf1be552be44be8d63e7e95d4a5ed2 \
+                        size    8474286
 
 compiler.cxx_standard   2017
 
