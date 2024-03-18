@@ -11,7 +11,7 @@ name                transmission-x11
 conflicts           transmission-qt
 categories          net x11 p2p
 license             {GPL-2 OpenSSLException}
-maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
+maintainers         nomaintainer
 description         Lightweight BitTorrent client
 long_description    Transmission is a free, lightweight BitTorrent client. \
                     It features a simple, intuitive interface on top of \
@@ -29,7 +29,6 @@ checksums           rmd160  afe8124820daa9d8eb44c808b0d583463bcd263a \
 github.tarball_from releases
 use_xz              yes
 
-# Do not remove this as it allows transmission and this port to share files
 dist_subdir         transmission
 
 depends_build-append \
@@ -67,7 +66,6 @@ post-extract {
 
 default_variants +gtk
 
-# transmission-gtk(47187) malloc: *** error for object 0x33480a4: Non-aligned pointer being freed
 legacysupport.redirect_bins transmission-cli transmission-create transmission-daemon transmission-edit transmission-gtk transmission-remote transmission-show
 
 if {${os.platform} eq "darwin" && ${os.major} < 15} {
@@ -91,7 +89,7 @@ if [string match macports-gcc-7 ${configure.compiler}] {
 }
 
 variant aqua description {Build Aqua front-end} {
-    configure.args-replace -DENABLE_QT=OFF -DENABLE_QT=ON \
+    configure.args-replace -DENABLE_QT=OFF  -DENABLE_QT=ON \
                            -DENABLE_MAC=OFF -DENABLE_MAC=ON
 }
 
@@ -103,20 +101,10 @@ variant gtk description {Build Gtk3 front-end} {
 
     configure.args-replace  -DENABLE_GTK=OFF -DENABLE_GTK=ON
 
-    depends_run             port:adwaita-icon-theme
+    depends_run-append      port:adwaita-icon-theme
 
     post-activate {
         system "${prefix}/bin/update-desktop-database ${prefix}/share/applications"
         system "${prefix}/bin/gtk-update-icon-cache-3.0 -f -t ${prefix}/share/icons/hicolor"
-    }
-}
-
-# As on now, GUI has troubles on PowerPC: https://trac.macports.org/ticket/67654
-# CLI works perfectly fine, downloads are working.
-
-if {${os.platform} eq "darwin" && ${os.major} < 9} {
-    pre-fetch {
-        ui_error "${name} requires Mac OS X 10.5 or greater."
-        return -code error "incompatible Mac OS X version"
     }
 }
