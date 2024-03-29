@@ -20,7 +20,7 @@ platforms               darwin
 gitlab.instance         https://gitlab.kitware.com
 
 gitlab.setup            cmake cmake 3.29.0 v
-revision                0
+revision                99
 epoch                   1
 checksums               rmd160  3f2c4bbf97df3ab328616fe88769fcd0e9022f1e \
                         sha256  ca9d8d39745a5c0d697b99aa20d5b21f3b79e7cfa382de48917736f33e35abac \
@@ -64,8 +64,8 @@ depends_lib-append      port:curl \
                         port:zlib \
                         port:bzip2 \
                         port:libarchive \
-                        port:ncurses \
-                        port:libuv
+                        port:ncurses
+
 
 # configure is just a shell script that passes directly to bootstrap
 configure.cmd           ./bootstrap
@@ -115,6 +115,7 @@ configure.args-append   --docdir=share/doc/cmake \
                         --no-qt-gui \
                         --no-system-jsoncpp \
                         --no-system-librhash \
+                        --no-system-libuv \
                         --no-system-cppdap
 
 build.post_args         VERBOSE=ON
